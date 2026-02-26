@@ -13,6 +13,8 @@ import SignMultipleFields, { DocumentField } from "@/components/sign/SignMultipl
 import SignMultipleLegal from "@/components/sign/SignMultipleLegal";
 import SignMultipleSend from "@/components/sign/SignMultipleSend";
 import SignMultipleSuccess from "@/components/sign/SignMultipleSuccess";
+import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
+import SignVerifyCode from "@/components/sign/SignVerifyCode";
 
 export type SigningStep = 
   | "upload" 
@@ -26,6 +28,8 @@ export type SigningStep =
   | "multiple-fields"
   | "multiple-legal"
   | "multiple-send"
+  | "verify-email"
+  | "verify-code"
   | "multiple-success";
 
 export interface SignatureData {
@@ -71,6 +75,7 @@ const Sign = () => {
   const [recipients, setRecipients] = useState<Recipient[]>([]);
   const [documentFields, setDocumentFields] = useState<DocumentField[]>([]);
   const [enforceSigningOrder, setEnforceSigningOrder] = useState(true);
+  const [verifyEmail, setVerifyEmail] = useState("");
 
   // Handle file passed from Storage, Revise & Resend, or Resend Expired flow
   useEffect(() => {
@@ -168,6 +173,15 @@ const Sign = () => {
   }, []);
 
   const handleSend = useCallback(() => {
+    setStep("verify-email");
+  }, []);
+
+  const handleVerifyEmailSend = useCallback((email: string) => {
+    setVerifyEmail(email);
+    setStep("verify-code");
+  }, []);
+
+  const handleVerified = useCallback(() => {
     setStep("multiple-success");
   }, []);
 
@@ -440,6 +454,37 @@ const Sign = () => {
                     setStep(senderIsSigner ? "multiple-legal" : "multiple-fields");
                   }}
                   onEditOrder={() => setStep("multiple-recipients")}
+                />
+              </motion.div>
+            )}
+
+            {step === "verify-email" && (
+              <motion.div
+                key="verify-email"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <SignVerifyEmail
+                  onSendCode={handleVerifyEmailSend}
+                  onBack={() => setStep("multiple-send")}
+                />
+              </motion.div>
+            )}
+
+            {step === "verify-code" && (
+              <motion.div
+                key="verify-code"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <SignVerifyCode
+                  email={verifyEmail}
+                  onVerified={handleVerified}
+                  onChangeEmail={() => setStep("verify-email")}
                 />
               </motion.div>
             )}
