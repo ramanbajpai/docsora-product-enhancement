@@ -1,8 +1,15 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, FolderUp, X, FileText, CheckCircle2 } from "lucide-react";
+import { Upload, FolderUp, X, FileText, CheckCircle2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+
+interface UploadingFile {
+  file: File;
+  progress: number;
+  status: "uploading" | "processing" | "complete";
+}
 
 interface StorageUploadZoneProps {
   onUpload: (files: File[]) => void;
@@ -11,7 +18,9 @@ interface StorageUploadZoneProps {
 
 const StorageUploadZone = ({ onUpload, onClose }: StorageUploadZoneProps) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,25 +38,71 @@ const StorageUploadZone = ({ onUpload, onClose }: StorageUploadZoneProps) => {
     setIsDragging(false);
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
-      setUploadedFiles(prev => [...prev, ...files]);
+      setSelectedFiles(prev => [...prev, ...files]);
     }
   }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
-      setUploadedFiles(prev => [...prev, ...files]);
+      setSelectedFiles(prev => [...prev, ...files]);
     }
   };
 
   const handleConfirmUpload = () => {
-    if (uploadedFiles.length > 0) {
-      onUpload(uploadedFiles);
-    }
+    if (selectedFiles.length === 0) return;
+    setIsUploading(true);
+    setUploadingFiles(selectedFiles.map(file => ({ file, progress: 0, status: "uploading" })));
   };
 
+  // Simulate per-file upload progress
+  useEffect(() => {
+    if (!isUploading || uploadingFiles.length === 0) return;
+
+    const intervals: NodeJS.Timeout[] = [];
+
+    uploadingFiles.forEach((_, index) => {
+      let progress = 0;
+      const speed = 8 + Math.random() * 12; // varied speed per file
+      const interval = setInterval(() => {
+        progress += speed;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          setUploadingFiles(prev => prev.map((f, i) =>
+            i === index ? { ...f, progress: 100, status: "processing" } : f
+          ));
+          setTimeout(() => {
+            setUploadingFiles(prev => prev.map((f, i) =>
+              i === index ? { ...f, status: "complete" } : f
+            ));
+          }, 400 + Math.random() * 300);
+        } else {
+          setUploadingFiles(prev => prev.map((f, i) =>
+            i === index ? { ...f, progress } : f
+          ));
+        }
+      }, 80 + Math.random() * 60);
+      intervals.push(interval);
+    });
+
+    return () => intervals.forEach(clearInterval);
+  }, [isUploading]); // only trigger once when uploading starts
+
+  // When all files complete, call onUpload after a brief pause
+  useEffect(() => {
+    if (!isUploading || uploadingFiles.length === 0) return;
+    const allDone = uploadingFiles.every(f => f.status === "complete");
+    if (allDone) {
+      const timer = setTimeout(() => {
+        onUpload(selectedFiles);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [uploadingFiles, isUploading, onUpload, selectedFiles]);
+
   const removeFile = (index: number) => {
-    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
