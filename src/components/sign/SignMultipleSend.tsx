@@ -112,7 +112,7 @@ const SignMultipleSend = ({ file, recipients, fields, enforceOrder, onSend, onBa
   };
 
   return (
-    <div className="flex items-start justify-center min-h-[calc(100vh-6rem)] px-8 py-12">
+    <div className="flex items-start justify-center min-h-0 px-8 py-12 overflow-auto">
       <motion.div
         className="w-full max-w-2xl"
         initial={{ opacity: 0, y: 20 }}
