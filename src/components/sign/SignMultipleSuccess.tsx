@@ -37,6 +37,7 @@ import { cn } from "@/lib/utils";
 import { Recipient } from "./SignMultipleRecipients";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { SignRequestDetailsModal } from "./SignRequestDetailsModal";
 
 interface SignMultipleSuccessProps {
   file: File;
@@ -521,6 +522,7 @@ function ContinueWorkflowSection() {
 
 const SignMultipleSuccess = ({ file, recipients, enforceOrder, onReset }: SignMultipleSuccessProps) => {
   const navigate = useNavigate();
+  const [showDetails, setShowDetails] = useState(false);
   const signers = recipients.filter(r => r.role === "signer");
   const approvers = recipients.filter(r => r.role === "approver");
 
@@ -572,39 +574,67 @@ const SignMultipleSuccess = ({ file, recipients, enforceOrder, onReset }: SignMu
       {/* Confirmation Indicators */}
       <ConfirmationIndicators />
 
-      {/* Primary CTA - Track Progress */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.25, duration: 0.4 }}
         className="text-center mb-6"
       >
-        <motion.button
-          onClick={() => navigate("/track")}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
-          className={cn(
-            "relative inline-flex items-center justify-center gap-3",
-            "px-12 py-4 rounded-2xl",
-            "text-base font-semibold text-primary-foreground",
-            "bg-gradient-to-b from-primary via-primary to-primary/85",
-            "shadow-[0_6px_32px_-6px_hsl(var(--primary)/0.5),0_2px_8px_-2px_hsl(var(--primary)/0.3)]",
-            "transition-all duration-300",
-            "hover:shadow-[0_10px_40px_-6px_hsl(var(--primary)/0.6),0_4px_16px_-4px_hsl(var(--primary)/0.4)]",
-            "overflow-hidden group"
-          )}
-        >
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-          />
-          <TrackIcon className="w-5 h-5 relative z-10 invert dark:invert-0" />
-          <span className="relative z-10">Track Progress</span>
-        </motion.button>
+        <div className="flex items-center justify-center gap-3">
+          <motion.button
+            onClick={() => navigate("/track")}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className={cn(
+              "relative inline-flex items-center justify-center gap-3",
+              "px-10 py-3.5 rounded-2xl",
+              "text-sm font-semibold text-primary-foreground",
+              "bg-gradient-to-b from-primary via-primary to-primary/85",
+              "shadow-[0_6px_32px_-6px_hsl(var(--primary)/0.5),0_2px_8px_-2px_hsl(var(--primary)/0.3)]",
+              "transition-all duration-300",
+              "hover:shadow-[0_10px_40px_-6px_hsl(var(--primary)/0.6),0_4px_16px_-4px_hsl(var(--primary)/0.4)]",
+              "overflow-hidden group"
+            )}
+          >
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+            />
+            <TrackIcon className="w-5 h-5 relative z-10 invert dark:invert-0" />
+            <span className="relative z-10">Track Progress</span>
+          </motion.button>
+
+          <motion.button
+            onClick={() => setShowDetails(true)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className={cn(
+              "inline-flex items-center justify-center gap-2.5",
+              "px-10 py-3.5 rounded-2xl",
+              "text-sm font-semibold text-foreground",
+              "bg-muted/50 hover:bg-muted/80",
+              "border border-border/50 hover:border-border",
+              "transition-all duration-300",
+              "shadow-sm hover:shadow-md"
+            )}
+          >
+            <Eye className="w-4 h-4" />
+            <span>View Details</span>
+          </motion.button>
+        </div>
         
         <p className="text-[10px] text-muted-foreground/40 mt-3 truncate max-w-[220px] mx-auto">
           {file.name}
         </p>
       </motion.div>
+
+      {/* Details Modal */}
+      <SignRequestDetailsModal
+        isOpen={showDetails}
+        onClose={() => setShowDetails(false)}
+        file={file}
+        recipients={recipients}
+        enforceOrder={enforceOrder}
+      />
 
 
       {/* Sign Another */}
