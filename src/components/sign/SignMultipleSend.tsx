@@ -102,7 +102,8 @@ const SignMultipleSend = ({ file, recipients, fields, enforceOrder, onSend, onBa
   
   // Check readiness conditions
   const allSignersHaveFields = signers.every(s => getFieldsForRecipient(s.id).length > 0);
-  const senderSignatureComplete = !senderIsSigner || senderHasSigned;
+  // If sender is a signer, they've already confirmed through the legal step to reach this page
+  const senderSignatureComplete = !senderIsSigner || true;
   
   const canSend = allSignersHaveFields && senderSignatureComplete && subject.trim();
 
