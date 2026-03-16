@@ -323,7 +323,7 @@ export function AppSidebar() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3 }}
-            className="relative overflow-hidden rounded-xl p-4 mb-3 bg-gradient-to-br from-slate-900 to-slate-950 dark:from-slate-900 dark:to-slate-950 border border-primary/15"
+            className="relative overflow-hidden rounded-xl p-4 mb-3 bg-gradient-to-br from-slate-900 to-slate-950 dark:from-slate-900 dark:to-slate-950 border border-primary/15 shadow-lg"
           >
             {/* Ambient glow effect */}
             <div className="absolute -top-8 -right-8 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
@@ -338,19 +338,19 @@ export function AppSidebar() {
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-primary/20 shadow-[0_0_12px_hsl(var(--primary)/0.3)]">
                   <Zap className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <span className="text-[12px] font-semibold text-white dark:text-white tracking-tight">
+                <span className="text-[12px] font-semibold text-white tracking-tight">
                   Unlock Pro Tools
                 </span>
               </div>
 
               {/* Supporting text */}
-              <p className="text-[11px] text-white/60 dark:text-white/50 leading-relaxed mb-3.5">
+              <p className="text-[11px] text-white/60 leading-relaxed mb-3.5">
                 Access advanced document features and higher limits.
               </p>
 
               {/* Premium CTA Button with glow */}
               <motion.button
-                className="relative w-full py-2.5 px-4 rounded-lg text-[12px] font-semibold text-white overflow-hidden group bg-gradient-to-b from-primary/90 to-primary"
+                className="relative w-full py-2.5 px-4 rounded-lg text-[12px] font-semibold text-white overflow-hidden group bg-gradient-to-b from-[hsl(217,70%,52%)] to-[hsl(217,70%,45%)] dark:from-[hsl(217,70%,52%)] dark:to-[hsl(217,70%,45%)]"
                 whileHover={{ 
                   y: -1,
                   transition: { duration: 0.2 }
