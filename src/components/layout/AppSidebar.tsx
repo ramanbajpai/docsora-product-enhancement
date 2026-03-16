@@ -317,29 +317,95 @@ export function AppSidebar() {
       <div className="p-3 space-y-2">
         <div className="h-px bg-gradient-to-r from-transparent via-border/50 to-transparent my-2" />
 
-        {/* Upgrade to Pro CTA */}
+        {/* Upgrade to Pro CTA - Premium Glassmorphic */}
         {!collapsed && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3 }}
-            className="sidebar-upgrade-card rounded-xl p-3 mb-2"
+            className="relative overflow-hidden rounded-xl p-4 mb-3"
+            style={{
+              background: 'linear-gradient(135deg, hsl(220 20% 12%) 0%, hsl(220 20% 8%) 100%)',
+              border: '1px solid hsl(217 70% 50% / 0.15)',
+            }}
           >
-            <div className="flex items-start gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <Zap className="w-4 h-4 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-medium text-foreground mb-0.5">Unlock more features</p>
-                <p className="text-[11px] text-muted-foreground mb-2">Get Pro for advanced tools</p>
-                <motion.button
-                  className="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-[11px] font-medium hover:bg-primary/15 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+            {/* Ambient glow effect */}
+            <div className="absolute -top-8 -right-8 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
+            <div className="absolute -bottom-8 -left-8 w-20 h-20 bg-primary/10 rounded-full blur-2xl" />
+            
+            {/* Subtle gradient overlay */}
+            <div 
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: 'linear-gradient(135deg, transparent 0%, hsl(217 70% 50% / 0.08) 50%, transparent 100%)',
+              }}
+            />
+
+            <div className="relative z-10">
+              {/* Header with icon */}
+              <div className="flex items-center gap-2 mb-3">
+                <div 
+                  className="w-7 h-7 rounded-lg flex items-center justify-center"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(217 70% 50% / 0.2) 0%, hsl(217 70% 50% / 0.1) 100%)',
+                    boxShadow: '0 0 12px hsl(217 70% 50% / 0.3)',
+                  }}
                 >
-                  Upgrade to Pro
-                </motion.button>
+                  <Zap className="w-3.5 h-3.5 text-primary" />
+                </div>
+                <span className="text-[12px] font-semibold text-white/90 tracking-tight">
+                  Unlock Pro Tools
+                </span>
               </div>
+
+              {/* Supporting text */}
+              <p className="text-[11px] text-white/50 leading-relaxed mb-3.5">
+                Access advanced document features and higher limits.
+              </p>
+
+              {/* Premium CTA Button with glow */}
+              <motion.button
+                className="relative w-full py-2.5 px-4 rounded-lg text-[12px] font-semibold text-white overflow-hidden group"
+                style={{
+                  background: 'linear-gradient(180deg, hsl(217 70% 52%) 0%, hsl(217 70% 45%) 100%)',
+                }}
+                whileHover={{ 
+                  y: -1,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {/* Button glow effect */}
+                <div 
+                  className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+                  style={{
+                    boxShadow: '0 0 20px hsl(217 70% 50% / 0.5), 0 4px 12px hsl(217 70% 50% / 0.3)',
+                  }}
+                />
+                
+                {/* Intensified glow on hover */}
+                <div 
+                  className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
+                  style={{
+                    background: 'radial-gradient(circle at center, hsl(217 70% 55% / 0.4) 0%, transparent 70%)',
+                  }}
+                />
+
+                {/* Button shine effect */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.15) 50%, transparent 100%)',
+                    transform: 'translateX(-100%)',
+                  }}
+                />
+                
+                {/* Button text */}
+                <span className="relative z-10 flex items-center justify-center gap-1.5">
+                  Upgrade to Pro
+                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </motion.button>
             </div>
           </motion.div>
         )}
