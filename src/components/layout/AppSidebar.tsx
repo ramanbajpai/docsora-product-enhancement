@@ -323,52 +323,34 @@ export function AppSidebar() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.3 }}
-            className="relative overflow-hidden rounded-xl p-4 mb-3"
-            style={{
-              background: 'linear-gradient(135deg, hsl(220 20% 12%) 0%, hsl(220 20% 8%) 100%)',
-              border: '1px solid hsl(217 70% 50% / 0.15)',
-            }}
+            className="relative overflow-hidden rounded-xl p-4 mb-3 bg-gradient-to-br from-slate-900 to-slate-950 dark:from-slate-900 dark:to-slate-950 border border-primary/15"
           >
             {/* Ambient glow effect */}
             <div className="absolute -top-8 -right-8 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
             <div className="absolute -bottom-8 -left-8 w-20 h-20 bg-primary/10 rounded-full blur-2xl" />
             
             {/* Subtle gradient overlay */}
-            <div 
-              className="absolute inset-0 opacity-30"
-              style={{
-                background: 'linear-gradient(135deg, transparent 0%, hsl(217 70% 50% / 0.08) 50%, transparent 100%)',
-              }}
-            />
+            <div className="absolute inset-0 opacity-30 bg-gradient-to-br from-transparent via-primary/10 to-transparent" />
 
             <div className="relative z-10">
               {/* Header with icon */}
               <div className="flex items-center gap-2 mb-3">
-                <div 
-                  className="w-7 h-7 rounded-lg flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(135deg, hsl(217 70% 50% / 0.2) 0%, hsl(217 70% 50% / 0.1) 100%)',
-                    boxShadow: '0 0 12px hsl(217 70% 50% / 0.3)',
-                  }}
-                >
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-primary/20 shadow-[0_0_12px_hsl(var(--primary)/0.3)]">
                   <Zap className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <span className="text-[12px] font-semibold text-white/90 tracking-tight">
+                <span className="text-[12px] font-semibold text-white dark:text-white tracking-tight">
                   Unlock Pro Tools
                 </span>
               </div>
 
               {/* Supporting text */}
-              <p className="text-[11px] text-white/50 leading-relaxed mb-3.5">
+              <p className="text-[11px] text-white/60 dark:text-white/50 leading-relaxed mb-3.5">
                 Access advanced document features and higher limits.
               </p>
 
               {/* Premium CTA Button with glow */}
               <motion.button
-                className="relative w-full py-2.5 px-4 rounded-lg text-[12px] font-semibold text-white overflow-hidden group"
-                style={{
-                  background: 'linear-gradient(180deg, hsl(217 70% 52%) 0%, hsl(217 70% 45%) 100%)',
-                }}
+                className="relative w-full py-2.5 px-4 rounded-lg text-[12px] font-semibold text-white overflow-hidden group bg-gradient-to-b from-primary/90 to-primary"
                 whileHover={{ 
                   y: -1,
                   transition: { duration: 0.2 }
@@ -376,29 +358,13 @@ export function AppSidebar() {
                 whileTap={{ scale: 0.98 }}
               >
                 {/* Button glow effect */}
-                <div 
-                  className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-300"
-                  style={{
-                    boxShadow: '0 0 20px hsl(217 70% 50% / 0.5), 0 4px 12px hsl(217 70% 50% / 0.3)',
-                  }}
-                />
+                <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-300 shadow-[0_0_20px_hsl(var(--primary)/0.5),0_4px_12px_hsl(var(--primary)/0.3)]" />
                 
                 {/* Intensified glow on hover */}
-                <div 
-                  className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
-                  style={{
-                    background: 'radial-gradient(circle at center, hsl(217 70% 55% / 0.4) 0%, transparent 70%)',
-                  }}
-                />
+                <div className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.4)_0%,transparent_70%)]" />
 
                 {/* Button shine effect */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background: 'linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.15) 50%, transparent 100%)',
-                    transform: 'translateX(-100%)',
-                  }}
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/15 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
                 
                 {/* Button text */}
                 <span className="relative z-10 flex items-center justify-center gap-1.5">
