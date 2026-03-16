@@ -349,13 +349,13 @@ export function AppSidebar() {
                   <Zap className="w-3.5 h-3.5 text-primary" />
                 </div>
                 <span className="text-[12px] font-semibold text-white tracking-tight">
-                  Unlock Pro Tools
+                  Unlock Pro Features
                 </span>
               </div>
 
               {/* Supporting text */}
               <p className="text-[11px] text-white/60 leading-relaxed mb-3.5">
-                Access advanced document features and higher limits.
+                Access advanced document capabilities and higher limits.
               </p>
 
               {/* Premium CTA Button with glow */}
