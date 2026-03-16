@@ -317,6 +317,33 @@ export function AppSidebar() {
       <div className="p-3 space-y-2">
         <div className="h-px bg-gradient-to-r from-transparent via-border/50 to-transparent my-2" />
 
+        {/* Upgrade to Pro CTA */}
+        {!collapsed && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+            className="sidebar-upgrade-card rounded-xl p-3 mb-2"
+          >
+            <div className="flex items-start gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Zap className="w-4 h-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[12px] font-medium text-foreground mb-0.5">Unlock more features</p>
+                <p className="text-[11px] text-muted-foreground mb-2">Get Pro for advanced tools</p>
+                <motion.button
+                  className="w-full py-1.5 px-3 rounded-lg bg-primary/10 text-primary text-[11px] font-medium hover:bg-primary/15 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Upgrade to Pro
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Theme Toggle */}
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
