@@ -63,6 +63,7 @@ export function CinematicUploadCard({
   isUploading = false,
   uploadProgress = 0,
   isComplete = false,
+  badge,
   className,
 }: CinematicUploadCardProps) {
   const [isDragging, setIsDragging] = useState(false);
