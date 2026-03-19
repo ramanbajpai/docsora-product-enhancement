@@ -411,6 +411,12 @@ export function CinematicUploadCard({
           >
             <div className="absolute inset-0 rounded-[28px] pointer-events-none border border-border/30" />
 
+            {/* Badge */}
+            {badge && (
+              <div className="absolute top-4 right-4 z-20 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-primary border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-md shadow-sm">
+                {badge}
+              </div>
+            )}
             <div className="flex flex-col items-center justify-center py-16 px-8 md:py-20 md:px-12">
               
               {/* Icon / Progress Ring Container */}
