@@ -165,6 +165,12 @@ function ToolCard({
         }}
         transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
       >
+        {/* Beta badge */}
+        {tool.id === "edit" && (
+          <div className="absolute -top-2 -right-2 z-20 px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider text-primary border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-md shadow-sm">
+            beta
+          </div>
+        )}
         {/* Inner glow on hover */}
         <motion.div
           className="absolute inset-0 opacity-0 pointer-events-none rounded-xl"
