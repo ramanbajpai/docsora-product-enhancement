@@ -343,6 +343,11 @@ export function EditPDFUpload({
             {/* Inner subtle highlight */}
             <div className="absolute inset-0 rounded-[28px] pointer-events-none border border-border/30" />
 
+            {/* Beta badge */}
+            <div className="absolute top-4 right-4 z-20 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-primary border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-md shadow-sm">
+              beta
+            </div>
+
             <div className="flex flex-col items-center justify-center py-16 px-8 md:py-20 md:px-12">
               
               {/* Circular Progress / Icon Container */}
