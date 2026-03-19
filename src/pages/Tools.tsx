@@ -159,6 +159,11 @@ function ToolCard({
             ? "border-primary/40 bg-primary/5 dark:bg-primary/10" 
             : "border-border/30 dark:border-white/[0.06] bg-card/30 dark:bg-white/[0.02]"
         }`}
+        whileHover={{ 
+          y: -2, 
+          borderColor: "rgba(59,130,246,0.35)",
+        }}
+        transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
       >
         {/* Beta badge */}
         {tool.id === "edit" && (
@@ -166,12 +171,6 @@ function ToolCard({
             beta
           </div>
         )}
-        whileHover={{ 
-          y: -2, 
-          borderColor: "rgba(59,130,246,0.35)",
-        }}
-        transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-      >
         {/* Inner glow on hover */}
         <motion.div
           className="absolute inset-0 opacity-0 pointer-events-none rounded-xl"
