@@ -15,18 +15,19 @@ export interface CinematicUploadCardProps {
   // Display
   title: string;
   subtitle: string;
-  readyTitle?: string; // Title shown when files are queued (e.g., "Ready to process")
+  readyTitle?: string;
   hint?: string;
   icon?: LucideIcon;
   supportedFormats?: string[];
   accept?: string;
+  badge?: string;
   
   // Behavior
   mode: 'single' | 'multi';
   acceptMultiple?: boolean;
-  minFiles?: number; // Minimum files required to proceed (default: 1)
-  maxFiles?: number; // Maximum files allowed
-  minFilesMessage?: string; // Message shown when minimum not met
+  minFiles?: number;
+  maxFiles?: number;
+  minFilesMessage?: string;
   
   // Callbacks
   onFilesReady: (files: File[]) => void;
@@ -62,6 +63,7 @@ export function CinematicUploadCard({
   isUploading = false,
   uploadProgress = 0,
   isComplete = false,
+  badge,
   className,
 }: CinematicUploadCardProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -409,6 +411,12 @@ export function CinematicUploadCard({
           >
             <div className="absolute inset-0 rounded-[28px] pointer-events-none border border-border/30" />
 
+            {/* Badge */}
+            {badge && (
+              <div className="absolute top-4 right-4 z-20 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-primary border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-md shadow-sm">
+                {badge}
+              </div>
+            )}
             <div className="flex flex-col items-center justify-center py-16 px-8 md:py-20 md:px-12">
               
               {/* Icon / Progress Ring Container */}

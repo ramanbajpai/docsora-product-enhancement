@@ -52,6 +52,7 @@ export function ToolUpload({ config, onFilesUploaded }: ToolUploadProps) {
       isUploading={isUploading}
       uploadProgress={uploadProgress}
       isComplete={isComplete}
+      badge={config.id === "edit" ? "beta" : undefined}
     />
   );
 }
