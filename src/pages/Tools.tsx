@@ -159,6 +159,13 @@ function ToolCard({
             ? "border-primary/40 bg-primary/5 dark:bg-primary/10" 
             : "border-border/30 dark:border-white/[0.06] bg-card/30 dark:bg-white/[0.02]"
         }`}
+      >
+        {/* Beta badge */}
+        {tool.id === "edit" && (
+          <div className="absolute -top-2 -right-2 z-20 px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider text-primary border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-md shadow-sm">
+            beta
+          </div>
+        )}
         whileHover={{ 
           y: -2, 
           borderColor: "rgba(59,130,246,0.35)",
