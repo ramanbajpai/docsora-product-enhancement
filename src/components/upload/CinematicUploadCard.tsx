@@ -15,18 +15,19 @@ export interface CinematicUploadCardProps {
   // Display
   title: string;
   subtitle: string;
-  readyTitle?: string; // Title shown when files are queued (e.g., "Ready to process")
+  readyTitle?: string;
   hint?: string;
   icon?: LucideIcon;
   supportedFormats?: string[];
   accept?: string;
+  badge?: string;
   
   // Behavior
   mode: 'single' | 'multi';
   acceptMultiple?: boolean;
-  minFiles?: number; // Minimum files required to proceed (default: 1)
-  maxFiles?: number; // Maximum files allowed
-  minFilesMessage?: string; // Message shown when minimum not met
+  minFiles?: number;
+  maxFiles?: number;
+  minFilesMessage?: string;
   
   // Callbacks
   onFilesReady: (files: File[]) => void;
