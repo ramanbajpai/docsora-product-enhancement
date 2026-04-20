@@ -1,9 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { 
-  Check, Shield, 
-  FileText, Image, Film, Music, Archive, File
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Shield, Lock, Sparkles } from "lucide-react";
 import { TransferFile } from "@/pages/Transfer";
 
 interface TransferProgressProps {
@@ -11,46 +8,31 @@ interface TransferProgressProps {
   totalSize: number;
 }
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  speed: number;
-  angle: number;
-}
-
-const getFileIcon = (type: string) => {
-  if (type.startsWith('image/')) return Image;
-  if (type.startsWith('video/')) return Film;
-  if (type.startsWith('audio/')) return Music;
-  if (type.includes('zip') || type.includes('rar') || type.includes('tar')) return Archive;
-  if (type.includes('pdf') || type.includes('document') || type.includes('text')) return FileText;
-  return File;
-};
-
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 B';
   const k = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-export function TransferProgress({ files, totalSize }: TransferProgressProps) {
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [statusText, setStatusText] = useState('Encrypting...');
+const STATUS_PHASES = [
+  { threshold: 0, label: 'Establishing secure channel' },
+  { threshold: 15, label: 'Encrypting your files' },
+  { threshold: 40, label: 'Streaming over TLS' },
+  { threshold: 70, label: 'Verifying integrity' },
+  { threshold: 90, label: 'Sealing the transfer' },
+];
 
+export function TransferProgress({ files, totalSize }: TransferProgressProps) {
   const { overallProgress, uploadedSize, uploadSpeed, timeRemaining, completedCount } = useMemo(() => {
     const uploaded = files.reduce((acc, f) => acc + (f.size * f.progress / 100), 0);
     const completed = files.filter(f => f.status === 'completed').length;
-    const progress = files.length > 0 
-      ? files.reduce((acc, f) => acc + f.progress, 0) / files.length 
+    const progress = files.length > 0
+      ? files.reduce((acc, f) => acc + f.progress, 0) / files.length
       : 0;
-    
     const speed = 5 * 1024 * 1024;
     const remaining = (totalSize - uploaded) / speed;
-    
     return {
       overallProgress: progress,
       uploadedSize: uploaded,
@@ -60,297 +42,412 @@ export function TransferProgress({ files, totalSize }: TransferProgressProps) {
     };
   }, [files, totalSize]);
 
-  // Generate particles based on progress
-  useEffect(() => {
-    const numParticles = Math.floor(30 + overallProgress * 0.5);
-    const newParticles: Particle[] = Array.from({ length: numParticles }, (_, i) => ({
-      id: i,
-      x: 50 + (Math.random() - 0.5) * 40,
-      y: 50 + (Math.random() - 0.5) * 40,
-      size: Math.random() * 6 + 2,
-      speed: Math.random() * 2 + 1,
-      angle: Math.random() * Math.PI * 2,
-    }));
-    setParticles(newParticles);
-  }, [Math.floor(overallProgress / 10)]);
-
-  // Update status text
-  useEffect(() => {
-    if (overallProgress < 20) setStatusText('Encrypting...');
-    else if (overallProgress < 50) setStatusText('Sending securely...');
-    else if (overallProgress < 80) setStatusText('Almost there...');
-    else setStatusText('Finalizing...');
+  const statusLabel = useMemo(() => {
+    let current = STATUS_PHASES[0].label;
+    for (const phase of STATUS_PHASES) {
+      if (overallProgress >= phase.threshold) current = phase.label;
+    }
+    return current;
   }, [overallProgress]);
 
+  // Smooth percentage display that gracefully catches up
+  const [displayProgress, setDisplayProgress] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(function tick() {
+      setDisplayProgress(prev => {
+        const diff = overallProgress - prev;
+        if (Math.abs(diff) < 0.05) return overallProgress;
+        return prev + diff * 0.08;
+      });
+      requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [overallProgress]);
+
+  // Aurora hue shifts subtly as progress advances
+  const hueShift = displayProgress * 0.6;
+
+  // Generate persistent ambient particles (deterministic per mount)
+  const ambientParticles = useMemo(() =>
+    Array.from({ length: 18 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 0.6,
+      duration: Math.random() * 8 + 10,
+      delay: Math.random() * 5,
+    })), []);
+
+  // Stream particles flowing into the orb
+  const streamParticles = useMemo(() =>
+    Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      angle: (i / 12) * Math.PI * 2,
+      delay: i * 0.35,
+    })), []);
+
+  const orbSize = 320;
+  const radius = 140;
+  const circumference = 2 * Math.PI * radius;
+
   return (
-    <div className="flex flex-col items-center justify-center py-8 min-h-[70vh]">
-      {/* Main Orb Visualization */}
-      <div className="relative w-80 h-80 mb-12">
-        {/* Outer Glow */}
+    <div className="relative flex flex-col items-center justify-center py-10 min-h-[80vh] overflow-hidden">
+      {/* Living aurora background */}
+      <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute inset-0 rounded-full"
-          animate={{
-            boxShadow: [
-              '0 0 60px 20px hsl(var(--primary) / 0.2)',
-              '0 0 80px 30px hsl(var(--primary) / 0.3)',
-              '0 0 60px 20px hsl(var(--primary) / 0.2)',
-            ],
+          className="absolute -top-40 -left-40 w-[700px] h-[700px] rounded-full"
+          style={{
+            background: `radial-gradient(circle, hsl(${220 + hueShift} 90% 60% / 0.18) 0%, transparent 70%)`,
+            filter: 'blur(60px)',
           }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={{ x: [0, 60, -20, 0], y: [0, 40, -30, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full"
+          style={{
+            background: `radial-gradient(circle, hsl(${280 + hueShift} 80% 60% / 0.15) 0%, transparent 70%)`,
+            filter: 'blur(60px)',
+          }}
+          animate={{ x: [0, -50, 30, 0], y: [0, -40, 20, 0] }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
+          style={{
+            background: `radial-gradient(circle, hsl(${190 + hueShift} 90% 55% / 0.10) 0%, transparent 70%)`,
+            filter: 'blur(80px)',
+          }}
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* Particle Field */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-          {/* Background Circle */}
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="hsl(var(--secondary))"
-            strokeWidth="0.5"
-            className="opacity-30"
+        {/* Ambient floating particles */}
+        {ambientParticles.map((p) => (
+          <motion.div
+            key={p.id}
+            className="absolute rounded-full bg-primary/40"
+            style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size * 4, height: p.size * 4, filter: 'blur(1px)' }}
+            animate={{ y: [0, -30, 0], opacity: [0.2, 0.7, 0.2] }}
+            transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
           />
-
-          {/* Progress Ring */}
-          <motion.circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="hsl(var(--primary))"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeDasharray={`${overallProgress * 2.83} 283`}
-            transform="rotate(-90 50 50)"
-            initial={{ strokeDasharray: '0 283' }}
-            animate={{ strokeDasharray: `${overallProgress * 2.83} 283` }}
-            transition={{ duration: 0.5 }}
-          />
-
-          {/* Animated Particles */}
-          {particles.map((particle, i) => (
-            <motion.circle
-              key={particle.id}
-              r={particle.size / 10}
-              fill="hsl(var(--primary))"
-              initial={{ cx: particle.x, cy: particle.y, opacity: 0 }}
-              animate={{
-                cx: [
-                  particle.x,
-                  50 + Math.cos(particle.angle) * (20 + overallProgress * 0.2),
-                  particle.x,
-                ],
-                cy: [
-                  particle.y,
-                  50 + Math.sin(particle.angle) * (20 + overallProgress * 0.2),
-                  particle.y,
-                ],
-                opacity: [0.3, 0.8, 0.3],
-              }}
-              transition={{
-                duration: particle.speed + 1,
-                repeat: Infinity,
-                delay: i * 0.05,
-              }}
-            />
-          ))}
-
-          {/* Central Flow Lines */}
-          {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-            <motion.line
-              key={angle}
-              x1="50"
-              y1="50"
-              x2={50 + Math.cos((angle * Math.PI) / 180) * 35}
-              y2={50 + Math.sin((angle * Math.PI) / 180) * 35}
-              stroke="hsl(var(--primary))"
-              strokeWidth="0.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{
-                pathLength: [0, 1, 0],
-                opacity: [0, 0.5, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                delay: i * 0.3,
-              }}
-            />
-          ))}
-        </svg>
-
-        {/* Center Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <motion.span 
-            className="text-5xl font-bold text-foreground tabular-nums"
-            key={Math.floor(overallProgress)}
-            initial={{ scale: 1.2, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            {Math.floor(overallProgress)}%
-          </motion.span>
-          <motion.span 
-            className="text-sm text-muted-foreground mt-1"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            {statusText}
-          </motion.span>
-        </div>
-
-        {/* Orbiting File Indicators */}
-        {files.slice(0, 4).map((file, index) => {
-          const angle = (index / Math.min(files.length, 4)) * Math.PI * 2 - Math.PI / 2;
-          const radius = 55;
-          const x = 50 + Math.cos(angle + (overallProgress / 100) * Math.PI) * radius;
-          const y = 50 + Math.sin(angle + (overallProgress / 100) * Math.PI) * radius;
-          const Icon = getFileIcon(file.type);
-
-          return (
-            <motion.div
-              key={file.id}
-              className="absolute w-10 h-10 -translate-x-1/2 -translate-y-1/2 rounded-xl backdrop-blur-sm flex items-center justify-center"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                background: file.status === 'completed' 
-                  ? 'hsl(var(--accent))' 
-                  : 'hsl(var(--secondary))',
-              }}
-              animate={{
-                scale: file.status === 'uploading' ? [1, 1.1, 1] : 1,
-              }}
-              transition={{ duration: 0.5, repeat: file.status === 'uploading' ? Infinity : 0 }}
-            >
-              {file.status === 'completed' ? (
-                <Check className="w-5 h-5 text-accent-foreground" />
-              ) : (
-                <Icon className="w-5 h-5 text-muted-foreground" />
-              )}
-            </motion.div>
-          );
-        })}
+        ))}
       </div>
 
-      {/* Status Text */}
+      {/* Central Orb */}
+      <div className="relative mb-12" style={{ width: orbSize, height: orbSize }}>
+        {/* Outer breathing halo */}
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          style={{
+            background: `radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 60%)`,
+            filter: 'blur(30px)',
+          }}
+        />
+
+        {/* Rotating conic gradient ring (caustic look) */}
+        <motion.div
+          className="absolute inset-6 rounded-full opacity-60"
+          style={{
+            background: `conic-gradient(from 0deg, hsl(var(--primary) / 0), hsl(var(--primary) / 0.7), hsl(var(--primary) / 0), hsl(var(--primary) / 0.4), hsl(var(--primary) / 0))`,
+            filter: 'blur(8px)',
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.div
+          className="absolute inset-8 rounded-full opacity-40"
+          style={{
+            background: `conic-gradient(from 180deg, hsl(var(--primary) / 0), hsl(280 80% 70% / 0.6), hsl(var(--primary) / 0), hsl(190 90% 60% / 0.5), hsl(var(--primary) / 0))`,
+            filter: 'blur(6px)',
+          }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Glass orb body */}
+        <div
+          className="absolute inset-10 rounded-full overflow-hidden"
+          style={{
+            background: 'radial-gradient(circle at 35% 30%, hsl(0 0% 100% / 0.15) 0%, hsl(var(--card) / 0.8) 60%, hsl(var(--card) / 0.95) 100%)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid hsl(0 0% 100% / 0.12)',
+            boxShadow: 'inset 0 1px 0 0 hsl(0 0% 100% / 0.2), inset 0 -20px 40px -10px hsl(var(--primary) / 0.15), 0 30px 60px -15px hsl(var(--primary) / 0.4)',
+          }}
+        >
+          {/* Specular highlight that drifts */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 60% 40% at 30% 25%, hsl(0 0% 100% / 0.25) 0%, transparent 60%)',
+            }}
+            animate={{ opacity: [0.6, 0.9, 0.6] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          {/* Liquid fill rising with progress */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0"
+            initial={{ height: '0%' }}
+            animate={{ height: `${displayProgress}%` }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              background: 'linear-gradient(180deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.35) 100%)',
+            }}
+          >
+            {/* Wave on top of liquid */}
+            <svg className="absolute -top-3 left-0 w-full h-6" viewBox="0 0 200 12" preserveAspectRatio="none">
+              <motion.path
+                d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6 L200,12 L0,12 Z"
+                fill="hsl(var(--primary) / 0.35)"
+                animate={{ x: [-50, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              />
+              <motion.path
+                d="M0,6 Q25,12 50,6 T100,6 T150,6 T200,6 L200,12 L0,12 Z"
+                fill="hsl(var(--primary) / 0.5)"
+                animate={{ x: [0, -50] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              />
+            </svg>
+          </motion.div>
+        </div>
+
+        {/* Progress ring SVG */}
+        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox={`0 0 ${orbSize} ${orbSize}`}>
+          <circle
+            cx={orbSize / 2}
+            cy={orbSize / 2}
+            r={radius}
+            fill="none"
+            stroke="hsl(var(--border))"
+            strokeWidth="1.5"
+            className="opacity-40"
+          />
+          <motion.circle
+            cx={orbSize / 2}
+            cy={orbSize / 2}
+            r={radius}
+            fill="none"
+            stroke="hsl(var(--primary))"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            animate={{ strokeDashoffset: circumference - (displayProgress / 100) * circumference }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            style={{ filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.6))' }}
+          />
+
+          {/* Comet head following the progress */}
+          {displayProgress > 0 && displayProgress < 100 && (() => {
+            const angle = (displayProgress / 100) * Math.PI * 2 - Math.PI / 2;
+            // already rotated -90deg on the SVG; use raw angle
+            const cx = orbSize / 2 + radius * Math.cos((displayProgress / 100) * Math.PI * 2);
+            const cy = orbSize / 2 + radius * Math.sin((displayProgress / 100) * Math.PI * 2);
+            return (
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r="5"
+                fill="hsl(var(--primary))"
+                animate={{ r: [4, 6, 4] }}
+                transition={{ duration: 1.2, repeat: Infinity }}
+                style={{ filter: 'drop-shadow(0 0 12px hsl(var(--primary)))' }}
+              />
+            );
+          })()}
+
+          {/* Stream particles flowing inward */}
+          {streamParticles.map((p) => {
+            const startR = radius + 30;
+            const x1 = orbSize / 2 + Math.cos(p.angle) * startR;
+            const y1 = orbSize / 2 + Math.sin(p.angle) * startR;
+            const x2 = orbSize / 2 + Math.cos(p.angle) * (radius - 20);
+            const y2 = orbSize / 2 + Math.sin(p.angle) * (radius - 20);
+            return (
+              <motion.circle
+                key={p.id}
+                r="1.5"
+                fill="hsl(var(--primary))"
+                initial={{ cx: x1, cy: y1, opacity: 0 }}
+                animate={{
+                  cx: [x1, x2],
+                  cy: [y1, y2],
+                  opacity: [0, 0.9, 0],
+                }}
+                transition={{
+                  duration: 1.6,
+                  repeat: Infinity,
+                  delay: p.delay,
+                  ease: 'easeIn',
+                }}
+                style={{ filter: 'drop-shadow(0 0 4px hsl(var(--primary)))' }}
+              />
+            );
+          })}
+        </svg>
+
+        {/* Center content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+          <div className="flex items-baseline tabular-nums">
+            <span className="text-6xl font-light text-foreground tracking-tight">
+              {Math.floor(displayProgress)}
+            </span>
+            <span className="text-2xl font-light text-muted-foreground ml-0.5">%</span>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={statusLabel}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-1.5 mt-2"
+            >
+              <motion.div
+                className="w-1 h-1 rounded-full bg-primary"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1.6, repeat: Infinity }}
+              />
+              <span className="text-xs text-muted-foreground tracking-wide">{statusLabel}</span>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Headline */}
       <motion.div
-        className="text-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
+        className="text-center mb-8 relative z-10"
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        <h2 className="text-2xl font-semibold text-foreground mb-2">
-          Transferring securely
+        <h2 className="text-2xl font-semibold text-foreground tracking-tight mb-1.5">
+          Sending your transfer
         </h2>
-        <p className="text-muted-foreground">
-          {completedCount} of {files.length} files complete
+        <p className="text-sm text-muted-foreground">
+          {completedCount} of {files.length} {files.length === 1 ? 'file' : 'files'} sealed
         </p>
       </motion.div>
 
-      {/* Stats Bar */}
+      {/* Stats — minimal, breathing */}
       <motion.div
-        className="flex items-center justify-center gap-8 p-6 rounded-2xl backdrop-blur-xl bg-card/50 border border-border/50"
-        initial={{ opacity: 0, y: 20 }}
+        className="flex items-center gap-6 px-7 py-4 rounded-2xl relative z-10"
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{ delay: 0.15, duration: 0.6 }}
+        style={{
+          background: 'hsl(var(--card) / 0.5)',
+          backdropFilter: 'blur(24px)',
+          border: '1px solid hsl(var(--border) / 0.5)',
+          boxShadow: '0 10px 40px -10px hsl(var(--primary) / 0.15)',
+        }}
       >
-        <div className="text-center">
-          <div className="flex items-center gap-2 justify-center mb-1">
-            <motion.div
-              className="w-2 h-2 rounded-full bg-primary"
-              animate={{ scale: [1, 1.5, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-            <span className="font-semibold text-foreground">{formatFileSize(uploadSpeed)}/s</span>
-          </div>
-          <span className="text-xs text-muted-foreground">Speed</span>
-        </div>
-        
-        <div className="h-10 w-px bg-border" />
-        
-        <div className="text-center">
-          <span className="font-semibold text-foreground">
-            {formatFileSize(uploadedSize)}
-          </span>
-          <span className="text-muted-foreground mx-1">/</span>
-          <span className="text-muted-foreground">{formatFileSize(totalSize)}</span>
-          <p className="text-xs text-muted-foreground">Transferred</p>
-        </div>
-        
-        <div className="h-10 w-px bg-border" />
-        
-        <div className="text-center">
-          <span className="font-semibold text-foreground">
-            ~{Math.max(1, Math.ceil(timeRemaining))}s
-          </span>
-          <p className="text-xs text-muted-foreground">Remaining</p>
-        </div>
+        <Stat label="Speed" value={`${formatFileSize(uploadSpeed)}/s`} pulse />
+        <Divider />
+        <Stat label="Transferred" value={`${formatFileSize(uploadedSize)} / ${formatFileSize(totalSize)}`} />
+        <Divider />
+        <Stat label="Remaining" value={`~${Math.max(1, Math.ceil(timeRemaining))}s`} />
       </motion.div>
 
-      {/* File Progress List */}
+      {/* Floating file chips marquee */}
       <motion.div
-        className="w-full max-w-md mt-8 space-y-2"
+        className="mt-10 w-full max-w-2xl relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        {files.map((file, index) => {
-          const Icon = getFileIcon(file.type);
-          return (
+        <div className="flex flex-wrap justify-center gap-2">
+          {files.slice(0, 8).map((file, i) => (
             <motion.div
               key={file.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="relative flex items-center gap-3 p-3 rounded-xl bg-card/50 backdrop-blur-sm border border-border/30 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.9, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.06, type: 'spring', stiffness: 220, damping: 22 }}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs"
+              style={{
+                background: file.status === 'completed'
+                  ? 'hsl(var(--primary) / 0.12)'
+                  : 'hsl(var(--card) / 0.6)',
+                border: `1px solid ${file.status === 'completed' ? 'hsl(var(--primary) / 0.4)' : 'hsl(var(--border) / 0.5)'}`,
+                backdropFilter: 'blur(12px)',
+              }}
             >
-              {/* Progress Background */}
-              <motion.div
-                className="absolute inset-0 bg-primary/5"
-                initial={{ width: 0 }}
-                animate={{ width: `${file.progress}%` }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <div className="relative flex items-center gap-3 w-full">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                  file.status === 'completed' ? 'bg-accent' : 'bg-secondary'
-                }`}>
-                  {file.status === 'completed' ? (
-                    <Check className="w-4 h-4 text-accent-foreground" />
-                  ) : (
-                    <Icon className="w-4 h-4 text-muted-foreground" />
-                  )}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
-                  <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
-                </div>
-
-                <span className={`text-sm font-medium ${
-                  file.status === 'completed' ? 'text-accent' : 'text-primary'
-                }`}>
-                  {file.status === 'completed' ? 'Done' : `${Math.floor(file.progress)}%`}
-                </span>
-              </div>
+              {file.status === 'completed' ? (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 400 }}
+                  className="w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center"
+                >
+                  <Check className="w-2.5 h-2.5 text-primary-foreground" strokeWidth={3} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  className="w-3.5 h-3.5 rounded-full border border-primary/40 border-t-primary"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+                />
+              )}
+              <span className={`max-w-[140px] truncate ${file.status === 'completed' ? 'text-foreground' : 'text-muted-foreground'}`}>
+                {file.name}
+              </span>
             </motion.div>
-          );
-        })}
+          ))}
+          {files.length > 8 && (
+            <div className="flex items-center px-3 py-1.5 rounded-full text-xs text-muted-foreground bg-card/40 border border-border/50">
+              +{files.length - 8} more
+            </div>
+          )}
+        </div>
       </motion.div>
 
-      {/* Security Notice */}
+      {/* Trust footer */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="flex items-center gap-2 mt-8 text-sm text-muted-foreground"
+        className="flex items-center gap-4 mt-10 text-xs text-muted-foreground relative z-10"
       >
-        <Shield className="w-4 h-4 text-primary" />
-        <span>End-to-end encrypted · Your files are safe</span>
+        <div className="flex items-center gap-1.5">
+          <Shield className="w-3.5 h-3.5 text-primary" />
+          <span>End-to-end encrypted</span>
+        </div>
+        <div className="w-1 h-1 rounded-full bg-border" />
+        <div className="flex items-center gap-1.5">
+          <Lock className="w-3.5 h-3.5 text-primary" />
+          <span>Zero-knowledge route</span>
+        </div>
+        <div className="w-1 h-1 rounded-full bg-border" />
+        <div className="flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
+          <span>Powered by Docsora</span>
+        </div>
       </motion.div>
     </div>
   );
+}
+
+function Stat({ label, value, pulse }: { label: string; value: string; pulse?: boolean }) {
+  return (
+    <div className="text-center">
+      <div className="flex items-center gap-1.5 justify-center mb-0.5">
+        {pulse && (
+          <motion.div
+            className="w-1.5 h-1.5 rounded-full bg-primary"
+            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+            transition={{ duration: 1.4, repeat: Infinity }}
+          />
+        )}
+        <span className="text-sm font-medium text-foreground tabular-nums">{value}</span>
+      </div>
+      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</span>
+    </div>
+  );
+}
+
+function Divider() {
+  return <div className="h-8 w-px bg-border/60" />;
 }
