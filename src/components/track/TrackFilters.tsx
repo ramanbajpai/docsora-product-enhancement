@@ -479,12 +479,12 @@ export function TrackFilters({
 
       {/* Active Filters */}
       <AnimatePresence>
-        {(activeFilters.length > 0 || datePreset !== "all") && (
+        {(activeFilters.length > 0 || datePreset !== "all" || activeTagFilters.length > 0) && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 flex-wrap"
           >
             <span className="text-xs text-muted-foreground">Active filters:</span>
             {activeFilters.map((filter) => (
@@ -495,6 +495,18 @@ export function TrackFilters({
                 onClick={() => toggleFilter(filter)}
               >
                 {filter}
+                <span className="ml-1">×</span>
+              </Badge>
+            ))}
+            {activeTagFilters.map((tag) => (
+              <Badge
+                key={`tag-${tag}`}
+                variant="secondary"
+                className="cursor-pointer hover:bg-destructive/20 gap-1 bg-primary/10 text-primary"
+                onClick={() => onRemoveTagFilter?.(tag)}
+              >
+                <Tag className="w-3 h-3" />
+                {tag}
                 <span className="ml-1">×</span>
               </Badge>
             ))}
@@ -515,6 +527,7 @@ export function TrackFilters({
               onClick={() => {
                 setActiveFilters([]);
                 handleClearDateFilter();
+                onClearTagFilters?.();
               }}
             >
               Clear all
