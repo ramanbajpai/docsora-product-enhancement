@@ -550,6 +550,22 @@ const Storage = () => {
         onDragLeave={handlePageDragLeave}
         onDrop={handlePageDrop}
       >
+        {/* Left navigation rail */}
+        <StorageNavRail
+          currentView={currentView}
+          onViewChange={setCurrentView}
+          storageUsed={storageUsed}
+          storageTotal={storageTotal}
+          counts={{
+            all: files.filter(f => !f.parentId).length,
+            recent: Math.min(files.length, 5),
+            shared: files.filter(f => f.owner !== "Myles Fleming").length,
+            "smart-contracts": files.filter(f => f.aiTag === "Contract").length,
+            "smart-resumes": files.filter(f => f.aiTag === "Resume").length,
+            "smart-presentations": files.filter(f => f.aiTag === "Presentation").length,
+          }}
+        />
+
         {/* Main content area */}
         <div 
           ref={scrollContainerRef}
