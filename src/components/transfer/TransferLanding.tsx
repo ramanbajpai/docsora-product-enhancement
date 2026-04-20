@@ -561,11 +561,10 @@ export function TransferLanding() {
                       <motion.div
                         className="absolute -inset-4 rounded-2xl blur-2xl"
                         animate={{
-                          backgroundColor: isDragging
-                            ? 'hsl(var(--primary) / 0.3)'
-                            : 'hsl(var(--primary) / 0.1)',
+                          opacity: isDragging ? 1 : 0.35,
                         }}
                         transition={{ duration: 0.5 }}
+                        style={{ backgroundColor: 'hsl(var(--primary) / 0.3)' }}
                       />
                       
                       {/* Icon Square */}
