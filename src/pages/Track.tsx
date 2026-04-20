@@ -1246,12 +1246,16 @@ export default function Track() {
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                   className="w-[40%] min-w-[400px]"
                 >
-                  <ContractDetailPanel
+                  <ContractIntelligencePanel
                     contract={selectedContract}
                     onClose={() => setSelectedContract(null)}
                     onUpdate={(updated) => {
                       setContracts(prev => prev.map(c => c.id === updated.id ? updated : c));
                       setSelectedContract(updated);
+                    }}
+                    onOpenPortal={() => {
+                      setPortalContract(selectedContract);
+                      setShowPortal(true);
                     }}
                   />
                 </motion.div>
@@ -1261,10 +1265,16 @@ export default function Track() {
         </div>
       </motion.div>
 
-      <AddContractModal
+      <ContractIngestionFlow
         open={showAddContract}
         onOpenChange={setShowAddContract}
         onAdd={handleAddContract}
+      />
+
+      <CounterpartyPortalPreview
+        contract={portalContract}
+        open={showPortal}
+        onOpenChange={setShowPortal}
       />
 
       {/* Recipient Transfer View - No Password Protection */}
