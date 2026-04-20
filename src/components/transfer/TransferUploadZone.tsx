@@ -211,11 +211,11 @@ export function TransferUploadZone({ onFilesAdded }: TransferUploadZoneProps) {
               <motion.div
                 className="absolute inset-0 rounded-full"
                 animate={{
-                  boxShadow: isDragging
-                    ? '0 0 60px 30px hsl(var(--primary) / 0.3)'
-                    : '0 0 30px 15px hsl(var(--primary) / 0.1)',
+                  opacity: isDragging ? 1 : 0.4,
+                  scale: isDragging ? 1.1 : 1,
                 }}
                 transition={{ duration: 0.5 }}
+                style={{ boxShadow: '0 0 60px 30px hsl(var(--primary) / 0.3)' }}
               />
               
               {/* Icon Container */}
