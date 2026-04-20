@@ -856,10 +856,13 @@ export function TransferLanding() {
                             >
                               <motion.span 
                                 className="text-3xl font-semibold tabular-nums tracking-tight"
-                                initial={{ color: 'hsl(var(--foreground))' }}
-                                animate={{ color: 'hsl(142 76% 36%)' }}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3 }}
-                                style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
+                                style={{
+                                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+                                  color: 'hsl(142 76% 36%)',
+                                }}
                               >
                                 100%
                               </motion.span>
