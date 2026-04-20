@@ -302,21 +302,88 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="h-full flex flex-col justify-center"
             >
-              <div className="rounded-2xl border border-border/40 bg-gradient-to-b from-secondary/30 to-secondary/10 p-5 text-center">
-                <div className="relative w-12 h-12 mx-auto mb-3">
-                  <div className="absolute inset-0 rounded-2xl bg-primary/10 blur-xl" />
-                  <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-b from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/30">
-                    <Link2 className="w-5 h-5 text-primary-foreground" />
+              <div className="relative rounded-2xl border border-border/40 bg-gradient-to-b from-secondary/30 to-secondary/5 overflow-hidden h-[180px] flex items-center justify-center">
+                {/* Pulsing ambient rings */}
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={`ring-${i}`}
+                    className="absolute rounded-full border border-primary/30"
+                    initial={{ width: 60, height: 60, opacity: 0 }}
+                    animate={{
+                      width: [60, 220],
+                      height: [60, 220],
+                      opacity: [0.6, 0],
+                    }}
+                    transition={{
+                      duration: 2.4,
+                      repeat: Infinity,
+                      delay: i * 0.8,
+                      ease: "easeOut",
+                    }}
+                  />
+                ))}
+
+                {/* Orbiting particles */}
+                {[0, 1, 2, 3].map((i) => (
+                  <motion.div
+                    key={`orbit-${i}`}
+                    className="absolute w-1.5 h-1.5 rounded-full bg-primary"
+                    style={{ originX: 0.5, originY: 0.5 }}
+                    animate={{
+                      x: [
+                        Math.cos((i * Math.PI) / 2) * 70,
+                        Math.cos((i * Math.PI) / 2 + Math.PI) * 70,
+                        Math.cos((i * Math.PI) / 2 + Math.PI * 2) * 70,
+                      ],
+                      y: [
+                        Math.sin((i * Math.PI) / 2) * 70,
+                        Math.sin((i * Math.PI) / 2 + Math.PI) * 70,
+                        Math.sin((i * Math.PI) / 2 + Math.PI * 2) * 70,
+                      ],
+                      opacity: [0.3, 1, 0.3],
+                      scale: [0.8, 1.2, 0.8],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+
+                {/* Center glowing link badge */}
+                <motion.div
+                  className="relative z-10"
+                  animate={{
+                    scale: [1, 1.06, 1],
+                  }}
+                  transition={{
+                    duration: 2.4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <div className="absolute inset-0 rounded-2xl bg-primary/30 blur-2xl" />
+                  <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-b from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/40">
+                    <Link2 className="w-6 h-6 text-primary-foreground" />
                   </div>
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1">A shareable link will be ready instantly</h3>
-                <p className="text-xs text-muted-foreground max-w-[280px] mx-auto leading-relaxed">
-                  Send it anywhere — chat, docs, anywhere. Recipients can preview and download with one click.
-                </p>
-                <div className="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/60 border border-border/40 text-[10px] font-medium text-muted-foreground">
-                  <Sparkles className="w-3 h-3 text-primary" />
-                  docsora.com/d/<span className="text-foreground/70 tracking-wider">●●●●●●●●</span>
-                </div>
+                </motion.div>
+
+                {/* Subtle shimmer sweep */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(110deg, transparent 30%, hsl(var(--primary) / 0.08) 50%, transparent 70%)',
+                  }}
+                  animate={{ x: ['-100%', '100%'] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    repeatDelay: 0.5,
+                  }}
+                />
               </div>
             </motion.div>
           )}
