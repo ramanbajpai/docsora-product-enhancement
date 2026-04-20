@@ -165,6 +165,9 @@ const Storage = () => {
   const [isSearchSticky, setIsSearchSticky] = useState(false);
   const [activeTagFilters, setActiveTagFilters] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<StorageFile[]>([]);
+  const [currentView, setCurrentView] = useState<StorageView>("all");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [continuityFile, setContinuityFile] = useState<StorageFile | null>(null);
 
   const storageUsed = 2.25;
   const storageTotal = 200;
