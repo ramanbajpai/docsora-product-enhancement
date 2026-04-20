@@ -302,88 +302,57 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="h-full flex flex-col justify-center"
             >
-              <div className="relative rounded-2xl border border-border/40 bg-gradient-to-b from-secondary/30 to-secondary/5 overflow-hidden h-[180px] flex items-center justify-center">
-                {/* Pulsing ambient rings */}
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={`ring-${i}`}
-                    className="absolute rounded-full border border-primary/30"
-                    initial={{ width: 60, height: 60, opacity: 0 }}
-                    animate={{
-                      width: [60, 220],
-                      height: [60, 220],
-                      opacity: [0.6, 0],
-                    }}
-                    transition={{
-                      duration: 2.4,
-                      repeat: Infinity,
-                      delay: i * 0.8,
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
-
-                {/* Orbiting particles */}
-                {[0, 1, 2, 3].map((i) => (
-                  <motion.div
-                    key={`orbit-${i}`}
-                    className="absolute w-1.5 h-1.5 rounded-full bg-primary"
-                    style={{ originX: 0.5, originY: 0.5 }}
-                    animate={{
-                      x: [
-                        Math.cos((i * Math.PI) / 2) * 70,
-                        Math.cos((i * Math.PI) / 2 + Math.PI) * 70,
-                        Math.cos((i * Math.PI) / 2 + Math.PI * 2) * 70,
-                      ],
-                      y: [
-                        Math.sin((i * Math.PI) / 2) * 70,
-                        Math.sin((i * Math.PI) / 2 + Math.PI) * 70,
-                        Math.sin((i * Math.PI) / 2 + Math.PI * 2) * 70,
-                      ],
-                      opacity: [0.3, 1, 0.3],
-                      scale: [0.8, 1.2, 0.8],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      delay: i * 0.3,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-
-                {/* Center glowing link badge */}
+              <div className="relative h-[180px] flex items-center justify-center overflow-hidden">
+                {/* Faint AirDrop-style halo — single, slow, almost imperceptible */}
                 <motion.div
-                  className="relative z-10"
-                  animate={{
-                    scale: [1, 1.06, 1],
-                  }}
-                  transition={{
-                    duration: 2.4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <div className="absolute inset-0 rounded-2xl bg-primary/30 blur-2xl" />
-                  <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-b from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/40">
-                    <Link2 className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                </motion.div>
-
-                {/* Subtle shimmer sweep */}
-                <motion.div
-                  className="absolute inset-0 pointer-events-none"
+                  className="absolute rounded-full"
                   style={{
-                    background: 'linear-gradient(110deg, transparent 30%, hsl(var(--primary) / 0.08) 50%, transparent 70%)',
+                    width: 200,
+                    height: 200,
+                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.04) 40%, transparent 70%)',
+                    filter: 'blur(8px)',
                   }}
-                  animate={{ x: ['-100%', '100%'] }}
+                  animate={{
+                    scale: [1, 1.08, 1],
+                    opacity: [0.7, 1, 0.7],
+                  }}
                   transition={{
-                    duration: 3,
+                    duration: 4.5,
                     repeat: Infinity,
-                    ease: "easeInOut",
-                    repeatDelay: 0.5,
+                    ease: [0.45, 0, 0.55, 1],
                   }}
                 />
+
+                {/* The glyph — single element, softly breathing */}
+                <motion.div
+                  className="relative"
+                  animate={{
+                    scale: [1, 1.025, 1],
+                  }}
+                  transition={{
+                    duration: 4.5,
+                    repeat: Infinity,
+                    ease: [0.45, 0, 0.55, 1],
+                  }}
+                >
+                  {/* Inner glow */}
+                  <div
+                    className="absolute inset-0 rounded-[18px] blur-md"
+                    style={{ background: 'hsl(var(--primary) / 0.25)' }}
+                  />
+                  {/* Glass disc */}
+                  <div
+                    className="relative w-16 h-16 rounded-[18px] flex items-center justify-center border border-border/40"
+                    style={{
+                      background: 'linear-gradient(180deg, hsl(var(--card) / 0.9) 0%, hsl(var(--card) / 0.6) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: '0 10px 40px -10px hsl(var(--primary) / 0.35), inset 0 1px 0 0 hsl(0 0% 100% / 0.15)',
+                    }}
+                  >
+                    <Link2 className="w-6 h-6 text-primary" strokeWidth={2.25} />
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           )}
