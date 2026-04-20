@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Link2, Mail, Lock, Calendar, X, FileText, Plus,
-  ArrowLeft, Send, Eye, EyeOff, Sparkles, Check, ShieldCheck
+  ArrowLeft, Send, Eye, EyeOff, Check, ShieldCheck, CheckCircle2
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -222,76 +222,116 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="space-y-2.5"
             >
-              {/* Sender + Recipients combined card */}
-              <div className="rounded-xl border border-border/40 bg-secondary/30 divide-y divide-border/30">
-                <div className="flex items-center gap-2 px-3 py-2">
-                  <span className="text-[11px] font-medium text-muted-foreground w-14 flex-shrink-0">From</span>
-                  <input
-                    value={settings.senderEmail || ''}
-                    onChange={(e) => onSettingsChange({ ...settings, senderEmail: e.target.value })}
-                    placeholder="your@email.com"
-                    type="email"
-                    className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
-                  />
-                </div>
-                <div className="flex items-start gap-2 px-3 py-2">
-                  <span className="text-[11px] font-medium text-muted-foreground w-14 flex-shrink-0 mt-1">To</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap gap-1 items-center">
-                      <AnimatePresence>
-                        {settings.recipients.map((email) => (
-                          <motion.span
-                            key={email}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-primary/10 text-primary rounded-md text-[11px] font-medium"
-                          >
-                            {email}
-                            <button
-                              onClick={() => handleRemoveEmail(email)}
-                              className="text-primary/60 hover:text-destructive transition-colors"
-                            >
-                              <X className="w-2.5 h-2.5" />
-                            </button>
-                          </motion.span>
-                        ))}
-                      </AnimatePresence>
+              {/* Unified composition card — one continuous surface, like Apple Mail */}
+              {(() => {
+                const senderValid = !!settings.senderEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.senderEmail);
+                const initialsFor = (email: string) => {
+                  const local = email.split('@')[0] || '';
+                  return (local[0] || '?').toUpperCase() + (local[1]?.toUpperCase() || '');
+                };
+                return (
+                  <div className="rounded-xl border border-border/40 bg-secondary/30 divide-y divide-border/30 overflow-hidden focus-within:border-primary/30 focus-within:bg-secondary/40 transition-colors">
+                    {/* From */}
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <span className="text-[11px] font-medium text-muted-foreground w-12 flex-shrink-0">From</span>
                       <input
-                        value={emailInput}
-                        onChange={(e) => setEmailInput(e.target.value)}
-                        onKeyDown={handleEmailKeyDown}
-                        onBlur={handleAddEmail}
-                        placeholder={settings.recipients.length === 0 ? 'name@example.com' : 'Add another'}
+                        value={settings.senderEmail || ''}
+                        onChange={(e) => onSettingsChange({ ...settings, senderEmail: e.target.value })}
+                        placeholder="your@email.com"
                         type="email"
-                        className="flex-1 min-w-[120px] bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none py-0.5"
+                        className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none"
                       />
+                      <AnimatePresence>
+                        {senderValid && (
+                          <motion.div
+                            initial={{ scale: 0.6, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.6, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* To */}
+                    <div className="flex items-start gap-2 px-3 py-2">
+                      <span className="text-[11px] font-medium text-muted-foreground w-12 flex-shrink-0 mt-1">To</span>
+                      <div className="flex-1 min-w-0 flex flex-wrap gap-1 items-center">
+                        <AnimatePresence mode="popLayout">
+                          {settings.recipients.map((email) => (
+                            <motion.span
+                              key={email}
+                              layout
+                              initial={{ scale: 0.7, opacity: 0, y: 4 }}
+                              animate={{ scale: 1, opacity: 1, y: 0 }}
+                              exit={{ scale: 0.7, opacity: 0, y: -4 }}
+                              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                              className="group inline-flex items-center gap-1.5 pl-0.5 pr-1.5 py-0.5 bg-background/80 border border-border/50 rounded-full text-[11px] font-medium text-foreground shadow-sm"
+                            >
+                              <span className="w-4 h-4 rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-[8px] font-bold flex items-center justify-center">
+                                {initialsFor(email)}
+                              </span>
+                              <span className="truncate max-w-[140px]">{email}</span>
+                              <button
+                                onClick={() => handleRemoveEmail(email)}
+                                className="text-muted-foreground/60 hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                              >
+                                <X className="w-2.5 h-2.5" />
+                              </button>
+                            </motion.span>
+                          ))}
+                        </AnimatePresence>
+                        <input
+                          value={emailInput}
+                          onChange={(e) => setEmailInput(e.target.value)}
+                          onKeyDown={handleEmailKeyDown}
+                          onBlur={handleAddEmail}
+                          placeholder={settings.recipients.length === 0 ? 'name@example.com' : ''}
+                          type="email"
+                          className="flex-1 min-w-[100px] bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none py-0.5"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Subject */}
+                    <input
+                      value={settings.subject}
+                      onChange={(e) => onSettingsChange({ ...settings, subject: e.target.value })}
+                      placeholder="Subject"
+                      type="text"
+                      className="w-full bg-transparent px-3 py-2 text-sm font-semibold text-foreground placeholder:text-muted-foreground/50 placeholder:font-normal focus:outline-none"
+                    />
+
+                    {/* Message */}
+                    <div className="relative">
+                      <Textarea
+                        value={settings.message}
+                        onChange={(e) => onSettingsChange({ ...settings, message: e.target.value.slice(0, 500) })}
+                        placeholder="Add a personal message…"
+                        rows={3}
+                        className="bg-transparent border-0 resize-none min-h-[80px] text-sm leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0 px-3 pt-2 pb-6"
+                      />
+                      <AnimatePresence>
+                        {settings.message.length > 0 && (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className={cn(
+                              "absolute bottom-1.5 right-2.5 text-[10px] tabular-nums",
+                              settings.message.length >= 480 ? 'text-destructive' : 'text-muted-foreground/50'
+                            )}
+                          >
+                            {settings.message.length}/500
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div className="rounded-xl border border-border/40 bg-secondary/30">
-                <input
-                  value={settings.subject}
-                  onChange={(e) => onSettingsChange({ ...settings, subject: e.target.value })}
-                  placeholder="Subject"
-                  type="text"
-                  className="w-full bg-transparent px-3 py-2 text-sm font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
-                />
-              </div>
-
-              {/* Message */}
-              <div className="rounded-xl border border-border/40 bg-secondary/30">
-                <Textarea
-                  value={settings.message}
-                  onChange={(e) => onSettingsChange({ ...settings, message: e.target.value.slice(0, 500) })}
-                  placeholder="Add a personal message…"
-                  rows={3}
-                  className="bg-transparent border-0 resize-none min-h-[72px] text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
-                />
-              </div>
+                );
+              })()}
             </motion.div>
           ) : (
             <motion.div
@@ -302,18 +342,38 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="h-full flex flex-col justify-center"
             >
-              <div className="relative h-[180px] flex items-center justify-center overflow-hidden">
-                {/* Faint AirDrop-style halo — single, slow, almost imperceptible */}
+              <div className="relative h-[200px] flex items-center justify-center overflow-hidden">
+                {/* Outer slow halo — depth layer */}
                 <motion.div
-                  className="absolute rounded-full"
+                  className="absolute rounded-full pointer-events-none"
                   style={{
-                    width: 200,
-                    height: 200,
-                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.04) 40%, transparent 70%)',
+                    width: 280,
+                    height: 280,
+                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.06) 0%, transparent 60%)',
+                    filter: 'blur(20px)',
+                  }}
+                  animate={{
+                    scale: [1, 1.12, 1],
+                    opacity: [0.5, 0.9, 0.5],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: [0.45, 0, 0.55, 1],
+                  }}
+                />
+
+                {/* Inner halo — closer breath */}
+                <motion.div
+                  className="absolute rounded-full pointer-events-none"
+                  style={{
+                    width: 180,
+                    height: 180,
+                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.04) 45%, transparent 70%)',
                     filter: 'blur(8px)',
                   }}
                   animate={{
-                    scale: [1, 1.08, 1],
+                    scale: [1, 1.06, 1],
                     opacity: [0.7, 1, 0.7],
                   }}
                   transition={{
@@ -328,6 +388,7 @@ export function TransferConfigure({
                   className="relative"
                   animate={{
                     scale: [1, 1.025, 1],
+                    y: [0, -2, 0],
                   }}
                   transition={{
                     duration: 4.5,
@@ -337,21 +398,51 @@ export function TransferConfigure({
                 >
                   {/* Inner glow */}
                   <div
-                    className="absolute inset-0 rounded-[18px] blur-md"
-                    style={{ background: 'hsl(var(--primary) / 0.25)' }}
+                    className="absolute inset-0 rounded-[20px] blur-md"
+                    style={{ background: 'hsl(var(--primary) / 0.28)' }}
                   />
                   {/* Glass disc */}
                   <div
-                    className="relative w-16 h-16 rounded-[18px] flex items-center justify-center border border-border/40"
+                    className="relative w-[68px] h-[68px] rounded-[20px] flex items-center justify-center border border-border/40 overflow-hidden"
                     style={{
-                      background: 'linear-gradient(180deg, hsl(var(--card) / 0.9) 0%, hsl(var(--card) / 0.6) 100%)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      boxShadow: '0 10px 40px -10px hsl(var(--primary) / 0.35), inset 0 1px 0 0 hsl(0 0% 100% / 0.15)',
+                      background: 'linear-gradient(180deg, hsl(var(--card) / 0.95) 0%, hsl(var(--card) / 0.6) 100%)',
+                      backdropFilter: 'blur(24px)',
+                      WebkitBackdropFilter: 'blur(24px)',
+                      boxShadow: '0 12px 48px -12px hsl(var(--primary) / 0.4), inset 0 1px 0 0 hsl(0 0% 100% / 0.18), inset 0 -1px 0 0 hsl(0 0% 0% / 0.04)',
                     }}
                   >
-                    <Link2 className="w-6 h-6 text-primary" strokeWidth={2.25} />
+                    {/* Drifting specular highlight */}
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(135deg, hsl(0 0% 100% / 0.18) 0%, transparent 50%)',
+                      }}
+                      animate={{ opacity: [0.4, 0.8, 0.4] }}
+                      transition={{
+                        duration: 4.5,
+                        repeat: Infinity,
+                        ease: [0.45, 0, 0.55, 1],
+                      }}
+                    />
+                    <Link2 className="relative w-6 h-6 text-primary" strokeWidth={2.25} />
                   </div>
+
+                  {/* Tiny "ready" status pill below */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.5, ease: appleEasing }}
+                    className="absolute -bottom-7 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 whitespace-nowrap"
+                  >
+                    <motion.span
+                      className="w-1.5 h-1.5 rounded-full bg-primary"
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <span className="text-[10px] font-medium text-muted-foreground tracking-wide">
+                      Ready to share
+                    </span>
+                  </motion.div>
                 </motion.div>
               </div>
             </motion.div>
