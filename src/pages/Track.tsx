@@ -835,6 +835,21 @@ export default function Track() {
   const [showRecipientNoPassword, setShowRecipientNoPassword] = useState(false);
   const [showRecipientPasswordProtected, setShowRecipientPasswordProtected] = useState(false);
   const [contractFilter, setContractFilter] = useState<ContractFilter>("all");
+  const [activeTagFilters, setActiveTagFilters] = useState<string[]>([]);
+
+  // Collect all unique tags from contracts with counts
+  const { allContractTags, contractTagCounts } = (() => {
+    const counts: Record<string, number> = {};
+    contracts.forEach(c => {
+      (c.tags || []).forEach(tag => {
+        counts[tag] = (counts[tag] || 0) + 1;
+      });
+    });
+    return {
+      allContractTags: Object.keys(counts).sort((a, b) => a.localeCompare(b)),
+      contractTagCounts: counts,
+    };
+  })();
 
   // Update tabs when location state changes (e.g., when navigating back)
   useEffect(() => {
@@ -894,7 +909,11 @@ export default function Track() {
       else if (contractFilter === "expiring90") matchesQuickFilter = days > 0 && days <= 90;
     }
 
-    return matchesSearch && matchesDate && matchesQuickFilter;
+    // Tag filter (must include ALL selected tags)
+    const matchesTags = activeTagFilters.length === 0
+      || activeTagFilters.every(t => (contract.tags || []).includes(t));
+
+    return matchesSearch && matchesDate && matchesQuickFilter && matchesTags;
   });
 
   // Pagination calculations
@@ -909,7 +928,7 @@ export default function Track() {
   // Reset page when filters/tabs change
   useEffect(() => {
     setCurrentPage(1);
-  }, [mainTab, transferSubTab, searchQuery, dateRange, contractFilter]);
+  }, [mainTab, transferSubTab, searchQuery, dateRange, contractFilter, activeTagFilters]);
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -987,6 +1006,12 @@ export default function Track() {
               isTransferReceived={mainTab === "transfer" && transferSubTab === "received"}
               isSign={false}
               onDateRangeChange={setDateRange}
+              allTags={mainTab === "contracts" ? allContractTags : []}
+              tagCounts={mainTab === "contracts" ? contractTagCounts : {}}
+              activeTagFilters={mainTab === "contracts" ? activeTagFilters : []}
+              onAddTagFilter={(tag) => setActiveTagFilters(prev => prev.includes(tag) ? prev : [...prev, tag])}
+              onRemoveTagFilter={(tag) => setActiveTagFilters(prev => prev.filter(t => t !== tag))}
+              onClearTagFilters={() => setActiveTagFilters([])}
             />
           )}
 

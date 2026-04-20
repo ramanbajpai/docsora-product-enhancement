@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Calendar, ChevronDown, Clock, AlertTriangle, Bookmark } from "lucide-react";
+import { Search, Filter, Calendar, ChevronDown, Clock, AlertTriangle, Bookmark, Tag, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { format, subDays, startOfDay, endOfDay, isAfter } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { CustomDateRangeDialog } from "@/components/track/CustomDateRangeDialog";
@@ -23,12 +29,34 @@ interface TrackFiltersProps {
   isTransferReceived?: boolean;
   isSign?: boolean;
   onDateRangeChange?: (range: { from: Date; to: Date } | null) => void;
+  allTags?: string[];
+  tagCounts?: Record<string, number>;
+  activeTagFilters?: string[];
+  onAddTagFilter?: (tag: string) => void;
+  onRemoveTagFilter?: (tag: string) => void;
+  onClearTagFilters?: () => void;
 }
 
 type DatePreset = "all" | "today" | "7days" | "30days" | "90days" | "custom";
 
-export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false, isTransferSent = false, isTransferReceived = false, isSign = false, onDateRangeChange }: TrackFiltersProps) {
+export function TrackFilters({
+  searchQuery,
+  setSearchQuery,
+  isContracts = false,
+  isTransferSent = false,
+  isTransferReceived = false,
+  isSign = false,
+  onDateRangeChange,
+  allTags = [],
+  tagCounts = {},
+  activeTagFilters = [],
+  onAddTagFilter,
+  onRemoveTagFilter,
+  onClearTagFilters,
+}: TrackFiltersProps) {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [tagDropdownOpen, setTagDropdownOpen] = useState(false);
+  const [tagSearchQuery, setTagSearchQuery] = useState("");
   const [savedViews] = useState([
     { id: "expiring", label: "Expiring Soon", icon: Clock },
     { id: "attention", label: "Needs Action", icon: AlertTriangle },
@@ -338,6 +366,94 @@ export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false,
           onCancel={() => setTempRange(customRange)}
         />
 
+        {/* Tags filter (contracts only) */}
+        {isContracts && allTags.length > 0 && (
+          <Popover open={tagDropdownOpen} onOpenChange={setTagDropdownOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={`gap-2 bg-muted/30 border-border/50 hover:bg-muted hover:text-foreground ${
+                  activeTagFilters.length > 0 ? "border-primary/50 bg-primary/5 text-primary hover:text-primary" : ""
+                }`}
+              >
+                <Tag className="w-4 h-4" />
+                Tags
+                {activeTagFilters.length > 0 && (
+                  <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold flex items-center justify-center">
+                    {activeTagFilters.length}
+                  </span>
+                )}
+                <ChevronDown className="w-3 h-3 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-0" align="start">
+              <div className="p-2 border-b border-border/50">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                  <Input
+                    value={tagSearchQuery}
+                    onChange={(e) => setTagSearchQuery(e.target.value)}
+                    placeholder="Search tags..."
+                    className="h-8 pl-8 text-xs"
+                  />
+                </div>
+              </div>
+              <ScrollArea className="max-h-64">
+                <div className="p-1">
+                  {[...allTags]
+                    .filter((t) => t.toLowerCase().includes(tagSearchQuery.toLowerCase()))
+                    .sort((a, b) => {
+                      const aSel = activeTagFilters.includes(a);
+                      const bSel = activeTagFilters.includes(b);
+                      if (aSel && !bSel) return -1;
+                      if (!aSel && bSel) return 1;
+                      return a.localeCompare(b);
+                    })
+                    .map((tag) => {
+                      const isSelected = activeTagFilters.includes(tag);
+                      const count = tagCounts[tag] || 0;
+                      return (
+                        <button
+                          key={tag}
+                          onClick={() => (isSelected ? onRemoveTagFilter?.(tag) : onAddTagFilter?.(tag))}
+                          className={`w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-md text-sm transition-colors ${
+                            isSelected ? "bg-primary/10 text-primary" : "hover:bg-muted text-foreground"
+                          }`}
+                        >
+                          <span className="flex items-center gap-2 min-w-0">
+                            {isSelected ? (
+                              <Check className="w-3.5 h-3.5 shrink-0" />
+                            ) : (
+                              <Tag className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
+                            )}
+                            <span className="truncate">{tag}</span>
+                          </span>
+                          <span className="text-[11px] text-muted-foreground shrink-0">{count}</span>
+                        </button>
+                      );
+                    })}
+                  {allTags.filter((t) => t.toLowerCase().includes(tagSearchQuery.toLowerCase())).length === 0 && (
+                    <div className="px-2 py-6 text-center text-xs text-muted-foreground">No tags found</div>
+                  )}
+                </div>
+              </ScrollArea>
+              {activeTagFilters.length > 0 && (
+                <div className="p-2 border-t border-border/50">
+                  <button
+                    onClick={() => {
+                      onClearTagFilters?.();
+                      setTagDropdownOpen(false);
+                    }}
+                    className="w-full text-xs text-muted-foreground hover:text-foreground py-1 transition-colors"
+                  >
+                    Clear all tags
+                  </button>
+                </div>
+              )}
+            </PopoverContent>
+          </Popover>
+        )}
+
         {/* Saved Views - hide for transfer sent and received */}
         {!isTransferSent && !isTransferReceived && (
           <div className="flex items-center gap-2 ml-auto">
@@ -363,12 +479,12 @@ export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false,
 
       {/* Active Filters */}
       <AnimatePresence>
-        {(activeFilters.length > 0 || datePreset !== "all") && (
+        {(activeFilters.length > 0 || datePreset !== "all" || activeTagFilters.length > 0) && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 flex-wrap"
           >
             <span className="text-xs text-muted-foreground">Active filters:</span>
             {activeFilters.map((filter) => (
@@ -379,6 +495,18 @@ export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false,
                 onClick={() => toggleFilter(filter)}
               >
                 {filter}
+                <span className="ml-1">×</span>
+              </Badge>
+            ))}
+            {activeTagFilters.map((tag) => (
+              <Badge
+                key={`tag-${tag}`}
+                variant="secondary"
+                className="cursor-pointer hover:bg-destructive/20 gap-1 bg-primary/10 text-primary"
+                onClick={() => onRemoveTagFilter?.(tag)}
+              >
+                <Tag className="w-3 h-3" />
+                {tag}
                 <span className="ml-1">×</span>
               </Badge>
             ))}
@@ -399,6 +527,7 @@ export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false,
               onClick={() => {
                 setActiveFilters([]);
                 handleClearDateFilter();
+                onClearTagFilters?.();
               }}
             >
               Clear all
