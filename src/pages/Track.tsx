@@ -10,6 +10,7 @@ import { TrackList } from "@/components/track/TrackList";
 import { TrackDetailPanel } from "@/components/track/TrackDetailPanel";
 import { ReceivedDetailPanel } from "@/components/track/ReceivedDetailPanel";
 import { ContractsSummary } from "@/components/track/ContractsSummary";
+import type { ContractFilter } from "@/components/track/ContractsSummary";
 import { ContractsList } from "@/components/track/ContractsList";
 import { ContractDetailPanel } from "@/components/track/ContractDetailPanel";
 import { AddContractModal } from "@/components/track/AddContractModal";
@@ -833,6 +834,7 @@ export default function Track() {
   const [transferItems, setTransferItems] = useState<TrackItem[]>(mockTransferItems);
   const [showRecipientNoPassword, setShowRecipientNoPassword] = useState(false);
   const [showRecipientPasswordProtected, setShowRecipientPasswordProtected] = useState(false);
+  const [contractFilter, setContractFilter] = useState<ContractFilter>("all");
 
   // Update tabs when location state changes (e.g., when navigating back)
   useEffect(() => {
@@ -880,8 +882,19 @@ export default function Track() {
     
     // Date range filter for contracts (by start date)
     const matchesDate = !dateRange || isWithinInterval(contract.startDate, { start: dateRange.from, end: dateRange.to });
-    
-    return matchesSearch && matchesDate;
+
+    // Summary card quick filter
+    let matchesQuickFilter = true;
+    if (contractFilter !== "all") {
+      const days = Math.ceil((contract.expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+      if (contractFilter === "active") matchesQuickFilter = contract.status === "active";
+      else if (contractFilter === "expired") matchesQuickFilter = contract.status === "expired";
+      else if (contractFilter === "expiring30") matchesQuickFilter = days > 0 && days <= 30;
+      else if (contractFilter === "expiring60") matchesQuickFilter = days > 0 && days <= 60;
+      else if (contractFilter === "expiring90") matchesQuickFilter = days > 0 && days <= 90;
+    }
+
+    return matchesSearch && matchesDate && matchesQuickFilter;
   });
 
   // Pagination calculations
@@ -896,7 +909,7 @@ export default function Track() {
   // Reset page when filters/tabs change
   useEffect(() => {
     setCurrentPage(1);
-  }, [mainTab, transferSubTab, searchQuery, dateRange]);
+  }, [mainTab, transferSubTab, searchQuery, dateRange, contractFilter]);
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -957,7 +970,11 @@ export default function Track() {
           />
           
           {mainTab === "contracts" && (
-            <ContractsSummary contracts={contracts} />
+            <ContractsSummary
+              contracts={contracts}
+              activeFilter={contractFilter}
+              onFilterChange={setContractFilter}
+            />
           )}
 
           {/* Hide TrackFilters for Sign tab - it has built-in filters */}
