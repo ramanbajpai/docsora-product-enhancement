@@ -96,7 +96,7 @@ export function TransferConfigure({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.4, ease: appleEasing }}
-      className="w-full flex flex-col max-h-[calc(100vh-10rem)]"
+      className="w-full flex flex-col h-[560px]"
     >
       {/* Header */}
       <div className="flex-shrink-0 mb-4">
@@ -144,8 +144,8 @@ export function TransferConfigure({
         </div>
       </div>
 
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto min-h-0 space-y-3 pr-1 -mr-1">
+      {/* Scrollable content - fixed height so both delivery modes feel consistent */}
+      <div className="flex-1 overflow-y-auto min-h-0 space-y-3 pr-1 -mr-1 scrollbar-thin">
         {/* File list */}
         <div className="space-y-1.5">
           {files.map((file) => (
