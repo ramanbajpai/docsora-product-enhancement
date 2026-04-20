@@ -58,7 +58,7 @@ export function TransferLanding() {
   const [isHovering, setIsHovering] = useState(false);
   const [queuedFiles, setQueuedFiles] = useState<QueuedFile[]>([]);
   const [currentStep, setCurrentStep] = useState<CardStep>('upload');
-  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState<'link' | 'email' | null>(null);
+  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState<'link' | 'email'>('link');
   const [settings, setSettings] = useState<TransferSettings>({
     password: '',
     expiryDays: 7,
