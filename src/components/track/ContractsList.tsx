@@ -11,6 +11,8 @@ interface ContractsListProps {
   contracts: Contract[];
   selectedContract: Contract | null;
   onSelectContract: (contract: Contract) => void;
+  onTagClick?: (tag: string) => void;
+  activeTagFilters?: string[];
 }
 
 // System status colors only - calm and desaturated
@@ -32,7 +34,7 @@ const statusConfig: Record<Contract["status"], { label: string; className: strin
   },
 };
 
-export function ContractsList({ contracts, selectedContract, onSelectContract }: ContractsListProps) {
+export function ContractsList({ contracts, selectedContract, onSelectContract, onTagClick, activeTagFilters = [] }: ContractsListProps) {
   // Sort contracts: expiring soon first, then active, then expired
   const sortedContracts = [...contracts].sort((a, b) => {
     const aExpiry = differenceInDays(a.expiryDate, new Date());
@@ -77,6 +79,8 @@ export function ContractsList({ contracts, selectedContract, onSelectContract }:
           isSelected={selectedContract?.id === contract.id}
           onClick={() => onSelectContract(contract)}
           index={index}
+          onTagClick={onTagClick}
+          activeTagFilters={activeTagFilters}
         />
       ))}
     </div>
@@ -88,11 +92,15 @@ function ContractListItem({
   isSelected,
   onClick,
   index,
+  onTagClick,
+  activeTagFilters = [],
 }: {
   contract: Contract;
   isSelected: boolean;
   onClick: () => void;
   index: number;
+  onTagClick?: (tag: string) => void;
+  activeTagFilters?: string[];
 }) {
   const status = statusConfig[contract.status];
   const daysUntilExpiry = differenceInDays(contract.expiryDate, new Date());
@@ -129,15 +137,25 @@ function ContractListItem({
               {/* User tags - neutral colors, max 2 visible */}
               {visibleTags.length > 0 && (
                 <div className="hidden sm:flex items-center gap-1">
-                  {visibleTags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="text-[10px] px-1.5 py-0 h-5 bg-muted/30 text-muted-foreground border-border/50 font-normal"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
+                  {visibleTags.map((tag) => {
+                    const isActive = activeTagFilters.includes(tag);
+                    return (
+                      <button
+                        key={tag}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onTagClick?.(tag);
+                        }}
+                        className={`text-[10px] px-1.5 py-0 h-5 rounded-md border font-normal transition-colors cursor-pointer inline-flex items-center ${
+                          isActive
+                            ? "bg-primary/10 text-primary border-primary/30 hover:bg-primary/20"
+                            : "bg-muted/30 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground"
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                    );
+                  })}
                   {overflowCount > 0 && (
                     <span className="text-[10px] text-muted-foreground/60 ml-0.5">
                       +{overflowCount}
