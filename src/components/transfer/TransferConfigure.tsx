@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Link2, Mail, Lock, Calendar, X, FileText, Plus,
-  ArrowLeft, Send, Eye, EyeOff, Sparkles, Check, ShieldCheck
+  ArrowLeft, Send, Eye, EyeOff, Check, ShieldCheck, CheckCircle2
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
