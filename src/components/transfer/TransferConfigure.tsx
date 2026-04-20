@@ -426,23 +426,6 @@ export function TransferConfigure({
                     />
                     <Link2 className="relative w-6 h-6 text-primary" strokeWidth={2.25} />
                   </div>
-
-                  {/* Tiny "ready" status pill below */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5, ease: appleEasing }}
-                    className="absolute -bottom-7 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 whitespace-nowrap"
-                  >
-                    <motion.span
-                      className="w-1.5 h-1.5 rounded-full bg-primary"
-                      animate={{ opacity: [0.4, 1, 0.4] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <span className="text-[10px] font-medium text-muted-foreground tracking-wide">
-                      Ready to share
-                    </span>
-                  </motion.div>
                 </motion.div>
               </div>
             </motion.div>
