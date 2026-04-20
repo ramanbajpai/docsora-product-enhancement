@@ -7,6 +7,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { FileCoasterAnimation } from "./FileCoasterAnimation";
 import { cn } from "@/lib/utils";
 
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -351,92 +352,7 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="h-full flex flex-col justify-center"
             >
-              <div className="relative h-[200px] flex items-center justify-center overflow-hidden">
-                {/* Outer slow halo — depth layer */}
-                <motion.div
-                  className="absolute rounded-full pointer-events-none"
-                  style={{
-                    width: 280,
-                    height: 280,
-                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.06) 0%, transparent 60%)',
-                    filter: 'blur(20px)',
-                  }}
-                  animate={{
-                    scale: [1, 1.12, 1],
-                    opacity: [0.5, 0.9, 0.5],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
-                  }}
-                />
-
-                {/* Inner halo — closer breath */}
-                <motion.div
-                  className="absolute rounded-full pointer-events-none"
-                  style={{
-                    width: 180,
-                    height: 180,
-                    background: 'radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.04) 45%, transparent 70%)',
-                    filter: 'blur(8px)',
-                  }}
-                  animate={{
-                    scale: [1, 1.06, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
-                  }}
-                />
-
-                {/* The glyph — single element, softly breathing */}
-                <motion.div
-                  className="relative"
-                  animate={{
-                    scale: [1, 1.025, 1],
-                    y: [0, -2, 0],
-                  }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
-                  }}
-                >
-                  {/* Inner glow */}
-                  <div
-                    className="absolute inset-0 rounded-[20px] blur-md"
-                    style={{ background: 'hsl(var(--primary) / 0.28)' }}
-                  />
-                  {/* Glass disc */}
-                  <div
-                    className="relative w-[68px] h-[68px] rounded-[20px] flex items-center justify-center border border-border/40 overflow-hidden"
-                    style={{
-                      background: 'linear-gradient(180deg, hsl(var(--card) / 0.95) 0%, hsl(var(--card) / 0.6) 100%)',
-                      backdropFilter: 'blur(24px)',
-                      WebkitBackdropFilter: 'blur(24px)',
-                      boxShadow: '0 12px 48px -12px hsl(var(--primary) / 0.4), inset 0 1px 0 0 hsl(0 0% 100% / 0.18), inset 0 -1px 0 0 hsl(0 0% 0% / 0.04)',
-                    }}
-                  >
-                    {/* Drifting specular highlight */}
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(135deg, hsl(0 0% 100% / 0.18) 0%, transparent 50%)',
-                      }}
-                      animate={{ opacity: [0.4, 0.8, 0.4] }}
-                      transition={{
-                        duration: 4.5,
-                        repeat: Infinity,
-                        ease: [0.45, 0, 0.55, 1],
-                      }}
-                    />
-                    <Link2 className="relative w-6 h-6 text-primary" strokeWidth={2.25} />
-                  </div>
-                </motion.div>
-              </div>
+              <FileCoasterAnimation />
             </motion.div>
           )}
         </AnimatePresence>
