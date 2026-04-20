@@ -1006,6 +1006,12 @@ export default function Track() {
               isTransferReceived={mainTab === "transfer" && transferSubTab === "received"}
               isSign={false}
               onDateRangeChange={setDateRange}
+              allTags={mainTab === "contracts" ? allContractTags : []}
+              tagCounts={mainTab === "contracts" ? contractTagCounts : {}}
+              activeTagFilters={mainTab === "contracts" ? activeTagFilters : []}
+              onAddTagFilter={(tag) => setActiveTagFilters(prev => prev.includes(tag) ? prev : [...prev, tag])}
+              onRemoveTagFilter={(tag) => setActiveTagFilters(prev => prev.filter(t => t !== tag))}
+              onClearTagFilters={() => setActiveTagFilters([])}
             />
           )}
 
