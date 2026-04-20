@@ -536,18 +536,25 @@ export function TrackFilters({
                 <span className="ml-1">×</span>
               </Badge>
             ))}
-            {activeTagFilters.map((tag) => (
-              <Badge
-                key={`tag-${tag}`}
-                variant="secondary"
-                className="cursor-pointer hover:bg-destructive/20 gap-1 bg-primary/10 text-primary"
-                onClick={() => onRemoveTagFilter?.(tag)}
-              >
-                <Tag className="w-3 h-3" />
-                {tag}
-                <span className="ml-1">×</span>
-              </Badge>
-            ))}
+            <AnimatePresence>
+              {activeTagFilters.map((tag) => (
+                <motion.span
+                  key={`tag-${tag}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
+                >
+                  {tag}
+                  <button
+                    onClick={() => onRemoveTagFilter?.(tag)}
+                    className="hover:bg-primary/20 rounded-full p-0.5 transition-colors"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </motion.span>
+              ))}
+            </AnimatePresence>
             {datePreset !== "all" && (
               <Badge
                 variant="secondary"
