@@ -559,31 +559,51 @@ const Storage = () => {
           {/* Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5 dark:to-primary/10 pointer-events-none" />
 
-          <div className="relative z-10 p-6 pl-10 space-y-6">
-            {/* Header with storage usage */}
-            <StorageHeader
-              storageUsed={storageUsed}
-              storageTotal={storageTotal}
+          <div className="relative z-10 p-6 space-y-5">
+            {/* Hub header */}
+            <StorageHubHeader
+              title={
+                currentView === "all" ? "My Files" :
+                currentView === "recent" ? "Recent" :
+                currentView === "shared" ? "Shared with me" :
+                currentView === "templates" ? "Templates" :
+                currentView === "starred" ? "Starred" :
+                currentView === "trash" ? "Trash" :
+                currentView === "smart-contracts" ? "Contracts" :
+                currentView === "smart-invoices" ? "Invoices" :
+                currentView === "smart-resumes" ? "Resumes" :
+                "Decks"
+              }
+              subtitle="The starting point for every document workflow."
+              fileCount={filteredFiles.length}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
               onCreateFolder={() => setShowCreateFolder(true)}
               onUpload={() => setShowUploadZone(true)}
             />
 
-            {/* Sticky Search Bar */}
+            {/* Ask Docsora — natural language cross-file query */}
             <div className={cn(
               "transition-all duration-200",
               isSearchSticky && "sticky top-0 z-20 -mx-6 px-6 py-3 bg-background/95 backdrop-blur-sm border-b border-border/50"
             )}>
-              <SmartSearchBar
+              <AskDocsoraBar
                 value={searchQuery}
                 onChange={setSearchQuery}
-                allTags={allTags}
-                tagCounts={tagCounts}
-                activeTagFilters={activeTagFilters}
-                onAddTagFilter={handleTagClick}
-                onRemoveTagFilter={handleRemoveTagFilter}
-                onClearAllFilters={handleClearAllFilters}
+                files={files}
+                onFileClick={(f) => { setSelectedFile(f); setShowPreviewPanel(true); }}
               />
             </div>
+
+            {/* AI Suggestions */}
+            {!searchQuery && (
+              <IntelligentSuggestions
+                files={files}
+                onSign={handleSign}
+                onCompress={handleCompress}
+                onSend={handleTransfer}
+              />
+            )}
 
             {/* Breadcrumbs with drag-and-drop support */}
             {breadcrumbs.length > 1 && (
@@ -664,17 +684,25 @@ const Storage = () => {
               )}
             </AnimatePresence>
 
-            {/* Intelligent File Sections */}
-            {!searchQuery && !currentFolderId && (
-              <IntelligentFileSections
-                files={files}
-                onFileClick={handleFileClick}
+            {/* File area: Smart Card Grid (default) or Enhanced List */}
+            {viewMode === "grid" ? (
+              <SmartFileGrid
+                files={filteredFiles}
+                selectedFileId={continuityFile?.id}
+                onFileClick={(f) => { handleFileClick(f); if (f.type !== "folder") setContinuityFile(f); }}
+                onFileDoubleClick={handleFileDoubleClick}
+                onPreview={(f) => { setSelectedFile(f); setShowPreviewPanel(true); }}
                 onAIInsight={handleAIInsight}
+                onSend={handleTransfer}
+                onSign={handleSign}
+                onShare={handleShare}
+                onCompress={handleCompress}
+                onMore={(f) => { setSelectedFile(f); setShowToolPicker(true); }}
+                emptyTitle="Nothing here yet"
+                emptyDescription="Upload a file or drop one onto this page to get started."
               />
-            )}
-
-            {/* All Files List */}
-            <EnhancedFileList
+            ) : (
+              <EnhancedFileList
               files={filteredFiles}
               onFileClick={handleFileClick}
               onFileDoubleClick={handleFileDoubleClick}
@@ -702,7 +730,7 @@ const Storage = () => {
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
               onDropOnFolder={handleDropOnFolder}
-            />
+            />)}
           </div>
 
           {/* Drag overlay for file uploads */}
