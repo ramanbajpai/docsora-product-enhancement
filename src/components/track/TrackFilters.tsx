@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Calendar, ChevronDown, Clock, AlertTriangle, Bookmark } from "lucide-react";
+import { Search, Filter, Calendar, ChevronDown, Clock, AlertTriangle, Bookmark, Tag, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { format, subDays, startOfDay, endOfDay, isAfter } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { CustomDateRangeDialog } from "@/components/track/CustomDateRangeDialog";
@@ -23,12 +29,34 @@ interface TrackFiltersProps {
   isTransferReceived?: boolean;
   isSign?: boolean;
   onDateRangeChange?: (range: { from: Date; to: Date } | null) => void;
+  allTags?: string[];
+  tagCounts?: Record<string, number>;
+  activeTagFilters?: string[];
+  onAddTagFilter?: (tag: string) => void;
+  onRemoveTagFilter?: (tag: string) => void;
+  onClearTagFilters?: () => void;
 }
 
 type DatePreset = "all" | "today" | "7days" | "30days" | "90days" | "custom";
 
-export function TrackFilters({ searchQuery, setSearchQuery, isContracts = false, isTransferSent = false, isTransferReceived = false, isSign = false, onDateRangeChange }: TrackFiltersProps) {
+export function TrackFilters({
+  searchQuery,
+  setSearchQuery,
+  isContracts = false,
+  isTransferSent = false,
+  isTransferReceived = false,
+  isSign = false,
+  onDateRangeChange,
+  allTags = [],
+  tagCounts = {},
+  activeTagFilters = [],
+  onAddTagFilter,
+  onRemoveTagFilter,
+  onClearTagFilters,
+}: TrackFiltersProps) {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [tagDropdownOpen, setTagDropdownOpen] = useState(false);
+  const [tagSearchQuery, setTagSearchQuery] = useState("");
   const [savedViews] = useState([
     { id: "expiring", label: "Expiring Soon", icon: Clock },
     { id: "attention", label: "Needs Action", icon: AlertTriangle },
