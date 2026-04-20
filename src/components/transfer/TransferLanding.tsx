@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { TransferSuccess } from "./TransferSuccess";
+import { TransferConfigure } from "./TransferConfigure";
 import { TransferFile, TransferSettings as TransferSettingsType } from "@/pages/Transfer";
 import TrustFooter from "@/components/shared/TrustFooter";
 
@@ -29,7 +30,7 @@ interface TransferSettings {
   senderEmail?: string;
 }
 
-type CardStep = 'upload' | 'queued' | 'delivery' | 'settings' | 'verify' | 'uploading' | 'success';
+type CardStep = 'upload' | 'configure' | 'uploading' | 'success';
 
 // Mask email for privacy display
 const maskEmail = (email: string): string => {
