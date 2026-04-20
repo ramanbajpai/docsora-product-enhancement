@@ -1,0 +1,342 @@
+import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import {
+  Activity, AlertTriangle, ArrowRight, Calendar, DollarSign,
+  RefreshCw, ShieldAlert, Sparkles, TrendingUp, Zap,
+} from "lucide-react";
+import { differenceInDays, format, addMonths, startOfMonth, isSameMonth } from "date-fns";
+import type { Contract } from "@/pages/Track";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { buildIntelligenceFor } from "./mockIntelligence";
+
+interface Props {
+  contracts: Contract[];
+  onSelectContract: (c: Contract) => void;
+  onIngest: () => void;
+}
+
+const healthColor = {
+  green: "bg-emerald-500",
+  amber: "bg-amber-500",
+  red: "bg-red-500",
+} as const;
+
+const healthBg = {
+  green: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+  amber: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+  red: "bg-red-500/10 text-red-500 border-red-500/20",
+} as const;
+
+export function ContractCommandCenter({ contracts, onSelectContract, onIngest }: Props) {
+  const enriched = useMemo(
+    () => contracts.map(c => ({ ...c, intelligence: c.intelligence ?? buildIntelligenceFor(c) })),
+    [contracts]
+  );
+
+  const stats = useMemo(() => {
+    const now = new Date();
+    const total = enriched.length;
+    const totalValue = enriched.reduce((sum, c) => sum + (c.intelligence?.valueNumeric || 0), 0);
+    const valueAtRisk = (window: number) =>
+      enriched
+        .filter(c => {
+          const d = differenceInDays(c.expiryDate, now);
+          return d >= 0 && d <= window;
+        })
+        .reduce((sum, c) => sum + (c.intelligence?.valueNumeric || 0), 0);
+    const renewedLastYear = Math.max(1, Math.round(total * 0.78));
+    return {
+      total,
+      totalValue,
+      var30: valueAtRisk(30),
+      var60: valueAtRisk(60),
+      var90: valueAtRisk(90),
+      renewalRate: Math.round((renewedLastYear / Math.max(total, 1)) * 100),
+      health: {
+        green: enriched.filter(c => c.intelligence?.health === "green").length,
+        amber: enriched.filter(c => c.intelligence?.health === "amber").length,
+        red: enriched.filter(c => c.intelligence?.health === "red").length,
+      },
+    };
+  }, [enriched]);
+
+  const attention = useMemo(
+    () =>
+      enriched
+        .filter(c => {
+          const d = differenceInDays(c.expiryDate, new Date());
+          return c.intelligence?.health !== "green" || d <= 60;
+        })
+        .sort((a, b) => differenceInDays(a.expiryDate, b.expiryDate))
+        .slice(0, 5),
+    [enriched]
+  );
+
+  // 12-month renewal calendar
+  const months = useMemo(() => {
+    const start = startOfMonth(new Date());
+    return Array.from({ length: 12 }).map((_, i) => {
+      const m = addMonths(start, i);
+      const inMonth = enriched.filter(c => isSameMonth(c.expiryDate, m));
+      return { date: m, contracts: inMonth };
+    });
+  }, [enriched]);
+
+  const fmtCurrency = (n: number) =>
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1_000 ? `$${(n / 1_000).toFixed(0)}K` : `$${n}`;
+
+  return (
+    <div className="space-y-6">
+      {/* HERO STRIP */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 via-background to-background p-6"
+      >
+        <div className="flex items-start justify-between gap-6 flex-wrap">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-medium text-primary mb-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              CONTRACT COMMAND CENTER
+            </div>
+            <h2 className="text-2xl font-semibold text-foreground">
+              {attention.length > 0
+                ? `${attention.length} contract${attention.length > 1 ? "s" : ""} need${attention.length > 1 ? "" : "s"} your attention`
+                : "All contracts are healthy"}
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Docsora is monitoring {stats.total} contracts worth {fmtCurrency(stats.totalValue)} in annual value.
+            </p>
+          </div>
+          <Button onClick={onIngest} size="lg" className="gap-2">
+            <Zap className="w-4 h-4" />
+            Upload contract
+          </Button>
+        </div>
+
+        {/* Portfolio strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+          <PortfolioCard icon={Activity} label="Total contracts" value={stats.total.toString()} />
+          <PortfolioCard icon={DollarSign} label="Annual value" value={fmtCurrency(stats.totalValue)} />
+          <PortfolioCard icon={TrendingUp} label="Renewal rate" value={`${stats.renewalRate}%`} />
+          <PortfolioCard
+            icon={ShieldAlert}
+            label="Value at risk (90d)"
+            value={fmtCurrency(stats.var90)}
+            tone={stats.var90 > 0 ? "warn" : "ok"}
+          />
+        </div>
+      </motion.div>
+
+      {/* TWO COLUMN: ATTENTION + HEALTH */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Attention list */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="lg:col-span-2 rounded-2xl border border-border/50 bg-card/40 p-5"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-500" />
+              <h3 className="text-sm font-semibold text-foreground">Needs attention right now</h3>
+            </div>
+            <span className="text-xs text-muted-foreground">{attention.length} items</span>
+          </div>
+
+          <div className="space-y-2">
+            {attention.length === 0 && (
+              <p className="text-sm text-muted-foreground py-8 text-center">Nothing urgent — enjoy the calm.</p>
+            )}
+            {attention.map(c => {
+              const days = differenceInDays(c.expiryDate, new Date());
+              const isAuto = c.renewalType === "auto";
+              const recommendation = isAuto
+                ? days < (c.intelligence?.noticePeriodDays || 60)
+                  ? "Cancel now or it auto-renews"
+                  : "Review before notice window closes"
+                : days < 0
+                  ? "Expired — renew or archive"
+                  : days <= 30
+                    ? "Decide: renew, renegotiate, or expire"
+                    : "Schedule renewal review";
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => onSelectContract(c)}
+                  className="w-full text-left flex items-center gap-3 p-3 rounded-lg hover:bg-muted/40 transition-colors border border-transparent hover:border-border/40"
+                >
+                  <div className={`w-2 h-2 rounded-full ${healthColor[c.intelligence!.health]}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-foreground truncate">{c.name}</div>
+                    <div className="text-xs text-muted-foreground truncate">
+                      {c.company} • {recommendation}
+                    </div>
+                  </div>
+                  <Badge variant="outline" className={`text-[10px] ${healthBg[c.intelligence!.health]}`}>
+                    {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
+                  </Badge>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground/40 shrink-0" />
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* Health donut */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="rounded-2xl border border-border/50 bg-card/40 p-5"
+        >
+          <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-primary" />
+            Portfolio health
+          </h3>
+
+          <HealthRing green={stats.health.green} amber={stats.health.amber} red={stats.health.red} />
+
+          <div className="space-y-2 mt-4">
+            {(["green", "amber", "red"] as const).map(h => (
+              <div key={h} className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${healthColor[h]}`} />
+                  <span className="capitalize text-muted-foreground">{h === "green" ? "Healthy" : h === "amber" ? "Needs review" : "At risk"}</span>
+                </div>
+                <span className="font-medium text-foreground">{stats.health[h]}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* RENEWAL TIMELINE */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+        className="rounded-2xl border border-border/50 bg-card/40 p-5"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-primary" />
+            Renewal timeline · next 12 months
+          </h3>
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Healthy</span>
+            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-amber-500" /> Review</span>
+            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /> Risk</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 gap-2">
+          {months.map(m => (
+            <div
+              key={m.date.toISOString()}
+              className="group rounded-lg border border-border/40 bg-muted/20 p-2 hover:bg-muted/40 transition-colors min-h-[88px]"
+            >
+              <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1.5">
+                {format(m.date, "MMM")}
+              </div>
+              <div className="space-y-1">
+                {m.contracts.slice(0, 3).map(c => (
+                  <button
+                    key={c.id}
+                    onClick={() => onSelectContract(c)}
+                    title={c.name}
+                    className="w-full flex items-center gap-1 text-left"
+                  >
+                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${healthColor[c.intelligence!.health]}`} />
+                    <span className="text-[10px] text-foreground/70 truncate hover:text-foreground">
+                      {c.company}
+                    </span>
+                  </button>
+                ))}
+                {m.contracts.length > 3 && (
+                  <div className="text-[10px] text-muted-foreground">+{m.contracts.length - 3}</div>
+                )}
+                {m.contracts.length === 0 && (
+                  <div className="text-[10px] text-muted-foreground/40">—</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* VALUE AT RISK */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="grid grid-cols-3 gap-4"
+      >
+        {[
+          { label: "Value at risk · 30 days", value: stats.var30, tone: "red" as const },
+          { label: "Value at risk · 60 days", value: stats.var60, tone: "amber" as const },
+          { label: "Value at risk · 90 days", value: stats.var90, tone: "default" as const },
+        ].map(v => (
+          <div key={v.label} className="rounded-2xl border border-border/50 bg-card/40 p-5">
+            <div className="text-xs text-muted-foreground mb-2">{v.label}</div>
+            <div className={`text-2xl font-semibold ${v.tone === "red" ? "text-red-500" : v.tone === "amber" ? "text-amber-500" : "text-foreground"}`}>
+              {fmtCurrency(v.value)}
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function PortfolioCard({
+  icon: Icon, label, value, tone = "default",
+}: { icon: typeof Activity; label: string; value: string; tone?: "default" | "warn" | "ok" }) {
+  return (
+    <div className="rounded-xl border border-border/50 bg-background/50 backdrop-blur p-4">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+        <Icon className={`w-3.5 h-3.5 ${tone === "warn" ? "text-amber-500" : tone === "ok" ? "text-emerald-500" : "text-primary"}`} />
+        {label}
+      </div>
+      <div className={`text-xl font-semibold ${tone === "warn" ? "text-amber-500" : "text-foreground"}`}>{value}</div>
+    </div>
+  );
+}
+
+function HealthRing({ green, amber, red }: { green: number; amber: number; red: number }) {
+  const total = Math.max(green + amber + red, 1);
+  const radius = 52;
+  const circumference = 2 * Math.PI * radius;
+  const segments = [
+    { color: "hsl(160 70% 45%)", value: green },
+    { color: "hsl(38 92% 55%)", value: amber },
+    { color: "hsl(0 75% 55%)", value: red },
+  ];
+  let offset = 0;
+  return (
+    <div className="relative w-32 h-32 mx-auto">
+      <svg viewBox="0 0 120 120" className="-rotate-90 w-full h-full">
+        <circle cx="60" cy="60" r={radius} fill="none" stroke="hsl(var(--muted))" strokeWidth="12" />
+        {segments.map((s, i) => {
+          const len = (s.value / total) * circumference;
+          const dasharray = `${len} ${circumference - len}`;
+          const dashoffset = -offset;
+          offset += len;
+          return (
+            <circle
+              key={i}
+              cx="60" cy="60" r={radius} fill="none" stroke={s.color} strokeWidth="12"
+              strokeDasharray={dasharray} strokeDashoffset={dashoffset} strokeLinecap="butt"
+            />
+          );
+        })}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="text-xl font-semibold text-foreground">{total}</div>
+        <div className="text-[10px] text-muted-foreground uppercase tracking-wide">contracts</div>
+      </div>
+    </div>
+  );
+}
