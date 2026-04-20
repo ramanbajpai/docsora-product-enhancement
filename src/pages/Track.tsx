@@ -970,7 +970,11 @@ export default function Track() {
           />
           
           {mainTab === "contracts" && (
-            <ContractsSummary contracts={contracts} />
+            <ContractsSummary
+              contracts={contracts}
+              activeFilter={contractFilter}
+              onFilterChange={setContractFilter}
+            />
           )}
 
           {/* Hide TrackFilters for Sign tab - it has built-in filters */}
