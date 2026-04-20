@@ -995,11 +995,13 @@ export default function Track() {
             setTransferSubTab={setTransferSubTab}
             signSubTab={signSubTab}
             setSignSubTab={setSignSubTab}
+            contractSubTab={contractSubTab}
+            setContractSubTab={setContractSubTab}
             totalItems={mainTab === "sign" ? signMockItems.length : mainTab === "contracts" ? filteredContracts.length : filteredItems.length}
             onAddContract={() => setShowAddContract(true)}
           />
           
-          {mainTab === "contracts" && (
+          {mainTab === "contracts" && contractSubTab === "list" && (
             <ContractsSummary
               contracts={contracts}
               activeFilter={contractFilter}
@@ -1008,7 +1010,7 @@ export default function Track() {
           )}
 
           {/* Hide TrackFilters for Sign tab - it has built-in filters */}
-          {mainTab !== "sign" && (
+          {mainTab !== "sign" && !(mainTab === "contracts" && contractSubTab === "dashboard") && (
             <TrackFilters 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
