@@ -156,14 +156,14 @@ export function TransferLanding() {
       status: 'waiting' as const,
     }));
     setQueuedFiles(prev => [...prev, ...newQueuedFiles]);
-    setCurrentStep('queued');
+    setCurrentStep('configure');
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
     
-    if (currentStep !== 'upload' && currentStep !== 'queued') return;
+    if (currentStep !== 'upload' && currentStep !== 'configure') return;
     
     const droppedFiles = Array.from(e.dataTransfer.files);
     if (droppedFiles.length > 0) {
@@ -172,7 +172,7 @@ export function TransferLanding() {
   }, [currentStep, addFilesToQueue]);
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (currentStep !== 'upload' && currentStep !== 'queued') return;
+    if (currentStep !== 'upload' && currentStep !== 'configure') return;
     
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
     if (selectedFiles.length > 0) {
@@ -191,21 +191,10 @@ export function TransferLanding() {
     });
   }, []);
 
-  // Navigate to delivery selection
-  const handleContinueToDelivery = useCallback(() => {
-    if (queuedFiles.length === 0) return;
-    setCurrentStep('delivery');
-  }, [queuedFiles]);
-
-  // Navigate to settings
-  const handleContinueToSettings = useCallback(() => {
-    if (!selectedDeliveryMethod) return;
-    setCurrentStep('settings');
-  }, [selectedDeliveryMethod]);
-
-  // Go back to delivery selection
-  const handleBackToDelivery = useCallback(() => {
-    setCurrentStep('delivery');
+  // Go back to upload step
+  const handleBackToUpload = useCallback(() => {
+    setCurrentStep('upload');
+    setQueuedFiles([]);
   }, []);
 
   // Email recipient management
