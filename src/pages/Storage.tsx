@@ -2,15 +2,21 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
-import StorageHeader from "@/components/storage/StorageHeader";
-import SmartSearchBar from "@/components/storage/SmartSearchBar";
-import IntelligentFileSections from "@/components/storage/IntelligentFileSections";
 import EnhancedFileList from "@/components/storage/EnhancedFileList";
 import FilePreviewPanel from "@/components/storage/FilePreviewPanel";
 import AISummaryPanel from "@/components/storage/AISummaryPanel";
 import CreateFolderModal from "@/components/storage/CreateFolderModal";
 import StorageUploadZone from "@/components/storage/StorageUploadZone";
 import ToolPickerModal from "@/components/storage/ToolPickerModal";
+import {
+  StorageNavRail,
+  SmartFileGrid,
+  IntelligentSuggestions,
+  AskDocsoraBar,
+  ContinuityRibbon,
+  StorageHubHeader,
+  type StorageView,
+} from "@/components/storage/redesign";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
