@@ -7,6 +7,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { FileCoasterAnimation } from "./FileCoasterAnimation";
 import { cn } from "@/lib/utils";
 
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
