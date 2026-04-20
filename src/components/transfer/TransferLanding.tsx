@@ -734,7 +734,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
+                
               />
               <input
                 ref={folderInputRef}
@@ -745,7 +745,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
+                
               />
               <input
                 ref={addMoreInputRef}
@@ -753,7 +753,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
+                
               />
             </div>
           </motion.div>
