@@ -101,9 +101,9 @@ export function TransferLanding() {
   const rotateX = useSpring(useTransform(mouseY, [-300, 300], [3, -3]), { stiffness: 300, damping: 30 });
   const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-3, 3]), { stiffness: 300, damping: 30 });
 
-  // Disable tilt during upload or success steps (allow on delivery and settings)
+  // Disable tilt during upload or success steps (allow on configure)
   useEffect(() => {
-    if (currentStep !== 'upload' && currentStep !== 'queued' && currentStep !== 'delivery' && currentStep !== 'settings') {
+    if (currentStep !== 'upload' && currentStep !== 'configure') {
       mouseX.set(0);
       mouseY.set(0);
     }
@@ -117,7 +117,7 @@ export function TransferLanding() {
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!cardRef.current || (currentStep !== 'upload' && currentStep !== 'queued' && currentStep !== 'delivery' && currentStep !== 'settings')) return;
+    if (!cardRef.current || (currentStep !== 'upload' && currentStep !== 'configure')) return;
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -126,7 +126,7 @@ export function TransferLanding() {
   }, [mouseX, mouseY, currentStep]);
 
   const handleMouseEnter = useCallback(() => {
-    if (currentStep === 'upload' || currentStep === 'queued' || currentStep === 'delivery' || currentStep === 'settings') setIsHovering(true);
+    if (currentStep === 'upload' || currentStep === 'configure') setIsHovering(true);
   }, [currentStep]);
 
   const handleMouseLeave = useCallback(() => {
@@ -137,7 +137,7 @@ export function TransferLanding() {
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
-    if (currentStep === 'upload' || currentStep === 'queued') setIsDragging(true);
+    if (currentStep === 'upload' || currentStep === 'configure') setIsDragging(true);
   }, [currentStep]);
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
