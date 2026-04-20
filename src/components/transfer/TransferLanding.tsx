@@ -1040,6 +1040,24 @@ export function TransferLanding() {
       </div>
     )}
 
+    {/* FULL PAGE UPLOADING - cinematic TransferProgress */}
+    {currentStep === 'uploading' && (
+      <div className="relative z-20 w-full">
+        <TransferProgress
+          files={queuedFiles.map(f => ({
+            id: f.id,
+            file: f.file,
+            name: f.name,
+            size: f.size,
+            type: f.file.type,
+            progress: uploadProgress,
+            status: (uploadProgress >= 100 ? 'completed' : 'uploading') as 'completed' | 'uploading',
+          }))}
+          totalSize={queuedFiles.reduce((acc, f) => acc + f.size, 0)}
+        />
+      </div>
+    )}
+
     {/* FULL PAGE SUCCESS - TransferSuccess component */}
     {currentStep === 'success' && (
       <div className="relative z-20 w-full">
