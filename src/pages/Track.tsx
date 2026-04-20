@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TrackHeader } from "@/components/track/TrackHeader";
+import type { ContractSubTab } from "@/components/track/TrackHeader";
 import { TrackFilters } from "@/components/track/TrackFilters";
 import { TrackList } from "@/components/track/TrackList";
 import { TrackDetailPanel } from "@/components/track/TrackDetailPanel";
@@ -843,6 +844,9 @@ export default function Track() {
   const [showRecipientPasswordProtected, setShowRecipientPasswordProtected] = useState(false);
   const [contractFilter, setContractFilter] = useState<ContractFilter>("all");
   const [activeTagFilters, setActiveTagFilters] = useState<string[]>([]);
+  const [contractSubTab, setContractSubTab] = useState<ContractSubTab>("dashboard");
+  const [portalContract, setPortalContract] = useState<Contract | null>(null);
+  const [showPortal, setShowPortal] = useState(false);
 
   // Collect all unique tags from contracts with counts
   const { allContractTags, contractTagCounts } = (() => {
