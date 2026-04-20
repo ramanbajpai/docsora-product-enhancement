@@ -1011,7 +1011,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'queued'}
+                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
               />
               <input
                 ref={folderInputRef}
@@ -1022,7 +1022,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'queued'}
+                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
               />
               <input
                 ref={addMoreInputRef}
@@ -1030,7 +1030,7 @@ export function TransferLanding() {
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                disabled={currentStep !== 'upload' && currentStep !== 'queued'}
+                disabled={currentStep !== 'upload' && currentStep !== 'configure'}
               />
             </div>
           </motion.div>
@@ -1038,7 +1038,7 @@ export function TransferLanding() {
 
         {/* Trust Footer - Below the card */}
         <AnimatePresence>
-          {(currentStep === 'upload' || currentStep === 'queued') && (
+          {currentStep === 'upload' && (
             <TrustFooter variant="transfer" />
           )}
         </AnimatePresence>
