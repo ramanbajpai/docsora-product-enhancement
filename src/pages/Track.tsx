@@ -1034,7 +1034,16 @@ export default function Track() {
               animate={{ width: (selectedItem || selectedContract || selectedSignItem) ? "60%" : "100%" }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              {mainTab === "contracts" ? (
+              {mainTab === "contracts" && contractSubTab === "dashboard" ? (
+                <ContractCommandCenter
+                  contracts={contracts}
+                  onSelectContract={(c) => {
+                    setSelectedContract(c);
+                    setContractSubTab("list");
+                  }}
+                  onIngest={() => setShowAddContract(true)}
+                />
+              ) : mainTab === "contracts" ? (
                 <ContractsList
                   contracts={paginatedContracts}
                   selectedContract={selectedContract}
