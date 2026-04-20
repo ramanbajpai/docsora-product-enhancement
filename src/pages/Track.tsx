@@ -14,6 +14,12 @@ import type { ContractFilter } from "@/components/track/ContractsSummary";
 import { ContractsList } from "@/components/track/ContractsList";
 import { ContractDetailPanel } from "@/components/track/ContractDetailPanel";
 import { AddContractModal } from "@/components/track/AddContractModal";
+import { ContractCommandCenter } from "@/components/track/contracts/ContractCommandCenter";
+import { ContractIngestionFlow } from "@/components/track/contracts/ContractIngestionFlow";
+import { ContractIntelligencePanel } from "@/components/track/contracts/ContractIntelligencePanel";
+import { CounterpartyPortalPreview } from "@/components/track/contracts/CounterpartyPortalPreview";
+import type { ContractIntelligence } from "@/components/track/contracts/types";
+import { buildIntelligenceFor } from "@/components/track/contracts/mockIntelligence";
 import { SignListRedesign, SignDetailPanelRedesign, mockSignItems as signMockItems, SignItem, SignViewTab } from "@/components/track/sign";
 import { RecipientTransferView } from "@/components/transfer/recipient/RecipientTransferView";
 import { RecipientPasswordProtectedView } from "@/components/transfer/recipient/RecipientPasswordProtectedView";
@@ -74,6 +80,7 @@ export interface Contract {
   documentUrl?: string;
   value?: string;
   notes?: string;
+  intelligence?: ContractIntelligence;
 }
 
 const mockTransferItems: TrackItem[] = [
