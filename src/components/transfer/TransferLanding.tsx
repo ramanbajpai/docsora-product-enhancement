@@ -75,15 +75,7 @@ export function TransferLanding() {
   const [copied, setCopied] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
-  // OTP Verification state
-  const [otpCode, setOtpCode] = useState<string[]>(['', '', '', '', '']);
-  const [otpError, setOtpError] = useState<string>('');
-  const [resendCooldown, setResendCooldown] = useState(0);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [otpAttempts, setOtpAttempts] = useState(0);
-  const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
   const addMoreInputRef = useRef<HTMLInputElement>(null);
