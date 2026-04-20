@@ -10,6 +10,7 @@ import { TrackList } from "@/components/track/TrackList";
 import { TrackDetailPanel } from "@/components/track/TrackDetailPanel";
 import { ReceivedDetailPanel } from "@/components/track/ReceivedDetailPanel";
 import { ContractsSummary } from "@/components/track/ContractsSummary";
+import type { ContractFilter } from "@/components/track/ContractsSummary";
 import { ContractsList } from "@/components/track/ContractsList";
 import { ContractDetailPanel } from "@/components/track/ContractDetailPanel";
 import { AddContractModal } from "@/components/track/AddContractModal";
