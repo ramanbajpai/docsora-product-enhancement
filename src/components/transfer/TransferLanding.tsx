@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { TransferSuccess } from "./TransferSuccess";
 import { TransferConfigure } from "./TransferConfigure";
+import { TransferProgress } from "./TransferProgress";
 import { TransferFile, TransferSettings as TransferSettingsType } from "@/pages/Transfer";
 import TrustFooter from "@/components/shared/TrustFooter";
 
