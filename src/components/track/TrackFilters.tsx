@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Calendar, ChevronDown, Clock, AlertTriangle, Bookmark, Tag, Check, X } from "lucide-react";
+import { Search, Filter, Calendar, ChevronDown, Bookmark, Tag, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -58,9 +58,7 @@ export function TrackFilters({
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [tagDropdownOpen, setTagDropdownOpen] = useState(false);
   const [tagSearchQuery, setTagSearchQuery] = useState("");
-  const [savedViews] = useState([
-    { id: "expiring", label: "Expiring Soon", icon: Clock },
-    { id: "attention", label: "Needs Action", icon: AlertTriangle },
+  const [savedViews] = useState<{ id: string; label: string; icon: typeof Bookmark }[]>([
     { id: "high", label: "High Priority", icon: Bookmark },
   ]);
 
