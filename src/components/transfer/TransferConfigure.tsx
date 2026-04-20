@@ -352,59 +352,32 @@ export function TransferConfigure({
               className="h-full flex flex-col justify-center"
             >
               <div className="relative h-[200px] flex items-center justify-center overflow-hidden">
-                {/* Outer slow halo — depth layer */}
-                <motion.div
+                {/* Outer halo — depth layer */}
+                <div
                   className="absolute rounded-full pointer-events-none"
                   style={{
                     width: 280,
                     height: 280,
                     background: 'radial-gradient(circle, hsl(var(--primary) / 0.06) 0%, transparent 60%)',
                     filter: 'blur(20px)',
-                  }}
-                  animate={{
-                    scale: [1, 1.12, 1],
-                    opacity: [0.5, 0.9, 0.5],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
+                    opacity: 0.7,
                   }}
                 />
 
-                {/* Inner halo — closer breath */}
-                <motion.div
+                {/* Inner halo */}
+                <div
                   className="absolute rounded-full pointer-events-none"
                   style={{
                     width: 180,
                     height: 180,
                     background: 'radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.04) 45%, transparent 70%)',
                     filter: 'blur(8px)',
-                  }}
-                  animate={{
-                    scale: [1, 1.06, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
+                    opacity: 0.85,
                   }}
                 />
 
-                {/* The glyph — single element, softly breathing */}
-                <motion.div
-                  className="relative"
-                  animate={{
-                    scale: [1, 1.025, 1],
-                    y: [0, -2, 0],
-                  }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
-                  }}
-                >
+                {/* The glyph — static */}
+                <div className="relative">
                   {/* Inner glow */}
                   <div
                     className="absolute inset-0 rounded-[20px] blur-md"
@@ -420,22 +393,17 @@ export function TransferConfigure({
                       boxShadow: '0 12px 48px -12px hsl(var(--primary) / 0.4), inset 0 1px 0 0 hsl(0 0% 100% / 0.18), inset 0 -1px 0 0 hsl(0 0% 0% / 0.04)',
                     }}
                   >
-                    {/* Drifting specular highlight */}
-                    <motion.div
+                    {/* Specular highlight */}
+                    <div
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background: 'linear-gradient(135deg, hsl(0 0% 100% / 0.18) 0%, transparent 50%)',
-                      }}
-                      animate={{ opacity: [0.4, 0.8, 0.4] }}
-                      transition={{
-                        duration: 4.5,
-                        repeat: Infinity,
-                        ease: [0.45, 0, 0.55, 1],
+                        opacity: 0.6,
                       }}
                     />
                     <Link2 className="relative w-6 h-6 text-primary" strokeWidth={2.25} />
                   </div>
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           )}
