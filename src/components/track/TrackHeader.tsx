@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { Send, PenTool, ArrowUpRight, ArrowDownLeft, FileText, Plus } from "lucide-react";
+import { Send, PenTool, ArrowUpRight, ArrowDownLeft, FileText, Plus, LayoutDashboard, List, Sparkles } from "lucide-react";
 import { MainTab, TransferSubTab } from "@/pages/Track";
 import { SignViewTab } from "@/components/track/sign/SignListRedesign";
 import { Button } from "@/components/ui/button";
+
+export type ContractSubTab = "dashboard" | "list";
 
 interface TrackHeaderProps {
   mainTab: MainTab;
@@ -11,6 +13,8 @@ interface TrackHeaderProps {
   setTransferSubTab: (tab: TransferSubTab) => void;
   signSubTab?: SignViewTab;
   setSignSubTab?: (tab: SignViewTab) => void;
+  contractSubTab?: ContractSubTab;
+  setContractSubTab?: (tab: ContractSubTab) => void;
   totalItems: number;
   onAddContract?: () => void;
 }
@@ -22,6 +26,8 @@ export function TrackHeader({
   setTransferSubTab,
   signSubTab,
   setSignSubTab,
+  contractSubTab,
+  setContractSubTab,
   totalItems,
   onAddContract,
 }: TrackHeaderProps) {
@@ -33,8 +39,8 @@ export function TrackHeader({
 
         {mainTab === "contracts" && (
           <Button onClick={onAddContract} className="gap-2">
-            <Plus className="w-4 h-4" />
-            Add Contract
+            <Sparkles className="w-4 h-4" />
+            Upload contract
           </Button>
         )}
       </div>
@@ -102,6 +108,25 @@ export function TrackHeader({
             icon={<ArrowDownLeft className="w-3.5 h-3.5" />}
             label="Received"
             layoutId="signSubTab"
+          />
+        </div>
+      )}
+
+      {mainTab === "contracts" && contractSubTab && setContractSubTab && (
+        <div className="flex items-center gap-1">
+          <SubTabButton
+            active={contractSubTab === "dashboard"}
+            onClick={() => setContractSubTab("dashboard")}
+            icon={<LayoutDashboard className="w-3.5 h-3.5" />}
+            label="Command center"
+            layoutId="contractSubTab"
+          />
+          <SubTabButton
+            active={contractSubTab === "list"}
+            onClick={() => setContractSubTab("list")}
+            icon={<List className="w-3.5 h-3.5" />}
+            label="All contracts"
+            layoutId="contractSubTab"
           />
         </div>
       )}

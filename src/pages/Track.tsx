@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TrackHeader } from "@/components/track/TrackHeader";
+import type { ContractSubTab } from "@/components/track/TrackHeader";
 import { TrackFilters } from "@/components/track/TrackFilters";
 import { TrackList } from "@/components/track/TrackList";
 import { TrackDetailPanel } from "@/components/track/TrackDetailPanel";
@@ -14,6 +15,12 @@ import type { ContractFilter } from "@/components/track/ContractsSummary";
 import { ContractsList } from "@/components/track/ContractsList";
 import { ContractDetailPanel } from "@/components/track/ContractDetailPanel";
 import { AddContractModal } from "@/components/track/AddContractModal";
+import { ContractCommandCenter } from "@/components/track/contracts/ContractCommandCenter";
+import { ContractIngestionFlow } from "@/components/track/contracts/ContractIngestionFlow";
+import { ContractIntelligencePanel } from "@/components/track/contracts/ContractIntelligencePanel";
+import { CounterpartyPortalPreview } from "@/components/track/contracts/CounterpartyPortalPreview";
+import type { ContractIntelligence } from "@/components/track/contracts/types";
+import { buildIntelligenceFor } from "@/components/track/contracts/mockIntelligence";
 import { SignListRedesign, SignDetailPanelRedesign, mockSignItems as signMockItems, SignItem, SignViewTab } from "@/components/track/sign";
 import { RecipientTransferView } from "@/components/transfer/recipient/RecipientTransferView";
 import { RecipientPasswordProtectedView } from "@/components/transfer/recipient/RecipientPasswordProtectedView";
@@ -74,6 +81,7 @@ export interface Contract {
   documentUrl?: string;
   value?: string;
   notes?: string;
+  intelligence?: ContractIntelligence;
 }
 
 const mockTransferItems: TrackItem[] = [
@@ -836,6 +844,9 @@ export default function Track() {
   const [showRecipientPasswordProtected, setShowRecipientPasswordProtected] = useState(false);
   const [contractFilter, setContractFilter] = useState<ContractFilter>("all");
   const [activeTagFilters, setActiveTagFilters] = useState<string[]>([]);
+  const [contractSubTab, setContractSubTab] = useState<ContractSubTab>("dashboard");
+  const [portalContract, setPortalContract] = useState<Contract | null>(null);
+  const [showPortal, setShowPortal] = useState(false);
 
   // Collect all unique tags from contracts with counts
   const { allContractTags, contractTagCounts } = (() => {
@@ -984,11 +995,13 @@ export default function Track() {
             setTransferSubTab={setTransferSubTab}
             signSubTab={signSubTab}
             setSignSubTab={setSignSubTab}
+            contractSubTab={contractSubTab}
+            setContractSubTab={setContractSubTab}
             totalItems={mainTab === "sign" ? signMockItems.length : mainTab === "contracts" ? filteredContracts.length : filteredItems.length}
             onAddContract={() => setShowAddContract(true)}
           />
           
-          {mainTab === "contracts" && (
+          {mainTab === "contracts" && contractSubTab === "list" && (
             <ContractsSummary
               contracts={contracts}
               activeFilter={contractFilter}
@@ -997,7 +1010,7 @@ export default function Track() {
           )}
 
           {/* Hide TrackFilters for Sign tab - it has built-in filters */}
-          {mainTab !== "sign" && (
+          {mainTab !== "sign" && !(mainTab === "contracts" && contractSubTab === "dashboard") && (
             <TrackFilters 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -1021,7 +1034,16 @@ export default function Track() {
               animate={{ width: (selectedItem || selectedContract || selectedSignItem) ? "60%" : "100%" }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              {mainTab === "contracts" ? (
+              {mainTab === "contracts" && contractSubTab === "dashboard" ? (
+                <ContractCommandCenter
+                  contracts={contracts}
+                  onSelectContract={(c) => {
+                    setSelectedContract(c);
+                    setContractSubTab("list");
+                  }}
+                  onIngest={() => setShowAddContract(true)}
+                />
+              ) : mainTab === "contracts" ? (
                 <ContractsList
                   contracts={paginatedContracts}
                   selectedContract={selectedContract}
@@ -1224,12 +1246,16 @@ export default function Track() {
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                   className="w-[40%] min-w-[400px]"
                 >
-                  <ContractDetailPanel
+                  <ContractIntelligencePanel
                     contract={selectedContract}
                     onClose={() => setSelectedContract(null)}
                     onUpdate={(updated) => {
                       setContracts(prev => prev.map(c => c.id === updated.id ? updated : c));
                       setSelectedContract(updated);
+                    }}
+                    onOpenPortal={() => {
+                      setPortalContract(selectedContract);
+                      setShowPortal(true);
                     }}
                   />
                 </motion.div>
@@ -1239,10 +1265,16 @@ export default function Track() {
         </div>
       </motion.div>
 
-      <AddContractModal
+      <ContractIngestionFlow
         open={showAddContract}
         onOpenChange={setShowAddContract}
         onAdd={handleAddContract}
+      />
+
+      <CounterpartyPortalPreview
+        contract={portalContract}
+        open={showPortal}
+        onOpenChange={setShowPortal}
       />
 
       {/* Recipient Transfer View - No Password Protection */}
