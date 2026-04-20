@@ -295,14 +295,23 @@ export function TransferConfigure({
                       </div>
                     </div>
 
-                    {/* Subject */}
-                    <input
-                      value={settings.subject}
-                      onChange={(e) => onSettingsChange({ ...settings, subject: e.target.value })}
-                      placeholder="Subject"
-                      type="text"
-                      className="w-full bg-transparent px-3 py-2 text-sm font-semibold text-foreground placeholder:text-muted-foreground/50 placeholder:font-normal focus:outline-none"
-                    />
+                    {/* Subject (required) */}
+                    <div className="relative">
+                      <input
+                        value={settings.subject}
+                        onChange={(e) => onSettingsChange({ ...settings, subject: e.target.value })}
+                        placeholder="Subject"
+                        type="text"
+                        required
+                        aria-required="true"
+                        className="w-full bg-transparent px-3 py-2 pr-12 text-sm font-semibold text-foreground placeholder:text-muted-foreground/50 placeholder:font-normal focus:outline-none"
+                      />
+                      {!settings.subject.trim() && (
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-medium uppercase tracking-wider text-destructive/80">
+                          Required
+                        </span>
+                      )}
+                    </div>
 
                     {/* Message */}
                     <div className="relative">
