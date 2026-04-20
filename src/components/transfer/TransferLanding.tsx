@@ -450,7 +450,7 @@ export function TransferLanding() {
       )}
 
       {/* Main Content Container - Hidden on success */}
-      {currentStep !== 'success' && (
+      {currentStep !== 'success' && currentStep !== 'uploading' && (
       <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
         
         {/* Hero Upload Card */}
