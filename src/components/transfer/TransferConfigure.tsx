@@ -1,13 +1,12 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Link2, Mail, Lock, Calendar, Shield, X, FileText, Plus,
-  ArrowLeft, Send, Eye, EyeOff, ChevronDown
+  Link2, Mail, Lock, Calendar, X, FileText, Plus,
+  ArrowLeft, Send, Eye, EyeOff, Sparkles, Check, ShieldCheck
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
