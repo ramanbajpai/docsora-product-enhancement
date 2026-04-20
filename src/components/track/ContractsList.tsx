@@ -137,27 +137,20 @@ function ContractListItem({
               {/* User tags - neutral colors, max 2 visible */}
               {visibleTags.length > 0 && (
                 <div className="hidden sm:flex items-center gap-1">
-                  {visibleTags.map((tag) => {
-                    const isActive = activeTagFilters.includes(tag);
-                    return (
-                      <button
-                        key={tag}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onTagClick?.(tag);
-                        }}
-                        className={`text-[10px] px-1.5 py-0 h-5 rounded-md border font-normal transition-colors cursor-pointer inline-flex items-center ${
-                          isActive
-                            ? "bg-primary/10 text-primary border-primary/30 hover:bg-primary/20"
-                            : "bg-muted/30 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground"
-                        }`}
-                      >
-                        {tag}
-                      </button>
-                    );
-                  })}
+                  {visibleTags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onTagClick?.(tag);
+                      }}
+                      className="inline-flex items-center px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[11px] font-medium hover:bg-primary/20 transition-colors cursor-pointer"
+                    >
+                      {tag}
+                    </button>
+                  ))}
                   {overflowCount > 0 && (
-                    <span className="text-[10px] text-muted-foreground/60 ml-0.5">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-[11px] font-medium">
                       +{overflowCount}
                     </span>
                   )}
