@@ -235,6 +235,7 @@ export function TransferProgress({ files, totalSize }: TransferProgressProps) {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: circumference - (displayProgress / 100) * circumference }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
             style={{ filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.6))' }}
