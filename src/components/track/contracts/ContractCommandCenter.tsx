@@ -92,31 +92,36 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 via-background to-background p-6"
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-b from-card/60 to-card/20 backdrop-blur-xl p-8 md:p-10"
       >
-        <div className="flex items-start justify-between gap-6 flex-wrap">
+        <div className="absolute inset-0 pointer-events-none opacity-60">
+          <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-primary/5 blur-3xl" />
+        </div>
+        <div className="relative flex items-start justify-between gap-6 flex-wrap">
           <div>
-            <div className="flex items-center gap-2 text-xs font-medium text-primary mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              CONTRACT COMMAND CENTER
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary/90 mb-4 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/15">
+              <Sparkles className="w-3 h-3" />
+              Command Center
             </div>
-            <h2 className="text-2xl font-semibold text-foreground">
+            <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight leading-[1.1]">
               {attention.length > 0
                 ? `${attention.length} contract${attention.length > 1 ? "s" : ""} need${attention.length > 1 ? "" : "s"} your attention`
                 : "All contracts are healthy"}
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Docsora is monitoring {stats.total} contracts worth {fmtCurrency(stats.totalValue)} in annual value.
+            <p className="text-base text-muted-foreground mt-2 font-light">
+              Monitoring {stats.total} contracts · {fmtCurrency(stats.totalValue)} in annual value
             </p>
           </div>
-          <Button onClick={onIngest} size="lg" className="gap-2">
+          <Button onClick={onIngest} size="lg" className="gap-2 rounded-full px-6 shadow-sm">
             <Zap className="w-4 h-4" />
             Upload contract
           </Button>
         </div>
 
         {/* Portfolio strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+        <div className="relative grid grid-cols-2 md:grid-cols-4 gap-px mt-10 rounded-2xl overflow-hidden bg-border/30">
           <PortfolioCard icon={Activity} label="Total contracts" value={stats.total.toString()} />
           <PortfolioCard icon={DollarSign} label="Annual value" value={fmtCurrency(stats.totalValue)} />
           <PortfolioCard icon={TrendingUp} label="Renewal rate" value={`${stats.renewalRate}%`} />
