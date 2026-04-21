@@ -218,28 +218,28 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="rounded-2xl border border-border/50 bg-card/40 p-5"
+        transition={{ delay: 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="rounded-3xl border border-border/40 bg-card/40 backdrop-blur-xl p-6"
       >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-primary" />
-            Renewal timeline · next 12 months
-          </h3>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Healthy</span>
-            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-amber-500" /> Review</span>
-            <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /> Risk</span>
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h3 className="text-base font-semibold text-foreground tracking-tight">Renewal timeline</h3>
+            <p className="text-xs text-muted-foreground font-light mt-0.5">Next 12 months</p>
+          </div>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground font-light">
+            <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Healthy</span>
+            <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Review</span>
+            <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-red-500" /> Risk</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-2">
+        <div className="grid grid-cols-12 gap-1.5">
           {months.map(m => (
             <div
               key={m.date.toISOString()}
-              className="group rounded-lg border border-border/40 bg-muted/20 p-2 hover:bg-muted/40 transition-colors min-h-[88px]"
+              className="group rounded-xl bg-muted/20 hover:bg-muted/40 transition-colors duration-200 p-2.5 min-h-[96px]"
             >
-              <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1.5">
+              <div className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wider mb-2">
                 {format(m.date, "MMM")}
               </div>
               <div className="space-y-1">
@@ -250,17 +250,17 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
                     title={c.name}
                     className="w-full flex items-center gap-1 text-left"
                   >
-                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${healthColor[c.intelligence!.health]}`} />
-                    <span className="text-[10px] text-foreground/70 truncate hover:text-foreground">
+                    <div className={`w-1 h-1 rounded-full shrink-0 ${healthColor[c.intelligence!.health]}`} />
+                    <span className="text-[10px] text-foreground/60 truncate hover:text-foreground transition-colors">
                       {c.company}
                     </span>
                   </button>
                 ))}
                 {m.contracts.length > 3 && (
-                  <div className="text-[10px] text-muted-foreground">+{m.contracts.length - 3}</div>
+                  <div className="text-[10px] text-muted-foreground font-light">+{m.contracts.length - 3}</div>
                 )}
                 {m.contracts.length === 0 && (
-                  <div className="text-[10px] text-muted-foreground/40">—</div>
+                  <div className="text-[10px] text-muted-foreground/30">—</div>
                 )}
               </div>
             </div>
@@ -272,17 +272,17 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="grid grid-cols-3 gap-4"
+        transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="grid grid-cols-3 gap-3"
       >
         {[
           { label: "Value at risk · 30 days", value: stats.var30, tone: "red" as const },
           { label: "Value at risk · 60 days", value: stats.var60, tone: "amber" as const },
           { label: "Value at risk · 90 days", value: stats.var90, tone: "default" as const },
         ].map(v => (
-          <div key={v.label} className="rounded-2xl border border-border/50 bg-card/40 p-5">
-            <div className="text-xs text-muted-foreground mb-2">{v.label}</div>
-            <div className={`text-2xl font-semibold ${v.tone === "red" ? "text-red-500" : v.tone === "amber" ? "text-amber-500" : "text-foreground"}`}>
+          <div key={v.label} className="rounded-3xl border border-border/40 bg-card/40 backdrop-blur-xl p-6">
+            <div className="text-xs text-muted-foreground mb-3 font-light">{v.label}</div>
+            <div className={`text-3xl font-semibold tracking-tight ${v.tone === "red" ? "text-red-500" : v.tone === "amber" ? "text-amber-500" : "text-foreground"}`}>
               {fmtCurrency(v.value)}
             </div>
           </div>
@@ -296,12 +296,12 @@ function PortfolioCard({
   icon: Icon, label, value, tone = "default",
 }: { icon: typeof Activity; label: string; value: string; tone?: "default" | "warn" | "ok" }) {
   return (
-    <div className="rounded-xl border border-border/50 bg-background/50 backdrop-blur p-4">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-        <Icon className={`w-3.5 h-3.5 ${tone === "warn" ? "text-amber-500" : tone === "ok" ? "text-emerald-500" : "text-primary"}`} />
+    <div className="bg-card/60 backdrop-blur-xl p-5">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2.5 font-light">
+        <Icon className={`w-3 h-3 ${tone === "warn" ? "text-amber-500" : tone === "ok" ? "text-emerald-500" : "text-muted-foreground/60"}`} />
         {label}
       </div>
-      <div className={`text-xl font-semibold ${tone === "warn" ? "text-amber-500" : "text-foreground"}`}>{value}</div>
+      <div className={`text-2xl font-semibold tracking-tight ${tone === "warn" ? "text-amber-500" : "text-foreground"}`}>{value}</div>
     </div>
   );
 }
