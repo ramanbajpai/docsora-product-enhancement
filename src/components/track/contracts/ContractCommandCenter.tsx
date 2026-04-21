@@ -140,20 +140,19 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="lg:col-span-2 rounded-2xl border border-border/50 bg-card/40 p-5"
+          transition={{ delay: 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="lg:col-span-2 rounded-3xl border border-border/40 bg-card/40 backdrop-blur-xl p-6"
         >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-500" />
-              <h3 className="text-sm font-semibold text-foreground">Needs attention right now</h3>
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2.5">
+              <h3 className="text-base font-semibold text-foreground tracking-tight">Needs attention</h3>
             </div>
-            <span className="text-xs text-muted-foreground">{attention.length} items</span>
+            <span className="text-xs text-muted-foreground font-light">{attention.length} items</span>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             {attention.length === 0 && (
-              <p className="text-sm text-muted-foreground py-8 text-center">Nothing urgent — enjoy the calm.</p>
+              <p className="text-sm text-muted-foreground py-12 text-center font-light">Nothing urgent — enjoy the calm.</p>
             )}
             {attention.map(c => {
               const days = differenceInDays(c.expiryDate, new Date());
@@ -171,19 +170,19 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
                 <button
                   key={c.id}
                   onClick={() => onSelectContract(c)}
-                  className="w-full text-left flex items-center gap-3 p-3 rounded-lg hover:bg-muted/40 transition-colors border border-transparent hover:border-border/40"
+                  className="w-full text-left flex items-center gap-3.5 px-3 py-3.5 rounded-2xl hover:bg-muted/30 transition-all duration-200 group"
                 >
-                  <div className={`w-2 h-2 rounded-full ${healthColor[c.intelligence!.health]}`} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${healthColor[c.intelligence!.health]} shrink-0`} />
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-foreground truncate">{c.name}</div>
-                    <div className="text-xs text-muted-foreground truncate">
-                      {c.company} • {recommendation}
+                    <div className="text-sm font-medium text-foreground truncate tracking-tight">{c.name}</div>
+                    <div className="text-xs text-muted-foreground truncate font-light mt-0.5">
+                      {c.company} · {recommendation}
                     </div>
                   </div>
-                  <Badge variant="outline" className={`text-[10px] ${healthBg[c.intelligence!.health]}`}>
+                  <Badge variant="outline" className={`text-[10px] font-medium rounded-full px-2 py-0.5 ${healthBg[c.intelligence!.health]}`}>
                     {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
                   </Badge>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground/40 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 shrink-0 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all" />
                 </button>
               );
             })}
@@ -194,22 +193,19 @@ export function ContractCommandCenter({ contracts, onSelectContract, onIngest }:
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="rounded-2xl border border-border/50 bg-card/40 p-5"
+          transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-3xl border border-border/40 bg-card/40 backdrop-blur-xl p-6"
         >
-          <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-primary" />
-            Portfolio health
-          </h3>
+          <h3 className="text-base font-semibold text-foreground mb-5 tracking-tight">Portfolio health</h3>
 
           <HealthRing green={stats.health.green} amber={stats.health.amber} red={stats.health.red} />
 
-          <div className="space-y-2 mt-4">
+          <div className="space-y-2.5 mt-6">
             {(["green", "amber", "red"] as const).map(h => (
               <div key={h} className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${healthColor[h]}`} />
-                  <span className="capitalize text-muted-foreground">{h === "green" ? "Healthy" : h === "amber" ? "Needs review" : "At risk"}</span>
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-1.5 h-1.5 rounded-full ${healthColor[h]}`} />
+                  <span className="text-muted-foreground font-light">{h === "green" ? "Healthy" : h === "amber" ? "Needs review" : "At risk"}</span>
                 </div>
                 <span className="font-medium text-foreground">{stats.health[h]}</span>
               </div>
