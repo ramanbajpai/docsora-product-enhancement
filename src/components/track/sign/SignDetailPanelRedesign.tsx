@@ -1779,6 +1779,8 @@ const getProgressMicrocopy = () => {
                 sentAt={item.sentAt}
                 isSender={isSender}
                 senderName={isSender ? "You" : "Sender"}
+                autopilotEnabled={autopilotEnabled}
+                recoveredAt={recoveredAt}
               />
             </TabsContent>
 
