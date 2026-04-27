@@ -804,15 +804,21 @@ const getProgressMicrocopy = () => {
               )}
             </div>
           ) : isExpired ? (
-            <div className="mb-3 p-3 rounded-xl border bg-orange-500/10 border-orange-500/20">
-              <span className="text-sm text-orange-600 dark:text-orange-400 font-medium">
-                Signing deadline passed
-              </span>
-              <p className="text-xs text-muted-foreground mt-2">
-                This request expired before all required actions were completed. No further actions can be taken.
+            <div className="mb-3 p-3.5 rounded-xl border bg-amber-500/10 border-amber-500/30">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                <span className="text-sm text-amber-700 dark:text-amber-300 font-semibold">
+                  Expired — Action Required
+                </span>
+              </div>
+              <p className="text-xs text-foreground/80 mt-2 leading-relaxed">
+                This request expired before completion — you can extend and resend it instantly.
+              </p>
+              <p className="text-[11px] text-muted-foreground/80 mt-1.5 leading-relaxed">
+                Recipients will be notified again. Existing signatures will remain unchanged.
               </p>
               {item.expiresAt && (
-                <p className="text-[10px] text-muted-foreground/60 mt-1">
+                <p className="text-[10px] text-muted-foreground/60 mt-2">
                   Expired on {format(item.expiresAt, "MMM d, yyyy 'at' h:mm a")}
                 </p>
               )}
