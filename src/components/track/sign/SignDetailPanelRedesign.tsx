@@ -850,14 +850,14 @@ const getProgressMicrocopy = () => {
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                 <span className="text-sm text-amber-700 dark:text-amber-300 font-semibold">
-                  Expired — Action Required
+                  Expired — we can fix this now
                 </span>
               </div>
               <p className="text-xs text-foreground/80 mt-2 leading-relaxed">
-                This request expired before completion — you can extend and resend it instantly.
+                Docsora can resend this instantly. No changes needed — same document, recipients, and fields.
               </p>
               <p className="text-[11px] text-muted-foreground/80 mt-1.5 leading-relaxed">
-                Recipients will be notified again. Existing signatures will remain unchanged.
+                Existing signatures stay valid. Only pending recipients are notified.
               </p>
               {item.expiresAt && (
                 <p className="text-[10px] text-muted-foreground/60 mt-2">
