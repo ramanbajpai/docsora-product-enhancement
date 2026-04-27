@@ -264,7 +264,7 @@ export function PriorityActions() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
                 className={cn(
-                  "glass-card p-4 pt-10 group relative transition-all duration-200",
+                  "glass-card p-4 group relative transition-all duration-200",
                   isOnAutopilot
                     ? "border-primary/30 bg-primary/[0.03] shadow-glow"
                     : "hover:shadow-sm"
@@ -287,7 +287,7 @@ export function PriorityActions() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         {/* Title row */}
-                        <div className="flex items-center gap-2 mb-1 flex-wrap pr-2">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
                           <h3
                             className={cn(
                               "text-foreground group-hover:text-primary transition-colors truncate",
@@ -350,41 +350,25 @@ export function PriorityActions() {
                           {action.cta}
                           <CtaIcon className="w-3.5 h-3.5" />
                         </motion.button>
+
+                        {action.canAutopilot && (
+                          <button
+                            onClick={() => toggleAutopilot(action.id, action.title)}
+                            className={cn(
+                              "inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md transition-colors",
+                              isOnAutopilot
+                                ? "text-primary hover:bg-primary/10"
+                                : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            )}
+                          >
+                            <Zap className="w-3 h-3" />
+                            {isOnAutopilot ? "Docsora is on it" : "Let Docsora handle this"}
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Autopilot pill toggle — top right corner */}
-                {action.canAutopilot && (
-                  <button
-                    onClick={() => toggleAutopilot(action.id, action.title)}
-                    className={cn(
-                      "absolute top-3 right-3 inline-flex items-center gap-2 pl-2.5 pr-1 py-1 rounded-full border text-[11px] font-medium transition-all",
-                      isOnAutopilot
-                        ? "border-primary/40 bg-primary/10 text-primary shadow-[0_0_0_3px_hsl(var(--primary)/0.08)]"
-                        : "border-border/60 bg-surface-2/60 text-muted-foreground hover:text-foreground hover:border-border"
-                    )}
-                  >
-                    <Sparkles className={cn("w-3 h-3", isOnAutopilot && "text-primary")} />
-                    <span className="whitespace-nowrap">
-                      {isOnAutopilot ? "Autopilot · on" : "Let Docsora handle this"}
-                    </span>
-                    <span
-                      className={cn(
-                        "relative inline-flex h-3.5 w-6 items-center rounded-full transition-colors",
-                        isOnAutopilot ? "bg-primary" : "bg-muted-foreground/30"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "inline-block h-2.5 w-2.5 rounded-full bg-background shadow transition-transform",
-                          isOnAutopilot ? "translate-x-3" : "translate-x-0.5"
-                        )}
-                      />
-                    </span>
-                  </button>
-                )}
               </motion.div>
             );
           })}
