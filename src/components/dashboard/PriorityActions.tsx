@@ -264,7 +264,7 @@ export function PriorityActions() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
                 className={cn(
-                  "glass-card p-4 group relative transition-all duration-200",
+                  "glass-card p-4 pt-10 group relative transition-all duration-200",
                   isOnAutopilot
                     ? "border-primary/30 bg-primary/[0.03] shadow-glow"
                     : "hover:shadow-sm"
