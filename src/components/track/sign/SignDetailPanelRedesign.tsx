@@ -559,6 +559,36 @@ const getProgressMicrocopy = () => {
     setExtendResendOpen(false);
   };
 
+  // ========== COMPLETION ENGINE ==========
+  // One-click recovery: pick smart default (7 days), resend immediately, schedule follow-ups.
+  const handleFixThisForMe = () => {
+    const pending = item.recipients.filter(
+      (r) => r.status !== "signed" && r.status !== "declined"
+    );
+    const newDeadline = addDays(new Date(), 7);
+    setFixingNow(true);
+    setTimeout(() => {
+      setFixingNow(false);
+      setRecoveredAt(new Date());
+      toast.success("Docsora is handling this", {
+        description: `Extended to ${format(newDeadline, "MMM d")} · ${pending.length} recipient${pending.length === 1 ? "" : "s"} re-notified · Follow-up scheduled in 2 days`,
+      });
+    }, 900);
+  };
+
+  const handleAutopilotToggle = (next: boolean) => {
+    setAutopilotEnabled(next);
+    if (next) {
+      toast.success("Autopilot enabled", {
+        description: "Docsora will manage extensions, reminders and follow-ups until this is signed.",
+      });
+    } else {
+      toast("Autopilot paused", {
+        description: "You're back in manual control.",
+      });
+    }
+  };
+
   const handleResendForSignature = () => {
     // Map recipients to the format expected by SignMultipleRecipients
     const RECIPIENT_COLORS = [
