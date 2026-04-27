@@ -7,7 +7,7 @@ import {
   Shield, PenTool, AlertCircle, FileDown, ChevronRight,
   RefreshCw, Edit3, Files, Users, Layers, MoreHorizontal,
   Key, Mail, Info, UserX, RotateCcw, UserMinus, Ban,
-  CalendarPlus, Award, FileCheck, ArrowRight, Check
+  CalendarPlus, Award, FileCheck, ArrowRight, Check, Sparkles
 } from "lucide-react";
 import { SignItem, SignRecipient, SignActivity, AuditEntry, signStatusConfig, SigningMode, recipientRoleConfig, RecipientRole } from "./types";
 import { Button } from "@/components/ui/button";
@@ -1259,9 +1259,15 @@ const getProgressMicrocopy = () => {
                 const openedText = primary.viewedAt ? "Opened but not signed" : "Not opened";
                 return (
                   <div className="rounded-xl border border-border/50 bg-muted/20 p-3">
-                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium mb-2">
-                      What's blocking this?
-                    </p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium">
+                        What's blocking this?
+                      </p>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                        <Sparkles className="w-2.5 h-2.5" />
+                        AI
+                      </span>
+                    </div>
                     <div className="flex items-start gap-2.5">
                       <Avatar className="w-7 h-7 shrink-0">
                         <AvatarFallback className="text-[10px] bg-muted">
