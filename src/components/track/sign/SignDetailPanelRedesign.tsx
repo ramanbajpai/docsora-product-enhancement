@@ -643,7 +643,7 @@ const getProgressMicrocopy = () => {
         isVoided && "opacity-80"
       )}>
         {/* ========== HEADER SECTION ========== */}
-        <div className="p-5 border-b border-border/30 shrink-0 max-h-[60%] overflow-y-auto">
+        <div className="p-5 border-b border-border/30 shrink-0">
           {/* Title Row */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0 pr-4">
