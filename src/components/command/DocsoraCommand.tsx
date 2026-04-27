@@ -238,9 +238,9 @@ export function DocsoraCommand() {
             className="flex flex-wrap gap-2 mt-3"
           >
             {[
-              "Show unsigned contracts",
-              "What's blocking my deals?",
-              "Documents waiting on Legal",
+              "Send reminders to all pending",
+              "Show what's blocking deals",
+              "Follow up on unsigned contracts",
             ].map((suggestion) => (
               <button
                 key={suggestion}
