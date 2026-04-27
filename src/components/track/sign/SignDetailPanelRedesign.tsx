@@ -2894,7 +2894,9 @@ function ActivityTabContent({
   expiresAt,
   sentAt,
   isSender,
-  senderName = "You"
+  senderName = "You",
+  autopilotEnabled = false,
+  recoveredAt = null,
 }: { 
   activities: SignActivity[]; 
   isCompleted: boolean;
@@ -2907,6 +2909,8 @@ function ActivityTabContent({
   sentAt: Date;
   isSender: boolean;
   senderName?: string;
+  autopilotEnabled?: boolean;
+  recoveredAt?: Date | null;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const COLLAPSE_THRESHOLD = 6;
