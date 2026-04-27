@@ -2085,6 +2085,127 @@ const getProgressMicrocopy = () => {
           </DialogContent>
         </Dialog>
 
+        {/* ========== EXTEND & RESEND MODAL (Expired requests, sender only) ========== */}
+        <Dialog open={extendResendOpen} onOpenChange={setExtendResendOpen}>
+          <DialogContent className="sm:max-w-[440px]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-primary" />
+                Extend signing deadline
+              </DialogTitle>
+              <DialogDescription className="pt-1">
+                Set a new deadline and resend to pending recipients. Existing signatures stay valid.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-2">
+              {/* Recipients summary (read-only) */}
+              <div className="rounded-lg border border-border/50 bg-muted/20 p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-medium text-foreground flex items-center gap-1.5">
+                    <Users className="w-3.5 h-3.5 text-muted-foreground" />
+                    Recipients
+                  </p>
+                  <span className="text-[11px] text-muted-foreground">
+                    {signedCount} of {totalActionable} signed
+                  </span>
+                </div>
+                <div className="space-y-1.5 max-h-[140px] overflow-y-auto">
+                  {item.recipients.map((r) => {
+                    const isDone = r.status === "signed";
+                    return (
+                      <div key={r.email} className="flex items-center gap-2 text-xs">
+                        <Avatar className="w-5 h-5">
+                          <AvatarFallback className="text-[9px] bg-muted">
+                            {r.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="text-foreground/90 truncate flex-1">{r.name}</span>
+                        <span className={cn(
+                          "text-[10px]",
+                          isDone ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"
+                        )}>
+                          {isDone ? "Signed" : r.status === "viewed" ? "Opened" : "Pending"}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-[10px] text-muted-foreground/70 mt-2 leading-relaxed">
+                  Recipients cannot be edited here. Only pending recipients will be notified.
+                </p>
+              </div>
+
+              {/* Expiry options */}
+              <div>
+                <label className="text-xs font-medium text-foreground mb-2 block">
+                  New deadline
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {(["3", "7", "14"] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setExtendResendOption(opt)}
+                      className={cn(
+                        "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all",
+                        extendResendOption === opt
+                          ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                          : "border-border/60 bg-card hover:border-border text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {opt} days
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setExtendResendOption("custom")}
+                  className={cn(
+                    "mt-2 w-full rounded-lg border px-3 py-2.5 text-xs font-medium transition-all flex items-center justify-center gap-2",
+                    extendResendOption === "custom"
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : "border-border/60 bg-card hover:border-border text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <CalendarPlus className="w-3.5 h-3.5" />
+                  Custom date
+                </button>
+
+                {extendResendOption === "custom" && (
+                  <div className="mt-3 flex justify-center">
+                    <CalendarComponent
+                      mode="single"
+                      selected={extendResendCustomDate}
+                      onSelect={setExtendResendCustomDate}
+                      disabled={(date) => date < new Date()}
+                      className="rounded-md border pointer-events-auto"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-lg bg-muted/30 border border-border/40 p-2.5">
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Document, fields, and existing signatures remain unchanged. Status will return to <span className="text-foreground font-medium">In Progress</span>.
+                </p>
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button variant="outline" onClick={() => setExtendResendOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleExtendAndResend}
+                disabled={extendResendOption === "custom" && !extendResendCustomDate}
+                className="gap-2"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                Extend & Resend
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {/* ========== EXTENSION REQUEST MODAL (Signer/Recipient only) ========== */}
         <Dialog open={extensionRequestOpen} onOpenChange={setExtensionRequestOpen}>
           <DialogContent className="sm:max-w-[400px]">
