@@ -157,6 +157,11 @@ export function SignDetailPanelRedesign({ item, onClose, onSign, onDecline }: Si
   const [extendResendOpen, setExtendResendOpen] = useState(false);
   const [extendResendOption, setExtendResendOption] = useState<"3" | "7" | "14" | "custom">("7");
   const [extendResendCustomDate, setExtendResendCustomDate] = useState<Date | undefined>(addDays(new Date(), 14));
+
+  // ========== COMPLETION ENGINE — Autopilot state (expired requests) ==========
+  const [autopilotEnabled, setAutopilotEnabled] = useState(false);
+  const [fixingNow, setFixingNow] = useState(false);
+  const [recoveredAt, setRecoveredAt] = useState<Date | null>(null);
   
   // Extension request modal state (signer/recipient only)
   const [extensionRequestOpen, setExtensionRequestOpen] = useState(false);
