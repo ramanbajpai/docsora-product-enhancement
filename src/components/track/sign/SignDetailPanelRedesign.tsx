@@ -151,6 +151,11 @@ export function SignDetailPanelRedesign({ item, onClose, onSign, onDecline }: Si
   const [extendDateOpen, setExtendDateOpen] = useState(false);
   const [extendDate, setExtendDate] = useState<Date | undefined>(item.expiresAt ? addDays(item.expiresAt, 7) : addDays(new Date(), 14));
   const [notifyOnExtend, setNotifyOnExtend] = useState(true);
+
+  // Extend & Resend modal state (expired requests, sender only)
+  const [extendResendOpen, setExtendResendOpen] = useState(false);
+  const [extendResendOption, setExtendResendOption] = useState<"3" | "7" | "14" | "custom">("7");
+  const [extendResendCustomDate, setExtendResendCustomDate] = useState<Date | undefined>(addDays(new Date(), 14));
   
   // Extension request modal state (signer/recipient only)
   const [extensionRequestOpen, setExtensionRequestOpen] = useState(false);
