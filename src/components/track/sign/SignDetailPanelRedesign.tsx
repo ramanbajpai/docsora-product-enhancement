@@ -1238,10 +1238,56 @@ const getProgressMicrocopy = () => {
 
           {/* ========== EXPIRED STATE CTAs ========== */}
           {isExpired && isSender && (
-            <div className="space-y-2 mt-3">
-              <Button onClick={handleResendForSignature} size="sm" className="w-full gap-2 h-9">
-                <RefreshCw className="w-3.5 h-3.5" />
-                Resend for Signature
+            <div className="space-y-3 mt-3">
+              {/* What's blocking this? */}
+              {(() => {
+                const blockers = item.recipients.filter(
+                  (r) => r.status !== "signed" && r.status !== "declined" && (r.role === "signer" || r.role === "approver")
+                );
+                if (blockers.length === 0) return null;
+                const primary = blockers[0];
+                const lastTouch = primary.viewedAt || item.lastActivity;
+                const lastTouchText = lastTouch
+                  ? `Last activity ${formatDistanceToNow(lastTouch, { addSuffix: true })}`
+                  : "No activity recorded";
+                const openedText = primary.viewedAt ? "Opened but not signed" : "Not opened";
+                return (
+                  <div className="rounded-xl border border-border/50 bg-muted/20 p-3">
+                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium mb-2">
+                      What's blocking this?
+                    </p>
+                    <div className="flex items-start gap-2.5">
+                      <Avatar className="w-7 h-7 shrink-0">
+                        <AvatarFallback className="text-[10px] bg-muted">
+                          {primary.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm text-foreground font-medium truncate">
+                          Waiting on: {primary.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {openedText} • {lastTouchText}
+                        </p>
+                        {blockers.length > 1 && (
+                          <p className="text-[11px] text-muted-foreground/70 mt-1">
+                            +{blockers.length - 1} other recipient{blockers.length - 1 === 1 ? "" : "s"} pending
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Primary CTA — dominant */}
+              <Button
+                onClick={() => setExtendResendOpen(true)}
+                size="lg"
+                className="w-full gap-2 h-11 text-sm font-semibold shadow-md shadow-primary/20"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Extend & Resend
               </Button>
               {/* Download dropdown for Expired */}
               <DropdownMenu>
@@ -1278,8 +1324,8 @@ const getProgressMicrocopy = () => {
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <p className="text-[10px] text-muted-foreground text-center pt-1">
-                Creates a new signing request using the same document and recipients.
+              <p className="text-[10px] text-muted-foreground text-center pt-1 leading-relaxed">
+                Same document, same recipients, same fields. Existing signatures stay valid — only pending recipients are notified.
               </p>
             </div>
           )}
