@@ -219,26 +219,35 @@ export function PriorityActions() {
           onClick={handleAllForMe}
           disabled={handlingAll || allHandled}
           className={cn(
-            "shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-lg transition-all",
-            "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground",
-            "shadow-glow hover:shadow-glow-strong",
-            "disabled:opacity-60 disabled:cursor-not-allowed disabled:shadow-none"
+            "shrink-0 inline-flex items-center gap-2 pl-3 pr-1.5 py-1.5 text-sm font-medium rounded-full transition-all",
+            "border border-border/60 bg-surface-2/60 backdrop-blur-sm text-foreground",
+            "hover:bg-surface-2 hover:border-border",
+            "disabled:opacity-70 disabled:cursor-not-allowed"
           )}
         >
           {handlingAll ? (
             <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              Handing off…
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+              <span>Handing off…</span>
+              <span className="ml-1 inline-flex h-5 w-9 items-center rounded-full bg-muted px-0.5">
+                <span className="h-4 w-4 rounded-full bg-background shadow-sm" />
+              </span>
             </>
           ) : allHandled ? (
             <>
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              Docsora has it
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span>Docsora has it</span>
+              <span className="ml-1 inline-flex h-5 w-9 items-center rounded-full bg-primary px-0.5 justify-end">
+                <span className="h-4 w-4 rounded-full bg-background shadow-sm" />
+              </span>
             </>
           ) : (
             <>
-              <Wand2 className="w-3.5 h-3.5" />
-              Handle all for me
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span>Let Docsora handle this</span>
+              <span className="ml-1 inline-flex h-5 w-9 items-center rounded-full bg-muted px-0.5">
+                <span className="h-4 w-4 rounded-full bg-background shadow-sm" />
+              </span>
             </>
           )}
         </motion.button>
