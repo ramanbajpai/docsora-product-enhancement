@@ -678,18 +678,24 @@ const getProgressMicrocopy = () => {
                   : {
                       bg: cn(status.bg),
                       color: status.color,
-                      label: isVoided ? "VOIDED" : status.label,
+                      label: isVoided
+                        ? "VOIDED"
+                        : (item.status === "expired" && isSender)
+                          ? "Expired — Action Required"
+                          : status.label,
                       icon: isVoided ? <Ban className="w-3 h-3" /> 
                             : item.status === "action_required" ? <AlertCircle className="w-3 h-3" />
                             : item.status === "in_progress" ? <Clock className="w-3 h-3" />
                             : item.status === "completed" ? <CheckCircle2 className="w-3 h-3" />
                             : item.status === "declined" ? <XCircle className="w-3 h-3" />
-                            : item.status === "expired" ? <Clock className="w-3 h-3" />
+                            : item.status === "expired" ? <AlertCircle className="w-3 h-3" />
                             : item.status === "cancelled" ? <XCircle className="w-3 h-3" />
                             : null,
                       tooltip: isVoided 
                         ? "The sender stopped this signing request. The document cannot be completed."
-                        : status.description
+                        : (item.status === "expired" && isSender)
+                          ? "This request expired before completion. Extend the deadline and resend instantly."
+                          : status.description
                     };
               
               return (
