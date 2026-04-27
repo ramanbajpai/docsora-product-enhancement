@@ -1281,7 +1281,7 @@ const getProgressMicrocopy = () => {
           {/* ========== EXPIRED STATE CTAs ========== */}
           {isExpired && isSender && (
             <div className="space-y-3 mt-3">
-              {/* What's blocking this? */}
+              {/* What's blocking this? + urgency signals */}
               {(() => {
                 const blockers = item.recipients.filter(
                   (r) => r.status !== "signed" && r.status !== "declined" && (r.role === "signer" || r.role === "approver")
@@ -1289,20 +1289,32 @@ const getProgressMicrocopy = () => {
                 if (blockers.length === 0) return null;
                 const primary = blockers[0];
                 const lastTouch = primary.viewedAt || item.lastActivity;
+                const idleDays = lastTouch
+                  ? Math.max(0, Math.floor((Date.now() - lastTouch.getTime()) / (1000 * 60 * 60 * 24)))
+                  : 0;
                 const lastTouchText = lastTouch
-                  ? `Last activity ${formatDistanceToNow(lastTouch, { addSuffix: true })}`
+                  ? `No activity for ${idleDays} day${idleDays === 1 ? "" : "s"}`
                   : "No activity recorded";
                 const openedText = primary.viewedAt ? "Opened but not signed" : "Not opened";
+                const isAtRisk = idleDays >= 3;
                 return (
                   <div className="rounded-xl border border-border/50 bg-muted/20 p-3">
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium">
-                        What's blocking this?
-                      </p>
-                      <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
-                        <Sparkles className="w-2.5 h-2.5" />
-                        AI
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium">
+                          What's blocking this?
+                        </p>
+                        <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                          <Sparkles className="w-2.5 h-2.5" />
+                          AI
+                        </span>
+                      </div>
+                      {isAtRisk && (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-orange-500/30 bg-orange-500/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400">
+                          <Flame className="w-2.5 h-2.5" />
+                          At risk
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-start gap-2.5">
                       <Avatar className="w-7 h-7 shrink-0">
@@ -1322,28 +1334,136 @@ const getProgressMicrocopy = () => {
                             +{blockers.length - 1} other recipient{blockers.length - 1 === 1 ? "" : "s"} pending
                           </p>
                         )}
+                        {idleDays >= 5 && (
+                          <p className="text-[11px] text-orange-600/90 dark:text-orange-400/90 mt-1 flex items-center gap-1">
+                            <TrendingDown className="w-3 h-3" />
+                            Deal stalled — momentum lost
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
                 );
               })()}
 
-              {/* Primary CTA — dominant */}
+              {/* ========== AUTOPILOT — "Let Docsora handle this" ========== */}
+              <div className={cn(
+                "relative overflow-hidden rounded-xl border p-3 transition-colors",
+                autopilotEnabled
+                  ? "border-primary/40 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
+                  : "border-border/50 bg-muted/10"
+              )}>
+                {autopilotEnabled && (
+                  <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                    animate={{ x: ["-100%", "200%"] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+                  />
+                )}
+                <div className="relative flex items-start gap-3">
+                  <div className={cn(
+                    "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+                    autopilotEnabled ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
+                  )}>
+                    <Wand2 className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Label htmlFor="autopilot-toggle" className="text-sm font-semibold text-foreground cursor-pointer truncate">
+                          Let Docsora handle this
+                        </Label>
+                        <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary shrink-0">
+                          <Sparkles className="w-2.5 h-2.5" />
+                          AI
+                        </span>
+                      </div>
+                      <Switch
+                        id="autopilot-toggle"
+                        checked={autopilotEnabled}
+                        onCheckedChange={handleAutopilotToggle}
+                      />
+                    </div>
+                    <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
+                      We'll handle reminders, extensions, and follow-ups to ensure completion.
+                    </p>
+                    {autopilotEnabled && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2 flex items-center gap-1.5 text-[11px] text-primary"
+                      >
+                        <CalendarClock className="w-3 h-3" />
+                        <span className="font-medium">Next action: Docsora will resend tomorrow at 9:00 AM</span>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* ========== "FIX THIS FOR ME" — Super action ========== */}
+              {!autopilotEnabled && (
+                <Button
+                  onClick={handleFixThisForMe}
+                  disabled={fixingNow || !!recoveredAt}
+                  size="lg"
+                  className="relative w-full gap-2 h-12 text-sm font-semibold shadow-lg shadow-primary/30 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-primary overflow-hidden"
+                >
+                  {fixingNow ? (
+                    <>
+                      <motion.div
+                        className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                      />
+                      Fixing this for you…
+                    </>
+                  ) : recoveredAt ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Handled — recipients re-notified
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4" />
+                      Fix this for me
+                    </>
+                  )}
+                </Button>
+              )}
+
+              {/* Secondary action — Extend & Resend (manual control) */}
+              {!autopilotEnabled && !recoveredAt && (
+                <Button
+                  onClick={() => setExtendResendOpen(true)}
+                  variant="outline"
+                  size="sm"
+                  className="w-full gap-2 h-9 text-xs"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Extend & Resend (choose deadline)
+                </Button>
+              )}
+
+              {/* Tertiary — View Activity */}
               <Button
-                onClick={() => setExtendResendOpen(true)}
-                size="lg"
-                className="w-full gap-2 h-11 text-sm font-semibold shadow-md shadow-primary/20"
+                onClick={() => setActiveTab("activity")}
+                variant="ghost"
+                size="sm"
+                className="w-full gap-2 h-8 text-xs text-muted-foreground hover:text-foreground"
               >
-                <RefreshCw className="w-4 h-4" />
-                Extend & Resend
+                <Activity className="w-3 h-3" />
+                View activity
               </Button>
-              {/* Download dropdown for Expired */}
+
+              {/* Hidden / low priority — Download */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button 
-                    variant="outline" 
+                    variant="ghost"
                     size="sm" 
-                    className="w-full gap-2 h-8 text-xs justify-center"
+                    className="w-full gap-2 h-7 text-[11px] justify-center text-muted-foreground/70 hover:text-foreground"
                   >
                     <Download className="w-3 h-3" />
                     Download
@@ -1373,7 +1493,7 @@ const getProgressMicrocopy = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
               <p className="text-[10px] text-muted-foreground text-center pt-1 leading-relaxed">
-                Same document, same recipients, same fields. Existing signatures stay valid — only pending recipients are notified.
+                Same document, same recipients, same fields — no changes needed. Existing signatures stay valid.
               </p>
             </div>
           )}
