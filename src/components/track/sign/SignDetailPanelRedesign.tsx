@@ -60,7 +60,7 @@ const activityIcons: Record<SignActivity["type"] | "voided" | "completed" | "dec
   declined: <XCircle className="w-3 h-3" />,
   reminder_sent: <Bell className="w-3 h-3" />,
   expired: <Clock className="w-3 h-3" />,
-  deadline_extended: <Clock className="w-3 h-3" />,
+  deadline_extended: <RefreshCw className="w-3 h-3" />,
   voided: <Ban className="w-3 h-3" />,
   completed: <Shield className="w-3 h-3" />,
   declined_terminal: <XCircle className="w-3 h-3" />,
@@ -87,7 +87,7 @@ const activityDescriptions: Record<SignActivity["type"] | "completed" | "voided"
   declined: "Declined to sign",
   reminder_sent: "Reminder sent",
   expired: "Signing deadline expired",
-  deadline_extended: "Deadline extended",
+  deadline_extended: "Request extended and resent",
   completed: "Document completed",
   voided: "Workflow voided",
   declined_terminal: "Declined to sign",
@@ -151,6 +151,11 @@ export function SignDetailPanelRedesign({ item, onClose, onSign, onDecline }: Si
   const [extendDateOpen, setExtendDateOpen] = useState(false);
   const [extendDate, setExtendDate] = useState<Date | undefined>(item.expiresAt ? addDays(item.expiresAt, 7) : addDays(new Date(), 14));
   const [notifyOnExtend, setNotifyOnExtend] = useState(true);
+
+  // Extend & Resend modal state (expired requests, sender only)
+  const [extendResendOpen, setExtendResendOpen] = useState(false);
+  const [extendResendOption, setExtendResendOption] = useState<"3" | "7" | "14" | "custom">("7");
+  const [extendResendCustomDate, setExtendResendCustomDate] = useState<Date | undefined>(addDays(new Date(), 14));
   
   // Extension request modal state (signer/recipient only)
   const [extensionRequestOpen, setExtensionRequestOpen] = useState(false);
@@ -531,6 +536,23 @@ const getProgressMicrocopy = () => {
     r.status === "viewed" || r.status === "signed"
   );
 
+  // Extend & Resend (expired) — keeps existing recipients/fields/signatures intact.
+  const handleExtendAndResend = () => {
+    const days = extendResendOption === "custom"
+      ? (extendResendCustomDate
+          ? Math.max(1, Math.ceil((extendResendCustomDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+          : 7)
+      : Number(extendResendOption);
+    const newDeadline = extendResendOption === "custom" && extendResendCustomDate
+      ? extendResendCustomDate
+      : addDays(new Date(), days);
+    const pending = item.recipients.filter(r => r.status !== "signed" && r.status !== "declined");
+    toast.success("Request extended and resent", {
+      description: `New deadline: ${format(newDeadline, "MMM d, yyyy")} · ${pending.length} pending recipient${pending.length === 1 ? "" : "s"} notified.`,
+    });
+    setExtendResendOpen(false);
+  };
+
   const handleResendForSignature = () => {
     // Map recipients to the format expected by SignMultipleRecipients
     const RECIPIENT_COLORS = [
@@ -656,18 +678,24 @@ const getProgressMicrocopy = () => {
                   : {
                       bg: cn(status.bg),
                       color: status.color,
-                      label: isVoided ? "VOIDED" : status.label,
+                      label: isVoided
+                        ? "VOIDED"
+                        : (item.status === "expired" && isSender)
+                          ? "Expired — Action Required"
+                          : status.label,
                       icon: isVoided ? <Ban className="w-3 h-3" /> 
                             : item.status === "action_required" ? <AlertCircle className="w-3 h-3" />
                             : item.status === "in_progress" ? <Clock className="w-3 h-3" />
                             : item.status === "completed" ? <CheckCircle2 className="w-3 h-3" />
                             : item.status === "declined" ? <XCircle className="w-3 h-3" />
-                            : item.status === "expired" ? <Clock className="w-3 h-3" />
+                            : item.status === "expired" ? <AlertCircle className="w-3 h-3" />
                             : item.status === "cancelled" ? <XCircle className="w-3 h-3" />
                             : null,
                       tooltip: isVoided 
                         ? "The sender stopped this signing request. The document cannot be completed."
-                        : status.description
+                        : (item.status === "expired" && isSender)
+                          ? "This request expired before completion. Extend the deadline and resend instantly."
+                          : status.description
                     };
               
               return (
@@ -782,15 +810,21 @@ const getProgressMicrocopy = () => {
               )}
             </div>
           ) : isExpired ? (
-            <div className="mb-3 p-3 rounded-xl border bg-orange-500/10 border-orange-500/20">
-              <span className="text-sm text-orange-600 dark:text-orange-400 font-medium">
-                Signing deadline passed
-              </span>
-              <p className="text-xs text-muted-foreground mt-2">
-                This request expired before all required actions were completed. No further actions can be taken.
+            <div className="mb-3 p-3.5 rounded-xl border bg-amber-500/10 border-amber-500/30">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                <span className="text-sm text-amber-700 dark:text-amber-300 font-semibold">
+                  Expired — Action Required
+                </span>
+              </div>
+              <p className="text-xs text-foreground/80 mt-2 leading-relaxed">
+                This request expired before completion — you can extend and resend it instantly.
+              </p>
+              <p className="text-[11px] text-muted-foreground/80 mt-1.5 leading-relaxed">
+                Recipients will be notified again. Existing signatures will remain unchanged.
               </p>
               {item.expiresAt && (
-                <p className="text-[10px] text-muted-foreground/60 mt-1">
+                <p className="text-[10px] text-muted-foreground/60 mt-2">
                   Expired on {format(item.expiresAt, "MMM d, yyyy 'at' h:mm a")}
                 </p>
               )}
@@ -1210,10 +1244,56 @@ const getProgressMicrocopy = () => {
 
           {/* ========== EXPIRED STATE CTAs ========== */}
           {isExpired && isSender && (
-            <div className="space-y-2 mt-3">
-              <Button onClick={handleResendForSignature} size="sm" className="w-full gap-2 h-9">
-                <RefreshCw className="w-3.5 h-3.5" />
-                Resend for Signature
+            <div className="space-y-3 mt-3">
+              {/* What's blocking this? */}
+              {(() => {
+                const blockers = item.recipients.filter(
+                  (r) => r.status !== "signed" && r.status !== "declined" && (r.role === "signer" || r.role === "approver")
+                );
+                if (blockers.length === 0) return null;
+                const primary = blockers[0];
+                const lastTouch = primary.viewedAt || item.lastActivity;
+                const lastTouchText = lastTouch
+                  ? `Last activity ${formatDistanceToNow(lastTouch, { addSuffix: true })}`
+                  : "No activity recorded";
+                const openedText = primary.viewedAt ? "Opened but not signed" : "Not opened";
+                return (
+                  <div className="rounded-xl border border-border/50 bg-muted/20 p-3">
+                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 font-medium mb-2">
+                      What's blocking this?
+                    </p>
+                    <div className="flex items-start gap-2.5">
+                      <Avatar className="w-7 h-7 shrink-0">
+                        <AvatarFallback className="text-[10px] bg-muted">
+                          {primary.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm text-foreground font-medium truncate">
+                          Waiting on: {primary.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {openedText} • {lastTouchText}
+                        </p>
+                        {blockers.length > 1 && (
+                          <p className="text-[11px] text-muted-foreground/70 mt-1">
+                            +{blockers.length - 1} other recipient{blockers.length - 1 === 1 ? "" : "s"} pending
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Primary CTA — dominant */}
+              <Button
+                onClick={() => setExtendResendOpen(true)}
+                size="lg"
+                className="w-full gap-2 h-11 text-sm font-semibold shadow-md shadow-primary/20"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Extend & Resend
               </Button>
               {/* Download dropdown for Expired */}
               <DropdownMenu>
@@ -1250,8 +1330,8 @@ const getProgressMicrocopy = () => {
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <p className="text-[10px] text-muted-foreground text-center pt-1">
-                Creates a new signing request using the same document and recipients.
+              <p className="text-[10px] text-muted-foreground text-center pt-1 leading-relaxed">
+                Same document, same recipients, same fields. Existing signatures stay valid — only pending recipients are notified.
               </p>
             </div>
           )}
@@ -2006,6 +2086,127 @@ const getProgressMicrocopy = () => {
                 disabled={!extendDate}
               >
                 Extend deadline
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* ========== EXTEND & RESEND MODAL (Expired requests, sender only) ========== */}
+        <Dialog open={extendResendOpen} onOpenChange={setExtendResendOpen}>
+          <DialogContent className="sm:max-w-[440px]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-primary" />
+                Extend signing deadline
+              </DialogTitle>
+              <DialogDescription className="pt-1">
+                Set a new deadline and resend to pending recipients. Existing signatures stay valid.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-2">
+              {/* Recipients summary (read-only) */}
+              <div className="rounded-lg border border-border/50 bg-muted/20 p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-medium text-foreground flex items-center gap-1.5">
+                    <Users className="w-3.5 h-3.5 text-muted-foreground" />
+                    Recipients
+                  </p>
+                  <span className="text-[11px] text-muted-foreground">
+                    {signedCount} of {totalActionable} signed
+                  </span>
+                </div>
+                <div className="space-y-1.5 max-h-[140px] overflow-y-auto">
+                  {item.recipients.map((r) => {
+                    const isDone = r.status === "signed";
+                    return (
+                      <div key={r.email} className="flex items-center gap-2 text-xs">
+                        <Avatar className="w-5 h-5">
+                          <AvatarFallback className="text-[9px] bg-muted">
+                            {r.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="text-foreground/90 truncate flex-1">{r.name}</span>
+                        <span className={cn(
+                          "text-[10px]",
+                          isDone ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"
+                        )}>
+                          {isDone ? "Signed" : r.status === "viewed" ? "Opened" : "Pending"}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-[10px] text-muted-foreground/70 mt-2 leading-relaxed">
+                  Recipients cannot be edited here. Only pending recipients will be notified.
+                </p>
+              </div>
+
+              {/* Expiry options */}
+              <div>
+                <label className="text-xs font-medium text-foreground mb-2 block">
+                  New deadline
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {(["3", "7", "14"] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setExtendResendOption(opt)}
+                      className={cn(
+                        "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all",
+                        extendResendOption === opt
+                          ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                          : "border-border/60 bg-card hover:border-border text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {opt} days
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setExtendResendOption("custom")}
+                  className={cn(
+                    "mt-2 w-full rounded-lg border px-3 py-2.5 text-xs font-medium transition-all flex items-center justify-center gap-2",
+                    extendResendOption === "custom"
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : "border-border/60 bg-card hover:border-border text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <CalendarPlus className="w-3.5 h-3.5" />
+                  Custom date
+                </button>
+
+                {extendResendOption === "custom" && (
+                  <div className="mt-3 flex justify-center">
+                    <CalendarComponent
+                      mode="single"
+                      selected={extendResendCustomDate}
+                      onSelect={setExtendResendCustomDate}
+                      disabled={(date) => date < new Date()}
+                      className="rounded-md border pointer-events-auto"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-lg bg-muted/30 border border-border/40 p-2.5">
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Document, fields, and existing signatures remain unchanged. Status will return to <span className="text-foreground font-medium">In Progress</span>.
+                </p>
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button variant="outline" onClick={() => setExtendResendOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleExtendAndResend}
+                disabled={extendResendOption === "custom" && !extendResendCustomDate}
+                className="gap-2"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                Extend & Resend
               </Button>
             </DialogFooter>
           </DialogContent>
