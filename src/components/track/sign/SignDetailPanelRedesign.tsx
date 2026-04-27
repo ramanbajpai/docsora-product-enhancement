@@ -3030,6 +3030,13 @@ function ActivityTabContent({
         </p>
       ) : (
         <div className="space-y-1">
+          {/* Forward-looking "Next" entry (Completion Engine) — only on expired/sender */}
+          {isExpired && isSender && !recoveredAt && (
+            <NextActionRow autopilotEnabled={autopilotEnabled} />
+          )}
+          {isExpired && isSender && recoveredAt && (
+            <RecoveredActionRow recoveredAt={recoveredAt} />
+          )}
           {visibleActivities.map((activity, index) => (
             <ActivityRow 
               key={activity.id} 
