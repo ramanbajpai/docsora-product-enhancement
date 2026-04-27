@@ -536,6 +536,23 @@ const getProgressMicrocopy = () => {
     r.status === "viewed" || r.status === "signed"
   );
 
+  // Extend & Resend (expired) — keeps existing recipients/fields/signatures intact.
+  const handleExtendAndResend = () => {
+    const days = extendResendOption === "custom"
+      ? (extendResendCustomDate
+          ? Math.max(1, Math.ceil((extendResendCustomDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+          : 7)
+      : Number(extendResendOption);
+    const newDeadline = extendResendOption === "custom" && extendResendCustomDate
+      ? extendResendCustomDate
+      : addDays(new Date(), days);
+    const pending = item.recipients.filter(r => r.status !== "signed" && r.status !== "declined");
+    toast.success("Request extended and resent", {
+      description: `New deadline: ${format(newDeadline, "MMM d, yyyy")} · ${pending.length} pending recipient${pending.length === 1 ? "" : "s"} notified.`,
+    });
+    setExtendResendOpen(false);
+  };
+
   const handleResendForSignature = () => {
     // Map recipients to the format expected by SignMultipleRecipients
     const RECIPIENT_COLORS = [
