@@ -3199,3 +3199,93 @@ function AuditRow({ entry, isLast }: { entry: AuditEntry; isLast: boolean }) {
     </div>
   );
 }
+
+// ========== FORWARD-LOOKING TIMELINE ROWS (Completion Engine) ==========
+function NextActionRow({ autopilotEnabled }: { autopilotEnabled: boolean }) {
+  const tomorrow = addDays(new Date(), 1);
+  return (
+    <div className="flex gap-3">
+      <div className="flex flex-col items-center">
+        <motion.div
+          className="w-6 h-6 rounded-full flex items-center justify-center border border-dashed border-primary/50 bg-primary/5 text-primary"
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <CalendarClock className="w-3 h-3" />
+        </motion.div>
+        <div className="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 my-1" />
+      </div>
+      <div className="flex-1 pb-4">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-sm font-medium text-primary">Next</span>
+          <span className="text-xs text-muted-foreground">—</span>
+          <span className="text-xs text-foreground/80">
+            {autopilotEnabled
+              ? "Docsora will resend tomorrow"
+              : "Resend scheduled (suggested)"}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+            <Sparkles className="w-2.5 h-2.5" />
+            AI
+          </span>
+        </div>
+        <p className="text-[11px] text-muted-foreground/70 mt-0.5">
+          {format(tomorrow, "MMM d, yyyy 'at' h:mm a")} ({Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' ')})
+        </p>
+        {!autopilotEnabled && (
+          <p className="text-[11px] text-muted-foreground/60 mt-1 italic">
+            Enable Autopilot to let Docsora handle this automatically.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function RecoveredActionRow({ recoveredAt }: { recoveredAt: Date }) {
+  const followUp = addDays(recoveredAt, 2);
+  return (
+    <>
+      <div className="flex gap-3">
+        <div className="flex flex-col items-center">
+          <div className="w-6 h-6 rounded-full flex items-center justify-center bg-emerald-500/10 text-emerald-500">
+            <Zap className="w-3 h-3" />
+          </div>
+          <div className="w-px flex-1 bg-border/30 my-1" />
+        </div>
+        <div className="flex-1 pb-4">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-sm font-medium text-emerald-500">Docsora</span>
+            <span className="text-xs text-muted-foreground">—</span>
+            <span className="text-xs text-foreground/80">Recovered & resent automatically</span>
+          </div>
+          <p className="text-[11px] text-muted-foreground/70 mt-0.5">
+            {format(recoveredAt, "MMM d, yyyy 'at' h:mm a")}
+          </p>
+        </div>
+      </div>
+      <div className="flex gap-3">
+        <div className="flex flex-col items-center">
+          <motion.div
+            className="w-6 h-6 rounded-full flex items-center justify-center border border-dashed border-primary/50 bg-primary/5 text-primary"
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <CalendarClock className="w-3 h-3" />
+          </motion.div>
+          <div className="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 my-1" />
+        </div>
+        <div className="flex-1 pb-4">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-sm font-medium text-primary">Next</span>
+            <span className="text-xs text-muted-foreground">—</span>
+            <span className="text-xs text-foreground/80">Follow-up scheduled if no response</span>
+          </div>
+          <p className="text-[11px] text-muted-foreground/70 mt-0.5">
+            {format(followUp, "MMM d, yyyy 'at' h:mm a")}
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
