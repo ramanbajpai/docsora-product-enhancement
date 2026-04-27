@@ -7,7 +7,8 @@ import {
   Shield, PenTool, AlertCircle, FileDown, ChevronRight,
   RefreshCw, Edit3, Files, Users, Layers, MoreHorizontal,
   Key, Mail, Info, UserX, RotateCcw, UserMinus, Ban,
-  CalendarPlus, Award, FileCheck, ArrowRight, Check, Sparkles
+  CalendarPlus, Award, FileCheck, ArrowRight, Check, Sparkles,
+  Zap, Wand2, Activity, Flame, TrendingDown, CalendarClock
 } from "lucide-react";
 import { SignItem, SignRecipient, SignActivity, AuditEntry, signStatusConfig, SigningMode, recipientRoleConfig, RecipientRole } from "./types";
 import { Button } from "@/components/ui/button";
