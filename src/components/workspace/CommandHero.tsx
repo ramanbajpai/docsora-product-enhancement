@@ -14,6 +14,16 @@ const SUGGESTIONS = [
   "Automate reminders on expiring contracts",
 ];
 
+const LIVING_PLACEHOLDERS = [
+  "What's the status of the Docsora contract?",
+  "Send the Acme MSA to Sarah for signature…",
+  "Summarize the Helios deck in 5 bullets",
+  "Remind everyone with pending signatures",
+  "Who's blocking the Northwind agreement?",
+  "Automate reminders on expiring contracts",
+  "Draft an NDA for TechCorp and send it",
+];
+
 export function CommandHero({ greeting = "Good morning, Alex" }: { greeting?: string }) {
   const [input, setInput] = useState("");
   const [files, setFiles] = useState<{ id: string; name: string }[]>([]);
@@ -21,6 +31,34 @@ export function CommandHero({ greeting = "Good morning, Alex" }: { greeting?: st
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { setSelection } = useWorkspace();
+
+  // Living, typewriter-style rotating placeholder
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [phase, setPhase] = useState<"typing" | "holding" | "deleting">("typing");
+
+  useEffect(() => {
+    if (input || submittedQuery || files.length) return; // pause when user engages
+    const target = LIVING_PLACEHOLDERS[placeholderIdx];
+    let timer: number;
+    if (phase === "typing") {
+      if (typed.length < target.length) {
+        timer = window.setTimeout(() => setTyped(target.slice(0, typed.length + 1)), 38);
+      } else {
+        timer = window.setTimeout(() => setPhase("holding"), 1600);
+      }
+    } else if (phase === "holding") {
+      timer = window.setTimeout(() => setPhase("deleting"), 1200);
+    } else {
+      if (typed.length > 0) {
+        timer = window.setTimeout(() => setTyped(target.slice(0, typed.length - 1)), 18);
+      } else {
+        setPlaceholderIdx((i) => (i + 1) % LIVING_PLACEHOLDERS.length);
+        setPhase("typing");
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [typed, phase, placeholderIdx, input, submittedQuery, files.length]);
 
   const liveIntent = useMemo(() => detectIntent(input), [input]);
   const submittedIntent = useMemo(
@@ -128,7 +166,7 @@ export function CommandHero({ greeting = "Good morning, Alex" }: { greeting?: st
               }
             }}
             rows={1}
-            placeholder="Send the Acme MSA to Sarah for signature…"
+            placeholder={typed || " "}
             className="flex-1 resize-none bg-transparent outline-none text-base text-foreground placeholder:text-muted-foreground py-2 max-h-40"
           />
           <button
