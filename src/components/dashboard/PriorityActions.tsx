@@ -12,14 +12,50 @@ import {
   AlertTriangle,
   Clock,
   Wand2,
-  Loader2
+  Loader2,
+  Activity,
+  X,
+  Mail,
+  Bell,
+  Brain,
+  ChevronDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useEffect, useRef } from "react";
 
 type UserRole = "signer" | "approver" | "sender" | "cc";
 type UrgencyLevel = "critical" | "high" | "medium";
 type RiskState = "at-risk" | "stalled" | "on-track";
+
+type ActivityKind = "thinking" | "email" | "reminder" | "sign" | "success" | "info";
+
+interface ActivityEvent {
+  id: string;
+  kind: ActivityKind;
+  title: string;
+  detail?: string;
+  documentTitle?: string;
+  timestamp: Date;
+}
+
+const activityIconMap: Record<ActivityKind, typeof Mail> = {
+  thinking: Brain,
+  email: Mail,
+  reminder: Bell,
+  sign: PenTool,
+  success: CheckCircle2,
+  info: Sparkles,
+};
+
+const activityToneMap: Record<ActivityKind, string> = {
+  thinking: "text-primary bg-primary/10",
+  email: "text-blue-500 bg-blue-500/10",
+  reminder: "text-amber-500 bg-amber-500/10",
+  sign: "text-violet-500 bg-violet-500/10",
+  success: "text-emerald-500 bg-emerald-500/10",
+  info: "text-muted-foreground bg-muted",
+};
 
 interface PriorityAction {
   id: string;
@@ -126,6 +162,30 @@ const riskConfig: Record<RiskState, { label: string; className: string; icon: ty
 export function PriorityActions() {
   const [autopilotIds, setAutopilotIds] = useState<Set<string>>(new Set());
   const [handlingAll, setHandlingAll] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
+  const [activityMinimized, setActivityMinimized] = useState(false);
+  const [activityFeed, setActivityFeed] = useState<ActivityEvent[]>([]);
+  const feedRef = useRef<HTMLDivElement>(null);
+  const eventCounter = useRef(0);
+
+  const pushActivity = (event: Omit<ActivityEvent, "id" | "timestamp">) => {
+    eventCounter.current += 1;
+    setActivityFeed((prev) => [
+      ...prev,
+      {
+        ...event,
+        id: `evt-${eventCounter.current}-${Date.now()}`,
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
+  // Auto-scroll activity feed
+  useEffect(() => {
+    if (feedRef.current) {
+      feedRef.current.scrollTop = feedRef.current.scrollHeight;
+    }
+  }, [activityFeed]);
 
   const sortedActions = [...mockPriorityActions].sort((a, b) => {
     const urgencyOrder = { critical: 0, high: 1, medium: 2 };
@@ -143,13 +203,45 @@ export function PriorityActions() {
         toast.success("Docsora is on it", {
           description: "We'll handle follow-ups and ensure this gets completed",
         });
+        // Open activity panel and stream events for this item
+        setActivityOpen(true);
+        setActivityMinimized(false);
+        streamItemActivity(title);
       }
       return next;
     });
   };
 
+  const streamItemActivity = (title: string) => {
+    const steps: Array<Omit<ActivityEvent, "id" | "timestamp">> = [
+      { kind: "thinking", title: "Analyzing recipient behavior", detail: "Reviewing past response patterns and signing history", documentTitle: title },
+      { kind: "email", title: "Drafting personalized follow-up", detail: "Tone calibrated for professional, time-sensitive context", documentTitle: title },
+      { kind: "reminder", title: "First reminder scheduled", detail: "Will send in 4 hours if no activity", documentTitle: title },
+      { kind: "info", title: "Monitoring for signature events", detail: "I'll notify you the moment something changes", documentTitle: title },
+    ];
+    steps.forEach((step, i) => {
+      setTimeout(() => pushActivity(step), 600 + i * 1100);
+    });
+  };
+
+  const streamBulkActivity = (count: number) => {
+    const steps: Array<Omit<ActivityEvent, "id" | "timestamp">> = [
+      { kind: "thinking", title: `Reviewing ${count} priority items`, detail: "Building the optimal action plan" },
+      { kind: "email", title: "Drafting follow-ups for TechCorp", detail: "Personalized to recipient + urgency" },
+      { kind: "reminder", title: "Scheduled reminder — Q4 Budget Proposal", detail: "Finance approver, 4-hour cadence" },
+      { kind: "sign", title: "Prepared revised NDA — Partner Inc", detail: "Decline reason addressed in cover note" },
+      { kind: "reminder", title: "Nudge queued — Employment Contract", detail: "Recipient inactive 5 days" },
+      { kind: "success", title: "Autopilot active on all items", detail: "I'll keep you posted as things move" },
+    ];
+    steps.forEach((step, i) => {
+      setTimeout(() => pushActivity(step), 500 + i * 950);
+    });
+  };
+
   const handleAllForMe = () => {
     setHandlingAll(true);
+    setActivityOpen(true);
+    setActivityMinimized(false);
     setTimeout(() => {
       const allIds = new Set(sortedActions.filter((a) => a.canAutopilot).map((a) => a.id));
       setAutopilotIds(allIds);
@@ -157,6 +249,7 @@ export function PriorityActions() {
       toast.success("Docsora is handling everything", {
         description: `Autopilot enabled on ${allIds.size} items — we'll keep you posted`,
       });
+      streamBulkActivity(allIds.size);
     }, 800);
   };
 
@@ -255,6 +348,134 @@ export function PriorityActions() {
           )}
         </motion.button>
       </div>
+
+      {/* Live Activity Panel */}
+      <AnimatePresence>
+        {activityOpen && (
+          <motion.div
+            key="activity-panel"
+            initial={{ opacity: 0, y: -8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -8, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="mb-4 overflow-hidden"
+          >
+            <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/[0.04] via-card/80 to-card/80 backdrop-blur-xl shadow-glow overflow-hidden">
+              {/* Panel header */}
+              <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border/40">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative flex items-center justify-center w-7 h-7 rounded-lg bg-primary/10 border border-primary/20">
+                    <Activity className="w-3.5 h-3.5 text-primary" />
+                    <span className="absolute -top-0.5 -right-0.5 flex w-2 h-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-foreground">Docsora is working</span>
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-primary/80">Live</span>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground truncate">
+                      {activityFeed.length === 0
+                        ? "Spinning up your autopilot session…"
+                        : `${activityFeed.length} action${activityFeed.length !== 1 ? "s" : ""} so far`}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => setActivityMinimized((m) => !m)}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label={activityMinimized ? "Expand" : "Minimize"}
+                  >
+                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", activityMinimized && "-rotate-90")} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActivityOpen(false);
+                      setActivityFeed([]);
+                    }}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label="Close"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Feed */}
+              <AnimatePresence initial={false}>
+                {!activityMinimized && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div
+                      ref={feedRef}
+                      className="max-h-[260px] overflow-y-auto px-4 py-3 space-y-2.5"
+                    >
+                      {activityFeed.length === 0 ? (
+                        <div className="flex items-center gap-2 py-4 text-xs text-muted-foreground">
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                          Thinking through the best plan…
+                        </div>
+                      ) : (
+                        activityFeed.map((event, idx) => {
+                          const Icon = activityIconMap[event.kind];
+                          const isLast = idx === activityFeed.length - 1;
+                          return (
+                            <motion.div
+                              key={event.id}
+                              initial={{ opacity: 0, x: -6 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="flex items-start gap-2.5"
+                            >
+                              <div
+                                className={cn(
+                                  "shrink-0 w-6 h-6 rounded-md flex items-center justify-center",
+                                  activityToneMap[event.kind]
+                                )}
+                              >
+                                <Icon className="w-3 h-3" />
+                              </div>
+                              <div className="min-w-0 flex-1 pb-1">
+                                <div className="flex items-baseline gap-2">
+                                  <p className="text-xs font-medium text-foreground truncate">
+                                    {event.title}
+                                  </p>
+                                  {isLast && (
+                                    <span className="text-[9px] uppercase tracking-wider text-primary font-semibold shrink-0">
+                                      now
+                                    </span>
+                                  )}
+                                </div>
+                                {event.detail && (
+                                  <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                                    {event.detail}
+                                  </p>
+                                )}
+                                {event.documentTitle && (
+                                  <p className="text-[10px] text-muted-foreground/70 mt-0.5 truncate">
+                                    on {event.documentTitle}
+                                  </p>
+                                )}
+                              </div>
+                            </motion.div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="space-y-2">
         <AnimatePresence mode="popLayout">
