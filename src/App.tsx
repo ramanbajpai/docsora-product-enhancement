@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { FocusModeProvider } from "@/contexts/FocusModeContext";
 import Index from "./pages/Index";
 import AICheck from "./pages/AICheck";
 import Compress from "./pages/Compress";
@@ -35,6 +36,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
+      <FocusModeProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -69,6 +71,7 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
+      </FocusModeProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
