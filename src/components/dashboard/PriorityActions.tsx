@@ -133,6 +133,30 @@ const riskConfig: Record<RiskState, { label: string; className: string; icon: ty
 export function PriorityActions() {
   const [autopilotIds, setAutopilotIds] = useState<Set<string>>(new Set());
   const [handlingAll, setHandlingAll] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
+  const [activityMinimized, setActivityMinimized] = useState(false);
+  const [activityFeed, setActivityFeed] = useState<ActivityEvent[]>([]);
+  const feedRef = useRef<HTMLDivElement>(null);
+  const eventCounter = useRef(0);
+
+  const pushActivity = (event: Omit<ActivityEvent, "id" | "timestamp">) => {
+    eventCounter.current += 1;
+    setActivityFeed((prev) => [
+      ...prev,
+      {
+        ...event,
+        id: `evt-${eventCounter.current}-${Date.now()}`,
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
+  // Auto-scroll activity feed
+  useEffect(() => {
+    if (feedRef.current) {
+      feedRef.current.scrollTop = feedRef.current.scrollHeight;
+    }
+  }, [activityFeed]);
 
   const sortedActions = [...mockPriorityActions].sort((a, b) => {
     const urgencyOrder = { critical: 0, high: 1, medium: 2 };
