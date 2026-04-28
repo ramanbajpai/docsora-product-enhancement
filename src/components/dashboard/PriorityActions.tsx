@@ -349,6 +349,134 @@ export function PriorityActions() {
         </motion.button>
       </div>
 
+      {/* Live Activity Panel */}
+      <AnimatePresence>
+        {activityOpen && (
+          <motion.div
+            key="activity-panel"
+            initial={{ opacity: 0, y: -8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -8, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="mb-4 overflow-hidden"
+          >
+            <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/[0.04] via-card/80 to-card/80 backdrop-blur-xl shadow-glow overflow-hidden">
+              {/* Panel header */}
+              <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border/40">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative flex items-center justify-center w-7 h-7 rounded-lg bg-primary/10 border border-primary/20">
+                    <Activity className="w-3.5 h-3.5 text-primary" />
+                    <span className="absolute -top-0.5 -right-0.5 flex w-2 h-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-foreground">Docsora is working</span>
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-primary/80">Live</span>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground truncate">
+                      {activityFeed.length === 0
+                        ? "Spinning up your autopilot session…"
+                        : `${activityFeed.length} action${activityFeed.length !== 1 ? "s" : ""} so far`}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => setActivityMinimized((m) => !m)}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label={activityMinimized ? "Expand" : "Minimize"}
+                  >
+                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", activityMinimized && "-rotate-90")} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActivityOpen(false);
+                      setActivityFeed([]);
+                    }}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label="Close"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Feed */}
+              <AnimatePresence initial={false}>
+                {!activityMinimized && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div
+                      ref={feedRef}
+                      className="max-h-[260px] overflow-y-auto px-4 py-3 space-y-2.5"
+                    >
+                      {activityFeed.length === 0 ? (
+                        <div className="flex items-center gap-2 py-4 text-xs text-muted-foreground">
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                          Thinking through the best plan…
+                        </div>
+                      ) : (
+                        activityFeed.map((event, idx) => {
+                          const Icon = activityIconMap[event.kind];
+                          const isLast = idx === activityFeed.length - 1;
+                          return (
+                            <motion.div
+                              key={event.id}
+                              initial={{ opacity: 0, x: -6 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="flex items-start gap-2.5"
+                            >
+                              <div
+                                className={cn(
+                                  "shrink-0 w-6 h-6 rounded-md flex items-center justify-center",
+                                  activityToneMap[event.kind]
+                                )}
+                              >
+                                <Icon className="w-3 h-3" />
+                              </div>
+                              <div className="min-w-0 flex-1 pb-1">
+                                <div className="flex items-baseline gap-2">
+                                  <p className="text-xs font-medium text-foreground truncate">
+                                    {event.title}
+                                  </p>
+                                  {isLast && (
+                                    <span className="text-[9px] uppercase tracking-wider text-primary font-semibold shrink-0">
+                                      now
+                                    </span>
+                                  )}
+                                </div>
+                                {event.detail && (
+                                  <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                                    {event.detail}
+                                  </p>
+                                )}
+                                {event.documentTitle && (
+                                  <p className="text-[10px] text-muted-foreground/70 mt-0.5 truncate">
+                                    on {event.documentTitle}
+                                  </p>
+                                )}
+                              </div>
+                            </motion.div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="space-y-2">
         <AnimatePresence mode="popLayout">
           {sortedActions.map((action, index) => {
