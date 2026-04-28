@@ -18,7 +18,10 @@ import {
   Mail,
   Bell,
   Brain,
-  ChevronDown
+  ChevronDown,
+  BellRing,
+  CalendarClock,
+  Link2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -64,12 +67,15 @@ interface PriorityAction {
   role: UserRole;
   urgency: UrgencyLevel;
   cta: string;
-  ctaAction: "sign" | "review" | "resend" | "view";
+  ctaAction: "sign" | "review" | "resend" | "view" | "remind" | "extend";
   dueDate?: string;
   aiInsight?: string;
   aiRecommendation?: string;
   riskState: RiskState;
   canAutopilot: boolean;
+  // Transfer-specific: when set, renders the secondary "Extend Expiry" link
+  // and uses transfer behaviors (reminder + extend toasters).
+  transferKind?: "email" | "link";
 }
 
 const mockPriorityActions: PriorityAction[] = [
@@ -125,6 +131,34 @@ const mockPriorityActions: PriorityAction[] = [
     riskState: "stalled",
     canAutopilot: true,
   },
+  {
+    id: "t-email-1",
+    title: "Transfer — Series A Data Room",
+    reason: "Expiring soon — 1 of 2 recipients downloaded",
+    role: "sender",
+    urgency: "high",
+    cta: "Remind Recipients",
+    ctaAction: "remind",
+    dueDate: "Expires in 18 hours",
+    aiRecommendation: "Docsora recommends nudging the pending recipient",
+    riskState: "at-risk",
+    canAutopilot: true,
+    transferKind: "email",
+  },
+  {
+    id: "t-link-1",
+    title: "Transfer — Brand Assets v3",
+    reason: "Link expiring soon",
+    role: "sender",
+    urgency: "high",
+    cta: "Extend Expiry",
+    ctaAction: "extend",
+    dueDate: "Expires in 12 hours",
+    aiRecommendation: "Extend by 3 days to keep the link active",
+    riskState: "at-risk",
+    canAutopilot: false,
+    transferKind: "link",
+  },
 ];
 
 const roleConfig: Record<UserRole, { label: string }> = {
@@ -139,6 +173,8 @@ const ctaConfig: Record<string, { icon: typeof PenTool }> = {
   review: { icon: Eye },
   resend: { icon: Send },
   view: { icon: ArrowRight },
+  remind: { icon: BellRing },
+  extend: { icon: CalendarClock },
 };
 
 const riskConfig: Record<RiskState, { label: string; className: string; icon: typeof AlertTriangle }> = {
@@ -166,6 +202,9 @@ export function PriorityActions() {
   const [activityMinimized, setActivityMinimized] = useState(false);
   const [activityFeed, setActivityFeed] = useState<ActivityEvent[]>([]);
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+  // Tracks transfer items where the user already sent a reminder — surfaces
+  // the inline "Need more time? Extend expiry" suggestion.
+  const [remindedIds, setRemindedIds] = useState<Set<string>>(new Set());
   const feedRef = useRef<HTMLDivElement>(null);
   const eventCounter = useRef(0);
 
@@ -215,6 +254,24 @@ export function PriorityActions() {
           }),
       },
     });
+  };
+
+  // ── Transfer (Sent) — Expiring Soon behaviors ─────────────────────────────
+  const handleRemindRecipients = (id: string) => {
+    setRemindedIds((prev) => new Set(prev).add(id));
+    toast.success("Reminder sent to pending recipients");
+  };
+
+  const handleExtendExpiry = (
+    id: string,
+    kind: "email" | "link" = "email"
+  ) => {
+    setDismissedIds((prev) => new Set(prev).add(id));
+    toast.success(
+      kind === "link"
+        ? "Expiry extended by 3 days. Link is now active."
+        : "Expiry extended by 3 days. File is now active."
+    );
   };
 
   const toggleAutopilot = (id: string, title: string) => {
@@ -538,7 +595,13 @@ export function PriorityActions() {
 
                 <div className="flex items-start gap-3 pl-2">
                   <div className="w-9 h-9 rounded-lg bg-surface-2 flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4 text-muted-foreground" />
+                    {action.transferKind === "link" ? (
+                      <Link2 className="w-4 h-4 text-muted-foreground" />
+                    ) : action.transferKind === "email" ? (
+                      <Send className="w-4 h-4 text-muted-foreground" />
+                    ) : (
+                      <FileText className="w-4 h-4 text-muted-foreground" />
+                    )}
                   </div>
 
                   <div className="flex-1 min-w-0">
@@ -573,6 +636,25 @@ export function PriorityActions() {
                         <p className="text-sm text-muted-foreground">
                           {action.reason}
                         </p>
+
+                        {/* Transfer expiry subtext */}
+                        {action.transferKind && action.dueDate && (
+                          <p className="mt-0.5 text-[12px] text-muted-foreground/80 inline-flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {action.dueDate}
+                          </p>
+                        )}
+
+                        {/* Post-reminder inline suggestion (email transfers) */}
+                        {action.transferKind === "email" && remindedIds.has(action.id) && (
+                          <button
+                            onClick={() => handleExtendExpiry(action.id, "email")}
+                            className="mt-2 inline-flex items-center gap-1 text-[11px] text-primary hover:underline underline-offset-2"
+                          >
+                            <CalendarClock className="w-3 h-3" />
+                            Need more time? Extend expiry
+                          </button>
+                        )}
 
                         {/* AI recommendation */}
                         {action.aiRecommendation && !isOnAutopilot && (
@@ -616,13 +698,31 @@ export function PriorityActions() {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            if (action.ctaAction === "remind") {
+                              handleRemindRecipients(action.id);
+                            } else if (action.ctaAction === "extend") {
+                              handleExtendExpiry(action.id, action.transferKind ?? "link");
+                            }
+                          }}
                           className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
                         >
                           {action.cta}
                           <CtaIcon className="w-3.5 h-3.5" />
                         </motion.button>
 
-                        {action.canAutopilot && (
+                        {/* Secondary "Extend Expiry" — only for email transfers, subtle ghost */}
+                        {action.transferKind === "email" && (
+                          <button
+                            onClick={() => handleExtendExpiry(action.id, "email")}
+                            className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                          >
+                            <CalendarClock className="w-3 h-3" />
+                            Extend Expiry
+                          </button>
+                        )}
+
+                        {action.canAutopilot && !action.transferKind && (
                           <button
                             onClick={() => toggleAutopilot(action.id, action.title)}
                             className={cn(
