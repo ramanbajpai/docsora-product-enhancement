@@ -28,6 +28,35 @@ type UserRole = "signer" | "approver" | "sender" | "cc";
 type UrgencyLevel = "critical" | "high" | "medium";
 type RiskState = "at-risk" | "stalled" | "on-track";
 
+type ActivityKind = "thinking" | "email" | "reminder" | "sign" | "success" | "info";
+
+interface ActivityEvent {
+  id: string;
+  kind: ActivityKind;
+  title: string;
+  detail?: string;
+  documentTitle?: string;
+  timestamp: Date;
+}
+
+const activityIconMap: Record<ActivityKind, typeof Mail> = {
+  thinking: Brain,
+  email: Mail,
+  reminder: Bell,
+  sign: PenTool,
+  success: CheckCircle2,
+  info: Sparkles,
+};
+
+const activityToneMap: Record<ActivityKind, string> = {
+  thinking: "text-primary bg-primary/10",
+  email: "text-blue-500 bg-blue-500/10",
+  reminder: "text-amber-500 bg-amber-500/10",
+  sign: "text-violet-500 bg-violet-500/10",
+  success: "text-emerald-500 bg-emerald-500/10",
+  info: "text-muted-foreground bg-muted",
+};
+
 interface PriorityAction {
   id: string;
   title: string;
