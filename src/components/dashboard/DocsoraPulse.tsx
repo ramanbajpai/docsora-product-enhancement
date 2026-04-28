@@ -1,412 +1,496 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
-  CheckCircle2,
-  Download,
-  Sparkles,
-  FileText,
-  Send,
   Activity,
+  PenTool,
+  Send,
+  Sparkles,
+  Download,
+  AlertTriangle,
+  CheckCircle2,
+  Eye,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type PulseEventKind =
-  | "signature"
-  | "download"
-  | "conversion"
-  | "transfer"
-  | "ai";
+/**
+ * Docsora Pulse
+ *
+ * Ambient operational intelligence layer.
+ * Each node = a real workflow moving through the platform.
+ * Lines = flow paths between workflow stages.
+ * Pulses = state transitions (sent / viewed / completed / at-risk).
+ */
 
-interface PulseEvent {
-  id: number;
-  kind: PulseEventKind;
-  label: string;
-  x: number; // 0-100 horizontal anchor
-  y: number; // 0-100 vertical anchor
+type NodeState = "active" | "completed" | "at_risk";
+type WorkflowKind = "sign" | "transfer" | "ai_check" | "convert";
+
+interface WorkflowNode {
+  id: string;
+  name: string;
+  kind: WorkflowKind;
+  state: NodeState;
+  status: string;
+  next?: string;
+  // Position on a 0-100 normalized canvas
+  x: number;
+  y: number;
+  // For animated entry
+  bornAt: number;
 }
 
-const eventLibrary: Omit<PulseEvent, "id" | "x" | "y">[] = [
-  { kind: "signature", label: "Signature completed" },
-  { kind: "download", label: "File downloaded" },
-  { kind: "conversion", label: "Conversion finished" },
-  { kind: "transfer", label: "Transfer delivered" },
-  { kind: "ai", label: "AI review complete" },
-  { kind: "signature", label: "Contract signed" },
-  { kind: "download", label: "Recipient opened file" },
-];
-
-const eventConfig: Record<
-  PulseEventKind,
-  { icon: typeof CheckCircle2; color: string; ring: string; glow: string }
+const kindConfig: Record<
+  WorkflowKind,
+  { icon: typeof PenTool; label: string }
 > = {
-  signature: {
-    icon: CheckCircle2,
-    color: "text-success",
+  sign: { icon: PenTool, label: "Signature" },
+  transfer: { icon: Send, label: "Transfer" },
+  ai_check: { icon: Sparkles, label: "AI Check" },
+  convert: { icon: Download, label: "Conversion" },
+};
+
+const stateConfig: Record<
+  NodeState,
+  {
+    core: string;
+    glow: string;
+    ring: string;
+    text: string;
+    label: string;
+    Icon: typeof CheckCircle2;
+  }
+> = {
+  active: {
+    core: "bg-primary",
+    glow: "shadow-[0_0_24px_hsl(var(--primary)/0.55)]",
+    ring: "border-primary/40",
+    text: "text-primary",
+    label: "In progress",
+    Icon: Activity,
+  },
+  completed: {
+    core: "bg-success",
+    glow: "shadow-[0_0_24px_hsl(var(--success)/0.55)]",
     ring: "border-success/40",
-    glow: "bg-success/40",
+    text: "text-success",
+    label: "Completed",
+    Icon: CheckCircle2,
   },
-  download: {
-    icon: Download,
-    color: "text-primary",
-    ring: "border-primary/40",
-    glow: "bg-primary/40",
-  },
-  conversion: {
-    icon: Sparkles,
-    color: "text-warning",
+  at_risk: {
+    core: "bg-warning",
+    glow: "shadow-[0_0_28px_hsl(var(--warning)/0.6)]",
     ring: "border-warning/40",
-    glow: "bg-warning/40",
-  },
-  transfer: {
-    icon: Send,
-    color: "text-primary",
-    ring: "border-primary/40",
-    glow: "bg-primary/40",
-  },
-  ai: {
-    icon: FileText,
-    color: "text-warning",
-    ring: "border-warning/40",
-    glow: "bg-warning/40",
+    text: "text-warning",
+    label: "Needs attention",
+    Icon: AlertTriangle,
   },
 };
 
+const seedNodes: WorkflowNode[] = [
+  {
+    id: "n1",
+    name: "NDA — Acme Corp",
+    kind: "sign",
+    state: "active",
+    status: "Awaiting signature from Sarah",
+    next: "Send reminder",
+    x: 14,
+    y: 58,
+    bornAt: 0,
+  },
+  {
+    id: "n2",
+    name: "Q4 Report.pdf",
+    kind: "transfer",
+    state: "active",
+    status: "Delivered to 3 recipients",
+    next: "View receipts",
+    x: 30,
+    y: 38,
+    bornAt: 0,
+  },
+  {
+    id: "n3",
+    name: "Contract_v2.docx",
+    kind: "ai_check",
+    state: "active",
+    status: "Reviewing 12 clauses",
+    next: "Open results",
+    x: 48,
+    y: 62,
+    bornAt: 0,
+  },
+  {
+    id: "n4",
+    name: "Pitch Deck.pdf",
+    kind: "sign",
+    state: "completed",
+    status: "Signed by all parties",
+    next: "Download",
+    x: 64,
+    y: 42,
+    bornAt: 0,
+  },
+  {
+    id: "n5",
+    name: "Partnership Agreement",
+    kind: "sign",
+    state: "at_risk",
+    status: "Expires in 36 hours",
+    next: "Follow up",
+    x: 80,
+    y: 56,
+    bornAt: 0,
+  },
+];
+
+// Routes per workflow kind
+const kindRoute: Record<WorkflowKind, string> = {
+  sign: "/track?tab=sign",
+  transfer: "/track",
+  ai_check: "/ai-check",
+  convert: "/convert",
+};
+
+const eventNames = [
+  "Financial Report.pdf",
+  "Service Agreement",
+  "Media.zip",
+  "Onboarding Doc",
+  "Vendor MSA",
+  "Invoice 2041",
+  "Q1 Forecast",
+];
+
+function makeNode(now: number): WorkflowNode {
+  const kinds: WorkflowKind[] = ["sign", "transfer", "ai_check", "convert"];
+  const kind = kinds[Math.floor(Math.random() * kinds.length)];
+  const stateRoll = Math.random();
+  const state: NodeState =
+    stateRoll < 0.15 ? "at_risk" : stateRoll < 0.45 ? "completed" : "active";
+  const name = eventNames[Math.floor(Math.random() * eventNames.length)];
+  return {
+    id: `n-${now}-${Math.random().toString(36).slice(2, 7)}`,
+    name,
+    kind,
+    state,
+    status:
+      state === "active"
+        ? "Moving through workflow"
+        : state === "completed"
+        ? "Just completed"
+        : "Needs your attention",
+    next:
+      state === "completed"
+        ? "View"
+        : state === "at_risk"
+        ? "Resolve"
+        : "Continue",
+    x: 8 + Math.random() * 84,
+    y: 28 + Math.random() * 50,
+    bornAt: now,
+  };
+}
+
 export function DocsoraPulse() {
-  const [events, setEvents] = useState<PulseEvent[]>([]);
-  const [tickCount, setTickCount] = useState(0);
-  const idRef = useRef(0);
+  const navigate = useNavigate();
+  const [nodes, setNodes] = useState<WorkflowNode[]>(seedNodes);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [sweepKey, setSweepKey] = useState(0);
 
+  // Lifecycle: occasionally birth new nodes, retire old ones, trigger sweep
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
+    const birth = setInterval(() => {
+      setNodes((prev) => {
+        const next = [...prev, makeNode(Date.now())];
+        // Keep canvas calm — never more than 8 nodes
+        if (next.length > 8) next.shift();
+        return next;
+      });
+    }, 7000);
 
-    const schedule = () => {
-      // More frequent — feels alive and busy without being noisy
-      const delay = 2200 + Math.random() * 3800;
-      timeout = setTimeout(() => {
-        const template =
-          eventLibrary[Math.floor(Math.random() * eventLibrary.length)];
-        const newEvent: PulseEvent = {
-          ...template,
-          id: ++idRef.current,
-          x: 8 + Math.random() * 84,
-          y: 25 + Math.random() * 50,
-        };
-        setEvents((prev) => [...prev, newEvent]);
-        setTickCount((c) => c + 1);
+    const sweep = setInterval(() => {
+      setSweepKey((k) => k + 1);
+    }, 11000);
 
-        // Auto-clean after the pulse animation completes
-        setTimeout(() => {
-          setEvents((prev) => prev.filter((e) => e.id !== newEvent.id));
-        }, 4600);
-
-        schedule();
-      }, delay);
+    return () => {
+      clearInterval(birth);
+      clearInterval(sweep);
     };
-
-    schedule();
-    return () => clearTimeout(timeout);
   }, []);
 
-  const constellation = useMemo(
-    () =>
-      Array.from({ length: 28 }).map((_, i) => ({
-        x: (i * 37 + 11) % 100,
-        y: ((i * 53 + 19) % 70) + 15,
-        delay: (i % 7) * 0.4,
-        size: i % 5 === 0 ? 1.5 : 1,
-      })),
-    []
-  );
+  // Build flow connections — each node connects to its nearest neighbor (right-ward)
+  const connections = useMemo(() => {
+    const sorted = [...nodes].sort((a, b) => a.x - b.x);
+    const lines: { from: WorkflowNode; to: WorkflowNode }[] = [];
+    for (let i = 0; i < sorted.length - 1; i++) {
+      lines.push({ from: sorted[i], to: sorted[i + 1] });
+    }
+    return lines;
+  }, [nodes]);
+
+  const activeCount = nodes.filter((n) => n.state === "active").length;
+  const atRiskCount = nodes.filter((n) => n.state === "at_risk").length;
 
   return (
-    <motion.div
-      aria-hidden="true"
+    <motion.section
+      aria-label="Docsora Pulse — live workflow activity"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, delay: 0.5 }}
-      className="relative mt-16 h-72 w-full overflow-hidden pointer-events-none select-none"
+      transition={{ duration: 1.2, delay: 0.4 }}
+      className="relative mt-16"
     >
-      {/* Top hairline — the "horizon" entering the system */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
-
-      {/* Atmospheric depth gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.015] to-primary/[0.04]" />
-      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_at_bottom,hsl(var(--primary)/0.06),transparent_70%)]" />
-
-      {/* Animated SVG wave field — the "breath" of the system */}
-      <WaveField />
-
-      {/* Faint constellation grid — fixed reference points */}
-      {constellation.map((p, i) => (
-        <ConstellationDot key={i} {...p} />
-      ))}
-
-      {/* Flowing ambient lines */}
-      <FlowLine delay={0} duration={16} y={35} opacity={0.07} />
-      <FlowLine delay={3} duration={22} y={55} opacity={0.05} />
-      <FlowLine delay={7} duration={19} y={70} opacity={0.06} />
-      <FlowLine delay={11} duration={24} y={85} opacity={0.04} />
-
-      {/* Drifting particles */}
-      {Array.from({ length: 14 }).map((_, i) => (
-        <Particle key={i} index={i} />
-      ))}
-
-      {/* Event-driven pulses */}
-      <AnimatePresence>
-        {events.map((event) => (
-          <PulseRipple key={event.id} event={event} />
-        ))}
-      </AnimatePresence>
-
-      {/* Live system status — bottom-left */}
-      <SystemStatusBar tickCount={tickCount} />
-    </motion.div>
-  );
-}
-
-function FlowLine({
-  delay,
-  duration,
-  y,
-  opacity,
-}: {
-  delay: number;
-  duration: number;
-  y: number;
-  opacity: number;
-}) {
-  return (
-    <motion.div
-      initial={{ x: "-30%" }}
-      animate={{ x: "130%" }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "linear",
-      }}
-      style={{ top: `${y}%`, opacity }}
-      className="absolute h-px w-2/5 bg-gradient-to-r from-transparent via-primary to-transparent"
-    />
-  );
-}
-
-function Particle({ index }: { index: number }) {
-  const left = (index * 13 + 5) % 100;
-  const duration = 12 + (index % 5) * 2.5;
-  const delay = index * 1.4;
-  const size = index % 4 === 0 ? "w-1.5 h-1.5" : "w-1 h-1";
-
-  return (
-    <motion.div
-      initial={{ y: 60, opacity: 0 }}
-      animate={{
-        y: [-20, -160, -20],
-        opacity: [0, 0.5, 0],
-        x: [0, index % 2 === 0 ? 8 : -8, 0],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      style={{ left: `${left}%`, bottom: "5%" }}
-      className={cn(
-        "absolute rounded-full bg-primary/50 shadow-[0_0_8px_hsl(var(--primary)/0.5)]",
-        size
-      )}
-    />
-  );
-}
-
-function ConstellationDot({
-  x,
-  y,
-  delay,
-  size,
-}: {
-  x: number;
-  y: number;
-  delay: number;
-  size: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0.1, 0.35, 0.1] }}
-      transition={{
-        duration: 4,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      style={{
-        left: `${x}%`,
-        top: `${y}%`,
-        width: `${size * 2}px`,
-        height: `${size * 2}px`,
-      }}
-      className="absolute rounded-full bg-primary/60"
-    />
-  );
-}
-
-function WaveField() {
-  return (
-    <svg
-      className="absolute inset-x-0 bottom-0 w-full h-full"
-      viewBox="0 0 1200 200"
-      preserveAspectRatio="none"
-    >
-      <defs>
-        <linearGradient id="waveGradient" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-          <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-
-      <motion.path
-        d="M0,120 Q300,80 600,120 T1200,120"
-        fill="none"
-        stroke="url(#waveGradient)"
-        strokeWidth="1"
-        opacity="0.4"
-        animate={{
-          d: [
-            "M0,120 Q300,80 600,120 T1200,120",
-            "M0,120 Q300,150 600,110 T1200,130",
-            "M0,120 Q300,80 600,120 T1200,120",
-          ],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.path
-        d="M0,150 Q400,110 800,150 T1600,150"
-        fill="none"
-        stroke="url(#waveGradient)"
-        strokeWidth="1"
-        opacity="0.25"
-        animate={{
-          d: [
-            "M0,150 Q400,110 800,150 T1600,150",
-            "M0,150 Q400,180 800,140 T1600,160",
-            "M0,150 Q400,110 800,150 T1600,150",
-          ],
-        }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.path
-        d="M0,170 Q200,140 500,170 T1200,170"
-        fill="none"
-        stroke="url(#waveGradient)"
-        strokeWidth="0.8"
-        opacity="0.2"
-        animate={{
-          d: [
-            "M0,170 Q200,140 500,170 T1200,170",
-            "M0,170 Q200,190 500,160 T1200,180",
-            "M0,170 Q200,140 500,170 T1200,170",
-          ],
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </svg>
-  );
-}
-
-function SystemStatusBar({ tickCount }: { tickCount: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.6 }}
-      className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-1/40 backdrop-blur-md border border-border/30"
-    >
-      <motion.div
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="w-1.5 h-1.5 rounded-full bg-success shadow-[0_0_6px_hsl(var(--success))]"
-      />
-      <Activity className="w-3 h-3 text-muted-foreground/70" />
-      <span className="text-[10px] font-medium tracking-wider text-muted-foreground/70 uppercase">
-        Docsora Pulse
-      </span>
-      <span className="text-[10px] text-muted-foreground/40">·</span>
-      <span className="text-[10px] font-mono text-muted-foreground/60 tabular-nums">
-        {tickCount.toString().padStart(3, "0")} events
-      </span>
-    </motion.div>
-  );
-}
-
-function PulseRipple({ event }: { event: PulseEvent }) {
-  const cfg = eventConfig[event.kind];
-  const Icon = cfg.icon;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-      style={{ left: `${event.x}%`, top: `${event.y}%` }}
-      className="absolute -translate-x-1/2"
-    >
-      {/* Concentric ripple rings */}
-      {[0, 0.5, 1, 1.5].map((delay, i) => (
-        <motion.div
-          key={i}
-          initial={{ scale: 0, opacity: 0.5 }}
-          animate={{ scale: 8, opacity: 0 }}
-          transition={{ duration: 3, delay, ease: "easeOut" }}
-          className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            "w-10 h-10 rounded-full border",
-            cfg.ring
+      {/* Section header — minimal, enterprise tone */}
+      <div className="flex items-center justify-between mb-3 px-1">
+        <div className="flex items-center gap-2">
+          <motion.div
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1.5 h-1.5 rounded-full bg-success shadow-[0_0_6px_hsl(var(--success))]"
+          />
+          <span className="font-hint text-xs text-muted-foreground tracking-wider uppercase">
+            Docsora Pulse
+          </span>
+        </div>
+        <div className="flex items-center gap-3 text-[11px] text-muted-foreground/70 tabular-nums">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+            {activeCount} active
+          </span>
+          {atRiskCount > 0 && (
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-warning" />
+              {atRiskCount} at risk
+            </span>
           )}
-        />
-      ))}
+        </div>
+      </div>
 
-      {/* Soft glow core */}
+      {/* The Pulse canvas */}
+      <div
+        className={cn(
+          "relative h-80 w-full overflow-hidden rounded-2xl",
+          "border border-border/40",
+          "bg-[radial-gradient(ellipse_at_50%_120%,hsl(var(--primary)/0.08),transparent_60%)]",
+          "bg-surface-1/30 backdrop-blur-sm"
+        )}
+      >
+        {/* Atmospheric depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/0 to-background/40" />
+
+        {/* Subtle grid — gives the sense of a "system space" */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+
+        {/* Flow paths between nodes — SVG layer */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          preserveAspectRatio="none"
+          viewBox="0 0 100 100"
+        >
+          <defs>
+            <linearGradient id="flowGradient" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+              <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="sweepGradient" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+              <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Connection paths — soft Bezier curves between nodes */}
+          {connections.map((c, i) => {
+            const midX = (c.from.x + c.to.x) / 2;
+            const offset = (i % 2 === 0 ? -1 : 1) * 8;
+            const path = `M ${c.from.x} ${c.from.y} Q ${midX} ${
+              (c.from.y + c.to.y) / 2 + offset
+            } ${c.to.x} ${c.to.y}`;
+            return (
+              <g key={`${c.from.id}-${c.to.id}`}>
+                <motion.path
+                  d={path}
+                  fill="none"
+                  stroke="hsl(var(--border))"
+                  strokeWidth="0.18"
+                  strokeOpacity="0.6"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  vectorEffect="non-scaling-stroke"
+                />
+                {/* Animated traveling glow along the path */}
+                <motion.path
+                  d={path}
+                  fill="none"
+                  stroke="url(#flowGradient)"
+                  strokeWidth="0.5"
+                  strokeLinecap="round"
+                  strokeDasharray="4 96"
+                  initial={{ strokeDashoffset: 100 }}
+                  animate={{ strokeDashoffset: 0 }}
+                  transition={{
+                    duration: 6 + (i % 3),
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: i * 0.8,
+                  }}
+                  vectorEffect="non-scaling-stroke"
+                />
+              </g>
+            );
+          })}
+
+          {/* Cinematic light sweep — fires periodically (AI Check completed) */}
+          <motion.rect
+            key={sweepKey}
+            x="-30"
+            y="0"
+            width="40"
+            height="100"
+            fill="url(#sweepGradient)"
+            opacity="0.25"
+            initial={{ x: -40 }}
+            animate={{ x: 130 }}
+            transition={{ duration: 3.2, ease: [0.4, 0, 0.2, 1] }}
+          />
+        </svg>
+
+        {/* Workflow nodes */}
+        <AnimatePresence>
+          {nodes.map((node) => (
+            <PulseNode
+              key={node.id}
+              node={node}
+              isHovered={hoveredId === node.id}
+              onHover={setHoveredId}
+              onClick={() => navigate(kindRoute[node.kind])}
+            />
+          ))}
+        </AnimatePresence>
+
+        {/* Bottom hairline — the horizon */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
+      </div>
+
+      {/* Whisper caption beneath the canvas */}
+      <p className="mt-3 px-1 text-[11px] text-muted-foreground/60 tracking-wide">
+        Live workflow activity — hover any node to inspect, click to open.
+      </p>
+    </motion.section>
+  );
+}
+
+function PulseNode({
+  node,
+  isHovered,
+  onHover,
+  onClick,
+}: {
+  node: WorkflowNode;
+  isHovered: boolean;
+  onHover: (id: string | null) => void;
+  onClick: () => void;
+}) {
+  const sCfg = stateConfig[node.state];
+  const kCfg = kindConfig[node.kind];
+  const KindIcon = kCfg.icon;
+
+  // At-risk nodes pulse continuously; others pulse occasionally
+  const breathe = node.state === "at_risk" ? 1.6 : 3.2;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.4 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.4 }}
+      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+      style={{ left: `${node.x}%`, top: `${node.y}%` }}
+      className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+      onMouseEnter={() => onHover(node.id)}
+      onMouseLeave={() => onHover(null)}
+      onClick={onClick}
+    >
+      {/* Outer breathing halo */}
       <motion.div
-        initial={{ scale: 0.6, opacity: 0 }}
-        animate={{ scale: [0.6, 1.8, 1.2], opacity: [0, 0.7, 0] }}
-        transition={{ duration: 2.6, ease: "easeOut" }}
+        animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0, 0.5] }}
+        transition={{ duration: breathe, repeat: Infinity, ease: "easeInOut" }}
         className={cn(
           "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-          "w-16 h-16 rounded-full blur-xl",
-          cfg.glow
+          "w-8 h-8 rounded-full border",
+          sCfg.ring
         )}
       />
 
-      {/* Center icon — bright moment of focus */}
+      {/* Core node */}
       <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: [0, 1.2, 1, 0.8], opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 2.4, ease: [0.4, 0, 0.2, 1] }}
+        animate={{
+          scale: isHovered ? 1.3 : 1,
+        }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
         className={cn(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-          "w-6 h-6 rounded-full bg-surface-1/90 backdrop-blur-sm border border-border/50",
-          "flex items-center justify-center shadow-lg"
+          "relative w-3 h-3 rounded-full",
+          sCfg.core,
+          sCfg.glow,
+          "ring-2 ring-background/60"
         )}
-      >
-        <Icon className={cn("w-3 h-3", cfg.color)} />
-      </motion.div>
+      />
 
-      {/* Whisper label — appears briefly, then fades */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: [0, 0.85, 0.85, 0], y: [8, 18, 18, 14] }}
-        transition={{ duration: 4, times: [0, 0.2, 0.75, 1], ease: "easeOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-1/70 backdrop-blur-md border border-border/40 whitespace-nowrap"
-      >
-        <span className="text-[10px] font-medium text-muted-foreground tracking-wide">
-          {event.label}
-        </span>
-      </motion.div>
+      {/* Tooltip */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.95 }}
+            transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+            className={cn(
+              "absolute bottom-full left-1/2 -translate-x-1/2 mb-3",
+              "min-w-[200px] max-w-[260px]",
+              "rounded-xl border border-border/50 bg-surface-1/95 backdrop-blur-md shadow-xl",
+              "p-3 z-10"
+            )}
+          >
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-5 h-5 rounded-md bg-surface-2 flex items-center justify-center">
+                <KindIcon className="w-3 h-3 text-muted-foreground" />
+              </div>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground/70 font-medium">
+                {kCfg.label}
+              </span>
+              <span className={cn("ml-auto flex items-center gap-1 text-[10px]", sCfg.text)}>
+                <sCfg.Icon className="w-2.5 h-2.5" />
+                {sCfg.label}
+              </span>
+            </div>
+
+            <p className="text-sm font-medium text-foreground truncate">
+              {node.name}
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5 truncate">
+              {node.status}
+            </p>
+
+            {node.next && (
+              <div className="mt-2 pt-2 border-t border-border/40 flex items-center gap-1.5 text-[11px] text-primary/90">
+                <Eye className="w-3 h-3" />
+                <span>{node.next}</span>
+              </div>
+            )}
+
+            {/* Tooltip pointer */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px w-2 h-2 rotate-45 bg-surface-1/95 border-r border-b border-border/50" />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
