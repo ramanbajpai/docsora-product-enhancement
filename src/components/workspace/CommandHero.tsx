@@ -22,8 +22,6 @@ const LIVING_PLACEHOLDERS = [
   "Who's blocking the Northwind agreement?",
   "Automate reminders on expiring contracts",
   "Draft an NDA for TechCorp and send it",
-];
- ...[
   "Find the latest version of the Globex SOW",
   "Show me every contract expiring this quarter",
   "Countersign the Initech agreement and send it back",
@@ -34,7 +32,6 @@ const LIVING_PLACEHOLDERS = [
   "Pull key terms from the Stark Industries contract",
   "Schedule a follow-up if Sarah hasn't signed by Friday",
   "Translate the Soylent agreement to French",
- ],
 ];
 
 export function CommandHero({ greeting = "Good morning, Alex" }: { greeting?: string }) {
