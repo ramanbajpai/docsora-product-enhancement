@@ -203,13 +203,45 @@ export function PriorityActions() {
         toast.success("Docsora is on it", {
           description: "We'll handle follow-ups and ensure this gets completed",
         });
+        // Open activity panel and stream events for this item
+        setActivityOpen(true);
+        setActivityMinimized(false);
+        streamItemActivity(title);
       }
       return next;
     });
   };
 
+  const streamItemActivity = (title: string) => {
+    const steps: Array<Omit<ActivityEvent, "id" | "timestamp">> = [
+      { kind: "thinking", title: "Analyzing recipient behavior", detail: "Reviewing past response patterns and signing history", documentTitle: title },
+      { kind: "email", title: "Drafting personalized follow-up", detail: "Tone calibrated for professional, time-sensitive context", documentTitle: title },
+      { kind: "reminder", title: "First reminder scheduled", detail: "Will send in 4 hours if no activity", documentTitle: title },
+      { kind: "info", title: "Monitoring for signature events", detail: "I'll notify you the moment something changes", documentTitle: title },
+    ];
+    steps.forEach((step, i) => {
+      setTimeout(() => pushActivity(step), 600 + i * 1100);
+    });
+  };
+
+  const streamBulkActivity = (count: number) => {
+    const steps: Array<Omit<ActivityEvent, "id" | "timestamp">> = [
+      { kind: "thinking", title: `Reviewing ${count} priority items`, detail: "Building the optimal action plan" },
+      { kind: "email", title: "Drafting follow-ups for TechCorp", detail: "Personalized to recipient + urgency" },
+      { kind: "reminder", title: "Scheduled reminder — Q4 Budget Proposal", detail: "Finance approver, 4-hour cadence" },
+      { kind: "sign", title: "Prepared revised NDA — Partner Inc", detail: "Decline reason addressed in cover note" },
+      { kind: "reminder", title: "Nudge queued — Employment Contract", detail: "Recipient inactive 5 days" },
+      { kind: "success", title: "Autopilot active on all items", detail: "I'll keep you posted as things move" },
+    ];
+    steps.forEach((step, i) => {
+      setTimeout(() => pushActivity(step), 500 + i * 950);
+    });
+  };
+
   const handleAllForMe = () => {
     setHandlingAll(true);
+    setActivityOpen(true);
+    setActivityMinimized(false);
     setTimeout(() => {
       const allIds = new Set(sortedActions.filter((a) => a.canAutopilot).map((a) => a.id));
       setAutopilotIds(allIds);
@@ -217,6 +249,7 @@ export function PriorityActions() {
       toast.success("Docsora is handling everything", {
         description: `Autopilot enabled on ${allIds.size} items — we'll keep you posted`,
       });
+      streamBulkActivity(allIds.size);
     }, 800);
   };
 
