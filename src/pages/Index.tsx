@@ -6,7 +6,7 @@ import { PriorityActions } from "@/components/dashboard/PriorityActions";
 import { ContinueYourWork } from "@/components/dashboard/ContinueYourWork";
 import { SmartFollowUps } from "@/components/dashboard/SmartFollowUps";
 import { RecentOutcomes } from "@/components/dashboard/RecentOutcomes";
-import { YourImpact } from "@/components/dashboard/YourImpact";
+import { DocsoraAutopilot } from "@/components/dashboard/DocsoraAutopilot";
 import { DocsoraCommand } from "@/components/command";
 import { CreateAccountModal } from "@/components/dashboard/CreateAccountModal";
 
@@ -71,8 +71,8 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Your Impact - Tangible value summary */}
-        <YourImpact />
+        {/* Docsora Autopilot - Living system layer */}
+        <DocsoraAutopilot />
       </motion.div>
 
       {/* Dark overlay when gated */}
