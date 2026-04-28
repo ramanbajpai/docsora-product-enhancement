@@ -128,7 +128,7 @@ export function ActiveWork() {
       transition={{ duration: 0.4, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-foreground">Active Work</h2>
+        <h2 className="text-lg font-semibold text-foreground">Your Workflows</h2>
         <p className="text-sm text-muted-foreground mt-0.5">
           Track your documents and workflows
         </p>
