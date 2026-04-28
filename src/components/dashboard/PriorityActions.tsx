@@ -579,7 +579,7 @@ export function PriorityActions() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
                 className={cn(
-                  "glass-card p-4 group relative transition-all duration-200",
+                  "glass-card p-5 pt-6 group relative transition-all duration-200",
                   isOnAutopilot
                     ? "border-primary/30 bg-primary/[0.03] shadow-glow"
                     : "hover:shadow-sm"
@@ -592,6 +592,18 @@ export function PriorityActions() {
                     isOnAutopilot ? "bg-primary" : "bg-primary/30"
                   )}
                 />
+
+                {/* Dismiss — top-right corner */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dismissAction(action.id, action.title);
+                  }}
+                  aria-label="Remove action"
+                  className="absolute top-2 right-2 h-7 w-7 inline-flex items-center justify-center rounded-full text-muted-foreground/70 hover:text-foreground hover:bg-muted/70 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all z-10"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
 
                 <div className="flex items-start gap-3 pl-2">
                   <div className="w-9 h-9 rounded-lg bg-surface-2 flex items-center justify-center shrink-0">
@@ -682,18 +694,6 @@ export function PriorityActions() {
 
                       {/* Action stack */}
                       <div className="shrink-0 flex items-start gap-1.5">
-                        {/* Dismiss — sits to the left of the CTA, never overlaps */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            dismissAction(action.id, action.title);
-                          }}
-                          aria-label="Remove action"
-                          className="mt-1 h-7 w-7 inline-flex items-center justify-center rounded-full text-muted-foreground/70 hover:text-foreground hover:bg-muted/70 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all"
-                        >
-                          <X className="w-3.5 h-3.5" />
-                        </button>
-
                         <div className="flex flex-col items-end gap-1.5">
                         <motion.button
                           whileHover={{ scale: 1.02 }}
