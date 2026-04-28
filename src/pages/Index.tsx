@@ -7,6 +7,7 @@ import { ContinueYourWork } from "@/components/dashboard/ContinueYourWork";
 import { SmartFollowUps } from "@/components/dashboard/SmartFollowUps";
 import { RecentOutcomes } from "@/components/dashboard/RecentOutcomes";
 import { DocsoraAutopilot } from "@/components/dashboard/DocsoraAutopilot";
+import { FocusMode } from "@/components/dashboard/FocusMode";
 import { DocsoraCommand } from "@/components/command";
 import { CreateAccountModal } from "@/components/dashboard/CreateAccountModal";
 
@@ -73,6 +74,9 @@ export default function Index() {
 
         {/* Docsora Autopilot - Living system layer */}
         <DocsoraAutopilot />
+
+        {/* Focus Mode - Distraction-free deep work */}
+        <FocusMode />
       </motion.div>
 
       {/* Dark overlay when gated */}
