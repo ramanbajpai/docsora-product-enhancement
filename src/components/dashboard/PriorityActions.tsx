@@ -165,6 +165,7 @@ export function PriorityActions() {
   const [activityOpen, setActivityOpen] = useState(false);
   const [activityMinimized, setActivityMinimized] = useState(false);
   const [activityFeed, setActivityFeed] = useState<ActivityEvent[]>([]);
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
   const feedRef = useRef<HTMLDivElement>(null);
   const eventCounter = useRef(0);
 
@@ -187,10 +188,34 @@ export function PriorityActions() {
     }
   }, [activityFeed]);
 
-  const sortedActions = [...mockPriorityActions].sort((a, b) => {
-    const urgencyOrder = { critical: 0, high: 1, medium: 2 };
-    return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
-  });
+  const sortedActions = [...mockPriorityActions]
+    .filter((a) => !dismissedIds.has(a.id))
+    .sort((a, b) => {
+      const urgencyOrder = { critical: 0, high: 1, medium: 2 };
+      return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
+    });
+
+  const dismissAction = (id: string, title: string) => {
+    setDismissedIds((prev) => new Set(prev).add(id));
+    setAutopilotIds((prev) => {
+      if (!prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+    toast("Action removed", {
+      description: title,
+      action: {
+        label: "Undo",
+        onClick: () =>
+          setDismissedIds((prev) => {
+            const next = new Set(prev);
+            next.delete(id);
+            return next;
+          }),
+      },
+    });
+  };
 
   const toggleAutopilot = (id: string, title: string) => {
     setAutopilotIds((prev) => {
@@ -515,6 +540,18 @@ export function PriorityActions() {
                   <div className="w-9 h-9 rounded-lg bg-surface-2 flex items-center justify-center shrink-0">
                     <FileText className="w-4 h-4 text-muted-foreground" />
                   </div>
+
+                  {/* Dismiss button — appears on hover */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dismissAction(action.id, action.title);
+                    }}
+                    aria-label="Remove action"
+                    className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/60 hover:text-foreground hover:bg-muted/60 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
