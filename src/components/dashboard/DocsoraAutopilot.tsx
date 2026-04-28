@@ -128,11 +128,11 @@ function TimeSavedPanel() {
 
   return (
     <PanelShell
-      ariaLabel="Time saved by Autopilot"
+      ariaLabel="Time gained from Autopilot"
       onClick={() => navigate("/track")}
       onHoverChange={setHovered}
     >
-      <PanelHeader icon={Sparkles} label="Time saved" />
+      <PanelHeader icon={Sparkles} label="Time gained" />
 
       {/* Ambient rising lines */}
       <div className="absolute inset-x-0 bottom-0 h-24 overflow-hidden pointer-events-none">
@@ -156,7 +156,7 @@ function TimeSavedPanel() {
         <p className="text-3xl font-semibold text-foreground tabular-nums leading-none">
           +{h}h {m.toString().padStart(2, "0")}m
         </p>
-        <p className="mt-2 text-xs text-muted-foreground">saved this week</p>
+        <p className="mt-2 text-xs text-muted-foreground">gained this week</p>
       </div>
 
       <div className="relative z-10 mt-4 min-h-[32px]">
