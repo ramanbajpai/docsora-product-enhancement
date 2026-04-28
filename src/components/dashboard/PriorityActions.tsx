@@ -486,108 +486,94 @@ export function PriorityActions() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
                 className={cn(
-                  "glass-card p-4 group relative transition-all duration-200",
+                  "rounded-2xl border bg-card/60 backdrop-blur-sm p-5 group relative transition-all duration-200",
                   isOnAutopilot
-                    ? "border-primary/30 bg-primary/[0.03] shadow-glow"
-                    : "hover:shadow-sm"
+                    ? "border-primary/40 shadow-glow bg-primary/[0.04]"
+                    : "border-border/60 hover:border-border hover:bg-card/80"
                 )}
               >
-                {/* Left accent — primary at 30%, brighter when on autopilot */}
-                <div
-                  className={cn(
-                    "absolute left-0 top-0 bottom-0 w-[2px] rounded-l-lg transition-colors",
-                    isOnAutopilot ? "bg-primary" : "bg-primary/30"
-                  )}
-                />
-
-                <div className="flex items-start gap-3 pl-2">
-                  <div className="w-9 h-9 rounded-lg bg-surface-2 flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4 text-muted-foreground" />
+                <div className="flex items-start gap-4">
+                  {/* Status icon circle */}
+                  <div
+                    className={cn(
+                      "w-10 h-10 rounded-full flex items-center justify-center shrink-0 border",
+                      action.riskState === "stalled"
+                        ? "bg-destructive/10 border-destructive/20 text-destructive"
+                        : action.riskState === "at-risk"
+                        ? "bg-amber-500/10 border-amber-500/20 text-amber-500"
+                        : "bg-emerald-500/10 border-emerald-500/20 text-emerald-500"
+                    )}
+                  >
+                    {action.riskState === "stalled" ? (
+                      <AlertTriangle className="w-4 h-4" />
+                    ) : action.riskState === "at-risk" ? (
+                      <Clock className="w-4 h-4" />
+                    ) : (
+                      <CheckCircle2 className="w-4 h-4" />
+                    )}
                   </div>
 
                   <div className="flex-1 min-w-0">
+                    {/* Title row + timestamp */}
                     <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        {/* Title row */}
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <h3
-                            className={cn(
-                              "text-foreground group-hover:text-primary transition-colors truncate",
-                              isCritical ? "font-semibold" : "font-medium"
-                            )}
-                          >
-                            {action.title}
-                          </h3>
-                          <span className="shrink-0 px-2 py-0.5 text-[10px] font-medium rounded-full bg-muted text-muted-foreground">
-                            {role.label}
-                          </span>
-                          {/* Urgency tag */}
-                          <span
-                            className={cn(
-                              "shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full border",
-                              risk.className
-                            )}
-                          >
-                            <RiskIcon className="w-2.5 h-2.5" />
-                            {risk.label}
-                          </span>
-                        </div>
-
-                        {/* Reason — decision-oriented */}
-                        <p className="text-sm text-muted-foreground">
-                          {action.reason}
-                        </p>
-
-                        {/* AI recommendation */}
-                        {action.aiRecommendation && !isOnAutopilot && (
-                          <div className="mt-1.5 flex items-center gap-1 text-[11px] text-primary/80">
-                            <Sparkles className="w-3 h-3 shrink-0" />
-                            <span>{action.aiRecommendation}</span>
-                          </div>
+                      <h3
+                        className={cn(
+                          "text-foreground transition-colors truncate",
+                          isCritical ? "font-semibold" : "font-semibold"
                         )}
+                      >
+                        {action.title}
+                      </h3>
+                      {action.dueDate && (
+                        <span className="shrink-0 text-xs text-muted-foreground/80 font-medium">
+                          {action.dueDate}
+                        </span>
+                      )}
+                    </div>
 
-                        {/* Autopilot active state */}
-                        {isOnAutopilot && (
-                          <motion.div
-                            initial={{ opacity: 0, y: -4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mt-2 flex items-center gap-1.5 text-[11px] text-primary font-medium"
-                          >
-                            <span className="relative flex w-1.5 h-1.5">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-                            </span>
-                            Docsora is following up — first reminder sent in 4h
-                          </motion.div>
-                        )}
-                      </div>
+                    {/* Reason */}
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {action.reason}
+                    </p>
 
-                      {/* Action stack */}
-                      <div className="shrink-0 flex flex-col items-end gap-1.5">
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
-                        >
-                          {action.cta}
-                          <CtaIcon className="w-3.5 h-3.5" />
-                        </motion.button>
+                    {/* Docsora suggests */}
+                    {action.aiRecommendation && !isOnAutopilot && (
+                      <p className="mt-2 text-sm">
+                        <span className="text-primary font-medium">Docsora suggests: </span>
+                        <span className="text-foreground/80">{action.aiRecommendation}</span>
+                      </p>
+                    )}
 
-                        {action.canAutopilot && (
-                          <button
-                            onClick={() => toggleAutopilot(action.id, action.title)}
-                            className={cn(
-                              "inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md transition-colors",
-                              isOnAutopilot
-                                ? "text-primary hover:bg-primary/10"
-                                : "text-muted-foreground hover:text-primary hover:bg-primary/5"
-                            )}
-                          >
-                            <Zap className="w-3 h-3" />
-                            {isOnAutopilot ? "Docsora is on it" : "Let Docsora handle this"}
-                          </button>
-                        )}
-                      </div>
+                    {/* Autopilot active state */}
+                    {isOnAutopilot && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2 flex items-center gap-1.5 text-xs text-primary font-medium"
+                      >
+                        <span className="relative flex w-1.5 h-1.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+                        </span>
+                        Docsora is following up — first reminder sent in 4h
+                      </motion.div>
+                    )}
+
+                    {/* Footer actions */}
+                    <div className="mt-3 flex items-center justify-end gap-3">
+                      <button className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+                        View context
+                        <ArrowRight className="w-3 h-3 -rotate-45" />
+                      </button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => action.canAutopilot && toggleAutopilot(action.id, action.title)}
+                        className="inline-flex items-center gap-1.5 pl-3.5 pr-3 py-1.5 text-xs font-medium rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                      >
+                        {action.cta}
+                        <ArrowRight className="w-3 h-3 -rotate-45" />
+                      </motion.button>
                     </div>
                   </div>
                 </div>
