@@ -101,7 +101,31 @@ export default function Index() {
                 className="mt-10"
               >
                 <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-surface-1/40 backdrop-blur-sm p-5 sm:p-6 flex items-center justify-between gap-4">
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_left,hsl(var(--primary)/0.06),transparent_60%)]" />
+                  {/* Calm animated blue aurora background */}
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                    <motion.div
+                      aria-hidden
+                      className="absolute -left-20 -top-24 h-[320px] w-[420px] rounded-full blur-3xl"
+                      style={{ background: "radial-gradient(circle, hsl(217 92% 60% / 0.35), transparent 65%)" }}
+                      animate={{ x: [0, 40, -10, 0], y: [0, 20, -10, 0], scale: [1, 1.1, 0.95, 1] }}
+                      transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      aria-hidden
+                      className="absolute left-1/3 -bottom-32 h-[300px] w-[400px] rounded-full blur-3xl"
+                      style={{ background: "radial-gradient(circle, hsl(210 100% 70% / 0.28), transparent 65%)" }}
+                      animate={{ x: [0, -30, 20, 0], y: [0, -15, 10, 0], scale: [1, 1.08, 0.97, 1] }}
+                      transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      aria-hidden
+                      className="absolute right-0 top-0 h-[260px] w-[360px] rounded-full blur-3xl"
+                      style={{ background: "radial-gradient(circle, hsl(224 80% 55% / 0.22), transparent 70%)" }}
+                      animate={{ x: [0, -20, 10, 0], y: [0, 25, -5, 0], scale: [1, 1.05, 1.02, 1] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-background/20 via-transparent to-background/40" />
+                  </div>
                   <div className="relative z-10 min-w-0">
                     <p className="text-[11px] uppercase tracking-wider text-muted-foreground/70 font-medium mb-1">
                       Focus Mode
