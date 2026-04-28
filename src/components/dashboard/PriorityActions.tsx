@@ -605,7 +605,7 @@ export function PriorityActions() {
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="flex items-start gap-3 pl-2">
+                <div className="flex items-start gap-3 pl-2 pr-10">
                   <div className="w-9 h-9 rounded-lg bg-surface-2 flex items-center justify-center shrink-0">
                     {action.transferKind === "link" ? (
                       <Link2 className="w-4 h-4 text-muted-foreground" />
