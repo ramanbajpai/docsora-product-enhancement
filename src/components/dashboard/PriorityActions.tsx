@@ -220,8 +220,9 @@ export function PriorityActions() {
           disabled={handlingAll || allHandled}
           className={cn(
             "shrink-0 inline-flex items-center gap-2 pl-3 pr-1.5 py-1.5 text-sm font-medium rounded-full transition-all",
-            "border border-border/60 bg-surface-2/60 backdrop-blur-sm text-foreground",
-            "hover:bg-surface-2 hover:border-border",
+            allHandled
+              ? "border border-primary/40 bg-primary/10 backdrop-blur-sm text-primary"
+              : "border border-border/60 bg-surface-2/60 backdrop-blur-sm text-foreground hover:bg-surface-2 hover:border-border",
             "disabled:opacity-70 disabled:cursor-not-allowed"
           )}
         >
@@ -235,10 +236,12 @@ export function PriorityActions() {
             </>
           ) : allHandled ? (
             <>
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span>Docsora has it</span>
-              <span className="ml-1 inline-flex h-5 w-9 items-center rounded-full bg-primary px-0.5 justify-end">
-                <span className="h-4 w-4 rounded-full bg-background shadow-sm" />
+              <span className="inline-flex items-center justify-center h-6 w-6 rounded-md bg-primary/15 border border-primary/25">
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
+              </span>
+              <span>Autopilot · on</span>
+              <span className="ml-1 inline-flex h-5 w-9 items-center rounded-full bg-primary/30 px-0.5 justify-end">
+                <span className="h-4 w-4 rounded-full bg-primary shadow-sm" />
               </span>
             </>
           ) : (
