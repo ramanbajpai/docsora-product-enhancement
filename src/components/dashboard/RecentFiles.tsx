@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, Send, PenTool } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface ActivityItem {
@@ -49,6 +50,7 @@ const typeConfig = {
 };
 
 export function RecentFiles() {
+  const navigate = useNavigate();
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
@@ -64,7 +66,10 @@ export function RecentFiles() {
             Recent Activity
           </h2>
         </div>
-        <button className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 group">
+        <button
+          onClick={() => navigate("/activity")}
+          className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 group"
+        >
           View all
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </button>
