@@ -80,33 +80,6 @@ interface PriorityAction {
 
 const mockPriorityActions: PriorityAction[] = [
   {
-    id: "1",
-    title: "Master Services Agreement — TechCorp",
-    reason: "Waiting on TechCorp — sign now or let Docsora follow up",
-    role: "signer",
-    urgency: "critical",
-    cta: "Sign",
-    ctaAction: "sign",
-    dueDate: "Today",
-    aiInsight: "Typically completed within 48 hours",
-    aiRecommendation: "Docsora recommends signing today to avoid expiry",
-    riskState: "at-risk",
-    canAutopilot: true,
-  },
-  {
-    id: "2",
-    title: "Q4 Budget Proposal",
-    reason: "Approval pending from Finance — expires in 2 days",
-    role: "approver",
-    urgency: "high",
-    cta: "Review",
-    ctaAction: "review",
-    dueDate: "2 days",
-    aiRecommendation: "Docsora recommends sending a reminder",
-    riskState: "at-risk",
-    canAutopilot: true,
-  },
-  {
     id: "3",
     title: "NDA — Partner Inc",
     reason: "Recipient declined — Docsora can re-send a revised version",
