@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, Sparkles, Command as CommandIcon, X, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,25 @@ interface CommandInputProps {
   placeholder?: string;
 }
 
+const LIVING_PLACEHOLDERS = [
+  "What's the status of the Docsora contract?",
+  "Send the Acme MSA to Sarah for signature…",
+  "Summarize the Helios deck in 5 bullets",
+  "Remind everyone with pending signatures",
+  "Who's blocking the Northwind agreement?",
+  "Automate reminders on expiring contracts",
+  "Draft an NDA for TechCorp and send it",
+  "Find the latest version of the Globex SOW",
+  "Show me every contract expiring this quarter",
+  "Countersign the Initech agreement and send it back",
+  "Track all signatures waiting on legal",
+  "Compare v2 and v3 of the Wayne Enterprises MSA",
+  "Email the signed Pied Piper NDA to the team",
+  "Which deals are stuck in review?",
+  "Pull key terms from the Stark Industries contract",
+  "Translate the Soylent agreement to French",
+];
+
 export function CommandInput({
   value,
   onChange,
@@ -27,11 +46,43 @@ export function CommandInput({
   droppedFiles,
   onRemoveFile,
   isProcessing,
-  placeholder = "Drop a document or tell Docsora what you want to do..."
+  placeholder,
 }: CommandInputProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Living, typewriter-style rotating placeholder
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [phase, setPhase] = useState<"typing" | "holding" | "deleting">("typing");
+
+  const isPaused = !!value || droppedFiles.length > 0 || !!placeholder;
+
+  useEffect(() => {
+    if (isPaused) return;
+    const target = LIVING_PLACEHOLDERS[placeholderIdx];
+    let timer: number;
+    if (phase === "typing") {
+      if (typed.length < target.length) {
+        timer = window.setTimeout(() => setTyped(target.slice(0, typed.length + 1)), 38);
+      } else {
+        timer = window.setTimeout(() => setPhase("holding"), 1600);
+      }
+    } else if (phase === "holding") {
+      timer = window.setTimeout(() => setPhase("deleting"), 1200);
+    } else {
+      if (typed.length > 0) {
+        timer = window.setTimeout(() => setTyped(target.slice(0, typed.length - 1)), 18);
+      } else {
+        setPlaceholderIdx((i) => (i + 1) % LIVING_PLACEHOLDERS.length);
+        setPhase("typing");
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [typed, phase, placeholderIdx, isPaused]);
+
+  const effectivePlaceholder = placeholder ?? (typed || " ");
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -137,7 +188,7 @@ export function CommandInput({
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
+          placeholder={effectivePlaceholder}
           className={cn(
             "flex-1 bg-transparent text-foreground placeholder:text-muted-foreground/70",
             "text-sm outline-none"
