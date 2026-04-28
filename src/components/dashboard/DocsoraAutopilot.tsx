@@ -376,9 +376,9 @@ function DataMovementPanel() {
 
       <div className="relative z-10 mt-5 flex-1">
         <p className="text-3xl font-semibold text-foreground tabular-nums leading-none">
-          12 GB
+          1.4 TB
         </p>
-        <p className="mt-2 text-xs text-muted-foreground">transferred today</p>
+        <p className="mt-2 text-xs text-muted-foreground">transferred since you joined</p>
       </div>
 
       <div className="relative z-10 mt-4 min-h-[32px]">
@@ -392,10 +392,10 @@ function DataMovementPanel() {
               className="space-y-1"
             >
               <p className="text-[11px] text-muted-foreground/80">
-                Q4 Report · 3 recipients · 22m ago
+                438 transfers · 1,206 recipients
               </p>
               <p className="text-[11px] text-muted-foreground/80">
-                Media.zip · 1 recipient · 1h ago
+                612 GB saved through compression
               </p>
             </motion.div>
           ) : (
@@ -406,7 +406,7 @@ function DataMovementPanel() {
               exit={{ opacity: 0 }}
               className="text-[11px] text-muted-foreground/80"
             >
-              42% average compression · 4 transfers
+              42% average compression · 438 transfers
             </motion.p>
           )}
         </AnimatePresence>
