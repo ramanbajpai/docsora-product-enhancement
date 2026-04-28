@@ -4,8 +4,8 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
 import { PriorityActions } from "@/components/dashboard/PriorityActions";
 import { ContinueYourWork } from "@/components/dashboard/ContinueYourWork";
-import { SmartFollowUps } from "@/components/dashboard/SmartFollowUps";
-import { RecentOutcomes } from "@/components/dashboard/RecentOutcomes";
+import { DocumentReminders } from "@/components/dashboard/DocumentReminders";
+import { RecentFiles } from "@/components/dashboard/RecentFiles";
 import { DocsoraAutopilot } from "@/components/dashboard/DocsoraAutopilot";
 import { DocsoraCommand } from "@/components/command";
 import { CreateAccountModal } from "@/components/dashboard/CreateAccountModal";
@@ -82,10 +82,10 @@ export default function Index() {
               {/* 3. Two column layout for Reminders and Activity */}
               <div className="mt-8 grid gap-6 lg:grid-cols-5">
                 <div className="lg:col-span-2">
-                  <SmartFollowUps />
+                  <DocumentReminders />
                 </div>
                 <div className="lg:col-span-3">
-                  <RecentOutcomes />
+                  <RecentFiles />
                 </div>
               </div>
 
