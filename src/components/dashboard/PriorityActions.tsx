@@ -563,12 +563,25 @@ export function PriorityActions() {
         <AnimatePresence mode="popLayout">
           {sortedActions.map((action, index) => {
             const role = roleConfig[action.role];
-            const cta = ctaConfig[action.ctaAction];
-            const CtaIcon = cta.icon;
             const isCritical = action.urgency === "critical";
             const isOnAutopilot = autopilotIds.has(action.id);
             const risk = riskConfig[action.riskState];
             const RiskIcon = risk.icon;
+
+            // After a reminder is sent on an email transfer, the card transforms:
+            // new title/subtext, "Follow-up sent" indicator, and the only CTA
+            // becomes "Extend Expiry" (Remind is removed to prevent spam).
+            const isReminded =
+              action.transferKind === "email" && remindedIds.has(action.id);
+            const displayTitle = isReminded
+              ? "Reminder sent — awaiting response"
+              : action.title;
+            const displayReason = isReminded
+              ? `Sent just now • ${action.dueDate ?? "Expires soon"}`
+              : action.reason;
+            const effectiveCtaAction = isReminded ? "extend" : action.ctaAction;
+            const effectiveCtaLabel = isReminded ? "Extend Expiry" : action.cta;
+            const CtaIcon = ctaConfig[effectiveCtaAction].icon;
 
             return (
               <motion.div
@@ -627,49 +640,53 @@ export function PriorityActions() {
                               isCritical ? "font-semibold" : "font-medium"
                             )}
                           >
-                            {action.title}
+                            {displayTitle}
                           </h3>
                           <span className="shrink-0 px-2 py-0.5 text-[10px] font-medium rounded-full bg-muted text-muted-foreground">
                             {role.label}
                           </span>
-                          {/* Urgency tag */}
-                          <span
-                            className={cn(
-                              "shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full border",
-                              risk.className
-                            )}
-                          >
-                            <RiskIcon className="w-2.5 h-2.5" />
-                            {risk.label}
-                          </span>
+                          {/* Status indicator — "Follow-up sent" replaces urgency once reminded */}
+                          {isReminded ? (
+                            <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">
+                              <CheckCircle2 className="w-2.5 h-2.5" />
+                              Follow-up sent
+                            </span>
+                          ) : (
+                            <span
+                              className={cn(
+                                "shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full border",
+                                risk.className
+                              )}
+                            >
+                              <RiskIcon className="w-2.5 h-2.5" />
+                              {risk.label}
+                            </span>
+                          )}
                         </div>
 
                         {/* Reason — decision-oriented */}
                         <p className="text-sm text-muted-foreground">
-                          {action.reason}
+                          {displayReason}
                         </p>
 
-                        {/* Transfer expiry subtext */}
-                        {action.transferKind && action.dueDate && (
+                        {/* Transfer expiry subtext (hidden once reminded — already in reason) */}
+                        {action.transferKind && action.dueDate && !isReminded && (
                           <p className="mt-0.5 text-[12px] text-muted-foreground/80 inline-flex items-center gap-1">
                             <Clock className="w-3 h-3" />
                             {action.dueDate}
                           </p>
                         )}
 
-                        {/* Post-reminder inline suggestion (email transfers) */}
-                        {action.transferKind === "email" && remindedIds.has(action.id) && (
-                          <button
-                            onClick={() => handleExtendExpiry(action.id, "email")}
-                            className="mt-2 inline-flex items-center gap-1 text-[11px] text-primary hover:underline underline-offset-2"
-                          >
-                            <CalendarClock className="w-3 h-3" />
-                            Need more time? Extend expiry
-                          </button>
+                        {/* Post-reminder system note */}
+                        {isReminded && (
+                          <p className="mt-1.5 inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                            <Clock className="w-3 h-3" />
+                            Next check in 12 hours
+                          </p>
                         )}
 
-                        {/* AI recommendation */}
-                        {action.aiRecommendation && !isOnAutopilot && (
+                        {/* AI recommendation — suppressed once we've moved into post-reminder state */}
+                        {action.aiRecommendation && !isOnAutopilot && !isReminded && (
                           <div className="mt-1.5 flex items-center gap-1 text-[11px] text-primary/80">
                             <Sparkles className="w-3 h-3 shrink-0" />
                             <span>{action.aiRecommendation}</span>
@@ -699,20 +716,20 @@ export function PriorityActions() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => {
-                            if (action.ctaAction === "remind") {
+                            if (effectiveCtaAction === "remind") {
                               handleRemindRecipients(action.id);
-                            } else if (action.ctaAction === "extend") {
+                            } else if (effectiveCtaAction === "extend") {
                               handleExtendExpiry(action.id, action.transferKind ?? "link");
                             }
                           }}
                           className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
                         >
-                          {action.cta}
+                          {effectiveCtaLabel}
                           <CtaIcon className="w-3.5 h-3.5" />
                         </motion.button>
 
-                        {/* Secondary "Extend Expiry" — only for email transfers, subtle ghost */}
-                        {action.transferKind === "email" && (
+                        {/* Secondary "Extend Expiry" — only before reminder is sent */}
+                        {action.transferKind === "email" && !isReminded && (
                           <button
                             onClick={() => handleExtendExpiry(action.id, "email")}
                             className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
