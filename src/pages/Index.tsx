@@ -130,19 +130,6 @@ export default function Index() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Dark overlay when gated */}
-      <AnimatePresence>
-        {isGated && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[99] bg-black/40 pointer-events-none"
-          />
-        )}
-      </AnimatePresence>
-
       {/* Auth Gate Modal */}
       <CreateAccountModal 
         open={isGated} 
