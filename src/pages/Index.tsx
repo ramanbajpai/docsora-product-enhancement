@@ -4,6 +4,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
 import { PriorityActions } from "@/components/dashboard/PriorityActions";
 import { ActiveWork } from "@/components/dashboard/ActiveWork";
+import { ContinueYourWork } from "@/components/dashboard/ContinueYourWork";
 import { DocumentReminders } from "@/components/dashboard/DocumentReminders";
 import { RecentFiles } from "@/components/dashboard/RecentFiles";
 import { DocsoraCommand } from "@/components/command";
@@ -52,7 +53,12 @@ export default function Index() {
           <PriorityActions />
         </div>
 
-        {/* 2. Active Work - Merged section with groupings */}
+        {/* 2. Continue your work - Continuity layer for interrupted user actions */}
+        <div className="mt-8">
+          <ContinueYourWork />
+        </div>
+
+        {/* 3. Active Work - Workflow momentum */}
         <div className="mt-8">
           <ActiveWork />
         </div>
