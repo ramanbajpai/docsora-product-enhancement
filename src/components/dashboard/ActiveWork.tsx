@@ -1,154 +1,140 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  FileText,
-  CheckCircle2,
-  Clock,
-  AlertTriangle,
-  TrendingUp,
-  ArrowRight,
+  PenTool,
+  Send,
   Sparkles,
+  FileCheck2,
+  Wand2,
+  ArrowRight,
+  Check,
+  Upload,
+  Eye,
+  Download,
+  Loader2,
+  Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type WorkflowStatus = "on_track" | "at_risk" | "stalled";
-type CompletedAction = "Signed" | "Downloaded" | "Approved";
+type WorkflowKind = "sign" | "transfer" | "ai_check" | "convert" | "compress";
 
-interface ActiveWorkflow {
+interface WorkflowCard {
   id: string;
+  kind: WorkflowKind;
   title: string;
-  type: string;
-  status: WorkflowStatus;
-  progressLabel: string;
-  progress: number; // 0-100
-  timeRemaining: string;
-  lastActivity: string;
+  steps: string[];
+  currentStep: number; // 0-based; equals steps.length when complete
+  context: string;
+  cta?: { label: string };
+  completedAt?: string;
 }
 
-interface CompletedWorkflow {
-  id: string;
-  title: string;
-  action: CompletedAction;
-  completedAt: string;
-  followUp?: { label: string; cta: string };
-}
-
-const activeWorkflows: ActiveWorkflow[] = [
+const cards: WorkflowCard[] = [
   {
-    id: "w1",
-    title: "Office Lease Amendment",
-    type: "Approval",
-    status: "stalled",
-    progressLabel: "1 of 3 approved",
-    progress: 33,
-    timeRemaining: "Overdue by 1 day",
-    lastActivity: "No activity for 4 days",
-  },
-  {
-    id: "w2",
-    title: "Vendor Agreement — DataCorp",
-    type: "Signature",
-    status: "at_risk",
-    progressLabel: "Awaiting your signature",
-    progress: 50,
-    timeRemaining: "2 days remaining",
-    lastActivity: "Sent yesterday",
-  },
-  {
-    id: "w3",
+    id: "s1",
+    kind: "sign",
     title: "Partnership Agreement",
-    type: "Signature",
-    status: "at_risk",
-    progressLabel: "1 of 2 signed",
-    progress: 50,
-    timeRemaining: "3 days remaining",
-    lastActivity: "Sarah Chen viewed 6h ago",
+    steps: ["Sent", "Viewed", "Signed", "Completed"],
+    currentStep: 2,
+    context: "Waiting on Sarah to sign",
+    cta: { label: "Remind" },
   },
   {
-    id: "w4",
+    id: "t1",
+    kind: "transfer",
     title: "Series A Data Room",
-    type: "Transfer",
-    status: "on_track",
-    progressLabel: "3 of 4 downloaded",
-    progress: 75,
-    timeRemaining: "5 days remaining",
-    lastActivity: "Downloaded 2h ago",
+    steps: ["Uploaded", "Shared", "Downloaded"],
+    currentStep: 2,
+    context: "1 of 3 recipients downloaded",
+    cta: { label: "Continue" },
   },
   {
-    id: "w5",
+    id: "a1",
+    kind: "ai_check",
     title: "Employee Handbook 2024",
-    type: "AI Check",
-    status: "on_track",
-    progressLabel: "12 of 15 sections reviewed",
-    progress: 80,
-    timeRemaining: "On schedule",
-    lastActivity: "Updated 1h ago",
+    steps: ["Uploaded", "Processing", "Completed"],
+    currentStep: 1,
+    context: "Reviewing 12 of 15 sections",
   },
-];
-
-const completedWorkflows: CompletedWorkflow[] = [
   {
     id: "c1",
-    title: "Client NDA — Acme Corp",
-    action: "Signed",
-    completedAt: "2h ago",
-    followUp: { label: "Request payment", cta: "request_payment" },
+    kind: "convert",
+    title: "Q4 Financial Report",
+    steps: ["Uploaded", "Processing", "Completed"],
+    currentStep: 3,
+    context: "Converted to PDF · ready to download",
+    completedAt: "Just now",
   },
   {
-    id: "c2",
-    title: "Brand Assets v2",
-    action: "Downloaded",
-    completedAt: "Yesterday",
-    followUp: { label: "Share again", cta: "share_again" },
-  },
-  {
-    id: "c3",
-    title: "Q3 Financial Report",
-    action: "Approved",
-    completedAt: "Yesterday",
+    id: "s2",
+    kind: "sign",
+    title: "Vendor Agreement — DataCorp",
+    steps: ["Sent", "Viewed", "Signed", "Completed"],
+    currentStep: 1,
+    context: "Awaiting your signature",
+    cta: { label: "Continue" },
   },
 ];
 
-const statusConfig: Record<
-  WorkflowStatus,
-  { label: string; dot: string; text: string; rank: number }
+const kindConfig: Record<
+  WorkflowKind,
+  { label: string; icon: typeof PenTool; accent: string; tint: string }
 > = {
-  stalled: {
-    label: "Stalled",
-    dot: "bg-destructive",
-    text: "text-destructive",
-    rank: 0,
+  sign: {
+    label: "Signature",
+    icon: PenTool,
+    accent: "text-violet-500",
+    tint: "bg-violet-500/10",
   },
-  at_risk: {
-    label: "At risk",
-    dot: "bg-amber-500",
-    text: "text-amber-600 dark:text-amber-400",
-    rank: 1,
+  transfer: {
+    label: "Transfer",
+    icon: Send,
+    accent: "text-blue-500",
+    tint: "bg-blue-500/10",
   },
-  on_track: {
-    label: "On track",
-    dot: "bg-emerald-500",
-    text: "text-emerald-600 dark:text-emerald-400",
-    rank: 2,
+  ai_check: {
+    label: "AI Check",
+    icon: Sparkles,
+    accent: "text-primary",
+    tint: "bg-primary/10",
+  },
+  convert: {
+    label: "Convert",
+    icon: FileCheck2,
+    accent: "text-amber-500",
+    tint: "bg-amber-500/10",
+  },
+  compress: {
+    label: "Compress",
+    icon: Wand2,
+    accent: "text-emerald-500",
+    tint: "bg-emerald-500/10",
   },
 };
 
+const stepIconMap: Record<string, typeof Check> = {
+  Sent: Send,
+  Shared: Share2,
+  Uploaded: Upload,
+  Viewed: Eye,
+  Signed: PenTool,
+  Downloaded: Download,
+  Processing: Loader2,
+  Completed: Check,
+};
+
 export function ActiveWork() {
-  const sorted = useMemo(
-    () =>
-      [...activeWorkflows].sort(
-        (a, b) => statusConfig[a.status].rank - statusConfig[b.status].rank,
-      ),
-    [],
-  );
-
-  const counts = useMemo(() => {
-    const c = { on_track: 0, at_risk: 0, stalled: 0 };
-    activeWorkflows.forEach((w) => c[w.status]++);
-    return c;
+  const insight = useMemo(() => {
+    const completedToday = cards.filter((c) => c.currentStep >= c.steps.length).length;
+    const needsAttention = cards.filter(
+      (c) => c.currentStep < c.steps.length && c.cta,
+    ).length;
+    if (needsAttention > 0)
+      return `${needsAttention} workflow${needsAttention !== 1 ? "s" : ""} need attention to complete`;
+    if (completedToday > 0)
+      return `${completedToday} completed today`;
+    return "All workflows progressing smoothly";
   }, []);
-
-  const total = activeWorkflows.length;
 
   return (
     <motion.section
@@ -157,228 +143,178 @@ export function ActiveWork() {
       transition={{ duration: 0.4, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
     >
       {/* Header */}
-      <div className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-semibold text-foreground">
-            Your Workflows
-          </h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Live status across everything in motion
-          </p>
-        </div>
+      <div className="mb-1">
+        <h2 className="text-lg font-semibold text-foreground">Your Momentum</h2>
       </div>
+      <p className="text-sm text-muted-foreground mb-6 flex items-center gap-1.5">
+        <Sparkles className="w-3.5 h-3.5 text-primary/70" />
+        {insight}
+      </p>
 
-      {/* Section 1 — Status Overview */}
-      <div className="mb-8 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-        <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-semibold text-foreground tracking-tight">
-            {total}
-          </span>
-          <span className="text-sm text-muted-foreground">active workflows</span>
-        </div>
-        <div className="flex items-center gap-4 text-sm">
-          <StatusPill
-            count={counts.on_track}
-            label="progressing"
-            dot="bg-emerald-500"
-          />
-          <StatusPill
-            count={counts.at_risk}
-            label="at risk"
-            dot="bg-amber-500"
-          />
-          <StatusPill
-            count={counts.stalled}
-            label="stalled"
-            dot="bg-destructive"
-          />
-        </div>
-      </div>
-
-      {/* Section 2 — In Progress */}
-      <div className="mb-10">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            In progress
-          </h3>
-        </div>
-        <div className="divide-y divide-border/50">
-          {sorted.map((w, i) => (
-            <WorkflowRow key={w.id} workflow={w} index={i} />
-          ))}
-        </div>
-      </div>
-
-      {/* Section 3 — Recently Completed */}
-      <div>
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Recently completed
-          </h3>
-        </div>
-        <div className="divide-y divide-border/40">
-          {completedWorkflows.map((c, i) => (
-            <CompletedRow key={c.id} item={c} index={i} />
-          ))}
-        </div>
+      {/* Cards stack */}
+      <div className="space-y-3">
+        {cards.map((card, i) => (
+          <MomentumCard key={card.id} card={card} index={i} />
+        ))}
       </div>
     </motion.section>
   );
 }
 
-function StatusPill({
-  count,
-  label,
-  dot,
-}: {
-  count: number;
-  label: string;
-  dot: string;
-}) {
-  return (
-    <span className="inline-flex items-center gap-1.5 text-foreground/80">
-      <span className={cn("w-1.5 h-1.5 rounded-full", dot)} />
-      <span className="font-medium">{count}</span>
-      <span className="text-muted-foreground">{label}</span>
-    </span>
-  );
-}
-
-function WorkflowRow({
-  workflow,
-  index,
-}: {
-  workflow: ActiveWorkflow;
-  index: number;
-}) {
-  const status = statusConfig[workflow.status];
-  const StatusIcon =
-    workflow.status === "stalled"
-      ? AlertTriangle
-      : workflow.status === "at_risk"
-        ? Clock
-        : TrendingUp;
+function MomentumCard({ card, index }: { card: WorkflowCard; index: number }) {
+  const cfg = kindConfig[card.kind];
+  const KindIcon = cfg.icon;
+  const isComplete = card.currentStep >= card.steps.length;
 
   return (
     <motion.button
       type="button"
-      initial={{ opacity: 0, y: 4 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: index * 0.04 }}
+      transition={{ duration: 0.3, delay: index * 0.05, ease: [0.4, 0, 0.2, 1] }}
       className={cn(
-        "group w-full text-left py-4 px-1 -mx-1 rounded-lg",
-        "hover:bg-muted/40 transition-colors",
+        "group w-full text-left rounded-2xl px-5 py-4",
+        "bg-card/60 backdrop-blur-sm border border-border/50",
+        "hover:border-border hover:bg-card/80 hover:shadow-sm",
+        "transition-all",
       )}
     >
-      <div className="flex items-center gap-4">
-        {/* Status indicator */}
-        <div className="shrink-0 flex flex-col items-center gap-1 w-10">
-          <div
-            className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center",
-              workflow.status === "stalled" && "bg-destructive/10",
-              workflow.status === "at_risk" && "bg-amber-500/10",
-              workflow.status === "on_track" && "bg-emerald-500/10",
-            )}
-          >
-            <StatusIcon className={cn("w-4 h-4", status.text)} />
-          </div>
+      <div className="flex items-start gap-4">
+        {/* Kind icon */}
+        <div
+          className={cn(
+            "shrink-0 w-9 h-9 rounded-xl flex items-center justify-center",
+            cfg.tint,
+          )}
+        >
+          <KindIcon className={cn("w-4 h-4", cfg.accent)} />
         </div>
 
-        {/* Main content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-baseline gap-2">
-            <h4 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
-              {workflow.title}
-            </h4>
-            <span className="text-[11px] text-muted-foreground shrink-0">
-              {workflow.type}
-            </span>
+          {/* Title row */}
+          <div className="flex items-baseline justify-between gap-3">
+            <div className="min-w-0 flex items-baseline gap-2">
+              <h4 className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
+                {card.title}
+              </h4>
+              <span className="text-[11px] text-muted-foreground shrink-0">
+                {cfg.label}
+              </span>
+            </div>
+            {card.completedAt && (
+              <span className="shrink-0 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                {card.completedAt}
+              </span>
+            )}
           </div>
-          <div className="mt-1 flex items-center gap-2 text-xs">
-            <span className={cn("font-medium", status.text)}>
-              {status.label}
-            </span>
-            <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground truncate">
-              {workflow.progressLabel}
-            </span>
-          </div>
-          {/* Progress bar */}
-          <div className="mt-2 h-0.5 bg-muted/60 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${workflow.progress}%` }}
-              transition={{ duration: 0.6, delay: 0.1 + index * 0.04 }}
-              className={cn("h-full rounded-full", status.dot)}
+
+          {/* Step progression */}
+          <div className="mt-3.5">
+            <StepTrack
+              steps={card.steps}
+              currentStep={card.currentStep}
+              accent={cfg.accent}
             />
           </div>
-        </div>
 
-        {/* Right meta */}
-        <div className="shrink-0 hidden sm:flex flex-col items-end gap-0.5 text-right">
-          <span
-            className={cn(
-              "text-xs font-medium",
-              workflow.status === "stalled"
-                ? "text-destructive"
-                : "text-foreground/80",
+          {/* Context + CTA */}
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <p
+              className={cn(
+                "text-xs truncate",
+                isComplete
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-muted-foreground",
+              )}
+            >
+              {card.context}
+            </p>
+            {card.cta && !isComplete && (
+              <span className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                {card.cta.label}
+                <ArrowRight className="w-3 h-3" />
+              </span>
             )}
-          >
-            {workflow.timeRemaining}
-          </span>
-          <span className="text-[11px] text-muted-foreground">
-            {workflow.lastActivity}
-          </span>
+          </div>
         </div>
-
-        <ArrowRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all shrink-0" />
       </div>
     </motion.button>
   );
 }
 
-function CompletedRow({
-  item,
-  index,
+function StepTrack({
+  steps,
+  currentStep,
+  accent,
 }: {
-  item: CompletedWorkflow;
-  index: number;
+  steps: string[];
+  currentStep: number;
+  accent: string;
 }) {
+  const isComplete = currentStep >= steps.length;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 4 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: index * 0.04 }}
-      className="flex items-center gap-4 py-3 px-1 -mx-1"
-    >
-      <div className="shrink-0 w-10 flex justify-center">
-        <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-        </div>
-      </div>
+    <div className="flex items-center gap-1.5">
+      {steps.map((step, i) => {
+        const done = i < currentStep || isComplete;
+        const active = i === currentStep && !isComplete;
+        const StepIcon = stepIconMap[step] ?? Check;
+        const isProcessing = active && step === "Processing";
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-baseline gap-2">
-          <h4 className="text-sm text-foreground/90 truncate">{item.title}</h4>
-        </div>
-        <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
-          <span>{item.action}</span>
-          <span>·</span>
-          <span>{item.completedAt}</span>
-        </div>
-      </div>
+        return (
+          <div key={step} className="flex items-center gap-1.5 flex-1 min-w-0">
+            <div className="flex flex-col items-center gap-1 min-w-0">
+              <motion.div
+                initial={false}
+                animate={{
+                  scale: active ? 1.05 : 1,
+                }}
+                transition={{ duration: 0.3 }}
+                className={cn(
+                  "w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors",
+                  done && "bg-emerald-500 text-white",
+                  active && "bg-primary text-primary-foreground ring-4 ring-primary/15",
+                  !done && !active && "bg-muted text-muted-foreground/60",
+                )}
+              >
+                <StepIcon
+                  className={cn(
+                    "w-3 h-3",
+                    isProcessing && "animate-spin",
+                  )}
+                />
+              </motion.div>
+              <span
+                className={cn(
+                  "text-[10px] truncate max-w-[70px] transition-colors",
+                  done && "text-foreground/70",
+                  active && "text-foreground font-medium",
+                  !done && !active && "text-muted-foreground/60",
+                )}
+              >
+                {step}
+              </span>
+            </div>
 
-      {item.followUp && (
-        <button
-          type="button"
-          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
-        >
-          <Sparkles className="w-3 h-3" />
-          {item.followUp.label}
-          <ArrowRight className="w-3 h-3" />
-        </button>
-      )}
-    </motion.div>
+            {/* Connector */}
+            {i < steps.length - 1 && (
+              <div className="flex-1 h-px bg-muted relative -mt-4 overflow-hidden rounded-full">
+                <motion.div
+                  initial={{ width: "0%" }}
+                  animate={{
+                    width: i < currentStep || isComplete ? "100%" : "0%",
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className={cn(
+                    "absolute inset-y-0 left-0",
+                    i < currentStep || isComplete ? "bg-emerald-500" : "bg-transparent",
+                  )}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
   );
 }
