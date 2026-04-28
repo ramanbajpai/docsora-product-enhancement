@@ -24,6 +24,21 @@ const LIVING_PLACEHOLDERS = [
   "Draft an NDA for TechCorp and send it",
 ];
 
+// Rotated every cycle so the bar feels alive with varied prompts
+const _LIVING_PLACEHOLDERS_EXTRA = [
+  "Find the latest version of the Globex SOW",
+  "Show me every contract expiring this quarter",
+  "Countersign the Initech agreement and send it back",
+  "Track all signatures waiting on legal",
+  "Compare v2 and v3 of the Wayne Enterprises MSA",
+  "Email the signed Pied Piper NDA to the team",
+  "Which deals are stuck in review?",
+  "Pull key terms from the Stark Industries contract",
+  "Schedule a follow-up if Sarah hasn't signed by Friday",
+  "Translate the Soylent agreement to French",
+];
+LIVING_PLACEHOLDERS.push(..._LIVING_PLACEHOLDERS_EXTRA);
+
 export function CommandHero({ greeting = "Good morning, Alex" }: { greeting?: string }) {
   const [input, setInput] = useState("");
   const [files, setFiles] = useState<{ id: string; name: string }[]>([]);
