@@ -12,10 +12,17 @@ import {
   AlertTriangle,
   Clock,
   Wand2,
-  Loader2
+  Loader2,
+  Activity,
+  X,
+  Mail,
+  Bell,
+  Brain,
+  ChevronDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useEffect, useRef } from "react";
 
 type UserRole = "signer" | "approver" | "sender" | "cc";
 type UrgencyLevel = "critical" | "high" | "medium";
