@@ -541,18 +541,6 @@ export function PriorityActions() {
                     <FileText className="w-4 h-4 text-muted-foreground" />
                   </div>
 
-                  {/* Dismiss button — appears on hover */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dismissAction(action.id, action.title);
-                    }}
-                    aria-label="Remove action"
-                    className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/60 hover:text-foreground hover:bg-muted/60 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
@@ -611,7 +599,20 @@ export function PriorityActions() {
                       </div>
 
                       {/* Action stack */}
-                      <div className="shrink-0 flex flex-col items-end gap-1.5">
+                      <div className="shrink-0 flex items-start gap-1.5">
+                        {/* Dismiss — sits to the left of the CTA, never overlaps */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dismissAction(action.id, action.title);
+                          }}
+                          aria-label="Remove action"
+                          className="mt-1 h-7 w-7 inline-flex items-center justify-center rounded-full text-muted-foreground/70 hover:text-foreground hover:bg-muted/70 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+
+                        <div className="flex flex-col items-end gap-1.5">
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -631,10 +632,11 @@ export function PriorityActions() {
                                 : "text-muted-foreground hover:text-primary hover:bg-primary/5"
                             )}
                           >
-                            <Zap className="w-3 h-3" />
+                            <Sparkles className="w-3 h-3" />
                             {isOnAutopilot ? "Docsora is on it" : "Let Docsora handle this"}
                           </button>
                         )}
+                        </div>
                       </div>
                     </div>
                   </div>
