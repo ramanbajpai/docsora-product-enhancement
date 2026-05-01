@@ -53,6 +53,7 @@ const FLOW_META: Record<
 const PRIMARY_IDS = ["client-project-standard", "freelance-quick", "nda-fast"];
 
 export default function Templates() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [quickOpen, setQuickOpen] = useState(false);
   const [activeFlow, setActiveFlow] = useState<WorkflowTemplate | null>(null);
