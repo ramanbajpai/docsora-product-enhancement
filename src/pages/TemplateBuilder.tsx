@@ -58,7 +58,9 @@ function uid() {
 export default function TemplateBuilder() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { save } = useCustomTemplates();
+  const { save, get } = useCustomTemplates();
+
+  const editingId = searchParams.get("edit");
 
   const [step, setStep] = useState<Step>("upload");
   const [docName, setDocName] = useState<string>("");
@@ -86,6 +88,22 @@ export default function TemplateBuilder() {
 
   // ─────────────── Seed from a Flow (?from=<id>) ───────────────
   useEffect(() => {
+    // Editing an existing custom template takes precedence
+    if (editingId) {
+      const existing = get(editingId);
+      if (existing) {
+        setRoles(existing.roles);
+        setActiveRole(existing.roles[0]?.key ?? "client");
+        setFields(existing.fields);
+        setTemplateName(existing.name);
+        setDocName(existing.documentName);
+        setDocType(existing.documentType);
+        setPageCount(existing.pageCount);
+        setStep("place");
+        return;
+      }
+    }
+
     const fromId = searchParams.get("from");
     if (!fromId) return;
     const flow = workflowTemplates.find((t) => t.id === fromId);
