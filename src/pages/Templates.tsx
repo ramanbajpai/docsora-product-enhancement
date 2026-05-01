@@ -216,117 +216,16 @@ export default function Templates() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {myTemplates.map((t, i) => {
-                const assignableRoles = t.roles.filter((r) => r.key !== "sender");
-                return (
-                  <motion.div
-                    key={t.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.28, delay: i * 0.04 }}
-                    whileHover={{ y: -2 }}
-                    className="group relative rounded-2xl overflow-hidden"
-                  >
-                    {/* Layered premium surface */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-card via-card to-muted/20 border border-border/60 group-hover:border-primary/40 transition-colors duration-500" />
-                    {/* Hover aurora */}
-                    <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                      <div className="absolute -top-24 -left-16 w-64 h-64 rounded-full bg-primary/15 blur-3xl" />
-                      <div className="absolute -bottom-24 -right-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
-                    </div>
-                    {/* Subtle top sheen */}
-                    <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div className="relative p-5 flex flex-col gap-4">
-                      <div className="flex items-start gap-4">
-                        {/* Premium icon: glowing diamond glyph */}
-                        <div className="relative shrink-0">
-                          <div className="absolute inset-0 rounded-xl bg-primary/30 blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-                          <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border border-primary/30 flex items-center justify-center backdrop-blur-sm">
-                            <Sparkles className="w-5 h-5 text-primary drop-shadow-[0_0_6px_hsl(var(--primary)/0.6)]" />
-                          </div>
-                        </div>
-
-                        <div className="min-w-0 flex-1">
-                          <h3 className="text-[15px] font-semibold tracking-tight truncate leading-snug">
-                            {t.name}
-                          </h3>
-                          <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground">
-                            <span className="inline-flex items-center gap-1">
-                              <FileText className="w-3 h-3" />
-                              {t.documentName}
-                            </span>
-                            <span className="opacity-40">·</span>
-                            <span className="inline-flex items-center gap-1 text-primary/80">
-                              <Zap className="w-3 h-3" />
-                              {t.fields.length} field{t.fields.length === 1 ? "" : "s"}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Quick actions — only on hover, top-right */}
-                        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={() => navigate(`/templates/new?edit=${t.id}`)}
-                            className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
-                            aria-label={`Edit ${t.name}`}
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => remove(t.id)}
-                            className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-accent transition"
-                            aria-label={`Delete ${t.name}`}
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Role pills + send */}
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Users className="w-3 h-3 text-muted-foreground shrink-0" />
-                          <div className="flex items-center gap-1 overflow-hidden">
-                            {assignableRoles.slice(0, 3).map((r) => (
-                              <span
-                                key={r.key}
-                                className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border border-border/50 bg-background/60 backdrop-blur-sm"
-                              >
-                                <span
-                                  className="w-1.5 h-1.5 rounded-full"
-                                  style={{ background: r.color }}
-                                />
-                                {r.label}
-                              </span>
-                            ))}
-                            {assignableRoles.length > 3 && (
-                              <span className="text-[10px] text-muted-foreground tabular-nums">
-                                +{assignableRoles.length - 3}
-                              </span>
-                            )}
-                            {assignableRoles.length === 0 && (
-                              <span className="text-[11px] text-muted-foreground italic">
-                                No roles assigned
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <Button
-                          size="sm"
-                          onClick={() => openSend(t)}
-                          className="relative overflow-hidden gap-1.5 h-9 shrink-0 shadow-[0_4px_20px_-4px_hsl(var(--primary)/0.5)] hover:shadow-[0_6px_24px_-4px_hsl(var(--primary)/0.7)] transition-shadow"
-                        >
-                          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                          <Send className="relative w-3.5 h-3.5" />
-                          <span className="relative">Send</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
+              {myTemplates.map((t, i) => (
+                <SavedFlowCard
+                  key={t.id}
+                  template={t}
+                  index={i}
+                  onSend={() => openSend(t)}
+                  onEdit={() => navigate(`/templates/new?edit=${t.id}`)}
+                  onDelete={() => remove(t.id)}
+                />
+              ))}
             </div>
           </div>
         )}
