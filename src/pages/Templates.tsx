@@ -8,6 +8,7 @@ import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FlowGlyph } from "@/components/icons/FlowGlyph";
 import {
   Search,
   Sparkles,
