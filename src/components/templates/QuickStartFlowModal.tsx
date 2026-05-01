@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Dialog,
@@ -9,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WorkflowTemplate } from "@/data/templates";
-import { ArrowRight, CheckCircle2, Loader2, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2, Zap, Settings2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface QuickStartFlowModalProps {
@@ -21,6 +22,7 @@ interface QuickStartFlowModalProps {
 type Stage = "form" | "starting" | "done";
 
 export function QuickStartFlowModal({ open, onOpenChange, flow }: QuickStartFlowModalProps) {
+  const navigate = useNavigate();
   const [stage, setStage] = useState<Stage>("form");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,6 +50,14 @@ export function QuickStartFlowModal({ open, onOpenChange, flow }: QuickStartFlow
       description: `Flow ready for ${name}.`,
     });
     onOpenChange(false);
+  };
+
+  const handleCustomize = () => {
+    onOpenChange(false);
+    const params = new URLSearchParams({ from: flow.id });
+    if (name.trim()) params.set("client", name.trim());
+    if (email.trim()) params.set("email", email.trim());
+    navigate(`/templates/new?${params.toString()}`);
   };
 
   return (
@@ -118,6 +128,13 @@ export function QuickStartFlowModal({ open, onOpenChange, flow }: QuickStartFlow
                   <Zap className="w-4 h-4" />
                   Start Flow
                 </Button>
+                <button
+                  onClick={handleCustomize}
+                  className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center justify-center gap-1.5"
+                >
+                  <Settings2 className="w-3 h-3" />
+                  Customize before sending
+                </button>
               </div>
             </motion.div>
           )}
