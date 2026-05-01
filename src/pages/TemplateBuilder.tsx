@@ -152,6 +152,17 @@ export default function TemplateBuilder() {
     setRoles((r) => r.map((x) => (x.key === key ? { ...x, label } : x)));
   };
 
+  const cycleRoleColor = (key: string) => {
+    setRoles((r) =>
+      r.map((x) => {
+        if (x.key !== key) return x;
+        const idx = ROLE_PALETTE.indexOf(x.color);
+        const next = ROLE_PALETTE[(idx + 1) % ROLE_PALETTE.length];
+        return { ...x, color: next };
+      }),
+    );
+  };
+
   // ─────────────── Field placement ───────────────
   const placeField = (e: React.MouseEvent) => {
     if (!activeTool || !pageRef.current) return;
