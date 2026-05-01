@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
   Calendar,
   Trash2,
   Sparkles,
+  Copy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ import {
   CustomFieldType,
   CustomTemplate,
 } from "@/hooks/useCustomTemplates";
+import { templates as workflowTemplates } from "@/data/templates";
 
 type Step = "upload" | "roles" | "place";
 
@@ -55,6 +57,7 @@ function uid() {
 
 export default function TemplateBuilder() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { save } = useCustomTemplates();
 
   const [step, setStep] = useState<Step>("upload");
@@ -70,7 +73,38 @@ export default function TemplateBuilder() {
   const [templateName, setTemplateName] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const replaceInputRef = useRef<HTMLInputElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+
+  // Drag + selection state
+  const [selectedField, setSelectedField] = useState<string | null>(null);
+  const dragState = useRef<{
+    id: string;
+    offsetX: number;
+    offsetY: number;
+  } | null>(null);
+
+  // ─────────────── Seed from a Flow (?from=<id>) ───────────────
+  useEffect(() => {
+    const fromId = searchParams.get("from");
+    if (!fromId) return;
+    const flow = workflowTemplates.find((t) => t.id === fromId);
+    if (!flow) return;
+    // Map flow roles → custom roles with palette colors
+    const seededRoles: CustomRole[] = flow.roles.map((r, i) => ({
+      key: r.key,
+      label: r.label,
+      color: ROLE_PALETTE[i % ROLE_PALETTE.length],
+    }));
+    setRoles(seededRoles);
+    setActiveRole(seededRoles[1]?.key ?? seededRoles[0]?.key);
+    setTemplateName(flow.name);
+    setDocName(flow.documents[0]?.name ?? `${flow.name}.pdf`);
+    setDocType("pdf");
+    setPageCount(3);
+    setStep("place");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ─────────────── Upload ───────────────
   const handleFile = useCallback((file: File) => {
@@ -117,9 +151,23 @@ export default function TemplateBuilder() {
     setRoles((r) => r.map((x) => (x.key === key ? { ...x, label } : x)));
   };
 
+  const cycleRoleColor = (key: string) => {
+    setRoles((r) =>
+      r.map((x) => {
+        if (x.key !== key) return x;
+        const idx = ROLE_PALETTE.indexOf(x.color);
+        const next = ROLE_PALETTE[(idx + 1) % ROLE_PALETTE.length];
+        return { ...x, color: next };
+      }),
+    );
+  };
+
   // ─────────────── Field placement ───────────────
   const placeField = (e: React.MouseEvent) => {
-    if (!activeTool || !pageRef.current) return;
+    if (!activeTool || !pageRef.current) {
+      setSelectedField(null);
+      return;
+    }
     const def = FIELD_DEFS.find((d) => d.type === activeTool)!;
     const rect = pageRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100 - def.w / 2;
@@ -140,26 +188,104 @@ export default function TemplateBuilder() {
 
   const removeField = (id: string) => setFields((f) => f.filter((x) => x.id !== id));
 
+  const reassignField = (id: string, roleKey: string) => {
+    setFields((f) => f.map((x) => (x.id === id ? { ...x, roleKey } : x)));
+  };
+
+  // Drag handlers
+  const onFieldMouseDown = (e: React.MouseEvent, id: string) => {
+    if (activeTool) return; // placement mode takes precedence
+    e.stopPropagation();
+    e.preventDefault();
+    if (!pageRef.current) return;
+    const field = fields.find((f) => f.id === id);
+    if (!field) return;
+    const rect = pageRef.current.getBoundingClientRect();
+    const cursorX = ((e.clientX - rect.left) / rect.width) * 100;
+    const cursorY = ((e.clientY - rect.top) / rect.height) * 100;
+    dragState.current = {
+      id,
+      offsetX: cursorX - field.x,
+      offsetY: cursorY - field.y,
+    };
+    setSelectedField(id);
+  };
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const d = dragState.current;
+      if (!d || !pageRef.current) return;
+      const rect = pageRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100 - d.offsetX;
+      const y = ((e.clientY - rect.top) / rect.height) * 100 - d.offsetY;
+      setFields((arr) =>
+        arr.map((f) =>
+          f.id === d.id
+            ? {
+                ...f,
+                x: Math.max(0, Math.min(100 - f.width, x)),
+                y: Math.max(0, Math.min(100 - f.height, y)),
+              }
+            : f,
+        ),
+      );
+    };
+    const onUp = () => {
+      dragState.current = null;
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
+  // ─────────────── Replace document ───────────────
+  const handleReplace = (file: File) => {
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    if (ext !== "pdf" && ext !== "docx") {
+      toast.error("PDF or DOCX only");
+      return;
+    }
+    setDocName(file.name);
+    setDocType(ext as "pdf" | "docx");
+    toast.success("Document replaced");
+  };
+
   // ─────────────── Save ───────────────
   const canSave = templateName.trim().length > 0 && fields.length > 0;
+
+  const buildTemplate = (overrideName?: string): CustomTemplate => ({
+    id: uid(),
+    name: (overrideName ?? templateName).trim(),
+    createdAt: Date.now(),
+    documentName: docName,
+    documentType: docType,
+    pageCount,
+    roles,
+    fields,
+  });
 
   const handleSave = () => {
     if (!canSave) {
       toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
       return;
     }
-    const tpl: CustomTemplate = {
-      id: uid(),
-      name: templateName.trim(),
-      createdAt: Date.now(),
-      documentName: docName,
-      documentType: docType,
-      pageCount,
-      roles,
-      fields,
-    };
+    const tpl = buildTemplate();
     save(tpl);
     toast.success("Template saved", { description: `${tpl.name} is ready to send.` });
+    navigate("/templates");
+  };
+
+  const handleSaveAsNew = () => {
+    if (!canSave) {
+      toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
+      return;
+    }
+    const tpl = buildTemplate(`${templateName.trim()} (copy)`);
+    save(tpl);
+    toast.success("Saved as new template", { description: `${tpl.name} created.` });
     navigate("/templates");
   };
 
@@ -229,10 +355,22 @@ export default function TemplateBuilder() {
 
           <div className="flex items-center gap-2">
             {step === "place" && (
-              <Button onClick={handleSave} disabled={!canSave} size="sm" className="gap-2">
-                <Check className="w-4 h-4" />
-                Save template
-              </Button>
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSaveAsNew}
+                  disabled={!canSave}
+                  className="gap-1.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  Save as new
+                </Button>
+                <Button onClick={handleSave} disabled={!canSave} size="sm" className="gap-2">
+                  <Check className="w-4 h-4" />
+                  Save template
+                </Button>
+              </>
             )}
           </div>
         </header>
@@ -307,8 +445,10 @@ export default function TemplateBuilder() {
                         key={r.key}
                         className="group flex items-center gap-3 px-3 h-12 rounded-xl border border-border/60 bg-card hover:border-border transition-colors"
                       >
-                        <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                        <button
+                          onClick={() => cycleRoleColor(r.key)}
+                          aria-label="Change color"
+                          className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border hover:scale-110 transition"
                           style={{ background: r.color }}
                         />
                         <input
@@ -435,6 +575,25 @@ export default function TemplateBuilder() {
                       })}
                     </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <button
+                        onClick={() => replaceInputRef.current?.click()}
+                        className="hidden md:inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+                        title={`Replace ${docName}`}
+                      >
+                        <UploadCloud className="w-3.5 h-3.5" />
+                        Replace
+                      </button>
+                      <input
+                        ref={replaceInputRef}
+                        type="file"
+                        accept=".pdf,.docx"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) handleReplace(f);
+                          e.target.value = "";
+                        }}
+                      />
                       <span className="tabular-nums">
                         Page {currentPage} / {pageCount}
                       </span>
@@ -497,11 +656,19 @@ export default function TemplateBuilder() {
                         const def = FIELD_DEFS.find((d) => d.type === f.type)!;
                         const Icon = def.icon;
                         const role = roles.find((r) => r.key === f.roleKey);
+                        const isSelected = selectedField === f.id;
                         return (
                           <div
                             key={f.id}
-                            onClick={(e) => e.stopPropagation()}
-                            className="absolute group rounded-md flex items-center gap-1.5 px-2 text-[11px] font-medium border-2 backdrop-blur-sm"
+                            onMouseDown={(e) => onFieldMouseDown(e, f.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedField(f.id);
+                            }}
+                            className={cn(
+                              "absolute group rounded-md flex items-center gap-1.5 px-2 text-[11px] font-medium border-2 backdrop-blur-sm cursor-move",
+                              isSelected && "ring-2 ring-offset-1 ring-offset-white",
+                            )}
                             style={{
                               left: `${f.x}%`,
                               top: `${f.y}%`,
@@ -510,17 +677,61 @@ export default function TemplateBuilder() {
                               borderColor: color,
                               background: `color-mix(in hsl, ${color} 18%, transparent)`,
                               color,
+                              ...(isSelected
+                                ? ({ ["--tw-ring-color" as never]: color } as React.CSSProperties)
+                                : {}),
                             }}
                           >
                             <Icon className="w-3 h-3 shrink-0" />
                             <span className="truncate">{role?.label}</span>
                             <button
-                              onClick={() => removeField(f.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeField(f.id);
+                                if (selectedField === f.id) setSelectedField(null);
+                              }}
                               className="ml-auto opacity-0 group-hover:opacity-100 hover:scale-110 transition"
                               aria-label="Remove field"
                             >
                               <Trash2 className="w-3 h-3" />
                             </button>
+
+                            {/* Reassign popover */}
+                            {isSelected && (
+                              <div
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}
+                                className="absolute left-0 top-full mt-1.5 z-10 min-w-[160px] rounded-lg border border-border bg-popover shadow-lg p-1 text-foreground"
+                              >
+                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-2 pt-1.5 pb-1">
+                                  Assign to
+                                </p>
+                                {roles.map((r) => (
+                                  <button
+                                    key={r.key}
+                                    onClick={() => {
+                                      reassignField(f.id, r.key);
+                                      setSelectedField(null);
+                                    }}
+                                    className={cn(
+                                      "w-full flex items-center gap-2 px-2 h-8 rounded-md text-xs text-left hover:bg-accent transition-colors",
+                                      r.key === f.roleKey && "bg-accent/60",
+                                    )}
+                                  >
+                                    <span
+                                      className="w-2 h-2 rounded-full shrink-0"
+                                      style={{ background: r.color }}
+                                    />
+                                    <span className="flex-1 truncate text-foreground">
+                                      {r.label}
+                                    </span>
+                                    {r.key === f.roleKey && (
+                                      <Check className="w-3 h-3 text-muted-foreground" />
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
