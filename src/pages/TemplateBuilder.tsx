@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import {
   Calendar,
   Trash2,
   Sparkles,
+  ChevronDown,
+  Copy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -27,6 +29,7 @@ import {
   CustomFieldType,
   CustomTemplate,
 } from "@/hooks/useCustomTemplates";
+import { templates as workflowTemplates } from "@/data/templates";
 
 type Step = "upload" | "roles" | "place";
 
@@ -55,6 +58,7 @@ function uid() {
 
 export default function TemplateBuilder() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { save } = useCustomTemplates();
 
   const [step, setStep] = useState<Step>("upload");
@@ -70,7 +74,38 @@ export default function TemplateBuilder() {
   const [templateName, setTemplateName] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const replaceInputRef = useRef<HTMLInputElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+
+  // Drag + selection state
+  const [selectedField, setSelectedField] = useState<string | null>(null);
+  const dragState = useRef<{
+    id: string;
+    offsetX: number;
+    offsetY: number;
+  } | null>(null);
+
+  // ─────────────── Seed from a Flow (?from=<id>) ───────────────
+  useEffect(() => {
+    const fromId = searchParams.get("from");
+    if (!fromId) return;
+    const flow = workflowTemplates.find((t) => t.id === fromId);
+    if (!flow) return;
+    // Map flow roles → custom roles with palette colors
+    const seededRoles: CustomRole[] = flow.roles.map((r, i) => ({
+      key: r.key,
+      label: r.label,
+      color: ROLE_PALETTE[i % ROLE_PALETTE.length],
+    }));
+    setRoles(seededRoles);
+    setActiveRole(seededRoles[1]?.key ?? seededRoles[0]?.key);
+    setTemplateName(flow.name);
+    setDocName(flow.documents[0]?.name ?? `${flow.name}.pdf`);
+    setDocType("pdf");
+    setPageCount(3);
+    setStep("place");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ─────────────── Upload ───────────────
   const handleFile = useCallback((file: File) => {
@@ -140,26 +175,104 @@ export default function TemplateBuilder() {
 
   const removeField = (id: string) => setFields((f) => f.filter((x) => x.id !== id));
 
+  const reassignField = (id: string, roleKey: string) => {
+    setFields((f) => f.map((x) => (x.id === id ? { ...x, roleKey } : x)));
+  };
+
+  // Drag handlers
+  const onFieldMouseDown = (e: React.MouseEvent, id: string) => {
+    if (activeTool) return; // placement mode takes precedence
+    e.stopPropagation();
+    e.preventDefault();
+    if (!pageRef.current) return;
+    const field = fields.find((f) => f.id === id);
+    if (!field) return;
+    const rect = pageRef.current.getBoundingClientRect();
+    const cursorX = ((e.clientX - rect.left) / rect.width) * 100;
+    const cursorY = ((e.clientY - rect.top) / rect.height) * 100;
+    dragState.current = {
+      id,
+      offsetX: cursorX - field.x,
+      offsetY: cursorY - field.y,
+    };
+    setSelectedField(id);
+  };
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const d = dragState.current;
+      if (!d || !pageRef.current) return;
+      const rect = pageRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100 - d.offsetX;
+      const y = ((e.clientY - rect.top) / rect.height) * 100 - d.offsetY;
+      setFields((arr) =>
+        arr.map((f) =>
+          f.id === d.id
+            ? {
+                ...f,
+                x: Math.max(0, Math.min(100 - f.width, x)),
+                y: Math.max(0, Math.min(100 - f.height, y)),
+              }
+            : f,
+        ),
+      );
+    };
+    const onUp = () => {
+      dragState.current = null;
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
+  // ─────────────── Replace document ───────────────
+  const handleReplace = (file: File) => {
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    if (ext !== "pdf" && ext !== "docx") {
+      toast.error("PDF or DOCX only");
+      return;
+    }
+    setDocName(file.name);
+    setDocType(ext as "pdf" | "docx");
+    toast.success("Document replaced");
+  };
+
   // ─────────────── Save ───────────────
   const canSave = templateName.trim().length > 0 && fields.length > 0;
+
+  const buildTemplate = (overrideName?: string): CustomTemplate => ({
+    id: uid(),
+    name: (overrideName ?? templateName).trim(),
+    createdAt: Date.now(),
+    documentName: docName,
+    documentType: docType,
+    pageCount,
+    roles,
+    fields,
+  });
 
   const handleSave = () => {
     if (!canSave) {
       toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
       return;
     }
-    const tpl: CustomTemplate = {
-      id: uid(),
-      name: templateName.trim(),
-      createdAt: Date.now(),
-      documentName: docName,
-      documentType: docType,
-      pageCount,
-      roles,
-      fields,
-    };
+    const tpl = buildTemplate();
     save(tpl);
     toast.success("Template saved", { description: `${tpl.name} is ready to send.` });
+    navigate("/templates");
+  };
+
+  const handleSaveAsNew = () => {
+    if (!canSave) {
+      toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
+      return;
+    }
+    const tpl = buildTemplate(`${templateName.trim()} (copy)`);
+    save(tpl);
+    toast.success("Saved as new template", { description: `${tpl.name} created.` });
     navigate("/templates");
   };
 
