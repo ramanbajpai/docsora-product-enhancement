@@ -17,7 +17,6 @@ import {
   Calendar,
   Trash2,
   Sparkles,
-  ChevronDown,
   Copy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
