@@ -573,6 +573,25 @@ export default function TemplateBuilder() {
                       })}
                     </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <button
+                        onClick={() => replaceInputRef.current?.click()}
+                        className="hidden md:inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+                        title={`Replace ${docName}`}
+                      >
+                        <UploadCloud className="w-3.5 h-3.5" />
+                        Replace
+                      </button>
+                      <input
+                        ref={replaceInputRef}
+                        type="file"
+                        accept=".pdf,.docx"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) handleReplace(f);
+                          e.target.value = "";
+                        }}
+                      />
                       <span className="tabular-nums">
                         Page {currentPage} / {pageCount}
                       </span>
