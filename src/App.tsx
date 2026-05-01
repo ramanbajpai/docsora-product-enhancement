@@ -8,6 +8,7 @@ import { FocusModeProvider } from "@/contexts/FocusModeContext";
 import Index from "./pages/Index";
 import Activity from "./pages/Activity";
 import Templates from "./pages/Templates";
+import TemplateBuilder from "./pages/TemplateBuilder";
 import AICheck from "./pages/AICheck";
 import Compress from "./pages/Compress";
 import Convert from "./pages/Convert";
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/templates" element={<Templates />} />
+            <Route path="/templates/new" element={<TemplateBuilder />} />
             <Route path="/ai-check" element={<AICheck />} />
             <Route path="/compress" element={<Compress />} />
             <Route path="/convert" element={<Convert />} />
