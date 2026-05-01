@@ -165,7 +165,10 @@ export default function TemplateBuilder() {
 
   // ─────────────── Field placement ───────────────
   const placeField = (e: React.MouseEvent) => {
-    if (!activeTool || !pageRef.current) return;
+    if (!activeTool || !pageRef.current) {
+      setSelectedField(null);
+      return;
+    }
     const def = FIELD_DEFS.find((d) => d.type === activeTool)!;
     const rect = pageRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100 - def.w / 2;
