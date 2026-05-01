@@ -165,10 +165,10 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md p-0 overflow-hidden border-border/60 bg-background">
+      <DialogContent className="max-w-2xl p-0 overflow-hidden border-border/60 bg-background">
         <DialogTitle className="sr-only">Send {template.name}</DialogTitle>
         <DialogDescription className="sr-only">
-          Send the template by entering the recipient&apos;s name and email.
+          Assign people to template roles and send this flow for signature.
         </DialogDescription>
 
         <AnimatePresence mode="wait">
@@ -201,40 +201,202 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
                 </div>
               </div>
 
-              {/* Form */}
-              <div className="px-6 py-5 space-y-3">
-                <div>
-                  <label className="text-[11px] font-medium text-muted-foreground mb-1.5 block">
-                    {clientRole?.label ?? "Recipient"} name
-                  </label>
-                  <Input
-                    autoFocus
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Acme Inc."
-                    className="h-10 bg-muted/30 border-border/50"
-                  />
-                </div>
-                <div>
-                  <label className="text-[11px] font-medium text-muted-foreground mb-1.5 block">
-                    {clientRole?.label ?? "Recipient"} email
-                  </label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="hello@acme.com"
-                    className="h-10 bg-muted/30 border-border/50"
-                    onKeyDown={(e) => e.key === "Enter" && valid && handleSend()}
-                  />
+              {/* Role assignment */}
+              <div className="px-6 py-5 max-h-[500px] overflow-y-auto space-y-5">
+                {senderRole && (
+                  <div className="rounded-xl border border-border/50 bg-muted/20 px-3 py-2.5 flex items-center gap-2.5">
+                    <UserCheck className="w-4 h-4 text-primary" />
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold tracking-tight">{senderRole.label}</p>
+                      <p className="text-[11px] text-muted-foreground">Filled by you when sending.</p>
+                    </div>
+                  </div>
+                )}
+
+                {assignableRoles.map((role, roleIndex) => {
+                  const rows = buckets[role.key] ?? [];
+                  const isRequired = requiredRoleKeys.has(role.key);
+                  const validInRole = rows.filter((row) => row.name.trim() && isEmail(row.email)).length;
+                  return (
+                    <section key={role.key} className="space-y-2.5">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <div className="flex items-baseline gap-2 min-w-0">
+                          <span
+                            className="w-2 h-2 rounded-full shrink-0"
+                            style={{ background: role.color }}
+                          />
+                          <h3 className="text-sm font-semibold tracking-tight truncate">{role.label}</h3>
+                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                            {isRequired ? "Required" : "Optional"}
+                          </span>
+                          {validInRole > 0 && (
+                            <span className="text-[11px] text-muted-foreground tabular-nums">
+                              · {validInRole}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setPasteRoleKey(role.key);
+                            setPasteValue("");
+                          }}
+                          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          <ClipboardPaste className="w-3.5 h-3.5" />
+                          Paste list
+                        </button>
+                      </div>
+
+                      <div className="space-y-2">
+                        {rows.map((row, index) => {
+                          const invalid = row.email.trim().length > 0 && !isEmail(row.email);
+                          return (
+                            <div
+                              key={row.id}
+                              className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_auto] gap-2 items-center"
+                            >
+                              <Input
+                                autoFocus={roleIndex === 0 && index === 0}
+                                value={row.name}
+                                onChange={(event) => updateRow(role.key, row.id, { name: event.target.value })}
+                                placeholder="Full name"
+                                maxLength={120}
+                                className="h-10 bg-muted/30 border-border/50"
+                              />
+                              <Input
+                                type="email"
+                                value={row.email}
+                                onChange={(event) => updateRow(role.key, row.id, { email: event.target.value })}
+                                onKeyDown={(event) => event.key === "Enter" && canSend && handleSend()}
+                                placeholder="email@company.com"
+                                maxLength={254}
+                                className={cn(
+                                  "h-10 bg-muted/30 border-border/50",
+                                  invalid && "border-destructive/60 focus-visible:ring-destructive/40",
+                                )}
+                              />
+                              <button
+                                onClick={() => removeRow(role.key, row.id)}
+                                disabled={rows.length === 1}
+                                className="w-9 h-9 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent disabled:opacity-30 transition-colors"
+                                aria-label={`Remove ${role.label} recipient`}
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      <button
+                        onClick={() => addRow(role.key)}
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground/80 hover:text-primary transition-colors h-8 px-2 -ml-2 rounded-md hover:bg-accent"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        Add another {role.label.toLowerCase()}
+                      </button>
+
+                      <AnimatePresence>
+                        {pasteRoleKey === role.key && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.18 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="rounded-lg border border-border/50 bg-muted/20 p-3">
+                              <textarea
+                                value={pasteValue}
+                                onChange={(event) => setPasteValue(event.target.value)}
+                                placeholder={`Jane Doe <jane@acme.com>\nJohn Smith, john@beta.com\nsam@gamma.com`}
+                                rows={3}
+                                maxLength={5000}
+                                autoFocus
+                                className="w-full bg-background border border-border/50 rounded-md px-3 py-2 text-xs font-mono resize-none focus:outline-none focus:ring-2 focus:ring-ring"
+                              />
+                              <div className="flex items-center justify-end gap-1.5 mt-2">
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => {
+                                    setPasteRoleKey(null);
+                                    setPasteValue("");
+                                  }}
+                                  className="h-7 text-xs"
+                                >
+                                  Cancel
+                                </Button>
+                                <Button size="sm" onClick={applyPaste} disabled={!pasteValue.trim()} className="h-7 text-xs">
+                                  Add to {role.label}
+                                </Button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </section>
+                  );
+                })}
+
+                <div className="pt-1">
+                  <button
+                    onClick={() => setShowAdvanced((value) => !value)}
+                    className="text-[11px] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                  >
+                    <ArrowDownUp className="w-3 h-3" />
+                    {showAdvanced ? "Hide" : "Signing order & send options"}
+                  </button>
+
+                  <AnimatePresence>
+                    {showAdvanced && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.18 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <button
+                            onClick={() => setSignOrder(signOrder === "parallel" ? "sequential" : "parallel")}
+                            className="rounded-lg border border-border/50 bg-card p-3 text-left hover:border-border transition-colors"
+                          >
+                            <span className="text-xs font-semibold">
+                              {signOrder === "parallel" ? "Sign in parallel" : "Sign in order"}
+                            </span>
+                            <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                              {signOrder === "parallel" ? "Everyone signs at the same time." : "Recipients sign one by one."}
+                            </p>
+                          </button>
+                          <button
+                            onClick={() => setSendModel(sendModel === "shared" ? "individual" : "shared")}
+                            className="rounded-lg border border-border/50 bg-card p-3 text-left hover:border-border transition-colors"
+                          >
+                            <div className="flex items-center gap-2">
+                              {sendModel === "shared" ? <Layers className="w-3.5 h-3.5 text-primary" /> : <CopyIcon className="w-3.5 h-3.5 text-primary" />}
+                              <span className="text-xs font-semibold">
+                                {sendModel === "shared" ? "Same document" : "Individual copies"}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
+                              {sendModel === "shared" ? "All roles sign one shared document." : "Each person gets a separate copy."}
+                            </p>
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
 
-              <div className="px-6 py-4 border-t border-border/50 bg-muted/10 flex items-center justify-between">
+              <div className="px-6 py-4 border-t border-border/50 bg-muted/10 flex items-center justify-between gap-4">
                 <span className="text-[11px] text-muted-foreground">
-                  Everything else is already configured.
+                  {totalRecipients > 0
+                    ? `${totalRecipients} recipient${totalRecipients === 1 ? "" : "s"} assigned`
+                    : "Assign at least one person to a required role."}
                 </span>
-                <Button onClick={handleSend} disabled={!valid} className="gap-2" size="sm">
+                <Button onClick={handleSend} disabled={!canSend} className="gap-2 shrink-0" size="sm">
                   <Send className="w-3.5 h-3.5" />
                   Send
                 </Button>
@@ -260,7 +422,11 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
               <h3 className="mt-5 text-base font-semibold tracking-tight">Sent</h3>
               <p className="text-sm text-muted-foreground mt-1 max-w-xs">
                 {template.name} is on its way to{" "}
-                <span className="text-foreground font-medium">{name}</span>.
+                <span className="text-foreground font-medium">
+                  {totalRecipients} recipient{totalRecipients === 1 ? "" : "s"}
+                </span>
+                {sendModel === "shared" ? " on one shared document" : " as individual copies"}
+                {signOrder === "sequential" ? ", signing in order" : ""}.
               </p>
               <Button
                 onClick={() => onOpenChange(false)}
