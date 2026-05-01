@@ -1,8 +1,11 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { templates, WorkflowTemplate } from "@/data/templates";
 import { StartProjectModal } from "@/components/templates/StartProjectModal";
+import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
+import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +17,8 @@ import {
   Zap,
   Plus,
   ArrowRight,
+  Send,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +29,9 @@ export default function Templates() {
   const [activeCat, setActiveCat] = useState<(typeof categories)[number]>("All");
   const [modalOpen, setModalOpen] = useState(false);
   const [initialId, setInitialId] = useState<string | undefined>();
+  const { templates: myTemplates, remove } = useCustomTemplates();
+  const [sendOpen, setSendOpen] = useState(false);
+  const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
@@ -40,6 +48,11 @@ export default function Templates() {
   const launch = (t?: WorkflowTemplate) => {
     setInitialId(t?.id);
     setModalOpen(true);
+  };
+
+  const openSend = (t: CustomTemplate) => {
+    setSendTpl(t);
+    setSendOpen(true);
   };
 
   return (
@@ -67,10 +80,18 @@ export default function Templates() {
               structured client project in under 10 seconds.
             </p>
           </div>
-          <Button onClick={() => launch()} className="gap-2 shrink-0">
-            <Plus className="w-4 h-4" />
-            Start project
-          </Button>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button variant="outline" onClick={() => launch()} className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              Start project
+            </Button>
+            <Button asChild className="gap-2">
+              <Link to="/templates/new">
+                <Plus className="w-4 h-4" />
+                Create template
+              </Link>
+            </Button>
+          </div>
         </motion.div>
 
         {/* Search + categories */}
@@ -101,6 +122,71 @@ export default function Templates() {
             ))}
           </div>
         </div>
+
+        {/* Your templates */}
+        {myTemplates.length > 0 && (
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h2 className="text-sm font-semibold tracking-tight">Your templates</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Send-ready. Just add a recipient.
+                </p>
+              </div>
+              <span className="text-[11px] text-muted-foreground tabular-nums">
+                {myTemplates.length}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {myTemplates.map((t, i) => (
+                <motion.div
+                  key={t.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.03 }}
+                  className="group rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-md transition-all p-4 flex flex-col"
+                >
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <FileText className="w-4 h-4 text-primary" />
+                    </div>
+                    <button
+                      onClick={() => remove(t.id)}
+                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition"
+                      aria-label={`Delete ${t.name}`}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <h3 className="text-sm font-semibold tracking-tight truncate">{t.name}</h3>
+                  <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
+                    {t.documentName}
+                  </p>
+                  <div className="mt-3 pt-3 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        {t.roles.length}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Zap className="w-3 h-3" />
+                        {t.fields.length} fields
+                      </span>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => openSend(t)}
+                    className="mt-3 gap-1.5 h-8"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    Send
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Grid */}
         {filtered.length === 0 ? (
@@ -173,6 +259,11 @@ export default function Templates() {
         open={modalOpen}
         onOpenChange={setModalOpen}
         initialTemplateId={initialId}
+      />
+      <SendTemplateModal
+        open={sendOpen}
+        onOpenChange={setSendOpen}
+        template={sendTpl}
       />
     </AppLayout>
   );
