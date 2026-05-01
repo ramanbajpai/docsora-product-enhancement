@@ -275,7 +275,7 @@ export default function TemplateBuilder() {
   const canSave = templateName.trim().length > 0 && fields.length > 0;
 
   const buildTemplate = (overrideName?: string): CustomTemplate => ({
-    id: uid(),
+    id: editingId || uid(),
     name: (overrideName ?? templateName).trim(),
     createdAt: Date.now(),
     documentName: docName,
@@ -301,7 +301,11 @@ export default function TemplateBuilder() {
       toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
       return;
     }
-    const tpl = buildTemplate(`${templateName.trim()} (copy)`);
+    // "Save as new" must always create a fresh id, even when editing
+    const tpl: CustomTemplate = {
+      ...buildTemplate(`${templateName.trim()} (copy)`),
+      id: uid(),
+    };
     save(tpl);
     toast.success("Saved as new template", { description: `${tpl.name} created.` });
     navigate("/templates");
