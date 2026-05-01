@@ -228,6 +228,13 @@ export default function Templates() {
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
+                  <button
+                    onClick={() => navigate(`/templates/new?edit=${t.id}`)}
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground transition p-1.5"
+                    aria-label={`Edit ${t.name}`}
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
                   <Button size="sm" onClick={() => openSend(t)} className="gap-1.5 h-9">
                     <Send className="w-3.5 h-3.5" />
                     Send
