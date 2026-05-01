@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Dialog,
@@ -8,9 +8,24 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CustomTemplate } from "@/hooks/useCustomTemplates";
-import { ArrowRight, CheckCircle2, FileText, Send, Sparkles, Zap } from "lucide-react";
+import { CustomRole, CustomTemplate } from "@/hooks/useCustomTemplates";
+import {
+  ArrowDownUp,
+  ArrowRight,
+  CheckCircle2,
+  ClipboardPaste,
+  Copy as CopyIcon,
+  FileText,
+  Layers,
+  Plus,
+  Send,
+  Sparkles,
+  UserCheck,
+  X,
+  Zap,
+} from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface Props {
   open: boolean;
@@ -18,30 +33,133 @@ interface Props {
   template: CustomTemplate | null;
 }
 
+type Recipient = { id: string; name: string; email: string };
+type RoleBuckets = Record<string, Recipient[]>;
+type SendModel = "shared" | "individual";
+type SignOrder = "parallel" | "sequential";
+
+const uid = () => Math.random().toString(36).slice(2, 9);
+const emptyRow = (): Recipient => ({ id: uid(), name: "", email: "" });
+const isEmail = (value: string) => /^\S+@\S+\.\S+$/.test(value.trim());
+
+function parseRecipientList(input: string): { name: string; email: string }[] {
+  return input
+    .split(/[\n,;]+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const angle = line.match(/^(.*?)<([^>]+)>$/);
+      if (angle) {
+        return { name: angle[1].trim().replace(/["']/g, ""), email: angle[2].trim() };
+      }
+      const parts = line.split(/\s+/);
+      const emailIndex = parts.findIndex(isEmail);
+      if (emailIndex === -1) return { name: line, email: "" };
+      const email = parts[emailIndex];
+      const name = parts.filter((_, index) => index !== emailIndex).join(" ").trim();
+      return { name: name || email.split("@")[0], email };
+    })
+    .filter((recipient) => isEmail(recipient.email));
+}
+
 export function SendTemplateModal({ open, onOpenChange, template }: Props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [stage, setStage] = useState<"form" | "sent">("form");
+  const [buckets, setBuckets] = useState<RoleBuckets>({});
+  const [pasteRoleKey, setPasteRoleKey] = useState<string | null>(null);
+  const [pasteValue, setPasteValue] = useState("");
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [sendModel, setSendModel] = useState<SendModel>("shared");
+  const [signOrder, setSignOrder] = useState<SignOrder>("parallel");
+
+  const assignableRoles = useMemo<CustomRole[]>(
+    () => template?.roles.filter((role) => role.key !== "sender") ?? [],
+    [template],
+  );
+
+  const requiredRoleKeys = useMemo(() => {
+    if (!template) return new Set<string>();
+    return new Set(template.fields.map((field) => field.roleKey).filter((key) => key !== "sender"));
+  }, [template]);
 
   useEffect(() => {
-    if (open) {
-      setName("");
-      setEmail("");
-      setStage("form");
+    if (!open || !template) return;
+    const initial: RoleBuckets = {};
+    for (const role of template.roles) {
+      if (role.key !== "sender") initial[role.key] = [emptyRow()];
     }
-  }, [open]);
+    setBuckets(initial);
+    setPasteRoleKey(null);
+    setPasteValue("");
+    setShowAdvanced(false);
+    setSendModel("shared");
+    setSignOrder("parallel");
+    setStage("form");
+  }, [open, template?.id]);
 
   if (!template) return null;
 
-  const valid = name.trim().length > 0 && /^\S+@\S+\.\S+$/.test(email.trim());
-  const clientRole =
-    template.roles.find((r) => r.key !== "sender") ?? template.roles[0];
+  const senderRole = template.roles.find((role) => role.key === "sender");
+  const allRows = assignableRoles.flatMap((role) => buckets[role.key] ?? []);
+  const validRows = allRows.filter((row) => row.name.trim() && isEmail(row.email));
+  const totalRecipients = validRows.length;
+  const requiredRolesSatisfied = [...requiredRoleKeys].every((roleKey) =>
+    (buckets[roleKey] ?? []).some((row) => row.name.trim() && isEmail(row.email)),
+  );
+  const canSend = totalRecipients > 0 && requiredRolesSatisfied;
+
+  const updateRow = (roleKey: string, id: string, patch: Partial<Recipient>) =>
+    setBuckets((current) => ({
+      ...current,
+      [roleKey]: (current[roleKey] ?? []).map((row) =>
+        row.id === id ? { ...row, ...patch } : row,
+      ),
+    }));
+
+  const addRow = (roleKey: string) =>
+    setBuckets((current) => ({
+      ...current,
+      [roleKey]: [...(current[roleKey] ?? []), emptyRow()],
+    }));
+
+  const removeRow = (roleKey: string, id: string) =>
+    setBuckets((current) => {
+      const rows = current[roleKey] ?? [];
+      const next = rows.length === 1 ? [emptyRow()] : rows.filter((row) => row.id !== id);
+      return { ...current, [roleKey]: next };
+    });
+
+  const applyPaste = () => {
+    if (!pasteRoleKey) return;
+    const parsed = parseRecipientList(pasteValue);
+    if (parsed.length === 0) {
+      toast.error("No valid emails found", {
+        description: "Use Name <email>, commas, or new lines.",
+      });
+      return;
+    }
+    setBuckets((current) => {
+      const existing = current[pasteRoleKey] ?? [];
+      const seen = new Set(existing.map((row) => row.email.trim().toLowerCase()).filter(Boolean));
+      const kept = existing.filter((row) => row.name.trim() || row.email.trim());
+      const merged: Recipient[] = [...kept];
+      for (const recipient of parsed) {
+        const key = recipient.email.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        merged.push({ id: uid(), ...recipient });
+      }
+      return { ...current, [pasteRoleKey]: merged.length ? merged : [emptyRow()] };
+    });
+    toast.success(`${parsed.length} recipient${parsed.length === 1 ? "" : "s"} added`);
+    setPasteValue("");
+    setPasteRoleKey(null);
+  };
 
   const handleSend = () => {
-    if (!valid) return;
+    if (!canSend) return;
     setStage("sent");
     toast.success("Sent", {
-      description: `${template.name} sent to ${name}`,
+      description: `${template.name} sent to ${totalRecipients} recipient${totalRecipients === 1 ? "" : "s"}`,
     });
   };
 
