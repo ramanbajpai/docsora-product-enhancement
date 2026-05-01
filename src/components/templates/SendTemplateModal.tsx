@@ -81,6 +81,17 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
     return new Set(template.fields.map((field) => field.roleKey).filter((key) => key !== "sender"));
   }, [template]);
 
+  const fieldCountByRole = useMemo(() => {
+    const counts: Record<string, number> = {};
+    if (!template) return counts;
+    for (const field of template.fields) {
+      counts[field.roleKey] = (counts[field.roleKey] ?? 0) + 1;
+    }
+    return counts;
+  }, [template]);
+
+  const [bulkRoles, setBulkRoles] = useState<Record<string, boolean>>({});
+
   useEffect(() => {
     if (!open || !template) return;
     const initial: RoleBuckets = {};
@@ -93,6 +104,7 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
     setShowAdvanced(false);
     setSendModel("shared");
     setSignOrder("parallel");
+    setBulkRoles({});
     setStage("form");
   }, [open, template?.id]);
 
@@ -217,6 +229,8 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
                   const rows = buckets[role.key] ?? [];
                   const isRequired = requiredRoleKeys.has(role.key);
                   const validInRole = rows.filter((row) => row.name.trim() && isEmail(row.email)).length;
+                  const fieldCount = fieldCountByRole[role.key] ?? 0;
+                  const isBulk = !!bulkRoles[role.key];
                   return (
                     <section key={role.key} className="space-y-2.5">
                       <div className="flex items-baseline justify-between gap-3">
@@ -229,21 +243,35 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
                           <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                             {isRequired ? "Required" : "Optional"}
                           </span>
-                          {validInRole > 0 && (
-                            <span className="text-[11px] text-muted-foreground tabular-nums">
-                              · {validInRole}
-                            </span>
-                          )}
+                          <span className="text-[11px] text-muted-foreground tabular-nums">
+                            · {fieldCount} field{fieldCount === 1 ? "" : "s"}
+                          </span>
                         </div>
                         <button
                           onClick={() => {
-                            setPasteRoleKey(role.key);
-                            setPasteValue("");
+                            setBulkRoles((prev) => {
+                              const next = { ...prev, [role.key]: !prev[role.key] };
+                              return next;
+                            });
+                            // Collapse extra rows when turning bulk off
+                            if (isBulk) {
+                              setBuckets((current) => {
+                                const existing = current[role.key] ?? [];
+                                const first = existing[0] ?? emptyRow();
+                                return { ...current, [role.key]: [first] };
+                              });
+                              setPasteRoleKey((current) => (current === role.key ? null : current));
+                            }
                           }}
-                          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                          className={cn(
+                            "shrink-0 inline-flex items-center gap-1.5 text-xs font-medium transition-colors",
+                            isBulk
+                              ? "text-primary hover:text-primary/80"
+                              : "text-muted-foreground hover:text-foreground",
+                          )}
                         >
-                          <ClipboardPaste className="w-3.5 h-3.5" />
-                          Paste list
+                          <CopyIcon className="w-3.5 h-3.5" />
+                          {isBulk ? "Single recipient" : "Send to many"}
                         </button>
                       </div>
 
@@ -277,8 +305,11 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
                               />
                               <button
                                 onClick={() => removeRow(role.key, row.id)}
-                                disabled={rows.length === 1}
-                                className="w-9 h-9 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent disabled:opacity-30 transition-colors"
+                                disabled={!isBulk || rows.length === 1}
+                                className={cn(
+                                  "w-9 h-9 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent transition-colors",
+                                  (!isBulk || rows.length === 1) && "opacity-0 pointer-events-none",
+                                )}
                                 aria-label={`Remove ${role.label} recipient`}
                               >
                                 <X className="w-3.5 h-3.5" />
@@ -288,13 +319,32 @@ export function SendTemplateModal({ open, onOpenChange, template }: Props) {
                         })}
                       </div>
 
-                      <button
-                        onClick={() => addRow(role.key)}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground/80 hover:text-primary transition-colors h-8 px-2 -ml-2 rounded-md hover:bg-accent"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        Add another {role.label.toLowerCase()}
-                      </button>
+                      {isBulk && (
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => addRow(role.key)}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground/80 hover:text-primary transition-colors h-8 px-2 -ml-2 rounded-md hover:bg-accent"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            Add another {role.label.toLowerCase()}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setPasteRoleKey(role.key);
+                              setPasteValue("");
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors h-8 px-2 rounded-md hover:bg-accent"
+                          >
+                            <ClipboardPaste className="w-3.5 h-3.5" />
+                            Paste list
+                          </button>
+                          {validInRole > 0 && (
+                            <span className="text-[11px] text-muted-foreground tabular-nums ml-auto">
+                              {validInRole} added
+                            </span>
+                          )}
+                        </div>
+                      )}
 
                       <AnimatePresence>
                         {pasteRoleKey === role.key && (
