@@ -297,8 +297,8 @@ function SavedFlowCard({ template, index, onSend, onEdit, onDelete }: SavedFlowC
               animate={{ opacity: hovered ? 0.7 : 0.25 }}
               transition={{ duration: 0.5 }}
             />
-            <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/25 flex items-center justify-center backdrop-blur-sm">
-              <FlowGlyph className="w-7 h-7" active={hovered} />
+            <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/25 flex items-center justify-center backdrop-blur-sm shadow-[inset_0_1px_0_hsl(var(--primary)/0.18),inset_0_-8px_18px_-10px_hsl(var(--primary)/0.35)]">
+              <FlowGlyph className="w-8 h-8" active={hovered} />
             </div>
           </div>
 
