@@ -443,8 +443,10 @@ export default function TemplateBuilder() {
                         key={r.key}
                         className="group flex items-center gap-3 px-3 h-12 rounded-xl border border-border/60 bg-card hover:border-border transition-colors"
                       >
-                        <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                        <button
+                          onClick={() => cycleRoleColor(r.key)}
+                          aria-label="Change color"
+                          className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border hover:scale-110 transition"
                           style={{ background: r.color }}
                         />
                         <input
