@@ -342,10 +342,22 @@ export default function TemplateBuilder() {
 
           <div className="flex items-center gap-2">
             {step === "place" && (
-              <Button onClick={handleSave} disabled={!canSave} size="sm" className="gap-2">
-                <Check className="w-4 h-4" />
-                Save template
-              </Button>
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSaveAsNew}
+                  disabled={!canSave}
+                  className="gap-1.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  Save as new
+                </Button>
+                <Button onClick={handleSave} disabled={!canSave} size="sm" className="gap-2">
+                  <Check className="w-4 h-4" />
+                  Save template
+                </Button>
+              </>
             )}
           </div>
         </header>
