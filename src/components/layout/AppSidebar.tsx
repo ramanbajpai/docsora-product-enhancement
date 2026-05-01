@@ -23,7 +23,6 @@ import {
   ArrowUpRight,
   Shield,
   ScrollText,
-  LayoutTemplate,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -31,6 +30,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { AICheckIcon } from "@/components/icons/AICheckIcon";
 import CompressIcon from "@/components/icons/CompressIcon";
 import TrackIcon from "@/components/icons/TrackIcon";
+import { FlowIcon } from "@/components/icons/FlowIcon";
 
 
 // Logo imports
@@ -50,7 +50,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { title: "Dashboard", icon: Home, path: "/" },
-  { title: "Flows", icon: LayoutTemplate, path: "/templates", badge: "New" },
+  { title: "Flows", icon: FlowIcon, path: "/templates", badge: "New" },
   { title: "AI Check", icon: AICheckIcon, path: "/ai-check" },
   { title: "Compress", icon: CompressIcon, path: "/compress" },
   { title: "Convert", icon: RefreshCw, path: "/convert" },
