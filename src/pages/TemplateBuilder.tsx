@@ -654,11 +654,19 @@ export default function TemplateBuilder() {
                         const def = FIELD_DEFS.find((d) => d.type === f.type)!;
                         const Icon = def.icon;
                         const role = roles.find((r) => r.key === f.roleKey);
+                        const isSelected = selectedField === f.id;
                         return (
                           <div
                             key={f.id}
-                            onClick={(e) => e.stopPropagation()}
-                            className="absolute group rounded-md flex items-center gap-1.5 px-2 text-[11px] font-medium border-2 backdrop-blur-sm"
+                            onMouseDown={(e) => onFieldMouseDown(e, f.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedField(f.id);
+                            }}
+                            className={cn(
+                              "absolute group rounded-md flex items-center gap-1.5 px-2 text-[11px] font-medium border-2 backdrop-blur-sm cursor-move",
+                              isSelected && "ring-2 ring-offset-1 ring-offset-white",
+                            )}
                             style={{
                               left: `${f.x}%`,
                               top: `${f.y}%`,
@@ -667,17 +675,61 @@ export default function TemplateBuilder() {
                               borderColor: color,
                               background: `color-mix(in hsl, ${color} 18%, transparent)`,
                               color,
+                              ...(isSelected
+                                ? ({ ["--tw-ring-color" as never]: color } as React.CSSProperties)
+                                : {}),
                             }}
                           >
                             <Icon className="w-3 h-3 shrink-0" />
                             <span className="truncate">{role?.label}</span>
                             <button
-                              onClick={() => removeField(f.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeField(f.id);
+                                if (selectedField === f.id) setSelectedField(null);
+                              }}
                               className="ml-auto opacity-0 group-hover:opacity-100 hover:scale-110 transition"
                               aria-label="Remove field"
                             >
                               <Trash2 className="w-3 h-3" />
                             </button>
+
+                            {/* Reassign popover */}
+                            {isSelected && (
+                              <div
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}
+                                className="absolute left-0 top-full mt-1.5 z-10 min-w-[160px] rounded-lg border border-border bg-popover shadow-lg p-1 text-foreground"
+                              >
+                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground px-2 pt-1.5 pb-1">
+                                  Assign to
+                                </p>
+                                {roles.map((r) => (
+                                  <button
+                                    key={r.key}
+                                    onClick={() => {
+                                      reassignField(f.id, r.key);
+                                      setSelectedField(null);
+                                    }}
+                                    className={cn(
+                                      "w-full flex items-center gap-2 px-2 h-8 rounded-md text-xs text-left hover:bg-accent transition-colors",
+                                      r.key === f.roleKey && "bg-accent/60",
+                                    )}
+                                  >
+                                    <span
+                                      className="w-2 h-2 rounded-full shrink-0"
+                                      style={{ background: r.color }}
+                                    />
+                                    <span className="flex-1 truncate text-foreground">
+                                      {r.label}
+                                    </span>
+                                    {r.key === f.roleKey && (
+                                      <Check className="w-3 h-3 text-muted-foreground" />
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
