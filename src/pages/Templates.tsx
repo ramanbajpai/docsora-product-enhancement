@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { templates, WorkflowTemplate } from "@/data/templates";
@@ -17,6 +17,7 @@ import {
   Trash2,
   Zap,
   CheckCircle2,
+  Pencil,
 } from "lucide-react";
 
 // Outcome-based names + short descriptions, mapped from existing template ids.
