@@ -58,7 +58,9 @@ function uid() {
 export default function TemplateBuilder() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { save } = useCustomTemplates();
+  const { save, get } = useCustomTemplates();
+
+  const editingId = searchParams.get("edit");
 
   const [step, setStep] = useState<Step>("upload");
   const [docName, setDocName] = useState<string>("");
@@ -86,6 +88,22 @@ export default function TemplateBuilder() {
 
   // ─────────────── Seed from a Flow (?from=<id>) ───────────────
   useEffect(() => {
+    // Editing an existing custom template takes precedence
+    if (editingId) {
+      const existing = get(editingId);
+      if (existing) {
+        setRoles(existing.roles);
+        setActiveRole(existing.roles[0]?.key ?? "client");
+        setFields(existing.fields);
+        setTemplateName(existing.name);
+        setDocName(existing.documentName);
+        setDocType(existing.documentType);
+        setPageCount(existing.pageCount);
+        setStep("place");
+        return;
+      }
+    }
+
     const fromId = searchParams.get("from");
     if (!fromId) return;
     const flow = workflowTemplates.find((t) => t.id === fromId);
@@ -257,7 +275,7 @@ export default function TemplateBuilder() {
   const canSave = templateName.trim().length > 0 && fields.length > 0;
 
   const buildTemplate = (overrideName?: string): CustomTemplate => ({
-    id: uid(),
+    id: editingId || uid(),
     name: (overrideName ?? templateName).trim(),
     createdAt: Date.now(),
     documentName: docName,
@@ -283,7 +301,11 @@ export default function TemplateBuilder() {
       toast.error(fields.length === 0 ? "Place at least one field" : "Name your template");
       return;
     }
-    const tpl = buildTemplate(`${templateName.trim()} (copy)`);
+    // "Save as new" must always create a fresh id, even when editing
+    const tpl: CustomTemplate = {
+      ...buildTemplate(`${templateName.trim()} (copy)`),
+      id: uid(),
+    };
     save(tpl);
     toast.success("Saved as new template", { description: `${tpl.name} created.` });
     navigate("/templates");

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { templates, WorkflowTemplate } from "@/data/templates";
@@ -17,6 +17,7 @@ import {
   Trash2,
   Zap,
   CheckCircle2,
+  Pencil,
 } from "lucide-react";
 
 // Outcome-based names + short descriptions, mapped from existing template ids.
@@ -52,6 +53,7 @@ const FLOW_META: Record<
 const PRIMARY_IDS = ["client-project-standard", "freelance-quick", "nda-fast"];
 
 export default function Templates() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [quickOpen, setQuickOpen] = useState(false);
   const [activeFlow, setActiveFlow] = useState<WorkflowTemplate | null>(null);
@@ -225,6 +227,13 @@ export default function Templates() {
                     aria-label={`Delete ${t.name}`}
                   >
                     <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => navigate(`/templates/new?edit=${t.id}`)}
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground transition p-1.5"
+                    aria-label={`Edit ${t.name}`}
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
                   </button>
                   <Button size="sm" onClick={() => openSend(t)} className="gap-1.5 h-9">
                     <Send className="w-3.5 h-3.5" />
