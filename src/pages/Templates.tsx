@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { templates, WorkflowTemplate } from "@/data/templates";
-import { StartProjectModal } from "@/components/templates/StartProjectModal";
+import { QuickStartFlowModal } from "@/components/templates/QuickStartFlowModal";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
@@ -11,43 +11,80 @@ import { Button } from "@/components/ui/button";
 import {
   Search,
   Sparkles,
-  FileText,
-  Users,
-  Workflow,
-  Zap,
   Plus,
   ArrowRight,
   Send,
   Trash2,
+  Zap,
+  CheckCircle2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-const categories = ["All", "Client Project", "Sales", "Legal", "HR", "Operations"] as const;
+// Outcome-based names + short descriptions, mapped from existing template ids.
+const FLOW_META: Record<
+  string,
+  { actionName: string; outcome: string; usedBy?: string }
+> = {
+  "client-project-standard": {
+    actionName: "Run a Client Project",
+    outcome: "Move from contract to approval without follow-ups.",
+    usedBy: "Used by 240+ teams",
+  },
+  "freelance-quick": {
+    actionName: "Start a Freelance Project",
+    outcome: "Quote, sign and deliver — in one motion.",
+    usedBy: "Used by 180+ freelancers",
+  },
+  "nda-fast": {
+    actionName: "Send an NDA",
+    outcome: "One signer. Countersigned and stored automatically.",
+  },
+  "sales-proposal": {
+    actionName: "Close a Sales Deal",
+    outcome: "Proposal to invoice with zero back-and-forth.",
+  },
+  "onboarding-hr": {
+    actionName: "Onboard a New Hire",
+    outcome: "Offer, contract and policies — signed in one go.",
+  },
+};
+
+// Highlight only 3 primary flows in the hero grid.
+const PRIMARY_IDS = ["client-project-standard", "freelance-quick", "nda-fast"];
 
 export default function Templates() {
   const [query, setQuery] = useState("");
-  const [activeCat, setActiveCat] = useState<(typeof categories)[number]>("All");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [initialId, setInitialId] = useState<string | undefined>();
+  const [quickOpen, setQuickOpen] = useState(false);
+  const [activeFlow, setActiveFlow] = useState<WorkflowTemplate | null>(null);
+
   const { templates: myTemplates, remove } = useCustomTemplates();
   const [sendOpen, setSendOpen] = useState(false);
   const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
 
-  const filtered = useMemo(() => {
+  const allFlows = useMemo(() => {
     const q = query.toLowerCase().trim();
     return templates.filter((t) => {
-      const matchCat = activeCat === "All" || t.category === activeCat;
-      const matchQ =
-        !q ||
+      if (!q) return true;
+      const meta = FLOW_META[t.id];
+      return (
         t.name.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q);
-      return matchCat && matchQ;
+        meta?.actionName.toLowerCase().includes(q) ||
+        meta?.outcome.toLowerCase().includes(q)
+      );
     });
-  }, [query, activeCat]);
+  }, [query]);
 
-  const launch = (t?: WorkflowTemplate) => {
-    setInitialId(t?.id);
-    setModalOpen(true);
+  const primary = useMemo(
+    () => allFlows.filter((f) => PRIMARY_IDS.includes(f.id)),
+    [allFlows],
+  );
+  const more = useMemo(
+    () => allFlows.filter((f) => !PRIMARY_IDS.includes(f.id)),
+    [allFlows],
+  );
+
+  const startFlow = (t: WorkflowTemplate) => {
+    setActiveFlow(t);
+    setQuickOpen(true);
   };
 
   const openSend = (t: CustomTemplate) => {
@@ -57,128 +94,139 @@ export default function Templates() {
 
   return (
     <AppLayout>
-      <div className="p-6 md:p-8 lg:p-10 max-w-6xl mx-auto">
+      <div className="p-6 md:p-10 lg:p-12 max-w-5xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="flex items-start justify-between gap-4 mb-8"
+          className="flex items-start justify-between gap-4 mb-10"
         >
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
+            <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-                Templates
+                Flows
               </span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-              Workflow blueprints
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
+              Start a flow
             </h1>
-            <p className="text-sm text-muted-foreground mt-1.5 max-w-xl">
-              Reusable structures — documents, roles and steps already wired. Launch a fully
-              structured client project in under 10 seconds.
+            <p className="text-sm text-muted-foreground mt-2 max-w-lg">
+              One click. Add a client. Work begins.
             </p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <Button variant="outline" onClick={() => launch()} className="gap-2">
-              <Sparkles className="w-4 h-4" />
-              Start project
-            </Button>
-            <Button asChild className="gap-2">
-              <Link to="/templates/new">
-                <Plus className="w-4 h-4" />
-                Create template
-              </Link>
-            </Button>
-          </div>
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="shrink-0 text-muted-foreground hover:text-foreground gap-1.5"
+          >
+            <Link to="/templates/new">
+              <Plus className="w-3.5 h-3.5" />
+              New flow
+            </Link>
+          </Button>
         </motion.div>
 
-        {/* Search + categories */}
-        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-6">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search templates…"
-              className="pl-9 h-10 bg-muted/40 border-border/50"
-            />
-          </div>
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setActiveCat(c)}
-                className={cn(
-                  "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors",
-                  activeCat === c
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent",
-                )}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
+        {/* Search */}
+        <div className="relative max-w-md mb-8">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search flows…"
+            className="pl-10 h-11 bg-muted/30 border-border/50 rounded-xl"
+          />
         </div>
 
-        {/* Your templates */}
+        {/* Primary flows — large, spacious */}
+        {primary.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {primary.map((t, i) => {
+              const meta = FLOW_META[t.id];
+              return (
+                <motion.button
+                  key={t.id}
+                  onClick={() => startFlow(t)}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  whileHover={{ y: -3 }}
+                  className="group relative text-left rounded-2xl border border-border/60 bg-card hover:border-primary/50 hover:shadow-xl transition-all p-7 flex flex-col min-h-[240px] overflow-hidden"
+                >
+                  {/* Subtle gradient on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent" />
+
+                  <div className="relative flex items-start justify-between gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center text-2xl">
+                      {t.icon}
+                    </div>
+                    <span className="flex items-center gap-1 text-[10px] font-medium text-primary/90 bg-primary/10 px-2 py-1 rounded-full">
+                      <CheckCircle2 className="w-3 h-3" />
+                      Ready to send
+                    </span>
+                  </div>
+
+                  <div className="relative flex-1">
+                    <h3 className="text-base font-semibold tracking-tight">
+                      {meta?.actionName ?? t.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                      {meta?.outcome ?? t.tagline}
+                    </p>
+                  </div>
+
+                  <div className="relative mt-6 flex items-center justify-between">
+                    <span className="text-[11px] text-muted-foreground/80">
+                      {meta?.usedBy ?? (t.popular ? "Popular" : "")}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-primary opacity-70 group-hover:opacity-100 transition-opacity">
+                      <Zap className="w-3.5 h-3.5" />
+                      Start
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Your saved flows */}
         {myTemplates.length > 0 && (
           <div className="mb-10">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h2 className="text-sm font-semibold tracking-tight">Your templates</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Send-ready. Just add a recipient.
-                </p>
-              </div>
-              <span className="text-[11px] text-muted-foreground tabular-nums">
-                {myTemplates.length}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <h2 className="text-sm font-semibold tracking-tight mb-3">
+              Your flows
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {myTemplates.map((t, i) => (
                 <motion.div
                   key={t.id}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: i * 0.03 }}
-                  className="group rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-md transition-all p-4 flex flex-col"
+                  className="group rounded-2xl border border-border/50 bg-card hover:border-primary/40 transition-all p-5 flex items-center gap-4"
                 >
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <FileText className="w-4 h-4 text-primary" />
-                    </div>
-                    <button
-                      onClick={() => remove(t.id)}
-                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition"
-                      aria-label={`Delete ${t.name}`}
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-lg shrink-0">
+                    ✦
                   </div>
-                  <h3 className="text-sm font-semibold tracking-tight truncate">{t.name}</h3>
-                  <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
-                    {t.documentName}
-                  </p>
-                  <div className="mt-3 pt-3 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1">
-                        <Users className="w-3 h-3" />
-                        {t.roles.length}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Zap className="w-3 h-3" />
-                        {t.fields.length} fields
-                      </span>
-                    </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold tracking-tight truncate">
+                      {t.name}
+                    </h3>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
+                      Ready to send
+                    </p>
                   </div>
-                  <Button
-                    size="sm"
-                    onClick={() => openSend(t)}
-                    className="mt-3 gap-1.5 h-8"
+                  <button
+                    onClick={() => remove(t.id)}
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition p-1.5"
+                    aria-label={`Delete ${t.name}`}
                   >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                  <Button size="sm" onClick={() => openSend(t)} className="gap-1.5 h-9">
                     <Send className="w-3.5 h-3.5" />
                     Send
                   </Button>
@@ -188,77 +236,54 @@ export default function Templates() {
           </div>
         )}
 
-        {/* Grid */}
-        {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-border/50 bg-muted/10 px-6 py-16 text-center">
-            <p className="text-sm text-muted-foreground">No templates match your search.</p>
+        {/* More flows */}
+        {more.length > 0 && (
+          <div>
+            <h2 className="text-sm font-semibold tracking-tight mb-3 text-muted-foreground">
+              More flows
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {more.map((t, i) => {
+                const meta = FLOW_META[t.id];
+                return (
+                  <motion.button
+                    key={t.id}
+                    onClick={() => startFlow(t)}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: i * 0.03 }}
+                    className="group text-left rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-md transition-all p-5 flex items-center gap-4"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-muted/50 flex items-center justify-center text-xl shrink-0">
+                      {t.icon}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-semibold tracking-tight">
+                        {meta?.actionName ?? t.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                        {meta?.outcome ?? t.tagline}
+                      </p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((t, i) => (
-              <motion.button
-                key={t.id}
-                onClick={() => launch(t)}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25, delay: i * 0.04 }}
-                className="group text-left rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col"
-              >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="w-11 h-11 rounded-xl bg-muted/60 flex items-center justify-center text-xl">
-                    {t.icon}
-                  </div>
-                  {t.popular && (
-                    <span className="text-[9px] uppercase tracking-wider font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded">
-                      Popular
-                    </span>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-sm font-semibold tracking-tight">{t.name}</h3>
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground/70 mt-0.5">
-                    {t.category}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                    {t.tagline}
-                  </p>
-                </div>
+        )}
 
-                <div className="mt-4 pt-3 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1">
-                      <FileText className="w-3 h-3" />
-                      {t.documents.length}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="w-3 h-3" />
-                      {t.roles.length}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Workflow className="w-3 h-3" />
-                      {t.flow.length}
-                    </span>
-                  </div>
-                  <span className="flex items-center gap-1 text-primary/80 font-medium">
-                    <Zap className="w-3 h-3" />
-                    {t.estimatedTime}
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center justify-end text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  Use template
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </motion.button>
-            ))}
+        {allFlows.length === 0 && (
+          <div className="rounded-2xl border border-border/50 bg-muted/10 px-6 py-16 text-center">
+            <p className="text-sm text-muted-foreground">No flows match your search.</p>
           </div>
         )}
       </div>
 
-      <StartProjectModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        initialTemplateId={initialId}
+      <QuickStartFlowModal
+        open={quickOpen}
+        onOpenChange={setQuickOpen}
+        flow={activeFlow}
       />
       <SendTemplateModal
         open={sendOpen}
