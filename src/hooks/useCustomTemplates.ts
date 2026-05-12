@@ -20,6 +20,30 @@ export type PlacedField = {
   height: number;
 };
 
+export type FlowStepType =
+  | "send_contract"
+  | "kickoff"
+  | "deliver_files"
+  | "deliver_onboarding"
+  | "collect_feedback"
+  | "send_invoice"
+  | "final_approval";
+
+export type FlowStepAsset = {
+  id: string;
+  name: string;
+  size?: number;
+};
+
+export type FlowStep = {
+  id: string;
+  type: FlowStepType;
+  label: string;
+  description?: string;
+  /** Files attached to this step (e.g. onboarding docs to deliver) */
+  assets?: FlowStepAsset[];
+};
+
 export type CustomTemplate = {
   id: string;
   name: string;
@@ -29,6 +53,8 @@ export type CustomTemplate = {
   pageCount: number; // simulated
   roles: CustomRole[];
   fields: PlacedField[];
+  /** Optional flow definition for templates created via the New Flow modal */
+  flowSteps?: FlowStep[];
 };
 
 const STORAGE_KEY = "docsora.customTemplates.v1";
