@@ -5,6 +5,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { templates, WorkflowTemplate } from "@/data/templates";
 import { QuickStartFlowModal } from "@/components/templates/QuickStartFlowModal";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
+import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -64,6 +65,7 @@ export default function Templates() {
   const { templates: myTemplates, remove } = useCustomTemplates();
   const [sendOpen, setSendOpen] = useState(false);
   const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
+  const [newFlowOpen, setNewFlowOpen] = useState(false);
 
   const allFlows = useMemo(() => {
     const q = query.toLowerCase().trim();
@@ -118,15 +120,13 @@ export default function Templates() {
             </p>
           </div>
           <Button
-            asChild
             variant="ghost"
             size="sm"
+            onClick={() => setNewFlowOpen(true)}
             className="shrink-0 text-muted-foreground hover:text-foreground gap-1.5"
           >
-            <Link to="/templates/new">
-              <Plus className="w-3.5 h-3.5" />
-              New flow
-            </Link>
+            <Plus className="w-3.5 h-3.5" />
+            New flow
           </Button>
         </motion.div>
 
@@ -247,6 +247,7 @@ export default function Templates() {
         onOpenChange={setSendOpen}
         template={sendTpl}
       />
+      <NewFlowModal open={newFlowOpen} onOpenChange={setNewFlowOpen} />
     </AppLayout>
   );
 }
