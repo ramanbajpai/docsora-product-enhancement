@@ -285,6 +285,7 @@ const SEED: SignTemplate[] = [
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 60,
     lastUsedAt: Date.now() - 1000 * 60 * 60 * 24 * 1,
     useCount: 31,
+    packageTitle: "Docsora x {{COUNTERPARTY_NAME}} – NDA",
     documentBody:
       "MUTUAL NON-DISCLOSURE AGREEMENT\n\nBetween {{COMPANY_NAME}} and {{COUNTERPARTY_NAME}}, effective {{EFFECTIVE_DATE}}.\n\nBoth parties agree to protect confidential information shared during discussions related to {{PROJECT_NAME}}.",
     variables: [
