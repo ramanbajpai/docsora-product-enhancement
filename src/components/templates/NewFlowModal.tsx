@@ -30,6 +30,8 @@ import {
   GripVertical,
   FileText,
   Wand2,
+  ChevronDown,
+  Users,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -413,22 +415,29 @@ function BuildStage({
   setName,
   description,
   setDescription,
+  flowDescription,
+  setFlowDescription,
   steps,
   addStep,
   removeStep,
   moveStep,
+  updateStep,
   generateFromText,
 }: {
   name: string;
   setName: (v: string) => void;
   description: string;
   setDescription: (v: string) => void;
+  flowDescription: string;
+  setFlowDescription: (v: string) => void;
   steps: FlowStep[];
   addStep: (t: FlowStepType) => void;
   removeStep: (id: string) => void;
   moveStep: (id: string, dir: -1 | 1) => void;
+  updateStep: (id: string, updates: Partial<FlowStep>) => void;
   generateFromText: () => void;
 }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
@@ -446,6 +455,19 @@ function BuildStage({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Client onboarding"
+          className="h-10"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="flow-summary" className="text-xs">
+          Short description <span className="text-muted-foreground/70 font-normal">— optional</span>
+        </Label>
+        <Input
+          id="flow-summary"
+          value={flowDescription}
+          onChange={(e) => setFlowDescription(e.target.value)}
+          placeholder="What this flow does, in one line."
           className="h-10"
         />
       </div>
@@ -495,6 +517,9 @@ function BuildStage({
             {steps.map((s, idx) => {
               const bp = blueprintFor(s.type);
               const Icon = bp.icon;
+              const expanded = expandedId === s.id;
+              const recipients = s.recipients ?? [];
+              const summary = recipientSummary(recipients);
               return (
                 <motion.div
                   layout
@@ -502,27 +527,43 @@ function BuildStage({
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -8 }}
-                  className="group flex items-center gap-3 rounded-lg border border-border/60 bg-card px-3 py-2.5"
+                  className="group rounded-lg border border-border/60 bg-card/60 hover:bg-card transition-colors"
                 >
+                  <div className="flex items-center gap-3 px-3 py-2.5">
                   <span className="text-[10px] tabular-nums font-semibold text-muted-foreground w-4">
                     {idx + 1}
                   </span>
                   <div className="w-7 h-7 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">
                     <Icon className="w-3.5 h-3.5" />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedId(expanded ? null : s.id)}
+                    className="flex-1 min-w-0 text-left"
+                  >
                     <div className="text-sm font-medium truncate">{s.label}</div>
-                    {bp.needsAssets && (
-                      <div className="text-[10px] text-primary/80 mt-0.5">
-                        Needs files
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                      {summary}
+                      {bp.needsAssets && <span className="text-primary/80"> · needs files</span>}
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-0.5">
+                    <button
+                      onClick={() => setExpandedId(expanded ? null : s.id)}
+                      className="p-1 rounded hover:bg-accent text-muted-foreground"
+                      aria-label={expanded ? "Collapse" : "Expand"}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-3.5 h-3.5 transition-transform",
+                          expanded && "rotate-180",
+                        )}
+                      />
+                    </button>
                     <button
                       onClick={() => moveStep(s.id, -1)}
                       disabled={idx === 0}
-                      className="p-1 rounded hover:bg-accent disabled:opacity-30"
+                      className="p-1 rounded hover:bg-accent disabled:opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Move up"
                     >
                       <ArrowLeft className="w-3 h-3 rotate-90" />
@@ -530,19 +571,43 @@ function BuildStage({
                     <button
                       onClick={() => moveStep(s.id, 1)}
                       disabled={idx === steps.length - 1}
-                      className="p-1 rounded hover:bg-accent disabled:opacity-30"
+                      className="p-1 rounded hover:bg-accent disabled:opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Move down"
                     >
                       <ArrowLeft className="w-3 h-3 -rotate-90" />
                     </button>
                     <button
                       onClick={() => removeStep(s.id)}
-                      className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                      className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Remove"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
+                  </div>
+                  <AnimatePresence initial={false}>
+                    {expanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden border-t border-border/50"
+                      >
+                        <div className="px-3 py-3">
+                          <RecipientEditor
+                            stepType={s.type}
+                            recipients={recipients}
+                            signingMode={s.signingMode ?? "sequential"}
+                            onChange={(next) => updateStep(s.id, { recipients: next })}
+                            onSigningModeChange={(mode) =>
+                              updateStep(s.id, { signingMode: mode })
+                            }
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
