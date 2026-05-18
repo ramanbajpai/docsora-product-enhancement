@@ -44,6 +44,39 @@ export interface SignTemplateField {
   y: number; // %
   width: number; // %
   height: number; // %
+  /** Document this field belongs to (omit for legacy single-doc templates). */
+  documentId?: string;
+}
+
+/* ────────── multi-document signing packages ────────── */
+
+export type SignDocumentTag =
+  | "agreement"
+  | "nda"
+  | "pricing"
+  | "annexure"
+  | "onboarding"
+  | "scope"
+  | "other";
+
+export const SIGN_DOC_TAGS: { value: SignDocumentTag; label: string }[] = [
+  { value: "agreement", label: "Agreement" },
+  { value: "nda", label: "NDA" },
+  { value: "pricing", label: "Pricing" },
+  { value: "scope", label: "Scope" },
+  { value: "annexure", label: "Annexure" },
+  { value: "onboarding", label: "Onboarding" },
+  { value: "other", label: "Other" },
+];
+
+export interface SignTemplateDocument {
+  id: string;
+  /** File / document name; supports variables like {{COMPANY_NAME}}. */
+  name: string;
+  tag?: SignDocumentTag;
+  pageCount: number;
+  /** Body text (mock) used for personalization preview. */
+  documentBody?: string;
 }
 
 export interface SignTemplate {
@@ -64,11 +97,31 @@ export interface SignTemplate {
   /** Raw template body text with placeholders preserved. Used for personalization preview. */
   documentBody?: string;
   variables?: SignTemplateVariable[];
+  /** Package-level personalizable title; supports variables. Falls back to `name`. */
+  packageTitle?: string;
+  /** Optional multi-document package. When set, treat this as a signing package. */
+  documents?: SignTemplateDocument[];
   favorite?: boolean;
   pinned?: boolean;
   createdAt: number;
   lastUsedAt?: number;
   useCount?: number;
+}
+
+/**
+ * Return the document list for a template, synthesizing a single virtual
+ * document from legacy single-doc templates so all UI can use one shape.
+ */
+export function getTemplateDocuments(t: SignTemplate): SignTemplateDocument[] {
+  if (t.documents && t.documents.length > 0) return t.documents;
+  return [
+    {
+      id: "doc-legacy",
+      name: t.documentName || `${t.name}.pdf`,
+      pageCount: t.pageCount,
+      documentBody: t.documentBody,
+    },
+  ];
 }
 
 /* ────────── placeholder detection ────────── */
@@ -134,12 +187,12 @@ export function applyTemplateVariables(
   });
 }
 
-const STORAGE_KEY = "docsora.signTemplates.v2";
+const STORAGE_KEY = "docsora.signTemplates.v3";
 
 const SEED: SignTemplate[] = [
   {
     id: "seed-agency-client",
-    name: "Agency Client Agreement",
+    name: "Agency Client Onboarding",
     description: "Standard service agreement for new agency clients.",
     category: "Client",
     documentName: "agency-client-agreement.pdf",
@@ -148,16 +201,21 @@ const SEED: SignTemplate[] = [
       { key: "client", label: "Client", color: "#3b82f6", signingOrder: 1 },
       { key: "sender", label: "You", color: "#a78bfa", signingOrder: 2 },
     ],
-    fields: Array.from({ length: 8 }).map((_, i) => ({
-      id: `f-${i}`,
-      type: (["signature", "initials", "date", "name", "text", "checkbox", "company", "signature"] as SignFieldType[])[i],
-      roleKey: i % 2 === 0 ? "client" : "sender",
-      page: (i % 4) + 1,
-      x: 10 + (i * 7) % 60,
-      y: 60 + (i * 5) % 25,
-      width: 22,
-      height: 6,
-    })),
+    fields: Array.from({ length: 8 }).map((_, i) => {
+      const docId = (["doc-msa", "doc-nda", "doc-pricing"] as const)[i % 3];
+      const pageCount = docId === "doc-msa" ? 4 : docId === "doc-nda" ? 2 : 2;
+      return {
+        id: `f-${i}`,
+        type: (["signature", "initials", "date", "name", "text", "checkbox", "company", "signature"] as SignFieldType[])[i],
+        roleKey: i % 2 === 0 ? "client" : "sender",
+        page: (i % pageCount) + 1,
+        x: 10 + (i * 7) % 60,
+        y: 60 + (i * 5) % 25,
+        width: 22,
+        height: 6,
+        documentId: docId,
+      };
+    }),
     signingMode: "sequential",
     defaults: { expiryDays: 14, remindersEveryDays: 3 },
     favorite: true,
@@ -165,8 +223,33 @@ const SEED: SignTemplate[] = [
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 30,
     lastUsedAt: Date.now() - 1000 * 60 * 60 * 2,
     useCount: 14,
-    documentBody:
-      "AGENCY SERVICES AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} (\"Agency\") and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}} (\"Client\").\n\n1. Scope of Work\nAgency will deliver services as described in the attached statement of work for a total engagement value of {{DEAL_VALUE}}.\n\n2. Term\nThis agreement begins on {{START_DATE}} and remains in effect until terminated under section 6.\n\n3. Signatures\nSigned for {{COMPANY_NAME}} and acknowledged by {{CLIENT_NAME}}.",
+    packageTitle: "{{COMPANY_NAME}} – Client Onboarding",
+    documents: [
+      {
+        id: "doc-msa",
+        name: "{{COMPANY_NAME}} – MSA",
+        tag: "agreement",
+        pageCount: 4,
+        documentBody:
+          "MASTER SERVICES AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} (\"Agency\") and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}} (\"Client\").\n\n1. Scope of Work\nAgency will deliver services as described in the attached statement of work for a total engagement value of {{DEAL_VALUE}}.\n\n2. Term\nThis agreement begins on {{START_DATE}} and remains in effect until terminated under section 6.",
+      },
+      {
+        id: "doc-nda",
+        name: "{{COMPANY_NAME}} – Mutual NDA",
+        tag: "nda",
+        pageCount: 2,
+        documentBody:
+          "MUTUAL NON-DISCLOSURE AGREEMENT\n\nBetween {{COMPANY_NAME}} and {{CLIENT_NAME}}, effective {{START_DATE}}.\n\nBoth parties agree to protect confidential information shared during this engagement.",
+      },
+      {
+        id: "doc-pricing",
+        name: "{{COMPANY_NAME}} – Pricing Appendix",
+        tag: "pricing",
+        pageCount: 2,
+        documentBody:
+          "PRICING APPENDIX\n\nClient: {{CLIENT_NAME}}\nEngagement value: {{DEAL_VALUE}}\nStart date: {{START_DATE}}",
+      },
+    ],
     variables: [
       { name: "CLIENT_NAME", label: "Client name", type: "text", required: true, pattern: "{{CLIENT_NAME}}" },
       { name: "COMPANY_NAME", label: "Company name", type: "text", required: true, pattern: "{{COMPANY_NAME}}" },
@@ -202,6 +285,7 @@ const SEED: SignTemplate[] = [
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 60,
     lastUsedAt: Date.now() - 1000 * 60 * 60 * 24 * 1,
     useCount: 31,
+    packageTitle: "Docsora x {{COUNTERPARTY_NAME}} – NDA",
     documentBody:
       "MUTUAL NON-DISCLOSURE AGREEMENT\n\nBetween {{COMPANY_NAME}} and {{COUNTERPARTY_NAME}}, effective {{EFFECTIVE_DATE}}.\n\nBoth parties agree to protect confidential information shared during discussions related to {{PROJECT_NAME}}.",
     variables: [

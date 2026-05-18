@@ -14,10 +14,11 @@ import {
   ArrowUpRight,
   Send,
   CheckCircle2,
+  Layers,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SignTemplate, useSignTemplates } from "@/hooks/useSignTemplates";
+import { SignTemplate, getTemplateDocuments, useSignTemplates } from "@/hooks/useSignTemplates";
 import SignTemplateLaunchModal from "./SignTemplateLaunchModal";
 import SignModeSwitcher from "./SignModeSwitcher";
 
@@ -225,6 +226,8 @@ function TemplateCard({
   onDelete: () => void;
 }) {
   const signerCount = t.roles.filter((r) => r.key !== "cc").length;
+  const docs = getTemplateDocuments(t);
+  const isPackage = docs.length > 1;
 
   return (
     <motion.div
@@ -246,9 +249,17 @@ function TemplateCard({
         {/* Row 1: title + actions */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[14px] font-medium tracking-tight truncate group-hover:text-foreground transition-colors">
-              {t.name}
-            </h3>
+            <div className="flex items-center gap-1.5 min-w-0">
+              <h3 className="text-[14px] font-medium tracking-tight truncate group-hover:text-foreground transition-colors">
+                {t.name}
+              </h3>
+              {isPackage && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9.5px] font-semibold uppercase tracking-wider bg-primary/10 text-primary shrink-0">
+                  <Layers className="w-2.5 h-2.5" />
+                  Package
+                </span>
+              )}
+            </div>
             <p className="mt-1 text-[12px] text-muted-foreground line-clamp-2">
               {t.description || t.documentName}
             </p>
@@ -282,7 +293,8 @@ function TemplateCard({
             <Users className="w-3 h-3" /> {signerCount} signer{signerCount === 1 ? "" : "s"}
           </span>
           <span className="inline-flex items-center gap-1">
-            <FileText className="w-3 h-3" /> {t.fields.length} fields
+            <FileText className="w-3 h-3" />
+            {isPackage ? `${docs.length} docs` : `${t.fields.length} fields`}
           </span>
           {t.lastUsedAt && (
             <span className="inline-flex items-center gap-1 ml-auto">

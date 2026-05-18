@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown } from "lucide-react";
+import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown, FileText, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +16,8 @@ import {
   SignTemplate,
   SignFieldType,
   applyTemplateVariables,
+  getTemplateDocuments,
+  SIGN_DOC_TAGS,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
 
@@ -52,6 +54,8 @@ export default function SignTemplateLaunchModal({
 
   const variables = template?.variables ?? [];
   const documentBody = template?.documentBody ?? "";
+  const documents = useMemo(() => (template ? getTemplateDocuments(template) : []), [template]);
+  const isPackage = documents.length > 1;
 
   const senderFields = useMemo(
     () => (template ? template.fields.filter((f) => f.roleKey === "sender") : []),
@@ -121,6 +125,23 @@ export default function SignTemplateLaunchModal({
     (v) => (variableValues[v.name] ?? "").trim().length > 0,
   ).length;
 
+  // Personalized titles
+  const rawPackageTitle = template.packageTitle || template.name;
+  const personalizedPackageTitle =
+    applyTemplateVariables(rawPackageTitle, variableValues) || template.name;
+  const personalizedDocuments = documents.map((d) => ({
+    ...d,
+    personalizedName:
+      applyTemplateVariables(d.name, variableValues) || d.name,
+  }));
+
+  // Preview body — concatenate all docs if multi.
+  const previewSegments = personalizedDocuments
+    .filter((d) => d.documentBody)
+    .map((d) => ({
+      title: d.personalizedName,
+      text: applyTemplateVariables(d.documentBody!, variableValues),
+    }));
   const personalizedBody = documentBody
     ? applyTemplateVariables(documentBody, variableValues)
     : "";
@@ -141,6 +162,14 @@ export default function SignTemplateLaunchModal({
       console.info("[audit] sign.template.variables_applied", {
         templateId: template.id,
         templateName: template.name,
+        personalizedTitle: personalizedPackageTitle,
+        documents: personalizedDocuments.map((d) => ({
+          id: d.id,
+          original: d.name,
+          personalized: d.personalizedName,
+          tag: d.tag,
+          pageCount: d.pageCount,
+        })),
         appliedAt: new Date().toISOString(),
         variables: variables.map((v) => ({
           name: v.name,
@@ -165,8 +194,8 @@ export default function SignTemplateLaunchModal({
       });
     }
     setSubmitting(false);
-    toast.success("Agreement sent", {
-      description: `${template.name} is on its way to ${recipients[0]?.name || "recipient"}.`,
+    toast.success(isPackage ? "Signing package sent" : "Agreement sent", {
+      description: `${personalizedPackageTitle} is on its way to ${recipients[0]?.name || "recipient"}.`,
     });
     onLaunched?.();
     onOpenChange(false);
@@ -196,14 +225,28 @@ export default function SignTemplateLaunchModal({
             <div className="relative px-6 pt-5 pb-4 border-b border-border/40 flex items-start justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <Zap className="w-3 h-3 text-primary" />
+                  {isPackage ? (
+                    <Layers className="w-3 h-3 text-primary" />
+                  ) : (
+                    <Zap className="w-3 h-3 text-primary" />
+                  )}
                   <span className="text-[10px] uppercase tracking-wider font-semibold text-primary">
-                    Send agreement
+                    {isPackage ? "Send signing package" : "Send agreement"}
                   </span>
                 </div>
-                <h2 className="text-[16px] font-semibold tracking-tight truncate">{template.name}</h2>
+                <motion.h2
+                  key={personalizedPackageTitle}
+                  initial={{ opacity: 0.7 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[16px] font-semibold tracking-tight truncate"
+                >
+                  {personalizedPackageTitle}
+                </motion.h2>
                 <p className="text-[12px] text-muted-foreground mt-0.5">
-                  {recipientRoles.length} signer{recipientRoles.length === 1 ? "" : "s"} · {template.fields.length} fields preconfigured
+                  {recipientRoles.length} signer{recipientRoles.length === 1 ? "" : "s"} ·{" "}
+                  {documents.length} document{documents.length === 1 ? "" : "s"} ·{" "}
+                  {template.fields.length} fields preconfigured
                 </p>
               </div>
               <button
@@ -215,6 +258,67 @@ export default function SignTemplateLaunchModal({
             </div>
 
             <div className="relative px-6 py-5 max-h-[60vh] overflow-y-auto space-y-5">
+              {/* Documents in package */}
+              {isPackage && (
+                <div className="rounded-xl border border-border/50 bg-muted/10 overflow-hidden">
+                  <div className="px-3.5 py-2.5 flex items-center justify-between border-b border-border/40">
+                    <div className="inline-flex items-center gap-1.5">
+                      <Layers className="w-3 h-3 text-primary" />
+                      <span className="text-[11px] uppercase tracking-wider font-semibold text-foreground/80">
+                        Documents in this package
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground tabular-nums">
+                      {documents.length} files · one signing session
+                    </span>
+                  </div>
+                  <ol className="divide-y divide-border/30">
+                    {personalizedDocuments.map((d, i) => {
+                      const tag = SIGN_DOC_TAGS.find((t) => t.value === d.tag);
+                      const fieldCount = template.fields.filter(
+                        (f) => f.documentId === d.id,
+                      ).length;
+                      return (
+                        <li
+                          key={d.id}
+                          className="px-3.5 py-2.5 flex items-center gap-3"
+                        >
+                          <span className="w-6 h-6 rounded-md bg-muted/40 text-[10px] font-semibold text-muted-foreground inline-flex items-center justify-center tabular-nums shrink-0">
+                            {i + 1}
+                          </span>
+                          <FileText className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <motion.div
+                              key={d.personalizedName}
+                              initial={{ opacity: 0.6 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.18 }}
+                              className="text-[12.5px] font-medium text-foreground/90 truncate"
+                            >
+                              {d.personalizedName}
+                            </motion.div>
+                            <div className="text-[10.5px] text-muted-foreground inline-flex items-center gap-1.5">
+                              <span>{d.pageCount} pages</span>
+                              <span className="text-border">·</span>
+                              <span>{fieldCount} fields</span>
+                            </div>
+                          </div>
+                          {tag && (
+                            <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
+                              {tag.label}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                  <div className="px-3.5 py-2 text-[10.5px] text-muted-foreground border-t border-border/30 bg-muted/10">
+                    Signers complete all {documents.length} documents in one guided session — one
+                    audit trail, one completion.
+                  </div>
+                </div>
+              )}
+
               {/* Dynamic variables */}
               {variables.length > 0 && (
                 <div className="rounded-xl border border-border/50 bg-muted/15 overflow-hidden">
@@ -259,7 +363,7 @@ export default function SignTemplateLaunchModal({
                     ))}
                   </div>
 
-                  {documentBody && (
+                  {(documentBody || previewSegments.length > 0) && (
                     <div className="border-t border-border/40">
                       <button
                         type="button"
@@ -268,7 +372,7 @@ export default function SignTemplateLaunchModal({
                       >
                         <span className="inline-flex items-center gap-1.5">
                           <Eye className="w-3 h-3" />
-                          Preview personalized agreement
+                          Preview personalized {isPackage ? "package" : "agreement"}
                         </span>
                         <ChevronDown
                           className={`w-3.5 h-3.5 transition-transform ${showPreview ? "rotate-180" : ""}`}
@@ -284,12 +388,36 @@ export default function SignTemplateLaunchModal({
                             className="overflow-hidden"
                           >
                             <div className="px-3.5 pb-3.5">
-                              <div className="rounded-lg border border-border/40 bg-background/70 p-3 max-h-56 overflow-y-auto">
-                                <PersonalizedPreview
-                                  text={personalizedBody}
-                                  values={variableValues}
-                                  patterns={variables.map((v) => v.pattern)}
-                                />
+                              <div className="rounded-lg border border-border/40 bg-background/70 max-h-72 overflow-y-auto">
+                                {previewSegments.length > 0 ? (
+                                  previewSegments.map((seg, i) => (
+                                    <div
+                                      key={i}
+                                      className={
+                                        i === 0
+                                          ? "p-3"
+                                          : "p-3 border-t border-border/30"
+                                      }
+                                    >
+                                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
+                                        {seg.title}
+                                      </div>
+                                      <PersonalizedPreview
+                                        text={seg.text}
+                                        values={variableValues}
+                                        patterns={variables.map((v) => v.pattern)}
+                                      />
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="p-3">
+                                    <PersonalizedPreview
+                                      text={personalizedBody}
+                                      values={variableValues}
+                                      patterns={variables.map((v) => v.pattern)}
+                                    />
+                                  </div>
+                                )}
                               </div>
                               <p className="text-[10px] text-muted-foreground mt-1.5">
                                 Values are inserted inline — original fonts, spacing and layout are preserved.
