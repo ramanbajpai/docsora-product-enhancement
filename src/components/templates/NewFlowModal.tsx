@@ -44,6 +44,7 @@ import {
   SignatureFieldKind,
   PersonalizationToken,
   PlacedField,
+  PaymentConfig,
 } from "@/hooks/useCustomTemplates";
 import { FieldPlacementModal } from "./FieldPlacementModal";
 
@@ -55,6 +56,7 @@ type StepBlueprint = {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   needsAssets: boolean;
+  needsConfig?: boolean;
   assetLabel?: string;
   assetHint?: string;
   multiple?: boolean;
@@ -119,6 +121,7 @@ const STEP_LIBRARY: StepBlueprint[] = [
     description: "Send a secure payment link to collect funds.",
     icon: CreditCard,
     needsAssets: false,
+    needsConfig: true,
   },
   {
     type: "final_approval",
