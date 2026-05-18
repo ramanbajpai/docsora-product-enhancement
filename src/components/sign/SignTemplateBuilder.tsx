@@ -21,13 +21,11 @@ import {
   Eye,
   AtSign,
   Braces,
-  Wand2,
   Layers,
   FileStack,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
