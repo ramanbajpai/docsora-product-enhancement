@@ -2,8 +2,6 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { templates, WorkflowTemplate } from "@/data/templates";
-import { QuickStartFlowModal } from "@/components/templates/QuickStartFlowModal";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
 import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
@@ -18,77 +16,30 @@ import {
   Send,
   Trash2,
   Zap,
-  CheckCircle2,
   Pencil,
   Users,
   FileText,
 } from "lucide-react";
 
-// Outcome-based names + short descriptions, mapped from existing template ids.
-const FLOW_META: Record<
-  string,
-  { actionName: string; outcome: string; usedBy?: string }
-> = {
-  "client-project-standard": {
-    actionName: "Run a Client Project",
-    outcome: "Move from contract to approval without follow-ups.",
-    usedBy: "Used by 240+ teams",
-  },
-  "freelance-quick": {
-    actionName: "Start a Freelance Project",
-    outcome: "Quote, sign and deliver — in one motion.",
-    usedBy: "Used by 180+ freelancers",
-  },
-  "nda-fast": {
-    actionName: "Send an NDA",
-    outcome: "One signer. Countersigned and stored automatically.",
-  },
-  "sales-proposal": {
-    actionName: "Close a Sales Deal",
-    outcome: "Proposal to invoice with zero back-and-forth.",
-  },
-  "onboarding-hr": {
-    actionName: "Onboard a New Hire",
-    outcome: "Offer, contract and policies — signed in one go.",
-  },
-};
-
-// One curated example flow leads the hero. Saved flows live below.
-const PRIMARY_IDS = ["client-project-standard"];
-
 export default function Templates() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [quickOpen, setQuickOpen] = useState(false);
-  const [activeFlow, setActiveFlow] = useState<WorkflowTemplate | null>(null);
 
   const { templates: myTemplates, remove } = useCustomTemplates();
   const [sendOpen, setSendOpen] = useState(false);
   const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
   const [newFlowOpen, setNewFlowOpen] = useState(false);
+  const [createHover, setCreateHover] = useState(false);
 
-  const allFlows = useMemo(() => {
+  const filteredMyTemplates = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return templates.filter((t) => {
-      if (!q) return true;
-      const meta = FLOW_META[t.id];
-      return (
+    if (!q) return myTemplates;
+    return myTemplates.filter(
+      (t) =>
         t.name.toLowerCase().includes(q) ||
-        meta?.actionName.toLowerCase().includes(q) ||
-        meta?.outcome.toLowerCase().includes(q)
-      );
-    });
-  }, [query]);
-
-  const primary = useMemo(
-    () => allFlows.filter((f) => PRIMARY_IDS.includes(f.id)),
-    [allFlows],
-  );
-
-  const startFlow = (t: WorkflowTemplate) => {
-    setActiveFlow(t);
-    setQuickOpen(true);
-  };
+        t.documentName.toLowerCase().includes(q),
+    );
+  }, [query, myTemplates]);
 
   const openSend = (t: CustomTemplate) => {
     setSendTpl(t);
@@ -119,15 +70,6 @@ export default function Templates() {
               One click. Add a client. Work begins.
             </p>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setNewFlowOpen(true)}
-            className="shrink-0 text-muted-foreground hover:text-foreground gap-1.5"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            New flow
-          </Button>
         </motion.div>
 
         {/* Search */}
@@ -141,82 +83,102 @@ export default function Templates() {
           />
         </div>
 
-        {/* Primary flow — single, spacious example */}
-        {primary.length > 0 && (
-          <div className="grid grid-cols-1 gap-4 mb-12">
-            {primary.map((t, i) => {
-              const meta = FLOW_META[t.id];
-              return (
-                <motion.button
-                  key={t.id}
-                  onClick={() => startFlow(t)}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
-                  whileHover={{ y: -3 }}
-                  className="group relative text-left rounded-2xl border border-border/60 bg-card hover:border-primary/50 hover:shadow-xl transition-all p-7 flex flex-col min-h-[220px] overflow-hidden"
-                >
-                  {/* Subtle gradient on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent" />
-
-                  <div className="relative flex items-start justify-between gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center text-2xl">
-                      {t.icon}
-                    </div>
-                    <span className="flex items-center gap-1 text-[10px] font-medium text-primary/90 bg-primary/10 px-2 py-1 rounded-full">
-                      <CheckCircle2 className="w-3 h-3" />
-                      Ready to send
-                    </span>
-                  </div>
-
-                  <div className="relative flex-1">
-                    <h3 className="text-base font-semibold tracking-tight">
-                      {meta?.actionName ?? t.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                      {meta?.outcome ?? t.tagline}
-                    </p>
-                  </div>
-
-                  <div className="relative mt-6 flex items-center justify-between">
-                    <span className="text-[11px] text-muted-foreground/80">
-                      {meta?.usedBy ?? (t.popular ? "Popular" : "")}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-primary opacity-70 group-hover:opacity-100 transition-opacity">
-                      <Zap className="w-3.5 h-3.5" />
-                      Start
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </div>
-                </motion.button>
-              );
-            })}
+        {/* Create a new flow — modern animated CTA */}
+        <motion.button
+          onClick={() => setNewFlowOpen(true)}
+          onHoverStart={() => setCreateHover(true)}
+          onHoverEnd={() => setCreateHover(false)}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          whileHover={{ y: -3 }}
+          whileTap={{ scale: 0.995 }}
+          className="group relative w-full text-left rounded-2xl overflow-hidden mb-12 min-h-[180px] p-7 flex items-center gap-6 border border-border/60 bg-gradient-to-br from-card via-card to-muted/30 hover:border-primary/50 transition-all duration-500 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)] hover:shadow-[0_2px_4px_rgba(15,23,42,0.04),0_24px_60px_-20px_hsl(var(--primary)/0.35)]"
+        >
+          {/* Aurora mesh */}
+          <div className="absolute inset-0 opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+            <motion.div
+              className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-primary/15 blur-3xl"
+              animate={createHover ? { x: [0, 30, 0], y: [0, 20, 0] } : { x: 0, y: 0 }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute -bottom-24 -right-16 w-72 h-72 rounded-full bg-primary/10 blur-3xl"
+              animate={createHover ? { x: [0, -30, 0], y: [0, -20, 0] } : { x: 0, y: 0 }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            />
           </div>
-        )}
+
+          {/* Top hairline sheen */}
+          <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* Animated orb / plus */}
+          <div className="relative shrink-0">
+            <motion.div
+              className="absolute inset-0 rounded-2xl bg-primary/30 blur-2xl"
+              animate={{ opacity: createHover ? [0.4, 0.8, 0.4] : 0.3, scale: createHover ? [1, 1.15, 1] : 1 }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border border-primary/30 backdrop-blur-sm flex items-center justify-center shadow-[inset_0_1px_0_hsl(var(--primary)/0.25),inset_0_-10px_22px_-10px_hsl(var(--primary)/0.4)] overflow-hidden">
+              {/* Orbiting dots */}
+              <motion.div
+                className="absolute inset-0"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+              >
+                <span className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/70" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/40" />
+              </motion.div>
+              <motion.div
+                animate={createHover ? { rotate: 90, scale: 1.1 } : { rotate: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 220, damping: 18 }}
+              >
+                <Plus className="w-7 h-7 text-primary" strokeWidth={2.25} />
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Copy */}
+          <div className="relative flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1.5">
+              <Sparkles className="w-3 h-3 text-primary" />
+              <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-primary/90">
+                New flow
+              </span>
+            </div>
+            <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
+              Create a project
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed max-w-md">
+              Describe your workflow in your own words — we'll wire up the steps, documents and roles in seconds.
+            </p>
+          </div>
+
+          {/* CTA chevron */}
+          <motion.div
+            className="relative shrink-0 hidden sm:flex items-center gap-1.5 text-xs font-medium text-primary"
+            animate={createHover ? { x: 4 } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          >
+            Start
+            <ArrowRight className="w-3.5 h-3.5" />
+          </motion.div>
+        </motion.button>
 
         {/* Your saved flows — premium AI surface */}
-        {myTemplates.length > 0 && (
+        {filteredMyTemplates.length > 0 && (
           <div className="mb-10">
             <div className="flex items-end justify-between mb-4">
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-                  </span>
-                  <span className="text-[10px] uppercase tracking-[0.14em] font-semibold text-primary/90">
-                    Your library
-                  </span>
-                </div>
                 <h2 className="text-lg font-semibold tracking-tight">Your flows</h2>
               </div>
               <span className="text-[11px] text-muted-foreground tabular-nums">
-                {myTemplates.length} saved
+                {filteredMyTemplates.length} saved
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {myTemplates.map((t, i) => (
+              {filteredMyTemplates.map((t, i) => (
                 <SavedFlowCard
                   key={t.id}
                   template={t}
@@ -230,18 +192,13 @@ export default function Templates() {
           </div>
         )}
 
-        {allFlows.length === 0 && (
+        {myTemplates.length > 0 && filteredMyTemplates.length === 0 && (
           <div className="rounded-2xl border border-border/50 bg-muted/10 px-6 py-16 text-center">
             <p className="text-sm text-muted-foreground">No flows match your search.</p>
           </div>
         )}
       </div>
 
-      <QuickStartFlowModal
-        open={quickOpen}
-        onOpenChange={setQuickOpen}
-        flow={activeFlow}
-      />
       <SendTemplateModal
         open={sendOpen}
         onOpenChange={setSendOpen}
