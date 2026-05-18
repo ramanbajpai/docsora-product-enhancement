@@ -575,7 +575,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                         }}
                         className="absolute group rounded-md border-2 flex items-center gap-1 px-1.5"
                       >
-                        <Icon className="w-3 h-3 shrink-0" style={{ color: role?.color }} />
+                        <span className="shrink-0" style={{ color: role?.color }}>
+                          <Icon className="w-3 h-3" />
+                        </span>
                         <span
                           className="text-[10px] font-medium truncate"
                           style={{ color: role?.color }}
