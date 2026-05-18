@@ -16,6 +16,10 @@ import {
   Move,
   Check,
   Sparkles,
+  PenLine,
+  ShieldCheck,
+  Eye,
+  AtSign,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,8 +30,16 @@ import {
   SignFieldType,
   SignTemplate,
   SignTemplateRole,
+  SignRoleType,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -39,6 +51,51 @@ interface SignTemplateBuilderProps {
 type BuilderStep = "upload" | "configure" | "fields";
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
+
+const ROLE_TYPES: {
+  value: SignRoleType;
+  label: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  allowedFields: SignFieldType[] | "all";
+}[] = [
+  {
+    value: "signer",
+    label: "Signer",
+    description: "Signs and fills the document.",
+    icon: PenLine,
+    allowedFields: "all",
+  },
+  {
+    value: "approver",
+    label: "Approver",
+    description: "Approves before it's finalized.",
+    icon: ShieldCheck,
+    allowedFields: ["signature", "initials", "date", "name"],
+  },
+  {
+    value: "viewer",
+    label: "Viewer",
+    description: "Read-only access. No fields.",
+    icon: Eye,
+    allowedFields: [],
+  },
+  {
+    value: "cc",
+    label: "CC",
+    description: "Receives a copy. No action needed.",
+    icon: AtSign,
+    allowedFields: [],
+  },
+];
+
+const getRoleTypeMeta = (t: SignRoleType = "signer") =>
+  ROLE_TYPES.find((r) => r.value === t) ?? ROLE_TYPES[0];
+
+const roleAllows = (t: SignRoleType | undefined, kind: SignFieldType) => {
+  const meta = getRoleTypeMeta(t);
+  return meta.allowedFields === "all" || meta.allowedFields.includes(kind);
+};
 
 const FIELD_TOOLS: {
   kind: SignFieldType;
@@ -67,8 +124,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const [category, setCategory] = useState<string>("Client");
   const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("sequential");
   const [roles, setRoles] = useState<SignTemplateRole[]>([
-    { key: "client", label: "Client", color: ROLE_COLORS[0], signingOrder: 1 },
-    { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2 },
+    { key: "client", label: "Client", color: ROLE_COLORS[0], signingOrder: 1, type: "signer" },
+    { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2, type: "signer" },
   ]);
   const [fields, setFields] = useState<SignTemplateField[]>([]);
   const [page, setPage] = useState(1);
@@ -92,7 +149,13 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     const key = `role-${uid()}`;
     setRoles((r) => [
       ...r,
-      { key, label: `Signer ${idx + 1}`, color: ROLE_COLORS[idx % ROLE_COLORS.length], signingOrder: idx + 1 },
+      {
+        key,
+        label: `Signer ${idx + 1}`,
+        color: ROLE_COLORS[idx % ROLE_COLORS.length],
+        signingOrder: idx + 1,
+        type: "signer",
+      },
     ]);
   };
   const updateRole = (key: string, patch: Partial<SignTemplateRole>) =>
@@ -108,6 +171,14 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const placeField = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = pageRef.current;
     if (!target) return;
+    const activeRole = roles.find((r) => r.key === activeRoleKey);
+    if (!activeRole) return;
+    if (!roleAllows(activeRole.type, activeTool.kind)) {
+      toast.error(
+        `${getRoleTypeMeta(activeRole.type).label}s can't have ${activeTool.label.toLowerCase()} fields.`,
+      );
+      return;
+    }
     const rect = target.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -365,7 +436,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                 {roles.map((r, i) => (
                   <div
                     key={r.key}
-                    className="rounded-xl border border-border/50 bg-card/30 p-3 flex items-center gap-2"
+                    className="rounded-xl border border-border/50 bg-card/30 p-3 flex flex-wrap items-center gap-2"
                   >
                     <button
                       onClick={() => {
@@ -379,8 +450,29 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     <Input
                       value={r.label}
                       onChange={(e) => updateRole(r.key, { label: e.target.value })}
-                      className="h-9 bg-background/60 flex-1"
+                      className="h-9 bg-background/60 flex-1 min-w-[140px]"
                     />
+                    <Select
+                      value={r.type ?? "signer"}
+                      onValueChange={(v) => updateRole(r.key, { type: v as SignRoleType })}
+                    >
+                      <SelectTrigger className="h-9 w-[130px] bg-background/60 text-[12px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ROLE_TYPES.map((rt) => {
+                          const Icon = rt.icon;
+                          return (
+                            <SelectItem key={rt.value} value={rt.value}>
+                              <span className="inline-flex items-center gap-2">
+                                <Icon className="w-3.5 h-3.5" />
+                                {rt.label}
+                              </span>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
                     {signingMode === "sequential" && (
                       <div className="flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums">
                         Step
@@ -447,6 +539,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                   {roles.map((r) => {
                     const active = r.key === activeRoleKey;
                     const count = fields.filter((f) => f.roleKey === r.key).length;
+                    const meta = getRoleTypeMeta(r.type);
+                    const RoleIcon = meta.icon;
                     return (
                       <button
                         key={r.key}
@@ -463,6 +557,10 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                           style={{ background: r.color }}
                         />
                         <span className="text-[12px] font-medium truncate flex-1">{r.label}</span>
+                        <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <RoleIcon className="w-3 h-3" />
+                          {meta.label}
+                        </span>
                         <span className="text-[10px] text-muted-foreground tabular-nums">{count}</span>
                       </button>
                     );
@@ -472,19 +570,36 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
               <div>
                 <Label>Field type</Label>
+                {(() => {
+                  const activeRole = roles.find((r) => r.key === activeRoleKey);
+                  const meta = getRoleTypeMeta(activeRole?.type);
+                  if (meta.allowedFields !== "all" && meta.allowedFields.length === 0) {
+                    return (
+                      <div className="rounded-lg border border-border/50 bg-muted/20 px-3 py-3 text-[11px] text-muted-foreground leading-relaxed">
+                        <meta.icon className="w-3.5 h-3.5 inline-block mr-1 -mt-0.5" />
+                        {meta.label}s don't fill fields — they just{" "}
+                        {meta.value === "viewer" ? "review the document." : "receive a copy."}
+                      </div>
+                    );
+                  }
+                  return (
                 <div className="grid grid-cols-2 gap-1.5">
                   {FIELD_TOOLS.map((t) => {
                     const Icon = t.icon;
                     const active = activeTool.kind === t.kind && activeTool.label === t.label;
+                    const allowed = roleAllows(activeRole?.type, t.kind);
                     return (
                       <button
                         key={t.label}
-                        onClick={() => setActiveTool(t)}
+                        onClick={() => allowed && setActiveTool(t)}
+                        disabled={!allowed}
+                        title={allowed ? undefined : `Not available for ${meta.label}s`}
                         className={cn(
                           "flex items-center gap-1.5 px-2 py-2 rounded-lg border transition-colors text-left",
                           active
                             ? "border-primary/30 bg-primary/5 text-primary"
                             : "border-border/50 bg-card/30 hover:bg-card/60 text-foreground/80",
+                          !allowed && "opacity-40 cursor-not-allowed hover:bg-card/30",
                         )}
                       >
                         <Icon className="w-3.5 h-3.5" />
@@ -493,6 +608,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     );
                   })}
                 </div>
+                  );
+                })()}
               </div>
 
               <div className="rounded-lg border border-border/40 bg-muted/20 px-3 py-2.5 text-[11px] text-muted-foreground leading-relaxed">
