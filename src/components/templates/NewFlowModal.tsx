@@ -180,9 +180,10 @@ type Stage = "build" | "assets" | "done";
 interface NewFlowModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  editTemplate?: CustomTemplate | null;
 }
 
-export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
+export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalProps) {
   const { save } = useCustomTemplates();
   const [stage, setStage] = useState<Stage>("build");
   const [name, setName] = useState("");
@@ -192,12 +193,19 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
   // Reset on open
   useEffect(() => {
     if (open) {
-      setStage("build");
-      setName("");
-      setDescription("");
-      setSteps([]);
+      if (editTemplate) {
+        setStage("build");
+        setName(editTemplate.name);
+        setDescription("");
+        setSteps(editTemplate.flowSteps ?? []);
+      } else {
+        setStage("build");
+        setName("");
+        setDescription("");
+        setSteps([]);
+      }
     }
-  }, [open]);
+  }, [open, editTemplate]);
 
   const stepsNeedingAssets = useMemo(
     () =>
@@ -274,19 +282,19 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
       docStep?.assets?.[0]?.name ?? `${name.trim()} document.pdf`;
 
     const tpl: CustomTemplate = {
-      id: uid(),
+      id: editTemplate?.id ?? uid(),
       name: name.trim(),
-      createdAt: Date.now(),
+      createdAt: editTemplate?.createdAt ?? Date.now(),
       documentName: docName,
       documentType: docName.toLowerCase().endsWith(".docx") ? "docx" : "pdf",
-      pageCount: 1,
-      roles: defaultRoles,
-      fields: [],
+      pageCount: editTemplate?.pageCount ?? 1,
+      roles: editTemplate?.roles ?? defaultRoles,
+      fields: editTemplate?.fields ?? [],
       flowSteps: steps,
     };
     save(tpl);
     setStage("done");
-    toast.success("Flow saved to your library.");
+    toast.success(editTemplate ? "Flow updated." : "Flow saved to your library.");
   };
 
   return (

@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
@@ -7,7 +6,6 @@ import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FlowGlyph } from "@/components/icons/FlowGlyph";
 import {
   Search,
   Sparkles,
@@ -15,20 +13,17 @@ import {
   ArrowRight,
   Send,
   Trash2,
-  Zap,
   Pencil,
-  Users,
-  FileText,
 } from "lucide-react";
 
 export default function Templates() {
-  const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
   const { templates: myTemplates, remove } = useCustomTemplates();
   const [sendOpen, setSendOpen] = useState(false);
   const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
   const [newFlowOpen, setNewFlowOpen] = useState(false);
+  const [editTpl, setEditTpl] = useState<CustomTemplate | null>(null);
   const [createHover, setCreateHover] = useState(false);
 
   const filteredMyTemplates = useMemo(() => {
@@ -44,6 +39,16 @@ export default function Templates() {
   const openSend = (t: CustomTemplate) => {
     setSendTpl(t);
     setSendOpen(true);
+  };
+
+  const openEdit = (t: CustomTemplate) => {
+    setEditTpl(t);
+    setNewFlowOpen(true);
+  };
+
+  const openCreate = () => {
+    setEditTpl(null);
+    setNewFlowOpen(true);
   };
 
   return (
@@ -85,7 +90,7 @@ export default function Templates() {
 
         {/* Create a new flow — modern animated CTA */}
         <motion.button
-          onClick={() => setNewFlowOpen(true)}
+          onClick={openCreate}
           onHoverStart={() => setCreateHover(true)}
           onHoverEnd={() => setCreateHover(false)}
           initial={{ opacity: 0, y: 12 }}
@@ -184,7 +189,7 @@ export default function Templates() {
                   template={t}
                   index={i}
                   onSend={() => openSend(t)}
-                  onEdit={() => navigate(`/templates/new?edit=${t.id}`)}
+                  onEdit={() => openEdit(t)}
                   onDelete={() => remove(t.id)}
                 />
               ))}
@@ -204,7 +209,14 @@ export default function Templates() {
         onOpenChange={setSendOpen}
         template={sendTpl}
       />
-      <NewFlowModal open={newFlowOpen} onOpenChange={setNewFlowOpen} />
+      <NewFlowModal
+        open={newFlowOpen}
+        onOpenChange={(o) => {
+          setNewFlowOpen(o);
+          if (!o) setEditTpl(null);
+        }}
+        editTemplate={editTpl}
+      />
     </AppLayout>
   );
 }
@@ -220,131 +232,91 @@ interface SavedFlowCardProps {
 }
 
 function SavedFlowCard({ template, index, onSend, onEdit, onDelete }: SavedFlowCardProps) {
-  const [hovered, setHovered] = useState(false);
   const assignableRoles = template.roles.filter((r) => r.key !== "sender");
+  const fieldCount = (template.flowSteps ?? []).reduce(
+    (n, s) => n + (s.placedFields?.length ?? 0),
+    template.fields.length,
+  );
+  const stepCount = template.flowSteps?.length ?? 0;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      whileHover={{ y: -3 }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="group relative rounded-2xl overflow-hidden"
+      className="group relative rounded-2xl border border-border/60 bg-card/60 hover:bg-card transition-colors duration-200"
     >
-      {/* Base surface — works in both themes. Light: subtle gradient + ring. Dark: lifted card. */}
-      <div className="absolute inset-0 rounded-2xl bg-card border border-border/70 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)] group-hover:border-primary/40 group-hover:shadow-[0_2px_4px_rgba(15,23,42,0.04),0_18px_40px_-16px_hsl(var(--primary)/0.25)] transition-all duration-500 dark:bg-gradient-to-br dark:from-card dark:via-card dark:to-muted/20" />
-
-      {/* Mesh accent — soft, monochromatic in light, blue-tinted in dark */}
-      <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-        <div className="absolute -top-20 -left-12 w-56 h-56 rounded-full bg-primary/[0.06] dark:bg-primary/15 blur-3xl" />
-        <div className="absolute -bottom-20 -right-12 w-56 h-56 rounded-full bg-primary/[0.04] dark:bg-primary/10 blur-3xl" />
-      </div>
-
-      {/* Top hairline sheen */}
-      <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      <div className="relative p-5 flex flex-col gap-4">
-        <div className="flex items-start gap-4">
-          {/* Animated flow glyph */}
-          <div className="relative shrink-0">
-            <motion.div
-              className="absolute inset-0 rounded-xl bg-primary/25 blur-xl"
-              initial={{ opacity: 0.25 }}
-              animate={{ opacity: hovered ? 0.7 : 0.25 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/25 flex items-center justify-center backdrop-blur-sm shadow-[inset_0_1px_0_hsl(var(--primary)/0.18),inset_0_-8px_18px_-10px_hsl(var(--primary)/0.35)]">
-              <FlowGlyph className="w-8 h-8" active={hovered} />
-            </div>
-          </div>
-
+      <button
+        onClick={onEdit}
+        aria-label={`Edit ${template.name}`}
+        className="block w-full text-left p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-2xl"
+      >
+        <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[15px] font-semibold tracking-tight truncate leading-snug">
+            <h3 className="text-base font-medium tracking-tight text-foreground truncate">
               {template.name}
             </h3>
-            <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground">
-              <span className="inline-flex items-center gap-1 truncate">
-                <FileText className="w-3 h-3 shrink-0" />
-                <span className="truncate">{template.documentName}</span>
-              </span>
-              <span className="opacity-40">·</span>
-              <span className="inline-flex items-center gap-1 text-primary/80 shrink-0">
-                <Zap className="w-3 h-3" />
-                {template.fields.length} field{template.fields.length === 1 ? "" : "s"}
-              </span>
-            </div>
+            <p className="mt-1 text-[13px] text-muted-foreground truncate">
+              {template.documentName}
+            </p>
           </div>
-
-          {/* Quick actions — visible on hover, top-right */}
-          <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button
-              onClick={onEdit}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
-              aria-label={`Edit ${template.name}`}
+          {/* Hover-only quick actions */}
+          <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity -mr-1.5 -mt-1.5">
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(e) => { e.stopPropagation(); onEdit(); }}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); onEdit(); } }}
+              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition"
+              aria-label="Edit"
             >
               <Pencil className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={onDelete}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-accent transition"
-              aria-label={`Delete ${template.name}`}
+            </span>
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(e) => { e.stopPropagation(); onDelete(); }}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); onDelete(); } }}
+              className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 transition"
+              aria-label="Delete"
             >
               <Trash2 className="w-3.5 h-3.5" />
-            </button>
+            </span>
           </div>
         </div>
 
-        {/* Role pills + send */}
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 min-w-0">
-            <Users className="w-3 h-3 text-muted-foreground shrink-0" />
-            <div className="flex items-center gap-1 overflow-hidden">
-              {assignableRoles.slice(0, 3).map((r, idx) => (
-                <motion.span
+        {/* Meta row */}
+        <div className="mt-5 flex items-center gap-4 text-[12px] text-muted-foreground">
+          {stepCount > 0 && (
+            <span className="tabular-nums">{stepCount} step{stepCount === 1 ? "" : "s"}</span>
+          )}
+          <span className="tabular-nums">{fieldCount} field{fieldCount === 1 ? "" : "s"}</span>
+          {assignableRoles.length > 0 && (
+            <div className="flex items-center gap-1.5">
+              {assignableRoles.slice(0, 4).map((r) => (
+                <span
                   key={r.key}
-                  initial={false}
-                  animate={hovered ? { y: -1 } : { y: 0 }}
-                  transition={{ duration: 0.3, delay: idx * 0.04 }}
-                  className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border border-border/60 bg-muted/40 dark:bg-background/60 backdrop-blur-sm"
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: r.color }}
-                  />
-                  {r.label}
-                </motion.span>
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: r.color }}
+                  title={r.label}
+                />
               ))}
-              {assignableRoles.length > 3 && (
-                <span className="text-[10px] text-muted-foreground tabular-nums">
-                  +{assignableRoles.length - 3}
-                </span>
-              )}
-              {assignableRoles.length === 0 && (
-                <span className="text-[11px] text-muted-foreground italic">
-                  No roles assigned
-                </span>
-              )}
             </div>
-          </div>
-
-          <Button
-            size="sm"
-            onClick={onSend}
-            className="relative overflow-hidden gap-1.5 h-9 shrink-0 shadow-[0_4px_20px_-6px_hsl(var(--primary)/0.45)] hover:shadow-[0_8px_28px_-6px_hsl(var(--primary)/0.65)] transition-shadow"
-          >
-            <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1100ms] ease-out bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <motion.span
-              className="relative inline-flex"
-              animate={hovered ? { x: 2, y: -1, rotate: -8 } : { x: 0, y: 0, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 320, damping: 18 }}
-            >
-              <Send className="w-3.5 h-3.5" />
-            </motion.span>
-            <span className="relative">Send</span>
-          </Button>
+          )}
         </div>
+      </button>
+
+      {/* Footer action */}
+      <div className="px-6 pb-5 -mt-1 flex items-center justify-end">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={(e) => { e.stopPropagation(); onSend(); }}
+          className="h-8 px-3 gap-1.5 text-[13px] text-foreground/80 hover:text-foreground"
+        >
+          <Send className="w-3.5 h-3.5" />
+          Send
+        </Button>
       </div>
     </motion.div>
   );
