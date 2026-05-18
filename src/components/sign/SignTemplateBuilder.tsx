@@ -723,92 +723,12 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
             </div>
 
             {/* Dynamic Variables */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <Label className="mb-0">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Braces className="w-3 h-3" />
-                    Dynamic variables
-                  </span>
-                </Label>
-                <span className="text-[11px] text-muted-foreground">
-                  Auto-detected from <code className="font-mono">{"{{TOKEN}}"}</code> or{" "}
-                  <code className="font-mono">[TOKEN]</code>
-                </span>
-              </div>
-
-              <div className="rounded-xl border border-border/50 bg-card/30 p-3 space-y-3">
-                <Textarea
-                  value={documentBody}
-                  onChange={(e) => setDocumentBody(e.target.value)}
-                  placeholder="Paste the template body. Wrap any reusable value in {{LIKE_THIS}} and Docsora will turn it into a variable."
-                  className="min-h-[120px] bg-background/60 font-mono text-[12px] leading-relaxed"
-                />
-
-                {variables.length === 0 ? (
-                  <div className="rounded-lg border border-dashed border-border/50 px-3 py-3 text-[11px] text-muted-foreground inline-flex items-center gap-2">
-                    <Wand2 className="w-3.5 h-3.5" />
-                    No variables yet — add one like{" "}
-                    <code className="font-mono text-foreground/70">{"{{CLIENT_NAME}}"}</code>{" "}
-                    in the text above.
-                  </div>
-                ) : (
-                  <div className="space-y-1.5">
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold px-1">
-                      {variables.length} variable{variables.length === 1 ? "" : "s"} detected
-                    </div>
-                    {variables.map((v) => (
-                      <div
-                        key={v.name}
-                        className="rounded-lg border border-border/50 bg-background/40 p-2.5 flex flex-wrap items-center gap-2"
-                      >
-                        <code className="font-mono text-[11px] text-primary px-1.5 py-0.5 rounded bg-primary/10 shrink-0">
-                          {v.pattern}
-                        </code>
-                        <Input
-                          value={v.label}
-                          onChange={(e) => updateVariable(v.name, { label: e.target.value })}
-                          placeholder="Label"
-                          className="h-8 bg-background/60 flex-1 min-w-[140px] text-[12px]"
-                        />
-                        <Select
-                          value={v.type}
-                          onValueChange={(t) =>
-                            updateVariable(v.name, { type: t as SignVariableType })
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-[110px] bg-background/60 text-[12px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="text">Text</SelectItem>
-                            <SelectItem value="date">Date</SelectItem>
-                            <SelectItem value="currency">Currency</SelectItem>
-                            <SelectItem value="number">Number</SelectItem>
-                            <SelectItem value="email">Email</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Input
-                          value={v.defaultValue ?? ""}
-                          onChange={(e) =>
-                            updateVariable(v.name, { defaultValue: e.target.value })
-                          }
-                          placeholder="Default (optional)"
-                          className="h-8 bg-background/60 w-[150px] text-[12px]"
-                        />
-                        <label className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground shrink-0">
-                          <Switch
-                            checked={Boolean(v.required)}
-                            onCheckedChange={(c) => updateVariable(v.name, { required: c })}
-                          />
-                          Required
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            <SmartFieldsSection
+              body={documentBody}
+              setBody={setDocumentBody}
+              variables={variables}
+              setVariables={setVariables}
+            />
 
             <div className="flex items-center justify-between pt-2">
               <Button variant="ghost" size="sm" onClick={() => setStep("upload")}>
