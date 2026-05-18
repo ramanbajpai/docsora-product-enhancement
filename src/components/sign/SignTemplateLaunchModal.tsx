@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -11,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { SignTemplate, useSignTemplates } from "@/hooks/useSignTemplates";
+import { SignTemplate, SignFieldType, useSignTemplates } from "@/hooks/useSignTemplates";
 
 interface SignTemplateLaunchModalProps {
   template: SignTemplate | null;
@@ -40,6 +41,45 @@ export default function SignTemplateLaunchModal({
   const [expiry, setExpiry] = useState<string>(defaultExpiry);
   const [ccEmails, setCcEmails] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [senderConfirmed, setSenderConfirmed] = useState(false);
+
+  const senderFields = useMemo(
+    () => (template ? template.fields.filter((f) => f.roleKey === "sender") : []),
+    [template],
+  );
+
+  const senderFieldSummary = useMemo(() => {
+    if (senderFields.length === 0) return null;
+    const labels: Record<SignFieldType, { singular: string; plural: string }> = {
+      signature: { singular: "signature field", plural: "signature fields" },
+      initials: { singular: "initials field", plural: "initials fields" },
+      date: { singular: "date field", plural: "date fields" },
+      name: { singular: "name field", plural: "name fields" },
+      text: { singular: "text field", plural: "text fields" },
+      checkbox: { singular: "checkbox", plural: "checkboxes" },
+      company: { singular: "company field", plural: "company fields" },
+    };
+    const order: SignFieldType[] = ["signature", "initials", "date", "name", "company", "text", "checkbox"];
+    const counts = new Map<SignFieldType, number>();
+    senderFields.forEach((f) => counts.set(f.type, (counts.get(f.type) ?? 0) + 1));
+    const parts = order
+      .filter((t) => counts.has(t))
+      .map((t) => {
+        const n = counts.get(t)!;
+        const meta = labels[t];
+        return `${n} ${n === 1 ? meta.singular : meta.plural}`;
+      });
+    let phrase: string;
+    if (parts.length === 1) phrase = parts[0];
+    else if (parts.length === 2) phrase = `${parts[0]} and ${parts[1]}`;
+    else phrase = `${parts.slice(0, -1).join(", ")}, and ${parts[parts.length - 1]}`;
+    // Special case: single field of any type → drop the leading "1"
+    if (senderFields.length === 1) {
+      const only = senderFields[0].type;
+      phrase = labels[only].singular;
+    }
+    return phrase;
+  }, [senderFields]);
 
   useEffect(() => {
     if (!template) return;
@@ -47,19 +87,36 @@ export default function SignTemplateLaunchModal({
     setCompany("");
     setExpiry(String(template.defaults?.expiryDays ?? 14));
     setCcEmails([]);
+    setSenderConfirmed(false);
   }, [template, recipientRoles]);
 
   if (!template) return null;
 
-  const canSend = recipients.every(
+  const recipientsValid = recipients.every(
     (r) => r.name.trim().length > 1 && /.+@.+\..+/.test(r.email.trim()),
   );
+  const canSend = recipientsValid && (senderFields.length === 0 || senderConfirmed);
 
   const handleSend = async () => {
     if (!canSend) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 700));
     recordLaunch(template.id);
+    if (senderFields.length > 0) {
+      // Audit trail
+      // eslint-disable-next-line no-console
+      console.info("[audit] sign.template.sender_auto_apply_confirmed", {
+        templateId: template.id,
+        templateName: template.name,
+        confirmedAt: new Date().toISOString(),
+        senderFieldCount: senderFields.length,
+        senderFieldTypes: senderFields.reduce<Record<string, number>>((acc, f) => {
+          acc[f.type] = (acc[f.type] ?? 0) + 1;
+          return acc;
+        }, {}),
+        summary: senderFieldSummary,
+      });
+    }
     setSubmitting(false);
     toast.success("Agreement sent", {
       description: `${template.name} is on its way to ${recipients[0]?.name || "recipient"}.`,
@@ -250,6 +307,36 @@ export default function SignTemplateLaunchModal({
                   </li>
                 </ul>
               </div>
+
+              {/* Sender auto-apply confirmation */}
+              {senderFields.length > 0 && senderFieldSummary && (
+                <motion.label
+                  htmlFor="sender-confirm"
+                  className="flex items-start gap-3 rounded-xl border border-border/40 bg-muted/10 px-3.5 py-3 cursor-pointer transition-colors hover:bg-muted/20"
+                  initial={false}
+                  animate={{
+                    borderColor: senderConfirmed
+                      ? "hsl(var(--primary) / 0.45)"
+                      : "hsl(var(--border) / 0.4)",
+                    backgroundColor: senderConfirmed
+                      ? "hsl(var(--primary) / 0.06)"
+                      : "hsl(var(--muted) / 0.1)",
+                  }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Checkbox
+                    id="sender-confirm"
+                    checked={senderConfirmed}
+                    onCheckedChange={(c) => setSenderConfirmed(Boolean(c))}
+                    className="mt-0.5"
+                  />
+                  <span className="text-[12px] leading-relaxed text-foreground/75">
+                    I confirm Docsora should apply my{" "}
+                    <span className="text-foreground font-medium">{senderFieldSummary}</span>{" "}
+                    before sending.
+                  </span>
+                </motion.label>
+              )}
             </div>
 
             <div className="relative px-6 py-4 border-t border-border/40 flex items-center justify-between gap-3">
