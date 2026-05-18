@@ -159,6 +159,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const addMoreInputRef = useRef<HTMLInputElement>(null);
 
   const activeDoc = documents.find((d) => d.id === activeDocId) || documents[0];
   const pageCount = activeDoc?.pageCount ?? 3;
@@ -436,20 +437,114 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
             transition={{ duration: 0.25 }}
             className="space-y-6"
           >
-            {/* doc summary */}
-            <div className="rounded-xl border border-border/50 bg-card/40 px-4 py-3 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                <FileText className="w-4 h-4 text-primary" />
+            {/* Documents in package */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <Label className="mb-0">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Layers className="w-3 h-3" />
+                    Documents in this package
+                  </span>
+                </Label>
+                <button
+                  onClick={() => addMoreInputRef.current?.click()}
+                  className="text-[11px] text-foreground/70 hover:text-foreground inline-flex items-center gap-1"
+                >
+                  <Plus className="w-3 h-3" /> Add document
+                </button>
+                <input
+                  ref={addMoreInputRef}
+                  type="file"
+                  multiple
+                  accept=".pdf,.doc,.docx"
+                  className="hidden"
+                  onChange={(e) => {
+                    const fs = Array.from(e.target.files ?? []);
+                    if (fs.length) addDocuments(fs);
+                    e.target.value = "";
+                  }}
+                />
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-medium truncate">{file?.name}</p>
-                <p className="text-[11px] text-muted-foreground">
-                  {pageCount} pages · template document
-                </p>
+              <div className="rounded-xl border border-border/50 bg-card/30 divide-y divide-border/30">
+                {documents.map((d, i) => (
+                  <div key={d.id} className="px-3 py-2.5 flex flex-wrap items-center gap-2">
+                    <span className="w-6 h-6 rounded-md bg-muted/40 text-[10px] font-semibold text-muted-foreground inline-flex items-center justify-center tabular-nums shrink-0">
+                      {i + 1}
+                    </span>
+                    <FileText className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                    <Input
+                      value={d.name}
+                      onChange={(e) => updateDocument(d.id, { name: e.target.value })}
+                      className="h-8 bg-background/60 flex-1 min-w-[180px] text-[12px]"
+                      placeholder="Document name (supports {{VARIABLES}})"
+                    />
+                    <Select
+                      value={d.tag ?? "agreement"}
+                      onValueChange={(t) => updateDocument(d.id, { tag: t as SignDocumentTag })}
+                    >
+                      <SelectTrigger className="h-8 w-[120px] bg-background/60 text-[11px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SIGN_DOC_TAGS.map((t) => (
+                          <SelectItem key={t.value} value={t.value}>
+                            {t.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <div className="flex items-center gap-0.5 shrink-0">
+                      <button
+                        onClick={() => moveDocument(d.id, -1)}
+                        disabled={i === 0}
+                        className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                        title="Move up"
+                      >
+                        <ArrowLeft className="w-3 h-3 rotate-90" />
+                      </button>
+                      <button
+                        onClick={() => moveDocument(d.id, 1)}
+                        disabled={i === documents.length - 1}
+                        className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                        title="Move down"
+                      >
+                        <ArrowRight className="w-3 h-3 rotate-90" />
+                      </button>
+                      <button
+                        onClick={() => removeDocument(d.id)}
+                        disabled={documents.length <= 1}
+                        className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 disabled:opacity-30"
+                        title="Remove"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Button size="sm" variant="ghost" onClick={() => setStep("upload")} className="h-8">
-                Replace
-              </Button>
+              <p className="text-[10.5px] text-muted-foreground mt-1.5">
+                Sent together · one signing session · one audit trail.
+              </p>
+            </div>
+
+            {/* Package title */}
+            <div>
+              <Label>
+                <span className="inline-flex items-center gap-1.5">
+                  <Braces className="w-3 h-3" />
+                  Package title (supports variables)
+                </span>
+              </Label>
+              <Input
+                value={packageTitle}
+                onChange={(e) => setPackageTitle(e.target.value)}
+                placeholder="e.g. {{COMPANY_NAME}} – Client Onboarding"
+                className="h-10 bg-background/60 font-mono text-[12.5px]"
+              />
+              <p className="text-[10.5px] text-muted-foreground mt-1.5">
+                Leave blank to use the template name. Document names also support{" "}
+                <code className="font-mono">{"{{VARIABLES}}"}</code>.
+              </p>
             </div>
 
             {/* basics */}
