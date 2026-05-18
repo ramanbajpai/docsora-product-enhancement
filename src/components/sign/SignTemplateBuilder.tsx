@@ -539,6 +539,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                   {roles.map((r) => {
                     const active = r.key === activeRoleKey;
                     const count = fields.filter((f) => f.roleKey === r.key).length;
+                    const meta = getRoleTypeMeta(r.type);
+                    const RoleIcon = meta.icon;
                     return (
                       <button
                         key={r.key}
@@ -555,6 +557,10 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                           style={{ background: r.color }}
                         />
                         <span className="text-[12px] font-medium truncate flex-1">{r.label}</span>
+                        <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <RoleIcon className="w-3 h-3" />
+                          {meta.label}
+                        </span>
                         <span className="text-[10px] text-muted-foreground tabular-nums">{count}</span>
                       </button>
                     );
@@ -564,19 +570,36 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
               <div>
                 <Label>Field type</Label>
+                {(() => {
+                  const activeRole = roles.find((r) => r.key === activeRoleKey);
+                  const meta = getRoleTypeMeta(activeRole?.type);
+                  if (meta.allowedFields !== "all" && meta.allowedFields.length === 0) {
+                    return (
+                      <div className="rounded-lg border border-border/50 bg-muted/20 px-3 py-3 text-[11px] text-muted-foreground leading-relaxed">
+                        <meta.icon className="w-3.5 h-3.5 inline-block mr-1 -mt-0.5" />
+                        {meta.label}s don't fill fields — they just{" "}
+                        {meta.value === "viewer" ? "review the document." : "receive a copy."}
+                      </div>
+                    );
+                  }
+                  return (
                 <div className="grid grid-cols-2 gap-1.5">
                   {FIELD_TOOLS.map((t) => {
                     const Icon = t.icon;
                     const active = activeTool.kind === t.kind && activeTool.label === t.label;
+                    const allowed = roleAllows(activeRole?.type, t.kind);
                     return (
                       <button
                         key={t.label}
-                        onClick={() => setActiveTool(t)}
+                        onClick={() => allowed && setActiveTool(t)}
+                        disabled={!allowed}
+                        title={allowed ? undefined : `Not available for ${meta.label}s`}
                         className={cn(
                           "flex items-center gap-1.5 px-2 py-2 rounded-lg border transition-colors text-left",
                           active
                             ? "border-primary/30 bg-primary/5 text-primary"
                             : "border-border/50 bg-card/30 hover:bg-card/60 text-foreground/80",
+                          !allowed && "opacity-40 cursor-not-allowed hover:bg-card/30",
                         )}
                       >
                         <Icon className="w-3.5 h-3.5" />
@@ -585,6 +608,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     );
                   })}
                 </div>
+                  );
+                })()}
               </div>
 
               <div className="rounded-lg border border-border/40 bg-muted/20 px-3 py-2.5 text-[11px] text-muted-foreground leading-relaxed">
