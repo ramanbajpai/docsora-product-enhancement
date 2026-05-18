@@ -39,6 +39,9 @@ import {
   FlowStepType,
   FlowStepAsset,
   CustomRole,
+  SignatureFieldSpec,
+  SignatureFieldKind,
+  PersonalizationToken,
 } from "@/hooks/useCustomTemplates";
 
 /* ──────────────────────────── Step library ──────────────────────────── */
@@ -101,11 +104,11 @@ const STEP_LIBRARY: StepBlueprint[] = [
   {
     type: "send_invoice",
     label: "Send invoice",
-    description: "Auto-generate or attach an invoice.",
+    description: "Attach an invoice to send to your client.",
     icon: Receipt,
     needsAssets: true,
-    assetLabel: "Invoice template (optional)",
-    assetHint: "Skip to auto-generate from project details.",
+    assetLabel: "Invoice document",
+    assetHint: "PDF or DOCX. We'll send this when this step runs.",
   },
   {
     type: "final_approval",
@@ -230,6 +233,10 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
     setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, assets } : s)));
   };
 
+  const updateStep = (id: string, updates: Partial<FlowStep>) => {
+    setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, ...updates } : s)));
+  };
+
   const goToAssets = () => {
     if (!name.trim()) return toast.error("Give your flow a name.");
     if (steps.length === 0) return toast.error("Add at least one step.");
@@ -312,6 +319,7 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
                   key="assets"
                   steps={stepsNeedingAssets}
                   onChange={setStepAssets}
+                  onUpdate={updateStep}
                 />
               )}
 
@@ -537,9 +545,11 @@ function BuildStage({
 function AssetsStage({
   steps,
   onChange,
+  onUpdate,
 }: {
   steps: FlowStep[];
   onChange: (id: string, assets: FlowStepAsset[]) => void;
+  onUpdate: (id: string, updates: Partial<FlowStep>) => void;
 }) {
   return (
     <motion.div
@@ -550,13 +560,14 @@ function AssetsStage({
       className="space-y-4"
     >
       <p className="text-xs text-muted-foreground">
-        Some steps need documents. Upload them now and they'll be sent automatically when this flow runs.
+        Upload each document, then tell us where signers sign and how each delivery should be personalized.
       </p>
       {steps.map((s) => (
         <AssetUploader
           key={s.id}
           step={s}
           onChange={(assets) => onChange(s.id, assets)}
+          onUpdate={(updates) => onUpdate(s.id, updates)}
         />
       ))}
     </motion.div>
@@ -566,14 +577,17 @@ function AssetsStage({
 function AssetUploader({
   step,
   onChange,
+  onUpdate,
 }: {
   step: FlowStep;
   onChange: (assets: FlowStepAsset[]) => void;
+  onUpdate: (updates: Partial<FlowStep>) => void;
 }) {
   const bp = blueprintFor(step.type);
   const Icon = bp.icon;
   const inputRef = useRef<HTMLInputElement>(null);
   const assets = step.assets ?? [];
+  const hasAssets = assets.length > 0;
 
   const handleFiles = (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -660,6 +674,292 @@ function AssetUploader({
             ? "Replace file"
             : "Upload files"}
       </button>
+
+      {hasAssets && step.type === "send_contract" && (
+        <SignatureFieldsConfig
+          fields={step.signatureFields}
+          onChange={(signatureFields) => onUpdate({ signatureFields })}
+        />
+      )}
+
+      {hasAssets && step.type === "deliver_onboarding" && (
+        <PersonalizationConfig
+          tokens={step.personalizationTokens}
+          onChange={(personalizationTokens) => onUpdate({ personalizationTokens })}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ──────────────────────────── Signature fields config ──────────────────────────── */
+
+const DEFAULT_SIGNATURE_FIELDS: SignatureFieldSpec[] = [
+  { id: "f-sig", kind: "signature", label: "Signature", required: true },
+  { id: "f-name", kind: "full_name", label: "Full name", required: true },
+  { id: "f-date", kind: "date", label: "Date signed", required: true },
+];
+
+const SIGNATURE_KIND_OPTIONS: { kind: SignatureFieldKind; label: string }[] = [
+  { kind: "signature", label: "Signature" },
+  { kind: "full_name", label: "Full name" },
+  { kind: "date", label: "Date" },
+  { kind: "initials", label: "Initials" },
+];
+
+function SignatureFieldsConfig({
+  fields,
+  onChange,
+}: {
+  fields?: SignatureFieldSpec[];
+  onChange: (fields: SignatureFieldSpec[]) => void;
+}) {
+  const list = fields ?? DEFAULT_SIGNATURE_FIELDS;
+  const hasKind = (k: SignatureFieldKind) => list.some((f) => f.kind === k);
+  const [customLabel, setCustomLabel] = useState("");
+
+  const toggleKind = (kind: SignatureFieldKind, label: string) => {
+    if (hasKind(kind)) {
+      onChange(list.filter((f) => f.kind !== kind));
+    } else {
+      onChange([...list, { id: uid(), kind, label, required: true }]);
+    }
+  };
+
+  const toggleRequired = (id: string) => {
+    onChange(list.map((f) => (f.id === id ? { ...f, required: !f.required } : f)));
+  };
+
+  const removeField = (id: string) => onChange(list.filter((f) => f.id !== id));
+
+  const addCustom = () => {
+    const label = customLabel.trim();
+    if (!label) return;
+    onChange([...list, { id: uid(), kind: "custom", label, required: true }]);
+    setCustomLabel("");
+  };
+
+  return (
+    <div className="mt-3 rounded-lg border border-border/50 bg-muted/20 p-3 space-y-3">
+      <div className="flex items-center gap-1.5">
+        <FileSignature className="w-3.5 h-3.5 text-primary" />
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          What the recipient needs to complete
+        </span>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        {SIGNATURE_KIND_OPTIONS.map((opt) => {
+          const active = hasKind(opt.kind);
+          return (
+            <button
+              key={opt.kind}
+              type="button"
+              onClick={() => toggleKind(opt.kind, opt.label)}
+              className={cn(
+                "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-md border transition",
+                active
+                  ? "border-primary/40 bg-primary/10 text-primary"
+                  : "border-border/60 bg-background text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {active ? <CheckCircle2 className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {list.length > 0 && (
+        <div className="space-y-1">
+          {list.map((f) => (
+            <div
+              key={f.id}
+              className="flex items-center gap-2 rounded-md bg-background/60 border border-border/50 px-2 py-1.5"
+            >
+              <span className="text-xs flex-1 truncate">{f.label}</span>
+              <button
+                type="button"
+                onClick={() => toggleRequired(f.id)}
+                className={cn(
+                  "text-[10px] px-1.5 py-0.5 rounded font-medium transition",
+                  f.required
+                    ? "bg-primary/15 text-primary"
+                    : "bg-muted text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {f.required ? "Required" : "Optional"}
+              </button>
+              <button
+                type="button"
+                onClick={() => removeField(f.id)}
+                className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                aria-label="Remove field"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="flex items-center gap-1.5">
+        <Input
+          value={customLabel}
+          onChange={(e) => setCustomLabel(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              addCustom();
+            }
+          }}
+          placeholder="Request something custom — e.g. Company address"
+          className="h-8 text-xs"
+        />
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={addCustom}
+          disabled={!customLabel.trim()}
+          className="h-8 gap-1 text-xs"
+        >
+          <Plus className="w-3 h-3" /> Add
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────── Personalization tokens config ──────────────────────────── */
+
+const DEFAULT_TOKENS: PersonalizationToken[] = [
+  { id: "t-name", token: "recipient_name", label: "Recipient name", example: "Alex Chen" },
+];
+
+const TOKEN_PRESETS: PersonalizationToken[] = [
+  { id: "t-name", token: "recipient_name", label: "Recipient name", example: "Alex Chen" },
+  { id: "t-company", token: "company", label: "Company", example: "Acme Inc." },
+  { id: "t-role", token: "role", label: "Role / title", example: "Designer" },
+  { id: "t-email", token: "email", label: "Email", example: "alex@acme.com" },
+  { id: "t-start", token: "start_date", label: "Start date", example: "Jun 3, 2026" },
+];
+
+function PersonalizationConfig({
+  tokens,
+  onChange,
+}: {
+  tokens?: PersonalizationToken[];
+  onChange: (tokens: PersonalizationToken[]) => void;
+}) {
+  const list = tokens ?? DEFAULT_TOKENS;
+  const has = (t: string) => list.some((x) => x.token === t);
+  const [customLabel, setCustomLabel] = useState("");
+
+  const togglePreset = (preset: PersonalizationToken) => {
+    if (has(preset.token)) {
+      onChange(list.filter((x) => x.token !== preset.token));
+    } else {
+      onChange([...list, { ...preset, id: uid() }]);
+    }
+  };
+
+  const remove = (id: string) => onChange(list.filter((x) => x.id !== id));
+
+  const addCustom = () => {
+    const label = customLabel.trim();
+    if (!label) return;
+    const token = label.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+    if (!token || has(token)) {
+      setCustomLabel("");
+      return;
+    }
+    onChange([...list, { id: uid(), token, label }]);
+    setCustomLabel("");
+  };
+
+  return (
+    <div className="mt-3 rounded-lg border border-border/50 bg-muted/20 p-3 space-y-3">
+      <div className="flex items-center gap-1.5">
+        <Wand2 className="w-3.5 h-3.5 text-primary" />
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          Personalize each delivery
+        </span>
+      </div>
+      <p className="text-[11px] text-muted-foreground leading-relaxed">
+        Add tokens like <code className="px-1 py-0.5 rounded bg-background/70 text-foreground text-[10px]">{"{{recipient_name}}"}</code> inside your template. We'll fill them in per recipient before sending.
+      </p>
+
+      <div className="flex flex-wrap gap-1.5">
+        {TOKEN_PRESETS.map((p) => {
+          const active = has(p.token);
+          return (
+            <button
+              key={p.token}
+              type="button"
+              onClick={() => togglePreset(p)}
+              className={cn(
+                "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-md border transition",
+                active
+                  ? "border-primary/40 bg-primary/10 text-primary"
+                  : "border-border/60 bg-background text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {active ? <CheckCircle2 className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+              {p.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {list.length > 0 && (
+        <div className="space-y-1">
+          {list.map((t) => (
+            <div
+              key={t.id}
+              className="flex items-center gap-2 rounded-md bg-background/60 border border-border/50 px-2 py-1.5"
+            >
+              <code className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono">
+                {`{{${t.token}}}`}
+              </code>
+              <span className="text-xs text-muted-foreground flex-1 truncate">{t.label}</span>
+              <button
+                type="button"
+                onClick={() => remove(t.id)}
+                className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                aria-label="Remove token"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="flex items-center gap-1.5">
+        <Input
+          value={customLabel}
+          onChange={(e) => setCustomLabel(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              addCustom();
+            }
+          }}
+          placeholder="Add a custom field — e.g. Team"
+          className="h-8 text-xs"
+        />
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={addCustom}
+          disabled={!customLabel.trim()}
+          className="h-8 gap-1 text-xs"
+        >
+          <Plus className="w-3 h-3" /> Add
+        </Button>
+      </div>
     </div>
   );
 }

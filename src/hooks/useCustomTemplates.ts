@@ -35,6 +35,23 @@ export type FlowStepAsset = {
   size?: number;
 };
 
+/** Field a recipient must complete on a contract document. */
+export type SignatureFieldKind = "signature" | "full_name" | "date" | "initials" | "custom";
+export type SignatureFieldSpec = {
+  id: string;
+  kind: SignatureFieldKind;
+  label: string;
+  required: boolean;
+};
+
+/** Personalization token used to customize an outgoing document. */
+export type PersonalizationToken = {
+  id: string;
+  token: string; // e.g. "recipient_name"
+  label: string; // e.g. "Recipient name"
+  example?: string;
+};
+
 export type FlowStep = {
   id: string;
   type: FlowStepType;
@@ -42,6 +59,10 @@ export type FlowStep = {
   description?: string;
   /** Files attached to this step (e.g. onboarding docs to deliver) */
   assets?: FlowStepAsset[];
+  /** For send_contract: fields the recipient must complete on the document. */
+  signatureFields?: SignatureFieldSpec[];
+  /** For deliver_onboarding: tokens used to personalize the document per recipient. */
+  personalizationTokens?: PersonalizationToken[];
 };
 
 export type CustomTemplate = {
