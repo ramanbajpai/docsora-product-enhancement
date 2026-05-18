@@ -116,7 +116,7 @@ export function FieldPlacementModal({
 
         <div className="grid grid-cols-[280px_1fr] h-full">
           {/* Sidebar */}
-          <div className="border-r border-border/60 bg-card/40 flex flex-col">
+          <div className="border-r border-border/60 bg-card/40 flex flex-col min-h-0">
             <div className="px-4 py-3 border-b border-border/60">
               <button
                 onClick={() => onOpenChange(false)}
