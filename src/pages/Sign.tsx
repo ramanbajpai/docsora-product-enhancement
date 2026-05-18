@@ -15,7 +15,7 @@ import SignMultipleSend from "@/components/sign/SignMultipleSend";
 import SignMultipleSuccess from "@/components/sign/SignMultipleSuccess";
 import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
-import SignHome from "@/components/sign/SignHome";
+import SignModeSwitcher from "@/components/sign/SignModeSwitcher";
 import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
 import SignTemplateBuilder from "@/components/sign/SignTemplateBuilder";
 
@@ -268,10 +268,15 @@ const Sign = () => {
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="flex-1 min-h-0"
               >
-                <SignHome
-                  onSwitchTemplates={() => setStep("templates")}
-                  onNewAgreement={() => setStep("upload")}
-                />
+                <div className="relative flex-1 min-h-0 flex flex-col">
+                  <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20">
+                    <SignModeSwitcher
+                      value="agreements"
+                      onChange={(v) => v === "templates" && setStep("templates")}
+                    />
+                  </div>
+                  <SignUpload onFileUpload={handleFileUpload} />
+                </div>
               </motion.div>
             )}
 
