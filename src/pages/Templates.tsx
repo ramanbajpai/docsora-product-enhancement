@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
+import { LaunchFlowModal } from "@/components/templates/LaunchFlowModal";
 import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
+import { useFlowRuns, FlowRun } from "@/hooks/useFlowRuns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +15,7 @@ import {
   Plus,
   ArrowRight,
   Send,
+  Rocket,
   Trash2,
   Pencil,
 } from "lucide-react";
@@ -20,8 +24,10 @@ export default function Templates() {
   const [query, setQuery] = useState("");
 
   const { templates: myTemplates, remove } = useCustomTemplates();
-  const [sendOpen, setSendOpen] = useState(false);
-  const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
+  const { runs } = useFlowRuns();
+  const navigate = useNavigate();
+  const [launchOpen, setLaunchOpen] = useState(false);
+  const [launchTpl, setLaunchTpl] = useState<CustomTemplate | null>(null);
   const [newFlowOpen, setNewFlowOpen] = useState(false);
   const [editTpl, setEditTpl] = useState<CustomTemplate | null>(null);
   const [createHover, setCreateHover] = useState(false);
@@ -36,9 +42,9 @@ export default function Templates() {
     );
   }, [query, myTemplates]);
 
-  const openSend = (t: CustomTemplate) => {
-    setSendTpl(t);
-    setSendOpen(true);
+  const openLaunch = (t: CustomTemplate) => {
+    setLaunchTpl(t);
+    setLaunchOpen(true);
   };
 
   const openEdit = (t: CustomTemplate) => {
@@ -124,12 +130,30 @@ export default function Templates() {
           </motion.div>
         </motion.button>
 
+        {/* Active flows */}
+        {runs.length > 0 && (
+          <div className="mb-10">
+            <div className="flex items-end justify-between mb-4">
+              <div>
+                <h2 className="text-lg font-semibold tracking-tight">Active flows</h2>
+                <p className="text-[12px] text-muted-foreground mt-0.5">Work in motion right now.</p>
+              </div>
+              <span className="text-[11px] text-muted-foreground tabular-nums">{runs.length} live</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {runs.slice(0, 6).map((r, i) => (
+                <ActiveFlowCard key={r.id} run={r} index={i} onOpen={() => navigate(`/flows/${r.id}`)} />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Your saved flows — premium AI surface */}
         {filteredMyTemplates.length > 0 && (
           <div className="mb-10">
             <div className="flex items-end justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold tracking-tight">Your flows</h2>
+                <h2 className="text-lg font-semibold tracking-tight">Flow templates</h2>
               </div>
               <span className="text-[11px] text-muted-foreground tabular-nums">
                 {filteredMyTemplates.length} saved
@@ -142,7 +166,7 @@ export default function Templates() {
                   key={t.id}
                   template={t}
                   index={i}
-                  onSend={() => openSend(t)}
+                  onSend={() => openLaunch(t)}
                   onEdit={() => openEdit(t)}
                   onDelete={() => remove(t.id)}
                 />
@@ -158,10 +182,10 @@ export default function Templates() {
         )}
       </div>
 
-      <SendTemplateModal
-        open={sendOpen}
-        onOpenChange={setSendOpen}
-        template={sendTpl}
+      <LaunchFlowModal
+        open={launchOpen}
+        onOpenChange={setLaunchOpen}
+        template={launchTpl}
       />
       <NewFlowModal
         open={newFlowOpen}
@@ -268,10 +292,63 @@ function SavedFlowCard({ template, index, onSend, onEdit, onDelete }: SavedFlowC
           onClick={(e) => { e.stopPropagation(); onSend(); }}
           className="h-8 px-3 gap-1.5 text-[13px] text-foreground/80 hover:text-foreground"
         >
-          <Send className="w-3.5 h-3.5" />
-          Send
+          <Rocket className="w-3.5 h-3.5" />
+          Launch
         </Button>
       </div>
     </motion.div>
+  );
+}
+
+/* ──────────────────────────── Active flow card ──────────────────────────── */
+
+function ActiveFlowCard({ run, index, onOpen }: { run: FlowRun; index: number; onOpen: () => void }) {
+  const completed = run.steps.filter((s) => s.status === "completed").length;
+  const progress = Math.round((completed / run.steps.length) * 100);
+  const current = run.steps.find((s) => s.status !== "completed" && s.status !== "pending") ?? run.steps[0];
+  const initials = run.clientName
+    .split(/\s+/)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+  const statusTone =
+    run.status === "completed" ? "bg-emerald-400" : run.status === "blocked" ? "bg-destructive" : "bg-primary";
+  return (
+    <motion.button
+      onClick={onOpen}
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, delay: index * 0.04 }}
+      className="group text-left rounded-2xl border border-border/60 bg-card/40 hover:bg-card/70 hover:border-border transition-colors px-5 py-4"
+    >
+      <div className="flex items-start gap-3">
+        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/25 to-primary/5 border border-border/60 flex items-center justify-center text-[11px] font-semibold tracking-tight shrink-0">
+          {initials || "—"}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="text-[13px] font-medium tracking-tight truncate">
+              {run.projectName || `${run.clientName} — ${run.templateName}`}
+            </h3>
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusTone}`} />
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
+            {run.clientName} · {current?.label ?? "Pending"}
+          </p>
+        </div>
+        <span className="text-[10px] text-muted-foreground tabular-nums shrink-0">
+          {formatDistanceToNow(run.startedAt, { addSuffix: true })}
+        </span>
+      </div>
+      <div className="mt-3 flex items-center gap-2">
+        <div className="h-1 flex-1 rounded-full bg-muted/40 overflow-hidden">
+          <div className="h-full bg-primary/70" style={{ width: `${progress}%` }} />
+        </div>
+        <span className="text-[10px] text-muted-foreground tabular-nums shrink-0">
+          {completed}/{run.steps.length}
+        </span>
+      </div>
+    </motion.button>
   );
 }
