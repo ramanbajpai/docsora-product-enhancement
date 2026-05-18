@@ -268,17 +268,15 @@ const Sign = () => {
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="flex-1 min-h-0"
               >
-                <div className="relative flex-1 min-h-0 flex flex-col">
-                  <div className="flex justify-center pt-5 pb-2 shrink-0">
+                <>
+                  <div className="absolute top-5 left-1/2 -translate-x-1/2 z-30">
                     <SignModeSwitcher
                       value="agreements"
                       onChange={(v) => v === "templates" && setStep("templates")}
                     />
                   </div>
-                  <div className="flex-1 min-h-0 flex items-center justify-center">
-                    <SignUpload onFileUpload={handleFileUpload} />
-                  </div>
-                </div>
+                  <SignUpload onFileUpload={handleFileUpload} />
+                </>
               </motion.div>
             )}
 
