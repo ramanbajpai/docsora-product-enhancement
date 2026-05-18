@@ -355,7 +355,7 @@ export default function SignTemplateLaunchModal({
                     ))}
                   </div>
 
-                  {documentBody && (
+                  {(documentBody || previewSegments.length > 0) && (
                     <div className="border-t border-border/40">
                       <button
                         type="button"
@@ -364,7 +364,7 @@ export default function SignTemplateLaunchModal({
                       >
                         <span className="inline-flex items-center gap-1.5">
                           <Eye className="w-3 h-3" />
-                          Preview personalized agreement
+                          Preview personalized {isPackage ? "package" : "agreement"}
                         </span>
                         <ChevronDown
                           className={`w-3.5 h-3.5 transition-transform ${showPreview ? "rotate-180" : ""}`}
@@ -380,12 +380,36 @@ export default function SignTemplateLaunchModal({
                             className="overflow-hidden"
                           >
                             <div className="px-3.5 pb-3.5">
-                              <div className="rounded-lg border border-border/40 bg-background/70 p-3 max-h-56 overflow-y-auto">
-                                <PersonalizedPreview
-                                  text={personalizedBody}
-                                  values={variableValues}
-                                  patterns={variables.map((v) => v.pattern)}
-                                />
+                              <div className="rounded-lg border border-border/40 bg-background/70 max-h-72 overflow-y-auto">
+                                {previewSegments.length > 0 ? (
+                                  previewSegments.map((seg, i) => (
+                                    <div
+                                      key={i}
+                                      className={
+                                        i === 0
+                                          ? "p-3"
+                                          : "p-3 border-t border-border/30"
+                                      }
+                                    >
+                                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
+                                        {seg.title}
+                                      </div>
+                                      <PersonalizedPreview
+                                        text={seg.text}
+                                        values={variableValues}
+                                        patterns={variables.map((v) => v.pattern)}
+                                      />
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="p-3">
+                                    <PersonalizedPreview
+                                      text={personalizedBody}
+                                      values={variableValues}
+                                      patterns={variables.map((v) => v.pattern)}
+                                    />
+                                  </div>
+                                )}
                               </div>
                               <p className="text-[10px] text-muted-foreground mt-1.5">
                                 Values are inserted inline — original fonts, spacing and layout are preserved.
