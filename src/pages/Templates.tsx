@@ -2,8 +2,6 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { templates, WorkflowTemplate } from "@/data/templates";
-import { QuickStartFlowModal } from "@/components/templates/QuickStartFlowModal";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
 import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
@@ -18,49 +16,14 @@ import {
   Send,
   Trash2,
   Zap,
-  CheckCircle2,
   Pencil,
   Users,
   FileText,
 } from "lucide-react";
 
-// Outcome-based names + short descriptions, mapped from existing template ids.
-const FLOW_META: Record<
-  string,
-  { actionName: string; outcome: string; usedBy?: string }
-> = {
-  "client-project-standard": {
-    actionName: "Run a Client Project",
-    outcome: "Move from contract to approval without follow-ups.",
-    usedBy: "Used by 240+ teams",
-  },
-  "freelance-quick": {
-    actionName: "Start a Freelance Project",
-    outcome: "Quote, sign and deliver — in one motion.",
-    usedBy: "Used by 180+ freelancers",
-  },
-  "nda-fast": {
-    actionName: "Send an NDA",
-    outcome: "One signer. Countersigned and stored automatically.",
-  },
-  "sales-proposal": {
-    actionName: "Close a Sales Deal",
-    outcome: "Proposal to invoice with zero back-and-forth.",
-  },
-  "onboarding-hr": {
-    actionName: "Onboard a New Hire",
-    outcome: "Offer, contract and policies — signed in one go.",
-  },
-};
-
-// One curated example flow leads the hero. Saved flows live below.
-const PRIMARY_IDS = ["client-project-standard"];
-
 export default function Templates() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [quickOpen, setQuickOpen] = useState(false);
-  const [activeFlow, setActiveFlow] = useState<WorkflowTemplate | null>(null);
 
   const { templates: myTemplates, remove } = useCustomTemplates();
   const [sendOpen, setSendOpen] = useState(false);
@@ -68,23 +31,15 @@ export default function Templates() {
   const [newFlowOpen, setNewFlowOpen] = useState(false);
   const [createHover, setCreateHover] = useState(false);
 
-  const allFlows = useMemo(() => {
+  const filteredMyTemplates = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return templates.filter((t) => {
-      if (!q) return true;
-      const meta = FLOW_META[t.id];
-      return (
+    if (!q) return myTemplates;
+    return myTemplates.filter(
+      (t) =>
         t.name.toLowerCase().includes(q) ||
-        meta?.actionName.toLowerCase().includes(q) ||
-        meta?.outcome.toLowerCase().includes(q)
-      );
-    });
-  }, [query]);
-
-  const startFlow = (t: WorkflowTemplate) => {
-    setActiveFlow(t);
-    setQuickOpen(true);
-  };
+        t.documentName.toLowerCase().includes(q),
+    );
+  }, [query, myTemplates]);
 
   const openSend = (t: CustomTemplate) => {
     setSendTpl(t);
@@ -211,19 +166,19 @@ export default function Templates() {
         </motion.button>
 
         {/* Your saved flows — premium AI surface */}
-        {myTemplates.length > 0 && (
+        {filteredMyTemplates.length > 0 && (
           <div className="mb-10">
             <div className="flex items-end justify-between mb-4">
               <div>
                 <h2 className="text-lg font-semibold tracking-tight">Your flows</h2>
               </div>
               <span className="text-[11px] text-muted-foreground tabular-nums">
-                {myTemplates.length} saved
+                {filteredMyTemplates.length} saved
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {myTemplates.map((t, i) => (
+              {filteredMyTemplates.map((t, i) => (
                 <SavedFlowCard
                   key={t.id}
                   template={t}
@@ -237,18 +192,13 @@ export default function Templates() {
           </div>
         )}
 
-        {allFlows.length === 0 && (
+        {myTemplates.length > 0 && filteredMyTemplates.length === 0 && (
           <div className="rounded-2xl border border-border/50 bg-muted/10 px-6 py-16 text-center">
             <p className="text-sm text-muted-foreground">No flows match your search.</p>
           </div>
         )}
       </div>
 
-      <QuickStartFlowModal
-        open={quickOpen}
-        onOpenChange={setQuickOpen}
-        flow={activeFlow}
-      />
       <SendTemplateModal
         open={sendOpen}
         onOpenChange={setSendOpen}
