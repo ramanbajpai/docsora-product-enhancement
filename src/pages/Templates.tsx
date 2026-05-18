@@ -7,7 +7,6 @@ import { NewFlowModal } from "@/components/templates/NewFlowModal";
 import { useCustomTemplates, CustomTemplate } from "@/hooks/useCustomTemplates";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FlowGlyph } from "@/components/icons/FlowGlyph";
 import {
   Search,
   Sparkles,
@@ -15,10 +14,7 @@ import {
   ArrowRight,
   Send,
   Trash2,
-  Zap,
   Pencil,
-  Users,
-  FileText,
 } from "lucide-react";
 
 export default function Templates() {
