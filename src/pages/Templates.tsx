@@ -29,6 +29,7 @@ export default function Templates() {
   const [sendOpen, setSendOpen] = useState(false);
   const [sendTpl, setSendTpl] = useState<CustomTemplate | null>(null);
   const [newFlowOpen, setNewFlowOpen] = useState(false);
+  const [editTpl, setEditTpl] = useState<CustomTemplate | null>(null);
   const [createHover, setCreateHover] = useState(false);
 
   const filteredMyTemplates = useMemo(() => {
@@ -44,6 +45,16 @@ export default function Templates() {
   const openSend = (t: CustomTemplate) => {
     setSendTpl(t);
     setSendOpen(true);
+  };
+
+  const openEdit = (t: CustomTemplate) => {
+    setEditTpl(t);
+    setNewFlowOpen(true);
+  };
+
+  const openCreate = () => {
+    setEditTpl(null);
+    setNewFlowOpen(true);
   };
 
   return (
@@ -85,7 +96,7 @@ export default function Templates() {
 
         {/* Create a new flow — modern animated CTA */}
         <motion.button
-          onClick={() => setNewFlowOpen(true)}
+          onClick={openCreate}
           onHoverStart={() => setCreateHover(true)}
           onHoverEnd={() => setCreateHover(false)}
           initial={{ opacity: 0, y: 12 }}
@@ -184,7 +195,7 @@ export default function Templates() {
                   template={t}
                   index={i}
                   onSend={() => openSend(t)}
-                  onEdit={() => navigate(`/templates/new?edit=${t.id}`)}
+                  onEdit={() => openEdit(t)}
                   onDelete={() => remove(t.id)}
                 />
               ))}
@@ -204,7 +215,14 @@ export default function Templates() {
         onOpenChange={setSendOpen}
         template={sendTpl}
       />
-      <NewFlowModal open={newFlowOpen} onOpenChange={setNewFlowOpen} />
+      <NewFlowModal
+        open={newFlowOpen}
+        onOpenChange={(o) => {
+          setNewFlowOpen(o);
+          if (!o) setEditTpl(null);
+        }}
+        editTemplate={editTpl}
+      />
     </AppLayout>
   );
 }
