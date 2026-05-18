@@ -114,6 +114,13 @@ const STEP_LIBRARY: StepBlueprint[] = [
     assetHint: "PDF or DOCX. We'll send this when this step runs.",
   },
   {
+    type: "request_payment",
+    label: "Request payment",
+    description: "Send a secure payment link to collect funds.",
+    icon: CreditCard,
+    needsAssets: false,
+  },
+  {
     type: "final_approval",
     label: "Final approval",
     description: "Collect a final sign-off to close the project.",
