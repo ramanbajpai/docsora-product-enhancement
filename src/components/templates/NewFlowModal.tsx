@@ -140,6 +140,160 @@ const blueprintFor = (type: FlowStepType) =>
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
+/* ──────────────────────────── Recipients ──────────────────────────── */
+
+const RECIPIENT_ROLE_META: Record<
+  StepRecipientRole,
+  { label: string; color: string }
+> = {
+  signer: { label: "Signer", color: "hsl(217 91% 60%)" },
+  approver: { label: "Approver", color: "hsl(262 83% 65%)" },
+  viewer: { label: "Viewer", color: "hsl(160 70% 45%)" },
+  cc: { label: "CC", color: "hsl(38 92% 55%)" },
+};
+
+function recipientSummary(recipients: StepRecipient[]): string {
+  if (recipients.length === 0) return "No recipients yet";
+  const counts: Record<string, number> = {};
+  for (const r of recipients) counts[r.role] = (counts[r.role] ?? 0) + 1;
+  return Object.entries(counts)
+    .map(([role, n]) => {
+      const label = RECIPIENT_ROLE_META[role as StepRecipientRole].label;
+      return `${n} ${label.toLowerCase()}${n === 1 ? "" : "s"}`;
+    })
+    .join(" · ");
+}
+
+function RecipientEditor({
+  stepType,
+  recipients,
+  signingMode,
+  onChange,
+  onSigningModeChange,
+}: {
+  stepType: FlowStepType;
+  recipients: StepRecipient[];
+  signingMode: "sequential" | "parallel";
+  onChange: (next: StepRecipient[]) => void;
+  onSigningModeChange: (mode: "sequential" | "parallel") => void;
+}) {
+  const isContract = stepType === "send_contract";
+  const signerCount = recipients.filter((r) => r.role === "signer").length;
+
+  const addRecipient = (role: StepRecipientRole) => {
+    const sameRoleCount = recipients.filter((r) => r.role === role).length;
+    const label = `${RECIPIENT_ROLE_META[role].label} ${sameRoleCount + 1}`;
+    const next: StepRecipient = {
+      id: uid(),
+      role,
+      label,
+      order: role === "signer" ? sameRoleCount + 1 : undefined,
+    };
+    onChange([...recipients, next]);
+  };
+
+  const updateLabel = (id: string, label: string) =>
+    onChange(recipients.map((r) => (r.id === id ? { ...r, label } : r)));
+
+  const removeRecipient = (id: string) =>
+    onChange(recipients.filter((r) => r.id !== id));
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-1.5">
+        <Users className="w-3 h-3 text-muted-foreground" />
+        <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Recipients
+        </span>
+      </div>
+
+      {recipients.length === 0 ? (
+        <p className="text-[11px] text-muted-foreground">
+          Add who this step is for. You'll enter their real name and email when you launch the flow.
+        </p>
+      ) : (
+        <div className="space-y-1">
+          {recipients.map((r) => {
+            const meta = RECIPIENT_ROLE_META[r.role];
+            return (
+              <div
+                key={r.id}
+                className="flex items-center gap-2 rounded-md border border-border/50 bg-background/60 px-2 py-1.5"
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: meta.color }}
+                />
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground w-14 shrink-0">
+                  {meta.label}
+                </span>
+                <Input
+                  value={r.label ?? ""}
+                  onChange={(e) => updateLabel(r.id, e.target.value)}
+                  placeholder="e.g. Client, Legal, Accountant"
+                  className="h-7 text-xs flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeRecipient(r.id)}
+                  className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                  aria-label="Remove recipient"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-1.5">
+        {(Object.keys(RECIPIENT_ROLE_META) as StepRecipientRole[]).map((role) => (
+          <button
+            key={role}
+            type="button"
+            onClick={() => addRecipient(role)}
+            className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-md border border-border/60 bg-background text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
+          >
+            <Plus className="w-3 h-3" />
+            {RECIPIENT_ROLE_META[role].label}
+          </button>
+        ))}
+      </div>
+
+      {isContract && signerCount >= 2 && (
+        <div className="rounded-md border border-border/50 bg-muted/30 p-2.5">
+          <div className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">
+            Signing order
+          </div>
+          <div className="flex items-center gap-1 p-0.5 bg-background rounded-md border border-border/50 w-fit">
+            {(["sequential", "parallel"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => onSigningModeChange(mode)}
+                className={cn(
+                  "text-[11px] font-medium px-2.5 py-1 rounded transition",
+                  signingMode === mode
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {mode === "sequential" ? "One at a time" : "All at once"}
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1.5">
+            {signingMode === "sequential"
+              ? "Each signer is invited in order, after the previous one signs."
+              : "All signers receive the document at the same time."}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ──────────────────────────── Natural-language parser ──────────────────────────── */
 
 const KEYWORDS: Array<{ rx: RegExp; type: FlowStepType }> = [
