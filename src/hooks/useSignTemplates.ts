@@ -44,6 +44,39 @@ export interface SignTemplateField {
   y: number; // %
   width: number; // %
   height: number; // %
+  /** Document this field belongs to (omit for legacy single-doc templates). */
+  documentId?: string;
+}
+
+/* ────────── multi-document signing packages ────────── */
+
+export type SignDocumentTag =
+  | "agreement"
+  | "nda"
+  | "pricing"
+  | "annexure"
+  | "onboarding"
+  | "scope"
+  | "other";
+
+export const SIGN_DOC_TAGS: { value: SignDocumentTag; label: string }[] = [
+  { value: "agreement", label: "Agreement" },
+  { value: "nda", label: "NDA" },
+  { value: "pricing", label: "Pricing" },
+  { value: "scope", label: "Scope" },
+  { value: "annexure", label: "Annexure" },
+  { value: "onboarding", label: "Onboarding" },
+  { value: "other", label: "Other" },
+];
+
+export interface SignTemplateDocument {
+  id: string;
+  /** File / document name; supports variables like {{COMPANY_NAME}}. */
+  name: string;
+  tag?: SignDocumentTag;
+  pageCount: number;
+  /** Body text (mock) used for personalization preview. */
+  documentBody?: string;
 }
 
 export interface SignTemplate {
@@ -64,11 +97,31 @@ export interface SignTemplate {
   /** Raw template body text with placeholders preserved. Used for personalization preview. */
   documentBody?: string;
   variables?: SignTemplateVariable[];
+  /** Package-level personalizable title; supports variables. Falls back to `name`. */
+  packageTitle?: string;
+  /** Optional multi-document package. When set, treat this as a signing package. */
+  documents?: SignTemplateDocument[];
   favorite?: boolean;
   pinned?: boolean;
   createdAt: number;
   lastUsedAt?: number;
   useCount?: number;
+}
+
+/**
+ * Return the document list for a template, synthesizing a single virtual
+ * document from legacy single-doc templates so all UI can use one shape.
+ */
+export function getTemplateDocuments(t: SignTemplate): SignTemplateDocument[] {
+  if (t.documents && t.documents.length > 0) return t.documents;
+  return [
+    {
+      id: "doc-legacy",
+      name: t.documentName || `${t.name}.pdf`,
+      pageCount: t.pageCount,
+      documentBody: t.documentBody,
+    },
+  ];
 }
 
 /* ────────── placeholder detection ────────── */
@@ -134,7 +187,7 @@ export function applyTemplateVariables(
   });
 }
 
-const STORAGE_KEY = "docsora.signTemplates.v2";
+const STORAGE_KEY = "docsora.signTemplates.v3";
 
 const SEED: SignTemplate[] = [
   {
