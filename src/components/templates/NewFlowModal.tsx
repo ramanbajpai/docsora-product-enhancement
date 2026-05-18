@@ -42,7 +42,9 @@ import {
   SignatureFieldSpec,
   SignatureFieldKind,
   PersonalizationToken,
+  PlacedField,
 } from "@/hooks/useCustomTemplates";
+import { FieldPlacementModal } from "./FieldPlacementModal";
 
 /* ──────────────────────────── Step library ──────────────────────────── */
 
