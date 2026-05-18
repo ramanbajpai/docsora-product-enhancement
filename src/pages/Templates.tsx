@@ -210,8 +210,8 @@ function SavedFlowCard({ template, index, onSend, onEdit, onDelete }: SavedFlowC
             <h3 className="text-base font-medium tracking-tight text-foreground truncate">
               {template.name}
             </h3>
-            <p className="mt-1 text-[13px] text-muted-foreground truncate">
-              {template.documentName}
+            <p className="mt-1 text-[13px] text-muted-foreground line-clamp-2">
+              {template.description?.trim() || template.documentName}
             </p>
           </div>
           {/* Hover-only quick actions */}
