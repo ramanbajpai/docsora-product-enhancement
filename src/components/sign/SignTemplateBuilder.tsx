@@ -436,7 +436,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                 {roles.map((r, i) => (
                   <div
                     key={r.key}
-                    className="rounded-xl border border-border/50 bg-card/30 p-3 flex items-center gap-2"
+                    className="rounded-xl border border-border/50 bg-card/30 p-3 flex flex-wrap items-center gap-2"
                   >
                     <button
                       onClick={() => {
@@ -450,8 +450,29 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     <Input
                       value={r.label}
                       onChange={(e) => updateRole(r.key, { label: e.target.value })}
-                      className="h-9 bg-background/60 flex-1"
+                      className="h-9 bg-background/60 flex-1 min-w-[140px]"
                     />
+                    <Select
+                      value={r.type ?? "signer"}
+                      onValueChange={(v) => updateRole(r.key, { type: v as SignRoleType })}
+                    >
+                      <SelectTrigger className="h-9 w-[130px] bg-background/60 text-[12px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ROLE_TYPES.map((rt) => {
+                          const Icon = rt.icon;
+                          return (
+                            <SelectItem key={rt.value} value={rt.value}>
+                              <span className="inline-flex items-center gap-2">
+                                <Icon className="w-3.5 h-3.5" />
+                                {rt.label}
+                              </span>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
                     {signingMode === "sequential" && (
                       <div className="flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums">
                         Step
