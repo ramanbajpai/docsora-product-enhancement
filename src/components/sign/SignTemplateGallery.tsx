@@ -42,10 +42,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
 
   const favorites = filtered.filter((t) => t.favorite);
   const others = filtered.filter((t) => !t.favorite);
-  const recent = [...templates]
-    .filter((t) => t.lastUsedAt)
-    .sort((a, b) => (b.lastUsedAt ?? 0) - (a.lastUsedAt ?? 0))
-    .slice(0, 4);
 
   return (
     <div className="px-6 md:px-10 py-8 max-w-6xl mx-auto">
