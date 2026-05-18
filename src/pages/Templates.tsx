@@ -88,81 +88,35 @@ export default function Templates() {
           />
         </div>
 
-        {/* Create a new flow — modern animated CTA */}
+        {/* Create a new flow — calm, premium CTA */}
         <motion.button
           onClick={openCreate}
           onHoverStart={() => setCreateHover(true)}
           onHoverEnd={() => setCreateHover(false)}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-          whileHover={{ y: -3 }}
-          whileTap={{ scale: 0.995 }}
-          className="group relative w-full text-left rounded-2xl overflow-hidden mb-12 min-h-[180px] p-7 flex items-center gap-6 border border-border/60 bg-gradient-to-br from-card via-card to-muted/30 hover:border-primary/50 transition-all duration-500 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.08)] hover:shadow-[0_2px_4px_rgba(15,23,42,0.04),0_24px_60px_-20px_hsl(var(--primary)/0.35)]"
+          transition={{ duration: 0.3 }}
+          className="group relative w-full text-left rounded-2xl overflow-hidden mb-12 p-6 flex items-center gap-5 border border-border/60 bg-card/60 hover:bg-card hover:border-border transition-colors"
         >
-          {/* Aurora mesh */}
-          <div className="absolute inset-0 opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-            <motion.div
-              className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-primary/15 blur-3xl"
-              animate={createHover ? { x: [0, 30, 0], y: [0, 20, 0] } : { x: 0, y: 0 }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute -bottom-24 -right-16 w-72 h-72 rounded-full bg-primary/10 blur-3xl"
-              animate={createHover ? { x: [0, -30, 0], y: [0, -20, 0] } : { x: 0, y: 0 }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            />
+          {/* subtle radial wash */}
+          <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.05),transparent_60%)]" />
+
+          <div className="relative w-11 h-11 rounded-xl border border-border/60 bg-background flex items-center justify-center shrink-0">
+            <Plus className="w-4 h-4 text-foreground/80" strokeWidth={2} />
           </div>
 
-          {/* Top hairline sheen */}
-          <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-          {/* Animated orb / plus */}
-          <div className="relative shrink-0">
-            <motion.div
-              className="absolute inset-0 rounded-2xl bg-primary/30 blur-2xl"
-              animate={{ opacity: createHover ? [0.4, 0.8, 0.4] : 0.3, scale: createHover ? [1, 1.15, 1] : 1 }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border border-primary/30 backdrop-blur-sm flex items-center justify-center shadow-[inset_0_1px_0_hsl(var(--primary)/0.25),inset_0_-10px_22px_-10px_hsl(var(--primary)/0.4)] overflow-hidden">
-              {/* Orbiting dots */}
-              <motion.div
-                className="absolute inset-0"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-              >
-                <span className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/70" />
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/40" />
-              </motion.div>
-              <motion.div
-                animate={createHover ? { rotate: 90, scale: 1.1 } : { rotate: 0, scale: 1 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-              >
-                <Plus className="w-7 h-7 text-primary" strokeWidth={2.25} />
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Copy */}
           <div className="relative flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
-              <Sparkles className="w-3 h-3 text-primary" />
-              <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-primary/90">
-                New flow
-              </span>
-            </div>
-            <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
-              Create a project
+            <h3 className="text-base font-medium tracking-tight">
+              Create a flow
             </h3>
-            <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed max-w-md">
-              Describe your workflow in your own words — we'll wire up the steps, documents and roles in seconds.
+            <p className="text-[13px] text-muted-foreground mt-0.5 leading-relaxed">
+              Describe your workflow — Docsora wires up the steps, documents and recipients.
             </p>
           </div>
 
-          {/* CTA chevron */}
           <motion.div
-            className="relative shrink-0 hidden sm:flex items-center gap-1.5 text-xs font-medium text-primary"
-            animate={createHover ? { x: 4 } : { x: 0 }}
+            className="relative shrink-0 hidden sm:flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors"
+            animate={createHover ? { x: 2 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
           >
             Start
@@ -256,8 +210,8 @@ function SavedFlowCard({ template, index, onSend, onEdit, onDelete }: SavedFlowC
             <h3 className="text-base font-medium tracking-tight text-foreground truncate">
               {template.name}
             </h3>
-            <p className="mt-1 text-[13px] text-muted-foreground truncate">
-              {template.documentName}
+            <p className="mt-1 text-[13px] text-muted-foreground line-clamp-2">
+              {template.description?.trim() || template.documentName}
             </p>
           </div>
           {/* Hover-only quick actions */}

@@ -30,6 +30,8 @@ import {
   GripVertical,
   FileText,
   Wand2,
+  ChevronDown,
+  Users,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -45,6 +47,8 @@ import {
   PersonalizationToken,
   PlacedField,
   PaymentConfig,
+  StepRecipient,
+  StepRecipientRole,
 } from "@/hooks/useCustomTemplates";
 import { FieldPlacementModal } from "./FieldPlacementModal";
 
@@ -136,6 +140,160 @@ const blueprintFor = (type: FlowStepType) =>
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
+/* ──────────────────────────── Recipients ──────────────────────────── */
+
+const RECIPIENT_ROLE_META: Record<
+  StepRecipientRole,
+  { label: string; color: string }
+> = {
+  signer: { label: "Signer", color: "hsl(217 91% 60%)" },
+  approver: { label: "Approver", color: "hsl(262 83% 65%)" },
+  viewer: { label: "Viewer", color: "hsl(160 70% 45%)" },
+  cc: { label: "CC", color: "hsl(38 92% 55%)" },
+};
+
+function recipientSummary(recipients: StepRecipient[]): string {
+  if (recipients.length === 0) return "No recipients yet";
+  const counts: Record<string, number> = {};
+  for (const r of recipients) counts[r.role] = (counts[r.role] ?? 0) + 1;
+  return Object.entries(counts)
+    .map(([role, n]) => {
+      const label = RECIPIENT_ROLE_META[role as StepRecipientRole].label;
+      return `${n} ${label.toLowerCase()}${n === 1 ? "" : "s"}`;
+    })
+    .join(" · ");
+}
+
+function RecipientEditor({
+  stepType,
+  recipients,
+  signingMode,
+  onChange,
+  onSigningModeChange,
+}: {
+  stepType: FlowStepType;
+  recipients: StepRecipient[];
+  signingMode: "sequential" | "parallel";
+  onChange: (next: StepRecipient[]) => void;
+  onSigningModeChange: (mode: "sequential" | "parallel") => void;
+}) {
+  const isContract = stepType === "send_contract";
+  const signerCount = recipients.filter((r) => r.role === "signer").length;
+
+  const addRecipient = (role: StepRecipientRole) => {
+    const sameRoleCount = recipients.filter((r) => r.role === role).length;
+    const label = `${RECIPIENT_ROLE_META[role].label} ${sameRoleCount + 1}`;
+    const next: StepRecipient = {
+      id: uid(),
+      role,
+      label,
+      order: role === "signer" ? sameRoleCount + 1 : undefined,
+    };
+    onChange([...recipients, next]);
+  };
+
+  const updateLabel = (id: string, label: string) =>
+    onChange(recipients.map((r) => (r.id === id ? { ...r, label } : r)));
+
+  const removeRecipient = (id: string) =>
+    onChange(recipients.filter((r) => r.id !== id));
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-1.5">
+        <Users className="w-3 h-3 text-muted-foreground" />
+        <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Recipients
+        </span>
+      </div>
+
+      {recipients.length === 0 ? (
+        <p className="text-[11px] text-muted-foreground">
+          Add who this step is for. You'll enter their real name and email when you launch the flow.
+        </p>
+      ) : (
+        <div className="space-y-1">
+          {recipients.map((r) => {
+            const meta = RECIPIENT_ROLE_META[r.role];
+            return (
+              <div
+                key={r.id}
+                className="flex items-center gap-2 rounded-md border border-border/50 bg-background/60 px-2 py-1.5"
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: meta.color }}
+                />
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground w-14 shrink-0">
+                  {meta.label}
+                </span>
+                <Input
+                  value={r.label ?? ""}
+                  onChange={(e) => updateLabel(r.id, e.target.value)}
+                  placeholder="e.g. Client, Legal, Accountant"
+                  className="h-7 text-xs flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeRecipient(r.id)}
+                  className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                  aria-label="Remove recipient"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-1.5">
+        {(Object.keys(RECIPIENT_ROLE_META) as StepRecipientRole[]).map((role) => (
+          <button
+            key={role}
+            type="button"
+            onClick={() => addRecipient(role)}
+            className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-md border border-border/60 bg-background text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
+          >
+            <Plus className="w-3 h-3" />
+            {RECIPIENT_ROLE_META[role].label}
+          </button>
+        ))}
+      </div>
+
+      {isContract && signerCount >= 2 && (
+        <div className="rounded-md border border-border/50 bg-muted/30 p-2.5">
+          <div className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">
+            Signing order
+          </div>
+          <div className="flex items-center gap-1 p-0.5 bg-background rounded-md border border-border/50 w-fit">
+            {(["sequential", "parallel"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => onSigningModeChange(mode)}
+                className={cn(
+                  "text-[11px] font-medium px-2.5 py-1 rounded transition",
+                  signingMode === mode
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {mode === "sequential" ? "One at a time" : "All at once"}
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1.5">
+            {signingMode === "sequential"
+              ? "Each signer is invited in order, after the previous one signs."
+              : "All signers receive the document at the same time."}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ──────────────────────────── Natural-language parser ──────────────────────────── */
 
 const KEYWORDS: Array<{ rx: RegExp; type: FlowStepType }> = [
@@ -188,6 +346,7 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
   const [stage, setStage] = useState<Stage>("build");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [flowDescription, setFlowDescription] = useState("");
   const [steps, setSteps] = useState<FlowStep[]>([]);
 
   // Reset on open
@@ -197,11 +356,13 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
         setStage("build");
         setName(editTemplate.name);
         setDescription("");
+        setFlowDescription(editTemplate.description ?? "");
         setSteps(editTemplate.flowSteps ?? []);
       } else {
         setStage("build");
         setName("");
         setDescription("");
+        setFlowDescription("");
         setSteps([]);
       }
     }
@@ -284,6 +445,7 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
     const tpl: CustomTemplate = {
       id: editTemplate?.id ?? uid(),
       name: name.trim(),
+      description: flowDescription.trim() || undefined,
       createdAt: editTemplate?.createdAt ?? Date.now(),
       documentName: docName,
       documentType: docName.toLowerCase().endsWith(".docx") ? "docx" : "pdf",
@@ -331,10 +493,13 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
                   setName={setName}
                   description={description}
                   setDescription={setDescription}
+                  flowDescription={flowDescription}
+                  setFlowDescription={setFlowDescription}
                   steps={steps}
                   addStep={addStep}
                   removeStep={removeStep}
                   moveStep={moveStep}
+                  updateStep={updateStep}
                   generateFromText={generateFromText}
                 />
               )}
@@ -404,22 +569,29 @@ function BuildStage({
   setName,
   description,
   setDescription,
+  flowDescription,
+  setFlowDescription,
   steps,
   addStep,
   removeStep,
   moveStep,
+  updateStep,
   generateFromText,
 }: {
   name: string;
   setName: (v: string) => void;
   description: string;
   setDescription: (v: string) => void;
+  flowDescription: string;
+  setFlowDescription: (v: string) => void;
   steps: FlowStep[];
   addStep: (t: FlowStepType) => void;
   removeStep: (id: string) => void;
   moveStep: (id: string, dir: -1 | 1) => void;
+  updateStep: (id: string, updates: Partial<FlowStep>) => void;
   generateFromText: () => void;
 }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
@@ -437,6 +609,19 @@ function BuildStage({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Client onboarding"
+          className="h-10"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="flow-summary" className="text-xs">
+          Short description <span className="text-muted-foreground/70 font-normal">— optional</span>
+        </Label>
+        <Input
+          id="flow-summary"
+          value={flowDescription}
+          onChange={(e) => setFlowDescription(e.target.value)}
+          placeholder="What this flow does, in one line."
           className="h-10"
         />
       </div>
@@ -486,6 +671,9 @@ function BuildStage({
             {steps.map((s, idx) => {
               const bp = blueprintFor(s.type);
               const Icon = bp.icon;
+              const expanded = expandedId === s.id;
+              const recipients = s.recipients ?? [];
+              const summary = recipientSummary(recipients);
               return (
                 <motion.div
                   layout
@@ -493,27 +681,43 @@ function BuildStage({
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -8 }}
-                  className="group flex items-center gap-3 rounded-lg border border-border/60 bg-card px-3 py-2.5"
+                  className="group rounded-lg border border-border/60 bg-card/60 hover:bg-card transition-colors"
                 >
+                  <div className="flex items-center gap-3 px-3 py-2.5">
                   <span className="text-[10px] tabular-nums font-semibold text-muted-foreground w-4">
                     {idx + 1}
                   </span>
                   <div className="w-7 h-7 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">
                     <Icon className="w-3.5 h-3.5" />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedId(expanded ? null : s.id)}
+                    className="flex-1 min-w-0 text-left"
+                  >
                     <div className="text-sm font-medium truncate">{s.label}</div>
-                    {bp.needsAssets && (
-                      <div className="text-[10px] text-primary/80 mt-0.5">
-                        Needs files
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                      {summary}
+                      {bp.needsAssets && <span className="text-primary/80"> · needs files</span>}
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-0.5">
+                    <button
+                      onClick={() => setExpandedId(expanded ? null : s.id)}
+                      className="p-1 rounded hover:bg-accent text-muted-foreground"
+                      aria-label={expanded ? "Collapse" : "Expand"}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-3.5 h-3.5 transition-transform",
+                          expanded && "rotate-180",
+                        )}
+                      />
+                    </button>
                     <button
                       onClick={() => moveStep(s.id, -1)}
                       disabled={idx === 0}
-                      className="p-1 rounded hover:bg-accent disabled:opacity-30"
+                      className="p-1 rounded hover:bg-accent disabled:opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Move up"
                     >
                       <ArrowLeft className="w-3 h-3 rotate-90" />
@@ -521,19 +725,43 @@ function BuildStage({
                     <button
                       onClick={() => moveStep(s.id, 1)}
                       disabled={idx === steps.length - 1}
-                      className="p-1 rounded hover:bg-accent disabled:opacity-30"
+                      className="p-1 rounded hover:bg-accent disabled:opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Move down"
                     >
                       <ArrowLeft className="w-3 h-3 -rotate-90" />
                     </button>
                     <button
                       onClick={() => removeStep(s.id)}
-                      className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-destructive"
+                      className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                       aria-label="Remove"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
+                  </div>
+                  <AnimatePresence initial={false}>
+                    {expanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden border-t border-border/50"
+                      >
+                        <div className="px-3 py-3">
+                          <RecipientEditor
+                            stepType={s.type}
+                            recipients={recipients}
+                            signingMode={s.signingMode ?? "sequential"}
+                            onChange={(next) => updateStep(s.id, { recipients: next })}
+                            onSigningModeChange={(mode) =>
+                              updateStep(s.id, { signingMode: mode })
+                            }
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
