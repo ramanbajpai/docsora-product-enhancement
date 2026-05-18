@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ChevronLeft,
+  Check,
   ChevronRight,
   PenTool,
   Type,
@@ -115,7 +116,7 @@ export function FieldPlacementModal({
 
         <div className="grid grid-cols-[280px_1fr] h-full">
           {/* Sidebar */}
-          <div className="border-r border-border/60 bg-card/40 flex flex-col">
+          <div className="border-r border-border/60 bg-card/40 flex flex-col min-h-0">
             <div className="px-4 py-3 border-b border-border/60">
               <button
                 onClick={() => onOpenChange(false)}
@@ -234,9 +235,23 @@ export function FieldPlacementModal({
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-              <button className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 transition font-medium">
-                <Sparkles className="w-3.5 h-3.5" /> AI suggest fields
-              </button>
+              <div className="flex items-center gap-3">
+                <button className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 transition font-medium">
+                  <Sparkles className="w-3.5 h-3.5" /> AI suggest fields
+                </button>
+                <span className="text-[11px] text-muted-foreground tabular-nums">
+                  {fields.length} field{fields.length === 1 ? "" : "s"} placed
+                </span>
+                <Button
+                  onClick={save}
+                  size="sm"
+                  disabled={missing.length > 0}
+                  className="gap-1.5"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Save fields
+                </Button>
+              </div>
             </div>
 
             <div className="flex-1 overflow-auto p-8 flex justify-center">
