@@ -222,7 +222,14 @@ function PriorityStrip({ runs }: { runs: FlowRun[] }) {
     return { waitingSig, paymentDue, blocked, deliverables, expiring };
   }, [runs]);
 
-  const items = [
+  const items: Array<{
+    key: string;
+    label: string;
+    count: number;
+    tone: "primary" | "amber" | "rose";
+    Icon: typeof PenLine;
+    action: string;
+  }> = [
     { key: "sig", label: "Waiting on signature", count: stats.waitingSig, tone: "amber", Icon: PenLine, action: "Remind" },
     { key: "pay", label: "Payment due", count: stats.paymentDue, tone: "primary", Icon: CreditCard, action: "Nudge" },
     { key: "blk", label: "Blocked", count: stats.blocked, tone: "rose", Icon: AlertTriangle, action: "Resolve" },
