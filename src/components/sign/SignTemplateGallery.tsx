@@ -5,7 +5,6 @@ import {
   ChevronLeft,
   Search,
   Star,
-  Pin,
   Rocket,
   Plus,
   Trash2,
@@ -26,7 +25,7 @@ interface SignTemplateGalleryProps {
 }
 
 export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplateGalleryProps) {
-  const { templates, toggleFavorite, togglePin, remove } = useSignTemplates();
+  const { templates, toggleFavorite, remove } = useSignTemplates();
   const [query, setQuery] = useState("");
   const [launchTpl, setLaunchTpl] = useState<SignTemplate | null>(null);
 
@@ -41,9 +40,8 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
     });
   }, [templates, query]);
 
-  const pinned = filtered.filter((t) => t.pinned);
-  const favorites = filtered.filter((t) => t.favorite && !t.pinned);
-  const others = filtered.filter((t) => !t.favorite && !t.pinned);
+  const favorites = filtered.filter((t) => t.favorite);
+  const others = filtered.filter((t) => !t.favorite);
   const recent = [...templates]
     .filter((t) => t.lastUsedAt)
     .sort((a, b) => (b.lastUsedAt ?? 0) - (a.lastUsedAt ?? 0))
@@ -122,25 +120,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         </div>
       </div>
 
-      {/* Sections */}
-      {pinned.length > 0 && (
-        <Section title="Pinned" icon={<Pin className="w-3 h-3 text-primary" />}>
-          <Grid>
-            {pinned.map((t, i) => (
-              <TemplateCard
-                key={t.id}
-                t={t}
-                index={i}
-                onLaunch={() => setLaunchTpl(t)}
-                onFavorite={() => toggleFavorite(t.id)}
-                onPin={() => togglePin(t.id)}
-                onDelete={() => remove(t.id)}
-              />
-            ))}
-          </Grid>
-        </Section>
-      )}
-
       {favorites.length > 0 && (
         <Section title="Favorites" icon={<Star className="w-3 h-3 text-amber-400" />}>
           <Grid>
@@ -151,7 +130,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 index={i}
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
-                onPin={() => togglePin(t.id)}
                 onDelete={() => remove(t.id)}
               />
             ))}
@@ -172,12 +150,11 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 index={i}
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
-                onPin={() => togglePin(t.id)}
                 onDelete={() => remove(t.id)}
               />
             ))}
           </Grid>
-        ) : pinned.length + favorites.length === 0 ? (
+        ) : favorites.length === 0 ? (
           <button
             onClick={onCreateNew}
             className="w-full rounded-2xl border border-dashed border-border/60 bg-card/30 hover:bg-card/60 transition-colors px-6 py-14 text-center"
@@ -237,14 +214,12 @@ function TemplateCard({
   index,
   onLaunch,
   onFavorite,
-  onPin,
   onDelete,
 }: {
   t: SignTemplate;
   index: number;
   onLaunch: () => void;
   onFavorite: () => void;
-  onPin: () => void;
   onDelete: () => void;
 }) {
   const signerCount = t.roles.filter((r) => r.key !== "cc").length;
@@ -260,24 +235,12 @@ function TemplateCard({
         {/* Row 1: title + actions */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              {t.pinned && <Pin className="w-3 h-3 text-primary fill-primary/40" />}
-              <h3 className="text-[14px] font-medium tracking-tight truncate">{t.name}</h3>
-            </div>
+            <h3 className="text-[14px] font-medium tracking-tight truncate">{t.name}</h3>
             <p className="mt-1 text-[12px] text-muted-foreground line-clamp-2">
               {t.description || t.documentName}
             </p>
           </div>
           <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity -mr-1.5 -mt-1.5">
-            <IconBtn
-              label={t.pinned ? "Unpin" : "Pin"}
-              onClick={(e) => {
-                e.stopPropagation();
-                onPin();
-              }}
-            >
-              <Pin className={`w-3.5 h-3.5 ${t.pinned ? "fill-primary/40 text-primary" : ""}`} />
-            </IconBtn>
             <IconBtn
               label={t.favorite ? "Unfavorite" : "Favorite"}
               onClick={(e) => {

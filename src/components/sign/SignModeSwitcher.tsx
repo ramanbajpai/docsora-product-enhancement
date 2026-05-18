@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileUp, LayoutTemplate } from "lucide-react";
+import { FileUp, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type SignMode = "agreements" | "templates";
@@ -11,7 +11,7 @@ interface SignModeSwitcherProps {
 
 const OPTIONS: { id: SignMode; label: string; icon: any }[] = [
   { id: "agreements", label: "One-time sign", icon: FileUp },
-  { id: "templates", label: "Templates", icon: LayoutTemplate },
+  { id: "templates", label: "Templates", icon: Layers },
 ];
 
 export default function SignModeSwitcher({ value, onChange }: SignModeSwitcherProps) {
