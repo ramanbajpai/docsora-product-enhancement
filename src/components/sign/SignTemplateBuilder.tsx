@@ -52,6 +52,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Label as UILabel } from "@/components/ui/label";
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
