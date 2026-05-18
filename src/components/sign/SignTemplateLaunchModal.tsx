@@ -494,3 +494,70 @@ export default function SignTemplateLaunchModal({
     </AnimatePresence>
   );
 }
+
+/**
+ * Renders the personalized template body, highlighting injected values
+ * inline so users can visually confirm replacement without breaking
+ * the original layout (whitespace + line breaks preserved).
+ */
+function PersonalizedPreview({
+  text,
+  values,
+  patterns,
+}: {
+  text: string;
+  values: Record<string, string>;
+  patterns: string[];
+}) {
+  // Build a set of injected literal values to highlight.
+  const injected = Object.values(values)
+    .map((v) => v.trim())
+    .filter((v) => v.length > 0);
+
+  // Build a regex of either remaining {{TOKENS}}/[TOKENS] or injected values.
+  const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts: string[] = [
+    ...patterns.map(escape),
+    ...injected.map(escape),
+  ];
+  if (parts.length === 0) {
+    return (
+      <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-foreground/85">
+        {text}
+      </pre>
+    );
+  }
+  const re = new RegExp(`(${parts.join("|")})`, "g");
+  const tokens = text.split(re);
+
+  return (
+    <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-foreground/85">
+      {tokens.map((tk, i) => {
+        if (!tk) return null;
+        const isPlaceholder = patterns.includes(tk);
+        const isInjected = !isPlaceholder && injected.includes(tk);
+        if (isPlaceholder) {
+          return (
+            <span
+              key={i}
+              className="rounded-sm bg-amber-500/15 text-amber-600 dark:text-amber-400 px-1"
+            >
+              {tk}
+            </span>
+          );
+        }
+        if (isInjected) {
+          return (
+            <span
+              key={i}
+              className="rounded-sm bg-primary/10 text-foreground px-0.5 font-medium"
+            >
+              {tk}
+            </span>
+          );
+        }
+        return <span key={i}>{tk}</span>;
+      })}
+    </pre>
+  );
+}
