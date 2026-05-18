@@ -1039,3 +1039,431 @@ function Label({ children, className }: { children: React.ReactNode; className?:
     </div>
   );
 }
+
+/* ──────────────────────────────────────────────────────────
+ * Smart Fields — visual reusable-field editor.
+ * Users highlight text in the document preview; a floating
+ * "Convert to smart field" action opens a modal. Once saved,
+ * the highlighted text becomes a labelled chip inside the
+ * document. No raw token syntax is ever exposed.
+ * ────────────────────────────────────────────────────────── */
+
+const SMART_FIELD_TYPES: { value: SignVariableType; label: string }[] = [
+  { value: "text", label: "Text" },
+  { value: "company", label: "Company" },
+  { value: "currency", label: "Currency" },
+  { value: "date", label: "Date" },
+  { value: "address", label: "Address" },
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone" },
+  { value: "number", label: "Number" },
+];
+
+const fieldTypeLabel = (t: SignVariableType) =>
+  SMART_FIELD_TYPES.find((x) => x.value === t)?.label ?? "Text";
+
+function toToken(label: string) {
+  const base =
+    label
+      .toUpperCase()
+      .replace(/[^A-Z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "") || "FIELD";
+  return base;
+}
+
+interface SmartFieldsSectionProps {
+  body: string;
+  setBody: (v: string) => void;
+  variables: SignTemplateVariable[];
+  setVariables: React.Dispatch<React.SetStateAction<SignTemplateVariable[]>>;
+}
+
+function SmartFieldsSection({ body, setBody, variables, setVariables }: SmartFieldsSectionProps) {
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [selection, setSelection] = useState<{
+    text: string;
+    top: number;
+    left: number;
+  } | null>(null);
+  const [modal, setModal] = useState<
+    | { mode: "create"; originalText: string }
+    | { mode: "edit"; variable: SignTemplateVariable }
+    | null
+  >(null);
+
+  const onMouseUp = useCallback(() => {
+    const sel = window.getSelection();
+    const container = previewRef.current;
+    if (!sel || sel.isCollapsed || !container) {
+      setSelection(null);
+      return;
+    }
+    const text = sel.toString().trim();
+    if (!text || text.length > 120) {
+      setSelection(null);
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    if (!container.contains(range.commonAncestorContainer)) {
+      setSelection(null);
+      return;
+    }
+    const containerRect = container.getBoundingClientRect();
+    const rect = range.getBoundingClientRect();
+    setSelection({
+      text,
+      top: rect.top - containerRect.top - 44,
+      left: rect.left - containerRect.left + rect.width / 2,
+    });
+  }, []);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (!previewRef.current?.contains(e.target as Node)) setSelection(null);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  const createField = (meta: {
+    label: string;
+    type: SignVariableType;
+    required: boolean;
+    example?: string;
+  }) => {
+    if (modal?.mode !== "create") return;
+    const original = modal.originalText;
+    let token = toToken(meta.label);
+    const taken = new Set(variables.map((v) => v.name));
+    if (taken.has(token)) {
+      let n = 2;
+      while (taken.has(`${token}_${n}`)) n++;
+      token = `${token}_${n}`;
+    }
+    const pattern = `{{${token}}}`;
+    const idx = body.indexOf(original);
+    if (idx === -1) {
+      toast.error("Selection no longer matches the document.");
+      return;
+    }
+    setBody(body.slice(0, idx) + pattern + body.slice(idx + original.length));
+    setVariables((prev) => [
+      ...prev,
+      {
+        name: token,
+        label: meta.label,
+        type: meta.type,
+        required: meta.required,
+        defaultValue: meta.example?.trim() || original,
+        pattern,
+      },
+    ]);
+    setModal(null);
+    setSelection(null);
+    window.getSelection()?.removeAllRanges();
+    toast.success(`Smart field "${meta.label}" created.`);
+  };
+
+  const updateField = (
+    name: string,
+    meta: { label: string; type: SignVariableType; required: boolean; example?: string },
+  ) => {
+    setVariables((prev) =>
+      prev.map((v) =>
+        v.name === name
+          ? {
+              ...v,
+              label: meta.label,
+              type: meta.type,
+              required: meta.required,
+              defaultValue: meta.example?.trim() || v.defaultValue,
+            }
+          : v,
+      ),
+    );
+    setModal(null);
+  };
+
+  const removeField = (name: string) => {
+    const v = variables.find((x) => x.name === name);
+    if (!v) return;
+    setBody(body.split(v.pattern).join(v.defaultValue || v.label));
+    setVariables((prev) => prev.filter((x) => x.name !== name));
+  };
+
+  /* render the document body, replacing {{TOKENS}} with chips */
+  const renderedBody = useMemo(() => {
+    const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
+    const nodes: React.ReactNode[] = [];
+    let last = 0;
+    let m: RegExpExecArray | null;
+    let key = 0;
+    while ((m = re.exec(body)) !== null) {
+      if (m.index > last) nodes.push(body.slice(last, m.index));
+      const name = m[1];
+      const v = variables.find((x) => x.name === name);
+      nodes.push(
+        <span
+          key={`chip-${key++}`}
+          contentEditable={false}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (v) setModal({ mode: "edit", variable: v });
+          }}
+          className="inline-flex items-center gap-1 align-baseline px-1.5 py-0.5 mx-0.5 rounded-md bg-primary/10 text-primary border border-primary/25 text-[12px] font-medium cursor-pointer hover:bg-primary/15 transition-colors select-none"
+          title="Edit smart field"
+        >
+          <Sparkles className="w-2.5 h-2.5" />
+          {v?.label ?? name}
+        </span>,
+      );
+      last = m.index + m[0].length;
+    }
+    if (last < body.length) nodes.push(body.slice(last));
+    return nodes;
+  }, [body, variables]);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <Label className="mb-0">
+          <span className="inline-flex items-center gap-1.5">
+            <Sparkles className="w-3 h-3" />
+            Smart fields
+          </span>
+        </Label>
+        <span className="text-[11px] text-muted-foreground">
+          Highlight any text to make it reusable.
+        </span>
+      </div>
+
+      <div className="grid lg:grid-cols-[1fr_240px] gap-3">
+        {/* Document preview */}
+        <div
+          ref={previewRef}
+          onMouseUp={onMouseUp}
+          className="relative rounded-2xl border border-border/50 bg-card/30 px-5 py-5 min-h-[260px] text-[13px] leading-relaxed text-foreground/90 whitespace-pre-wrap selection:bg-primary/20"
+        >
+          {renderedBody}
+
+          <AnimatePresence>
+            {selection && (
+              <motion.button
+                initial={{ opacity: 0, y: 4, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 4, scale: 0.96 }}
+                transition={{ duration: 0.12 }}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setModal({ mode: "create", originalText: selection.text });
+                  setSelection(null);
+                }}
+                style={{
+                  top: Math.max(4, selection.top),
+                  left: selection.left,
+                  transform: "translateX(-50%)",
+                }}
+                className="absolute z-10 inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-foreground text-background text-[12px] font-medium shadow-lg hover:opacity-90"
+              >
+                <Sparkles className="w-3 h-3" />
+                Convert to smart field
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Sidebar — reusable fields */}
+        <div>
+          <div className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-2 px-1">
+            Reusable fields
+          </div>
+          {variables.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-border/50 px-3 py-6 text-center text-[11px] text-muted-foreground">
+              Highlight a value in the document to create your first smart field.
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              {variables.map((v) => (
+                <div
+                  key={v.name}
+                  className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/50 transition-colors px-3 py-2.5 flex items-start gap-2"
+                >
+                  <button
+                    onClick={() => setModal({ mode: "edit", variable: v })}
+                    className="flex-1 text-left min-w-0"
+                  >
+                    <div className="text-[12.5px] font-medium truncate">{v.label}</div>
+                    <div className="text-[10.5px] text-muted-foreground mt-0.5">
+                      {fieldTypeLabel(v.type)} {v.required ? "• Required" : "• Optional"}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => removeField(v.name)}
+                    className="opacity-0 group-hover:opacity-100 p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 transition"
+                    title="Remove field"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <SmartFieldModal
+        open={Boolean(modal)}
+        onOpenChange={(o) => !o && setModal(null)}
+        mode={modal?.mode ?? "create"}
+        initial={
+          modal?.mode === "edit"
+            ? {
+                label: modal.variable.label,
+                type: modal.variable.type,
+                required: Boolean(modal.variable.required),
+                example: modal.variable.defaultValue ?? "",
+              }
+            : modal?.mode === "create"
+              ? {
+                  label: "",
+                  type: "text",
+                  required: true,
+                  example: modal.originalText,
+                }
+              : null
+        }
+        onSave={(meta) => {
+          if (!modal) return;
+          if (modal.mode === "create") createField(meta);
+          else updateField(modal.variable.name, meta);
+        }}
+      />
+    </div>
+  );
+}
+
+interface SmartFieldMeta {
+  label: string;
+  type: SignVariableType;
+  required: boolean;
+  example?: string;
+}
+
+function SmartFieldModal({
+  open,
+  onOpenChange,
+  mode,
+  initial,
+  onSave,
+}: {
+  open: boolean;
+  onOpenChange: (o: boolean) => void;
+  mode: "create" | "edit";
+  initial: SmartFieldMeta | null;
+  onSave: (meta: SmartFieldMeta) => void;
+}) {
+  const [label, setLabel] = useState(initial?.label ?? "");
+  const [type, setType] = useState<SignVariableType>(initial?.type ?? "text");
+  const [required, setRequired] = useState<boolean>(initial?.required ?? true);
+  const [example, setExample] = useState<string>(initial?.example ?? "");
+
+  useEffect(() => {
+    if (open && initial) {
+      setLabel(initial.label);
+      setType(initial.type);
+      setRequired(initial.required);
+      setExample(initial.example ?? "");
+    }
+  }, [open, initial]);
+
+  const submit = () => {
+    if (label.trim().length < 1) {
+      toast.error("Give this field a name.");
+      return;
+    }
+    onSave({ label: label.trim(), type, required, example });
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[420px] rounded-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-base">
+            {mode === "create" ? "New smart field" : "Edit smart field"}
+          </DialogTitle>
+          <DialogDescription className="text-[12px]">
+            Reused values are filled in automatically before sending.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4 pt-1">
+          <div className="space-y-1.5">
+            <UILabel className="text-[11px] uppercase tracking-wider text-muted-foreground">
+              Field name
+            </UILabel>
+            <Input
+              autoFocus
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
+              placeholder="e.g. Client name"
+              className="h-10 bg-background/60"
+              onKeyDown={(e) => e.key === "Enter" && submit()}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <UILabel className="text-[11px] uppercase tracking-wider text-muted-foreground">
+              Type
+            </UILabel>
+            <Select value={type} onValueChange={(t) => setType(t as SignVariableType)}>
+              <SelectTrigger className="h-10 bg-background/60">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SMART_FIELD_TYPES.map((t) => (
+                  <SelectItem key={t.value} value={t.value}>
+                    {t.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <UILabel className="text-[11px] uppercase tracking-wider text-muted-foreground">
+              Example value (optional)
+            </UILabel>
+            <Input
+              value={example}
+              onChange={(e) => setExample(e.target.value)}
+              placeholder="e.g. Acme Media"
+              className="h-10 bg-background/60"
+              onKeyDown={(e) => e.key === "Enter" && submit()}
+            />
+          </div>
+
+          <label className="flex items-center justify-between rounded-xl border border-border/50 bg-card/30 px-3 py-2.5">
+            <div>
+              <div className="text-[12.5px] font-medium">Required</div>
+              <div className="text-[11px] text-muted-foreground">
+                Sender must fill this before sending.
+              </div>
+            </div>
+            <Switch checked={required} onCheckedChange={setRequired} />
+          </label>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 pt-2">
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <Button size="sm" onClick={submit}>
+            {mode === "create" ? "Save field" : "Save changes"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
