@@ -285,12 +285,20 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       y: Math.max(0, Math.min(100 - activeTool.h, y - activeTool.h / 2)),
       width: activeTool.w,
       height: activeTool.h,
+      documentId: activeDoc?.id,
     };
     setFields((p) => [...p, f]);
   };
   const removeField = (id: string) => setFields((p) => p.filter((f) => f.id !== id));
 
-  const pageFields = useMemo(() => fields.filter((f) => f.page === page), [fields, page]);
+  const docFields = useMemo(
+    () =>
+      fields.filter(
+        (f) => !activeDoc || (f.documentId ?? activeDoc.id) === activeDoc.id,
+      ),
+    [fields, activeDoc],
+  );
+  const pageFields = useMemo(() => docFields.filter((f) => f.page === page), [docFields, page]);
 
   const canSave =
     name.trim().length > 1 &&
@@ -308,13 +316,25 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       name: name.trim(),
       description: description.trim() || undefined,
       category,
-      documentName: file?.name || `${name}.pdf`,
-      pageCount,
+      documentName: documents[0]?.name || file?.name || `${name}.pdf`,
+      pageCount: documents[0]?.pageCount ?? pageCount,
       roles,
       fields,
       signingMode,
       documentBody: documentBody.trim() || undefined,
       variables: variables.length > 0 ? variables : undefined,
+      packageTitle: packageTitle.trim() || undefined,
+      documents:
+        documents.length > 0
+          ? documents.map<SignTemplateDocument>((d) => ({
+              id: d.id,
+              name: d.name,
+              tag: d.tag,
+              pageCount: d.pageCount,
+              // Share the placeholder body so per-doc preview works in V1.
+              documentBody: documentBody.trim() || undefined,
+            }))
+          : undefined,
       defaults: { expiryDays: 14, remindersEveryDays: 3 },
       createdAt: Date.now(),
       useCount: 0,
