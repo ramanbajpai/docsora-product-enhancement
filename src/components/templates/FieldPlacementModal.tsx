@@ -19,6 +19,11 @@ import {
   Sparkles,
   Trash2,
   Move,
+  User,
+  Mail,
+  Building2,
+  Briefcase,
+  Wand2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -29,18 +34,28 @@ import {
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
-type Tool = {
+export type PlacementTool = {
   kind: CustomFieldType;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   width: number; // %
   height: number; // %
+  /** Token bound to this tool (only for personalization mode). */
+  token?: string;
 };
 
-const TOOLS: Tool[] = [
+const SIGNING_TOOLS: PlacementTool[] = [
   { kind: "signature", label: "Signature", icon: PenTool, width: 18, height: 5 },
   { kind: "text", label: "Initials", icon: Type, width: 8, height: 4 },
   { kind: "date", label: "Date", icon: Calendar, width: 12, height: 4 },
+];
+
+const PERSONALIZATION_TOOLS: PlacementTool[] = [
+  { kind: "text", label: "Recipient name", icon: User, width: 18, height: 4, token: "recipient_name" },
+  { kind: "text", label: "Email", icon: Mail, width: 20, height: 4, token: "email" },
+  { kind: "text", label: "Company", icon: Building2, width: 18, height: 4, token: "company" },
+  { kind: "text", label: "Role / title", icon: Briefcase, width: 16, height: 4, token: "role" },
+  { kind: "date", label: "Start date", icon: Calendar, width: 14, height: 4, token: "start_date" },
 ];
 
 interface FieldPlacementModalProps {
@@ -52,6 +67,8 @@ interface FieldPlacementModalProps {
   initialFields?: PlacedField[];
   signatureFields?: SignatureFieldSpec[];
   onSave: (fields: PlacedField[]) => void;
+  /** "signing" = signature/initials/date toolbox. "personalization" = recipient tokens. */
+  mode?: "signing" | "personalization";
 }
 
 export function FieldPlacementModal({
@@ -62,9 +79,11 @@ export function FieldPlacementModal({
   pageCount = 3,
   initialFields,
   onSave,
+  mode = "signing",
 }: FieldPlacementModalProps) {
+  const TOOLS = mode === "personalization" ? PERSONALIZATION_TOOLS : SIGNING_TOOLS;
   const [fields, setFields] = useState<PlacedField[]>(initialFields ?? []);
-  const [activeTool, setActiveTool] = useState<Tool>(TOOLS[0]);
+  const [activeTool, setActiveTool] = useState<PlacementTool>(TOOLS[0]);
   const [page, setPage] = useState(1);
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -83,6 +102,8 @@ export function FieldPlacementModal({
       y: Math.max(0, y - activeTool.height / 2),
       width: activeTool.width,
       height: activeTool.height,
+      token: activeTool.token,
+      label: activeTool.label,
     };
     setFields((prev) => [...prev, f]);
   };
@@ -95,7 +116,7 @@ export function FieldPlacementModal({
     [fields, page],
   );
 
-  const requiredKinds = new Set(["signature"]);
+  const requiredKinds = new Set(mode === "signing" ? ["signature"] : []);
   const missing = useMemo(() => {
     const placedKinds = new Set(fields.map((f) => f.type));
     return Array.from(requiredKinds).filter((k) => !placedKinds.has(k as CustomFieldType));
@@ -129,7 +150,9 @@ export function FieldPlacementModal({
             <div className="px-4 py-3 space-y-3 flex-1 overflow-y-auto">
               <div>
                 <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground mb-2">
-                  Fields required from
+                  {mode === "personalization"
+                    ? "Personalize delivery for"
+                    : "Fields required from"}
                 </div>
                 <div className="rounded-lg border border-primary/30 bg-primary/[0.06] px-2.5 py-2 flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-semibold flex items-center justify-center">
@@ -139,17 +162,25 @@ export function FieldPlacementModal({
                     {recipientName}
                   </span>
                   <span className="text-[9px] uppercase tracking-wider font-semibold text-primary bg-primary/15 px-1.5 py-0.5 rounded">
-                    Signer
+                    {mode === "personalization" ? "Recipient" : "Signer"}
                   </span>
                 </div>
                 <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-                  You're placing fields this recipient must complete.
+                  {mode === "personalization"
+                    ? "Drop tokens onto the document — we'll fill them in for each recipient before sending."
+                    : "You're placing fields this recipient must complete."}
                 </p>
               </div>
 
               <div className="border-t border-border/60 pt-3">
-                <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground mb-2">
-                  Signature
+                <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground mb-2 flex items-center gap-1.5">
+                  {mode === "personalization" ? (
+                    <>
+                      <Wand2 className="w-3 h-3 text-primary" /> Personalization tokens
+                    </>
+                  ) : (
+                    "Signature"
+                  )}
                 </div>
                 <div className="space-y-1">
                   {TOOLS.map((t) => {
