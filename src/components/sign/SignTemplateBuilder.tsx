@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -147,21 +147,11 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* ───────── dynamic variables ───────── */
-  // Auto-detect placeholders whenever the document body changes.
-  // Preserves prior label / type / required edits via detectTemplateVariables.
-  const detected = useMemo(
-    () => detectTemplateVariables(documentBody, variables),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [documentBody],
-  );
-  // Keep state in sync with detected set.
-  if (
-    detected.length !== variables.length ||
-    detected.some((d, i) => variables[i]?.name !== d.name)
-  ) {
-    // setState inside render is safe here because it short-circuits to a stable result.
-    queueMicrotask(() => setVariables(detected));
-  }
+  // Auto-detect placeholders whenever the document body changes,
+  // preserving prior label / type / required edits.
+  useEffect(() => {
+    setVariables((prev) => detectTemplateVariables(documentBody, prev));
+  }, [documentBody]);
 
   const updateVariable = (name: string, patch: Partial<SignTemplateVariable>) =>
     setVariables((prev) => prev.map((v) => (v.name === name ? { ...v, ...patch } : v)));
