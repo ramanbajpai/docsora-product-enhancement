@@ -25,23 +25,21 @@ interface SignTemplateGalleryProps {
   onCreateNew: () => void;
 }
 
-const CATEGORIES = ["All", "Client", "Legal", "HR", "Sales"] as const;
-
 export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplateGalleryProps) {
   const { templates, toggleFavorite, togglePin, remove } = useSignTemplates();
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("All");
   const [launchTpl, setLaunchTpl] = useState<SignTemplate | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
     return templates.filter((t) => {
-      const matchesQ =
-        !q || t.name.toLowerCase().includes(q) || (t.description ?? "").toLowerCase().includes(q);
-      const matchesCat = category === "All" || t.category === category;
-      return matchesQ && matchesCat;
+      return (
+        !q ||
+        t.name.toLowerCase().includes(q) ||
+        (t.description ?? "").toLowerCase().includes(q)
+      );
     });
-  }, [templates, query, category]);
+  }, [templates, query]);
 
   const pinned = filtered.filter((t) => t.pinned);
   const favorites = filtered.filter((t) => t.favorite && !t.pinned);
@@ -111,9 +109,9 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         </div>
       )}
 
-      {/* Search + filters */}
-      <div className="flex flex-col sm:flex-row gap-2.5 mb-6">
-        <div className="relative flex-1">
+      {/* Search */}
+      <div className="mb-6">
+        <div className="relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             value={query}
@@ -121,24 +119,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
             placeholder="Search templates…"
             className="pl-10 h-10 bg-muted/30 border-border/50 rounded-xl"
           />
-        </div>
-        <div className="flex gap-1.5 overflow-x-auto">
-          {CATEGORIES.map((c) => {
-            const active = c === category;
-            return (
-              <button
-                key={c}
-                onClick={() => setCategory(c)}
-                className={`px-3 h-10 rounded-xl text-[12px] font-medium transition-colors whitespace-nowrap border ${
-                  active
-                    ? "bg-primary/10 text-primary border-primary/25"
-                    : "bg-card/30 text-muted-foreground hover:text-foreground border-border/50 hover:border-border"
-                }`}
-              >
-                {c}
-              </button>
-            );
-          })}
         </div>
       </div>
 
@@ -318,20 +298,6 @@ function TemplateCard({
               <Trash2 className="w-3.5 h-3.5" />
             </IconBtn>
           </div>
-        </div>
-
-        {/* Roles */}
-        <div className="mt-3 flex items-center gap-1.5">
-          {t.roles.slice(0, 4).map((r) => (
-            <span
-              key={r.key}
-              title={r.label}
-              className="inline-flex items-center gap-1 px-1.5 h-5 rounded-full bg-muted/40 border border-border/40 text-[10px] text-foreground/75"
-            >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: r.color }} />
-              {r.label}
-            </span>
-          ))}
         </div>
 
         {/* Meta */}
