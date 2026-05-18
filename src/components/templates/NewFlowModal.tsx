@@ -57,6 +57,7 @@ type StepBlueprint = {
   icon: React.ComponentType<{ className?: string }>;
   needsAssets: boolean;
   needsConfig?: boolean;
+  noticeOnly?: boolean;
   assetLabel?: string;
   assetHint?: string;
   multiple?: boolean;
@@ -85,6 +86,7 @@ const STEP_LIBRARY: StepBlueprint[] = [
     description: "Upload and hand off deliverables when the work is ready.",
     icon: PackageCheck,
     needsAssets: false,
+    noticeOnly: true,
   },
   {
     type: "deliver_onboarding",
@@ -201,7 +203,7 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
     () =>
       steps.filter((s) => {
         const bp = blueprintFor(s.type);
-        return bp.needsAssets || bp.needsConfig;
+        return bp.needsAssets || bp.needsConfig || bp.noticeOnly;
       }),
     [steps],
   );
