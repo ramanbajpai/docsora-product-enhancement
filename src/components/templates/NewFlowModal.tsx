@@ -699,6 +699,12 @@ function AssetUploader({
         </>
       )}
 
+      {bp.noticeOnly && (
+        <div className="rounded-lg border border-dashed border-border/60 bg-background/40 px-3 py-3 text-[11px] text-muted-foreground">
+          No documents required now — you can upload and deliver your work later when it's ready.
+        </div>
+      )}
+
       {hasAssets && step.type === "send_contract" && (
         <>
           <button
