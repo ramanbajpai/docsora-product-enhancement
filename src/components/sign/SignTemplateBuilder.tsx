@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
-  SignField,
+  SignTemplateField,
   SignFieldType,
   SignTemplate,
   SignTemplateRole,
@@ -70,7 +70,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     { key: "client", label: "Client", color: ROLE_COLORS[0], signingOrder: 1 },
     { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2 },
   ]);
-  const [fields, setFields] = useState<SignField[]>([]);
+  const [fields, setFields] = useState<SignTemplateField[]>([]);
   const [page, setPage] = useState(1);
   const pageCount = 3;
   const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
@@ -111,7 +111,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     const rect = target.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    const f: SignField = {
+    const f: SignTemplateField = {
       id: uid(),
       type: activeTool.kind,
       roleKey: activeRoleKey,
