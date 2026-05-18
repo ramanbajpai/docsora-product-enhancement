@@ -61,6 +61,8 @@ export type FlowStep = {
   assets?: FlowStepAsset[];
   /** For send_contract: fields the recipient must complete on the document. */
   signatureFields?: SignatureFieldSpec[];
+  /** For send_contract: fields placed on specific document coordinates. */
+  placedFields?: PlacedField[];
   /** For deliver_onboarding: tokens used to personalize the document per recipient. */
   personalizationTokens?: PersonalizationToken[];
 };
