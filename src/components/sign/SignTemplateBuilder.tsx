@@ -980,6 +980,14 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     <ArrowLeft className="w-3.5 h-3.5" />
                   </button>
                   <span className="text-[12px] text-muted-foreground">
+                    {documents.length > 1 && activeDoc && (
+                      <>
+                        <span className="text-foreground/85 font-medium truncate inline-block max-w-[160px] align-bottom">
+                          {activeDoc.name}
+                        </span>{" "}
+                        ·{" "}
+                      </>
+                    )}
                     Page <span className="text-foreground font-medium">{page}</span> of {pageCount}
                   </span>
                   <button
@@ -991,7 +999,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                   </button>
                 </div>
                 <span className="text-[11px] text-muted-foreground tabular-nums">
-                  {fields.length} field{fields.length === 1 ? "" : "s"} total
+                  {documents.length > 1
+                    ? `${docFields.length} on this doc · ${fields.length} total`
+                    : `${fields.length} field${fields.length === 1 ? "" : "s"} total`}
                 </span>
               </div>
 
