@@ -136,6 +136,19 @@ export default function SignTemplateLaunchModal({
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 700));
     recordLaunch(template.id);
+    if (variables.length > 0) {
+      // eslint-disable-next-line no-console
+      console.info("[audit] sign.template.variables_applied", {
+        templateId: template.id,
+        templateName: template.name,
+        appliedAt: new Date().toISOString(),
+        variables: variables.map((v) => ({
+          name: v.name,
+          type: v.type,
+          filled: (variableValues[v.name] ?? "").trim().length > 0,
+        })),
+      });
+    }
     if (senderFields.length > 0) {
       // Audit trail
       // eslint-disable-next-line no-console
