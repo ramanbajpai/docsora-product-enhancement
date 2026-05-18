@@ -44,6 +44,7 @@ import {
   SignatureFieldKind,
   PersonalizationToken,
   PlacedField,
+  PaymentConfig,
 } from "@/hooks/useCustomTemplates";
 import { FieldPlacementModal } from "./FieldPlacementModal";
 
@@ -55,6 +56,7 @@ type StepBlueprint = {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   needsAssets: boolean;
+  needsConfig?: boolean;
   assetLabel?: string;
   assetHint?: string;
   multiple?: boolean;
@@ -119,6 +121,7 @@ const STEP_LIBRARY: StepBlueprint[] = [
     description: "Send a secure payment link to collect funds.",
     icon: CreditCard,
     needsAssets: false,
+    needsConfig: true,
   },
   {
     type: "final_approval",
@@ -198,7 +201,11 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
   }, [open]);
 
   const stepsNeedingAssets = useMemo(
-    () => steps.filter((s) => blueprintFor(s.type).needsAssets),
+    () =>
+      steps.filter((s) => {
+        const bp = blueprintFor(s.type);
+        return bp.needsAssets || bp.needsConfig;
+      }),
     [steps],
   );
 
@@ -625,7 +632,7 @@ function AssetUploader({
         <div className="flex-1 min-w-0">
           <div className="text-sm font-medium">{step.label}</div>
           <div className="text-[11px] text-muted-foreground mt-0.5">
-            {bp.assetLabel} {bp.multiple && "· multiple files"}
+            {bp.assetLabel ?? bp.description} {bp.multiple && "· multiple files"}
           </div>
           {bp.assetHint && (
             <div className="text-[11px] text-muted-foreground/80 mt-1">
@@ -635,6 +642,8 @@ function AssetUploader({
         </div>
       </div>
 
+      {bp.needsAssets && (
+        <>
       <input
         ref={inputRef}
         type="file"
@@ -687,6 +696,8 @@ function AssetUploader({
             ? "Replace file"
             : "Upload files"}
       </button>
+        </>
+      )}
 
       {hasAssets && step.type === "send_contract" && (
         <>
@@ -729,6 +740,13 @@ function AssetUploader({
         <PersonalizationConfig
           tokens={step.personalizationTokens}
           onChange={(personalizationTokens) => onUpdate({ personalizationTokens })}
+        />
+      )}
+
+      {step.type === "request_payment" && (
+        <PaymentConfigPanel
+          payment={step.payment}
+          onChange={(payment) => onUpdate({ payment })}
         />
       )}
     </div>
@@ -1008,6 +1026,106 @@ function PersonalizationConfig({
 }
 
 /* ──────────────────────────── Stage: done ──────────────────────────── */
+
+/* ──────────────────────────── Payment config ──────────────────────────── */
+
+const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD"];
+
+function PaymentConfigPanel({
+  payment,
+  onChange,
+}: {
+  payment?: PaymentConfig;
+  onChange: (p: PaymentConfig) => void;
+}) {
+  const value: PaymentConfig = payment ?? {
+    amount: 0,
+    currency: "USD",
+    description: "",
+    allowCustomAmount: false,
+  };
+
+  const update = (patch: Partial<PaymentConfig>) =>
+    onChange({ ...value, ...patch });
+
+  return (
+    <div className="rounded-lg border border-border/50 bg-muted/20 p-3 space-y-3">
+      <div className="flex items-center gap-1.5">
+        <CreditCard className="w-3.5 h-3.5 text-primary" />
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          Payment details
+        </span>
+      </div>
+
+      <div className="grid grid-cols-[1fr_110px] gap-2">
+        <div>
+          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            Amount
+          </Label>
+          <Input
+            type="number"
+            min={0}
+            step="0.01"
+            inputMode="decimal"
+            value={value.amount || ""}
+            onChange={(e) => update({ amount: parseFloat(e.target.value) || 0 })}
+            placeholder="0.00"
+            className="h-9 mt-1 text-sm tabular-nums"
+            disabled={value.allowCustomAmount}
+          />
+        </div>
+        <div>
+          <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            Currency
+          </Label>
+          <select
+            value={value.currency}
+            onChange={(e) => update({ currency: e.target.value })}
+            className="mt-1 h-9 w-full rounded-md border border-input bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {CURRENCIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+          What's it for? (shown on the payment page)
+        </Label>
+        <Input
+          value={value.description ?? ""}
+          onChange={(e) => update({ description: e.target.value })}
+          placeholder="e.g. 50% project deposit"
+          className="h-9 mt-1 text-sm"
+        />
+      </div>
+
+      <label className="flex items-center gap-2 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={!!value.allowCustomAmount}
+          onChange={(e) => update({ allowCustomAmount: e.target.checked })}
+          className="h-3.5 w-3.5 rounded border-border accent-primary"
+        />
+        <span className="text-[11px] text-muted-foreground">
+          Let the client enter their own amount (e.g. tips, donations)
+        </span>
+      </label>
+
+      <div className="rounded-md border border-dashed border-border/60 bg-background/40 px-2.5 py-2 text-[11px] text-muted-foreground leading-relaxed">
+        Payments are powered by Stripe.{" "}
+        <span className="text-foreground font-medium">Not connected yet</span> — you can set up Stripe in
+        Settings → Billing to start collecting real payments. Until then this step generates a preview link.
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────── Stage: done (continued) ──────────────────────────── */
 
 function DoneStage({ name, steps }: { name: string; steps: FlowStep[] }) {
   return (

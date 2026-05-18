@@ -53,6 +53,14 @@ export type PersonalizationToken = {
   example?: string;
 };
 
+/** For request_payment step: payment configuration. */
+export type PaymentConfig = {
+  amount: number; // in major units (e.g. dollars)
+  currency: string; // ISO 4217, e.g. "USD"
+  description?: string;
+  allowCustomAmount?: boolean;
+};
+
 export type FlowStep = {
   id: string;
   type: FlowStepType;
@@ -66,6 +74,8 @@ export type FlowStep = {
   placedFields?: PlacedField[];
   /** For deliver_onboarding: tokens used to personalize the document per recipient. */
   personalizationTokens?: PersonalizationToken[];
+  /** For request_payment: amount, currency and description for the payment link. */
+  payment?: PaymentConfig;
 };
 
 export type CustomTemplate = {
