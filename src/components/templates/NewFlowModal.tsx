@@ -21,6 +21,7 @@ import {
   MessageSquare,
   Receipt,
   Stamp,
+  CreditCard,
   Plus,
   Trash2,
   Upload,
