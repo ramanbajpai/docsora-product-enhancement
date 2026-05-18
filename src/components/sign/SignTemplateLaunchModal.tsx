@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown } from "lucide-react";
+import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown, FileText, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +16,8 @@ import {
   SignTemplate,
   SignFieldType,
   applyTemplateVariables,
+  getTemplateDocuments,
+  SIGN_DOC_TAGS,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
 
@@ -52,6 +54,8 @@ export default function SignTemplateLaunchModal({
 
   const variables = template?.variables ?? [];
   const documentBody = template?.documentBody ?? "";
+  const documents = useMemo(() => (template ? getTemplateDocuments(template) : []), [template]);
+  const isPackage = documents.length > 1;
 
   const senderFields = useMemo(
     () => (template ? template.fields.filter((f) => f.roleKey === "sender") : []),
@@ -121,6 +125,23 @@ export default function SignTemplateLaunchModal({
     (v) => (variableValues[v.name] ?? "").trim().length > 0,
   ).length;
 
+  // Personalized titles
+  const rawPackageTitle = template.packageTitle || template.name;
+  const personalizedPackageTitle =
+    applyTemplateVariables(rawPackageTitle, variableValues) || template.name;
+  const personalizedDocuments = documents.map((d) => ({
+    ...d,
+    personalizedName:
+      applyTemplateVariables(d.name, variableValues) || d.name,
+  }));
+
+  // Preview body — concatenate all docs if multi.
+  const previewSegments = personalizedDocuments
+    .filter((d) => d.documentBody)
+    .map((d) => ({
+      title: d.personalizedName,
+      text: applyTemplateVariables(d.documentBody!, variableValues),
+    }));
   const personalizedBody = documentBody
     ? applyTemplateVariables(documentBody, variableValues)
     : "";
@@ -196,14 +217,28 @@ export default function SignTemplateLaunchModal({
             <div className="relative px-6 pt-5 pb-4 border-b border-border/40 flex items-start justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <Zap className="w-3 h-3 text-primary" />
+                  {isPackage ? (
+                    <Layers className="w-3 h-3 text-primary" />
+                  ) : (
+                    <Zap className="w-3 h-3 text-primary" />
+                  )}
                   <span className="text-[10px] uppercase tracking-wider font-semibold text-primary">
-                    Send agreement
+                    {isPackage ? "Send signing package" : "Send agreement"}
                   </span>
                 </div>
-                <h2 className="text-[16px] font-semibold tracking-tight truncate">{template.name}</h2>
+                <motion.h2
+                  key={personalizedPackageTitle}
+                  initial={{ opacity: 0.7 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[16px] font-semibold tracking-tight truncate"
+                >
+                  {personalizedPackageTitle}
+                </motion.h2>
                 <p className="text-[12px] text-muted-foreground mt-0.5">
-                  {recipientRoles.length} signer{recipientRoles.length === 1 ? "" : "s"} · {template.fields.length} fields preconfigured
+                  {recipientRoles.length} signer{recipientRoles.length === 1 ? "" : "s"} ·{" "}
+                  {documents.length} document{documents.length === 1 ? "" : "s"} ·{" "}
+                  {template.fields.length} fields preconfigured
                 </p>
               </div>
               <button
