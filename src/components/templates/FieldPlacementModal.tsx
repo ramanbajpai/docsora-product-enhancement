@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ChevronLeft,
+  Check,
   ChevronRight,
   PenTool,
   Type,
