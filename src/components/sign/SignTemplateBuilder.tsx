@@ -22,6 +22,8 @@ import {
   AtSign,
   Braces,
   Wand2,
+  Layers,
+  FileStack,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -37,6 +39,9 @@ import {
   SignRoleType,
   SignTemplateVariable,
   SignVariableType,
+  SignTemplateDocument,
+  SignDocumentTag,
+  SIGN_DOC_TAGS,
   detectTemplateVariables,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
@@ -139,12 +144,83 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     "AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}}.\n\nTotal engagement value: {{DEAL_VALUE}}.",
   );
   const [variables, setVariables] = useState<SignTemplateVariable[]>([]);
+  const [packageTitle, setPackageTitle] = useState<string>("");
+  type BuilderDoc = {
+    id: string;
+    file: File | null;
+    name: string;
+    tag?: SignDocumentTag;
+    pageCount: number;
+  };
+  const [documents, setDocuments] = useState<BuilderDoc[]>([]);
+  const [activeDocId, setActiveDocId] = useState<string>("");
   const [page, setPage] = useState(1);
-  const pageCount = 3;
   const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const activeDoc = documents.find((d) => d.id === activeDocId) || documents[0];
+  const pageCount = activeDoc?.pageCount ?? 3;
+  const totalPages = documents.reduce((s, d) => s + d.pageCount, 0);
+
+  /* ───────── documents ───────── */
+  const addDocuments = useCallback(
+    (files: File[]) => {
+      if (files.length === 0) return;
+      const next: BuilderDoc[] = files.map((f) => ({
+        id: `doc-${uid()}`,
+        file: f,
+        name: f.name,
+        // Heuristic tag based on filename
+        tag:
+          /nda/i.test(f.name)
+            ? "nda"
+            : /pric/i.test(f.name)
+              ? "pricing"
+              : /scope|sow/i.test(f.name)
+                ? "scope"
+                : /annex/i.test(f.name)
+                  ? "annexure"
+                  : /onboard/i.test(f.name)
+                    ? "onboarding"
+                    : "agreement",
+        pageCount: 3,
+      }));
+      setDocuments((prev) => {
+        const merged = [...prev, ...next];
+        if (!activeDocId) setActiveDocId(merged[0].id);
+        return merged;
+      });
+      if (!file) setFile(files[0]);
+      if (!name) setName(files[0].name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "));
+      setStep("configure");
+    },
+    [activeDocId, file, name],
+  );
+
+  const updateDocument = (id: string, patch: Partial<BuilderDoc>) =>
+    setDocuments((prev) => prev.map((d) => (d.id === id ? { ...d, ...patch } : d)));
+
+  const removeDocument = (id: string) => {
+    setDocuments((prev) => {
+      const next = prev.filter((d) => d.id !== id);
+      if (activeDocId === id && next.length > 0) setActiveDocId(next[0].id);
+      return next;
+    });
+    setFields((fs) => fs.filter((f) => f.documentId !== id));
+  };
+
+  const moveDocument = (id: string, dir: -1 | 1) => {
+    setDocuments((prev) => {
+      const i = prev.findIndex((d) => d.id === id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= prev.length) return prev;
+      const next = prev.slice();
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
+  };
 
   /* ───────── dynamic variables ───────── */
   // Auto-detect placeholders whenever the document body changes,
@@ -157,11 +233,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     setVariables((prev) => prev.map((v) => (v.name === name ? { ...v, ...patch } : v)));
 
   /* ───────── upload ───────── */
-  const onPickFile = useCallback((f: File) => {
-    setFile(f);
-    if (!name) setName(f.name.replace(/\.[^.]+$/, ""));
-    setStep("configure");
-  }, [name]);
+  // legacy single-file callback now routes through addDocuments
 
   /* ───────── roles ───────── */
   const addRole = () => {
