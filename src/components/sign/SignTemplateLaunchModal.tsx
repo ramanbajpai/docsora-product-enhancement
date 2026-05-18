@@ -162,6 +162,14 @@ export default function SignTemplateLaunchModal({
       console.info("[audit] sign.template.variables_applied", {
         templateId: template.id,
         templateName: template.name,
+        personalizedTitle: personalizedPackageTitle,
+        documents: personalizedDocuments.map((d) => ({
+          id: d.id,
+          original: d.name,
+          personalized: d.personalizedName,
+          tag: d.tag,
+          pageCount: d.pageCount,
+        })),
         appliedAt: new Date().toISOString(),
         variables: variables.map((v) => ({
           name: v.name,
@@ -186,8 +194,8 @@ export default function SignTemplateLaunchModal({
       });
     }
     setSubmitting(false);
-    toast.success("Agreement sent", {
-      description: `${template.name} is on its way to ${recipients[0]?.name || "recipient"}.`,
+    toast.success(isPackage ? "Signing package sent" : "Agreement sent", {
+      description: `${personalizedPackageTitle} is on its way to ${recipients[0]?.name || "recipient"}.`,
     });
     onLaunched?.();
     onOpenChange(false);
