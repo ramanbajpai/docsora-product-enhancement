@@ -165,6 +165,15 @@ const SEED: SignTemplate[] = [
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 30,
     lastUsedAt: Date.now() - 1000 * 60 * 60 * 2,
     useCount: 14,
+    documentBody:
+      "AGENCY SERVICES AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} (\"Agency\") and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}} (\"Client\").\n\n1. Scope of Work\nAgency will deliver services as described in the attached statement of work for a total engagement value of {{DEAL_VALUE}}.\n\n2. Term\nThis agreement begins on {{START_DATE}} and remains in effect until terminated under section 6.\n\n3. Signatures\nSigned for {{COMPANY_NAME}} and acknowledged by {{CLIENT_NAME}}.",
+    variables: [
+      { name: "CLIENT_NAME", label: "Client name", type: "text", required: true, pattern: "{{CLIENT_NAME}}" },
+      { name: "COMPANY_NAME", label: "Company name", type: "text", required: true, pattern: "{{COMPANY_NAME}}" },
+      { name: "CLIENT_ADDRESS", label: "Client address", type: "text", required: false, pattern: "{{CLIENT_ADDRESS}}" },
+      { name: "START_DATE", label: "Start date", type: "date", required: true, pattern: "{{START_DATE}}" },
+      { name: "DEAL_VALUE", label: "Deal value", type: "currency", required: true, pattern: "{{DEAL_VALUE}}" },
+    ],
   },
   {
     id: "seed-nda",
@@ -193,6 +202,14 @@ const SEED: SignTemplate[] = [
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 60,
     lastUsedAt: Date.now() - 1000 * 60 * 60 * 24 * 1,
     useCount: 31,
+    documentBody:
+      "MUTUAL NON-DISCLOSURE AGREEMENT\n\nBetween {{COMPANY_NAME}} and {{COUNTERPARTY_NAME}}, effective {{EFFECTIVE_DATE}}.\n\nBoth parties agree to protect confidential information shared during discussions related to {{PROJECT_NAME}}.",
+    variables: [
+      { name: "COMPANY_NAME", label: "Company name", type: "text", required: true, pattern: "{{COMPANY_NAME}}" },
+      { name: "COUNTERPARTY_NAME", label: "Counterparty", type: "text", required: true, pattern: "{{COUNTERPARTY_NAME}}" },
+      { name: "EFFECTIVE_DATE", label: "Effective date", type: "date", required: true, pattern: "{{EFFECTIVE_DATE}}" },
+      { name: "PROJECT_NAME", label: "Project name", type: "text", required: false, pattern: "{{PROJECT_NAME}}" },
+    ],
   },
   {
     id: "seed-offer-letter",
