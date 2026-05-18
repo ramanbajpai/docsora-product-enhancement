@@ -16,6 +16,10 @@ import {
   Move,
   Check,
   Sparkles,
+  PenLine,
+  ShieldCheck,
+  Eye,
+  AtSign,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,8 +30,16 @@ import {
   SignFieldType,
   SignTemplate,
   SignTemplateRole,
+  SignRoleType,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -39,6 +51,51 @@ interface SignTemplateBuilderProps {
 type BuilderStep = "upload" | "configure" | "fields";
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
+
+const ROLE_TYPES: {
+  value: SignRoleType;
+  label: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  allowedFields: SignFieldType[] | "all";
+}[] = [
+  {
+    value: "signer",
+    label: "Signer",
+    description: "Signs and fills the document.",
+    icon: PenLine,
+    allowedFields: "all",
+  },
+  {
+    value: "approver",
+    label: "Approver",
+    description: "Approves before it's finalized.",
+    icon: ShieldCheck,
+    allowedFields: ["signature", "initials", "date", "name"],
+  },
+  {
+    value: "viewer",
+    label: "Viewer",
+    description: "Read-only access. No fields.",
+    icon: Eye,
+    allowedFields: [],
+  },
+  {
+    value: "cc",
+    label: "CC",
+    description: "Receives a copy. No action needed.",
+    icon: AtSign,
+    allowedFields: [],
+  },
+];
+
+const getRoleTypeMeta = (t: SignRoleType = "signer") =>
+  ROLE_TYPES.find((r) => r.value === t) ?? ROLE_TYPES[0];
+
+const roleAllows = (t: SignRoleType | undefined, kind: SignFieldType) => {
+  const meta = getRoleTypeMeta(t);
+  return meta.allowedFields === "all" || meta.allowedFields.includes(kind);
+};
 
 const FIELD_TOOLS: {
   kind: SignFieldType;
@@ -67,8 +124,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const [category, setCategory] = useState<string>("Client");
   const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("sequential");
   const [roles, setRoles] = useState<SignTemplateRole[]>([
-    { key: "client", label: "Client", color: ROLE_COLORS[0], signingOrder: 1 },
-    { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2 },
+    { key: "client", label: "Client", color: ROLE_COLORS[0], signingOrder: 1, type: "signer" },
+    { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2, type: "signer" },
   ]);
   const [fields, setFields] = useState<SignTemplateField[]>([]);
   const [page, setPage] = useState(1);
@@ -92,7 +149,13 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     const key = `role-${uid()}`;
     setRoles((r) => [
       ...r,
-      { key, label: `Signer ${idx + 1}`, color: ROLE_COLORS[idx % ROLE_COLORS.length], signingOrder: idx + 1 },
+      {
+        key,
+        label: `Signer ${idx + 1}`,
+        color: ROLE_COLORS[idx % ROLE_COLORS.length],
+        signingOrder: idx + 1,
+        type: "signer",
+      },
     ]);
   };
   const updateRole = (key: string, patch: Partial<SignTemplateRole>) =>
@@ -108,6 +171,14 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const placeField = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = pageRef.current;
     if (!target) return;
+    const activeRole = roles.find((r) => r.key === activeRoleKey);
+    if (!activeRole) return;
+    if (!roleAllows(activeRole.type, activeTool.kind)) {
+      toast.error(
+        `${getRoleTypeMeta(activeRole.type).label}s can't have ${activeTool.label.toLowerCase()} fields.`,
+      );
+      return;
+    }
     const rect = target.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
