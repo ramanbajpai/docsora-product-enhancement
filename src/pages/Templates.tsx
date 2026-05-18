@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SendTemplateModal } from "@/components/templates/SendTemplateModal";
@@ -18,7 +17,6 @@ import {
 } from "lucide-react";
 
 export default function Templates() {
-  const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
   const { templates: myTemplates, remove } = useCustomTemplates();
