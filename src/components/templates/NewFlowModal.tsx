@@ -40,7 +40,6 @@ import {
   FlowStepAsset,
   CustomRole,
 } from "@/hooks/useCustomTemplates";
-import { templates as presetFlows, WorkflowTemplate } from "@/data/templates";
 
 /* ──────────────────────────── Step library ──────────────────────────── */
 
@@ -122,28 +121,6 @@ const blueprintFor = (type: FlowStepType) =>
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
-/* ──────────────────────────── Preset → steps ──────────────────────────── */
-
-function presetToSteps(preset: WorkflowTemplate): FlowStep[] {
-  return preset.flow.map((s) => {
-    // Map preset types to our step library.
-    let type: FlowStepType = "kickoff";
-    if (s.type === "contract") type = "send_contract";
-    else if (s.type === "delivery") type = "deliver_files";
-    else if (s.type === "feedback") type = "collect_feedback";
-    else if (s.type === "approval") type = "final_approval";
-    else if (s.type === "payment") type = "send_invoice";
-    else if (s.type === "kickoff") type = "kickoff";
-    const bp = blueprintFor(type);
-    return {
-      id: uid(),
-      type,
-      label: s.label || bp.label,
-      description: s.description,
-    };
-  });
-}
-
 /* ──────────────────────────── Natural-language parser ──────────────────────────── */
 
 const KEYWORDS: Array<{ rx: RegExp; type: FlowStepType }> = [
@@ -182,8 +159,7 @@ function parseNaturalFlow(text: string): FlowStep[] {
 
 /* ──────────────────────────── Component ──────────────────────────── */
 
-type Stage = "choose" | "build" | "assets" | "done";
-type Mode = "preset" | "custom";
+type Stage = "build" | "assets" | "done";
 
 interface NewFlowModalProps {
   open: boolean;
@@ -192,22 +168,18 @@ interface NewFlowModalProps {
 
 export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
   const { save } = useCustomTemplates();
-  const [stage, setStage] = useState<Stage>("choose");
-  const [mode, setMode] = useState<Mode>("custom");
+  const [stage, setStage] = useState<Stage>("build");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [steps, setSteps] = useState<FlowStep[]>([]);
-  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
 
   // Reset on open
   useEffect(() => {
     if (open) {
-      setStage("choose");
-      setMode("custom");
+      setStage("build");
       setName("");
       setDescription("");
       setSteps([]);
-      setSelectedPreset(null);
     }
   }, [open]);
 
@@ -215,24 +187,6 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
     () => steps.filter((s) => blueprintFor(s.type).needsAssets),
     [steps],
   );
-
-  const choosePreset = (preset: WorkflowTemplate) => {
-    setMode("preset");
-    setSelectedPreset(preset.id);
-    setName(preset.name);
-    setDescription(preset.tagline);
-    setSteps(presetToSteps(preset));
-    setStage("build");
-  };
-
-  const startCustom = () => {
-    setMode("custom");
-    setSelectedPreset(null);
-    setName("");
-    setDescription("");
-    setSteps([]);
-    setStage("build");
-  };
 
   const addStep = (type: FlowStepType) => {
     const bp = blueprintFor(type);
@@ -323,15 +277,13 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span className="text-[10px] uppercase tracking-[0.14em] font-semibold text-primary/90">
-              {stage === "choose" && "New flow"}
-              {stage === "build" && "Build your flow"}
+              {stage === "build" && "New flow"}
               {stage === "assets" && "Attach documents"}
               {stage === "done" && "Ready"}
             </span>
           </div>
           <h2 className="text-lg font-semibold tracking-tight">
-            {stage === "choose" && "How do you want to start?"}
-            {stage === "build" && (mode === "preset" ? "Tweak the steps" : "Design your flow")}
+            {stage === "build" && "Describe your flow"}
             {stage === "assets" && "Upload the documents this flow needs"}
             {stage === "done" && "Your flow is ready to send"}
           </h2>
@@ -340,18 +292,9 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
         <ScrollArea className="max-h-[65vh]">
           <div className="p-6">
             <AnimatePresence mode="wait">
-              {stage === "choose" && (
-                <ChooseStage
-                  key="choose"
-                  onPickPreset={choosePreset}
-                  onCustom={startCustom}
-                />
-              )}
-
               {stage === "build" && (
                 <BuildStage
                   key="build"
-                  mode={mode}
                   name={name}
                   setName={setName}
                   description={description}
@@ -381,22 +324,11 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
 
         <div className="px-6 py-4 border-t border-border/60 flex items-center justify-between gap-3 bg-muted/20">
           <div className="text-[11px] text-muted-foreground">
-            {stage === "choose" && "Pick a template or start from a blank canvas."}
             {stage === "build" && `${steps.length} step${steps.length === 1 ? "" : "s"} · ${stepsNeedingAssets.length} need files`}
             {stage === "assets" && "Files stay with this flow and are sent automatically at the right step."}
             {stage === "done" && "You can edit, send, or duplicate it any time."}
           </div>
           <div className="flex items-center gap-2">
-            {stage === "build" && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setStage("choose")}
-                className="gap-1.5"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back
-              </Button>
-            )}
             {stage === "assets" && (
               <Button
                 variant="ghost"
@@ -432,78 +364,9 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
 
 /* ──────────────────────────── Stage: choose ──────────────────────────── */
 
-function ChooseStage({
-  onPickPreset,
-  onCustom,
-}: {
-  onPickPreset: (p: WorkflowTemplate) => void;
-  onCustom: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -6 }}
-      transition={{ duration: 0.2 }}
-      className="space-y-5"
-    >
-      <button
-        onClick={onCustom}
-        className="group relative w-full text-left rounded-xl border border-primary/30 bg-gradient-to-br from-primary/[0.08] via-primary/[0.03] to-transparent hover:border-primary/60 hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.4)] transition-all p-5 flex items-start gap-4"
-      >
-        <div className="w-10 h-10 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center text-primary shrink-0">
-          <Wand2 className="w-4 h-4" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold">Describe your own flow</h3>
-            <span className="text-[9px] uppercase tracking-wider font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded">
-              AI
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-            Type what should happen — "Send contract, then deliver onboarding documents, then invoice." We'll build it.
-          </p>
-        </div>
-        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all mt-2" />
-      </button>
-
-      <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-border/60" />
-        <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-          Or pick a preset
-        </span>
-        <div className="h-px flex-1 bg-border/60" />
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {presetFlows.map((p) => (
-          <button
-            key={p.id}
-            onClick={() => onPickPreset(p)}
-            className="group text-left rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all p-4 flex flex-col gap-2"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <div className="text-xl">{p.icon}</div>
-              <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-            </div>
-            <div>
-              <div className="text-sm font-medium leading-tight">{p.name}</div>
-              <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
-                {p.description}
-              </p>
-            </div>
-          </button>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
 /* ──────────────────────────── Stage: build ──────────────────────────── */
 
 function BuildStage({
-  mode,
   name,
   setName,
   description,
@@ -514,7 +377,6 @@ function BuildStage({
   moveStep,
   generateFromText,
 }: {
-  mode: Mode;
   name: string;
   setName: (v: string) => void;
   description: string;
@@ -546,29 +408,34 @@ function BuildStage({
         />
       </div>
 
-      {mode === "custom" && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="flow-desc" className="text-xs">
-              Describe your flow
-            </Label>
-            <button
-              type="button"
-              onClick={generateFromText}
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition"
-            >
-              <Wand2 className="w-3 h-3" /> Generate steps
-            </button>
-          </div>
-          <textarea
-            id="flow-desc"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Send contract, then deliver onboarding documents, then collect feedback, then invoice."
-            className="w-full min-h-[72px] rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
-          />
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="flow-desc" className="text-xs flex items-center gap-1.5">
+            <Wand2 className="w-3 h-3 text-primary" />
+            Describe your flow
+            <span className="text-[9px] uppercase tracking-wider font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded ml-1">
+              AI
+            </span>
+          </Label>
+          <button
+            type="button"
+            onClick={generateFromText}
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition"
+          >
+            <Wand2 className="w-3 h-3" /> Generate steps
+          </button>
         </div>
-      )}
+        <textarea
+          id="flow-desc"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder='Type what should happen — e.g. "Send contract, then deliver onboarding documents, then collect feedback, then invoice."'
+          className="w-full min-h-[96px] rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+        />
+        <p className="text-[11px] text-muted-foreground">
+          We'll turn this into editable steps. Tweak, reorder or add more below.
+        </p>
+      </div>
 
       {/* Steps */}
       <div className="space-y-2">
