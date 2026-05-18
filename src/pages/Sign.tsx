@@ -17,10 +17,12 @@ import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
 import SignStart from "@/components/sign/SignStart";
 import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
+import SignTemplateBuilder from "@/components/sign/SignTemplateBuilder";
 
 export type SigningStep = 
   | "start"
   | "templates"
+  | "template-builder"
   | "upload" 
   | "uploading"
   | "intent" 
@@ -284,7 +286,23 @@ const Sign = () => {
               >
                 <SignTemplateGallery
                   onBack={() => setStep("start")}
-                  onCreateNew={() => setStep("upload")}
+                  onCreateNew={() => setStep("template-builder")}
+                />
+              </motion.div>
+            )}
+
+            {step === "template-builder" && (
+              <motion.div
+                key="template-builder"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="flex-1 min-h-0 overflow-y-auto"
+              >
+                <SignTemplateBuilder
+                  onBack={() => setStep("templates")}
+                  onSaved={() => setStep("templates")}
                 />
               </motion.div>
             )}
