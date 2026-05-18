@@ -3,6 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { SignTemplate, useSignTemplates } from "@/hooks/useSignTemplates";
 
@@ -29,7 +36,8 @@ export default function SignTemplateLaunchModal({
 
   const [recipients, setRecipients] = useState<RoleRecipient[]>([]);
   const [company, setCompany] = useState("");
-  const [expiry, setExpiry] = useState<string>("");
+  const defaultExpiry = String(template?.defaults?.expiryDays ?? 14);
+  const [expiry, setExpiry] = useState<string>(defaultExpiry);
   const [ccEmails, setCcEmails] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -37,7 +45,7 @@ export default function SignTemplateLaunchModal({
     if (!template) return;
     setRecipients(recipientRoles.map((r) => ({ roleKey: r.key, name: "", email: "" })));
     setCompany("");
-    setExpiry("");
+    setExpiry(String(template.defaults?.expiryDays ?? 14));
     setCcEmails([]);
   }, [template, recipientRoles]);
 
@@ -165,15 +173,22 @@ export default function SignTemplateLaunchModal({
                     className="h-9 pl-8 bg-background/60"
                   />
                 </div>
-                <div className="relative">
-                  <Calendar className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
-                  <Input
-                    placeholder={`Expiry · default ${template.defaults?.expiryDays ?? 14}d`}
-                    value={expiry}
-                    onChange={(e) => setExpiry(e.target.value)}
-                    className="h-9 pl-8 bg-background/60"
-                  />
-                </div>
+                <Select value={expiry} onValueChange={setExpiry}>
+                  <SelectTrigger className="h-9 pl-8 bg-background/60 relative">
+                    <Calendar className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+                    <SelectValue placeholder="Expires in…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Expires in 1 day</SelectItem>
+                    <SelectItem value="3">Expires in 3 days</SelectItem>
+                    <SelectItem value="7">Expires in 7 days</SelectItem>
+                    <SelectItem value="14">Expires in 14 days</SelectItem>
+                    <SelectItem value="30">Expires in 30 days</SelectItem>
+                    <SelectItem value="60">Expires in 60 days</SelectItem>
+                    <SelectItem value="90">Expires in 90 days</SelectItem>
+                    <SelectItem value="never">No expiry</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* CC */}
