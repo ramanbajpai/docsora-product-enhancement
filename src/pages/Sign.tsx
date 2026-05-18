@@ -15,7 +15,7 @@ import SignMultipleSend from "@/components/sign/SignMultipleSend";
 import SignMultipleSuccess from "@/components/sign/SignMultipleSuccess";
 import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
-import SignStart from "@/components/sign/SignStart";
+import SignHome from "@/components/sign/SignHome";
 import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
 import SignTemplateBuilder from "@/components/sign/SignTemplateBuilder";
 
@@ -268,9 +268,9 @@ const Sign = () => {
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="flex-1 min-h-0"
               >
-                <SignStart
-                  onOneTime={() => setStep("upload")}
-                  onUseTemplate={() => setStep("templates")}
+                <SignHome
+                  onSwitchTemplates={() => setStep("templates")}
+                  onNewAgreement={() => setStep("upload")}
                 />
               </motion.div>
             )}

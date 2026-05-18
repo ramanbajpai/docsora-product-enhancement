@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SignTemplate, useSignTemplates } from "@/hooks/useSignTemplates";
 import SignTemplateLaunchModal from "./SignTemplateLaunchModal";
+import SignModeSwitcher from "./SignModeSwitcher";
 
 interface SignTemplateGalleryProps {
   onBack: () => void;
@@ -52,6 +53,14 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
 
   return (
     <div className="px-6 md:px-10 py-8 max-w-6xl mx-auto">
+      {/* Top mode switcher */}
+      <div className="flex items-center justify-between gap-3 mb-7">
+        <SignModeSwitcher value="templates" onChange={(v) => v === "agreements" && onBack()} />
+        <Button onClick={onCreateNew} size="sm" className="h-9 px-3.5 gap-1.5 rounded-lg">
+          <Plus className="w-3.5 h-3.5" /> New template
+        </Button>
+      </div>
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 6 }}
@@ -59,30 +68,16 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         transition={{ duration: 0.3 }}
         className="mb-8"
       >
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-4"
-        >
-          <ChevronLeft className="w-3.5 h-3.5" /> Back
-        </button>
-
-        <div className="flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <div className="flex items-center gap-1.5 mb-2">
-              <Sparkles className="w-3 h-3 text-primary" />
-              <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-                Reusable templates
-              </span>
-            </div>
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">Launch in seconds</h1>
-            <p className="text-sm text-muted-foreground mt-1.5 max-w-md">
-              Configured once. Send forever. Just add a name and email.
-            </p>
-          </div>
-          <Button onClick={onCreateNew} size="sm" className="h-9 px-3.5 gap-1.5 rounded-lg">
-            <Plus className="w-3.5 h-3.5" /> New template
-          </Button>
+        <div className="flex items-center gap-1.5 mb-2">
+          <Sparkles className="w-3 h-3 text-primary" />
+          <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
+            Reusable templates
+          </span>
         </div>
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">Launch in seconds</h1>
+        <p className="text-sm text-muted-foreground mt-1.5 max-w-md">
+          Configured once. Send forever. Just add a name and email.
+        </p>
       </motion.div>
 
       {/* Recently launched strip */}
