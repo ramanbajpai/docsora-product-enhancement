@@ -45,6 +45,8 @@ import {
   PersonalizationToken,
   PlacedField,
   PaymentConfig,
+  StepRecipient,
+  StepRecipientRole,
 } from "@/hooks/useCustomTemplates";
 import { FieldPlacementModal } from "./FieldPlacementModal";
 
@@ -188,6 +190,7 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
   const [stage, setStage] = useState<Stage>("build");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [flowDescription, setFlowDescription] = useState("");
   const [steps, setSteps] = useState<FlowStep[]>([]);
 
   // Reset on open
@@ -197,11 +200,13 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
         setStage("build");
         setName(editTemplate.name);
         setDescription("");
+        setFlowDescription(editTemplate.description ?? "");
         setSteps(editTemplate.flowSteps ?? []);
       } else {
         setStage("build");
         setName("");
         setDescription("");
+        setFlowDescription("");
         setSteps([]);
       }
     }
@@ -284,6 +289,7 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
     const tpl: CustomTemplate = {
       id: editTemplate?.id ?? uid(),
       name: name.trim(),
+      description: flowDescription.trim() || undefined,
       createdAt: editTemplate?.createdAt ?? Date.now(),
       documentName: docName,
       documentType: docName.toLowerCase().endsWith(".docx") ? "docx" : "pdf",
@@ -331,10 +337,13 @@ export function NewFlowModal({ open, onOpenChange, editTemplate }: NewFlowModalP
                   setName={setName}
                   description={description}
                   setDescription={setDescription}
+                  flowDescription={flowDescription}
+                  setFlowDescription={setFlowDescription}
                   steps={steps}
                   addStep={addStep}
                   removeStep={removeStep}
                   moveStep={moveStep}
+                  updateStep={updateStep}
                   generateFromText={generateFromText}
                 />
               )}
