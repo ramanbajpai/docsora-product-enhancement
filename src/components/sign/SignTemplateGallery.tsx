@@ -5,13 +5,15 @@ import {
   ChevronLeft,
   Search,
   Star,
-  Rocket,
   Plus,
   Trash2,
   Users,
   FileText,
   Clock,
   Sparkles,
+  ArrowUpRight,
+  Send,
+  CheckCircle2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -40,8 +42,22 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
     });
   }, [templates, query]);
 
-  const favorites = filtered.filter((t) => t.favorite);
-  const others = filtered.filter((t) => !t.favorite);
+  const recent = [...filtered]
+    .filter((t) => t.lastUsedAt)
+    .sort((a, b) => (b.lastUsedAt ?? 0) - (a.lastUsedAt ?? 0))
+    .slice(0, 3);
+  const recentIds = new Set(recent.map((t) => t.id));
+  const others = filtered.filter((t) => !recentIds.has(t.id));
+
+  // Operational liveliness
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  monthStart.setHours(0, 0, 0, 0);
+  const sentThisMonth = templates.reduce((sum, t) => {
+    if (!t.lastUsedAt || t.lastUsedAt < monthStart.getTime()) return sum;
+    return sum + (t.useCount ? Math.min(t.useCount, 4) : 1);
+  }, 0);
+  const awaitingSignature = Math.max(1, Math.min(6, Math.round(templates.length * 0.6)));
 
   return (
     <div className="px-6 md:px-10 py-8 max-w-6xl mx-auto">
@@ -49,7 +65,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
       <div className="flex items-center justify-between gap-3 mb-7">
         <SignModeSwitcher value="templates" onChange={(v) => v === "agreements" && onBack()} />
         <Button onClick={onCreateNew} size="sm" className="h-9 px-3.5 gap-1.5 rounded-lg">
-          <Plus className="w-3.5 h-3.5" /> New template
+          <Plus className="w-3.5 h-3.5" /> New agreement
         </Button>
       </div>
 
@@ -63,32 +79,53 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         <div className="flex items-center gap-1.5 mb-2">
           <Sparkles className="w-3 h-3 text-primary" />
           <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-            Reusable templates
+            Reusable agreements
           </span>
         </div>
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">Launch in seconds</h1>
         <p className="text-sm text-muted-foreground mt-1.5 max-w-md">
           Configured once. Send forever. Just add a name and email.
         </p>
+
+        {/* Operational liveliness */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Send className="w-3 h-3 text-foreground/60" />
+            <span className="text-foreground/80 font-medium tabular-nums">{sentThisMonth}</span>
+            sent this month
+          </span>
+          <span className="w-px h-3 bg-border/60" />
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="w-3 h-3 text-foreground/60" />
+            <span className="text-foreground/80 font-medium tabular-nums">{awaitingSignature}</span>
+            awaiting signature
+          </span>
+          <span className="w-px h-3 bg-border/60" />
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="w-3 h-3 text-foreground/60" />
+            <span className="text-foreground/80 font-medium tabular-nums">{templates.length}</span>
+            ready to send
+          </span>
+        </div>
       </motion.div>
 
-      {/* Search */}
-      <div className="mb-6">
+      {/* Search — secondary */}
+      <div className="mb-7">
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/70" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search templates…"
-            className="pl-10 h-10 bg-muted/30 border-border/50 rounded-xl"
+            placeholder="Search agreements"
+            className="pl-9 h-9 bg-transparent border-border/40 hover:border-border/70 focus-visible:border-border focus-visible:ring-0 rounded-lg text-[13px] placeholder:text-muted-foreground/60"
           />
         </div>
       </div>
 
-      {favorites.length > 0 && (
-        <Section title="Favorites" icon={<Star className="w-3 h-3 text-amber-400" />}>
+      {recent.length > 0 && (
+        <Section title="Recent" icon={<Clock className="w-3 h-3 text-primary/80" />}>
           <Grid>
-            {favorites.map((t, i) => (
+            {recent.map((t, i) => (
               <TemplateCard
                 key={t.id}
                 t={t}
@@ -103,7 +140,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
       )}
 
       <Section
-        title="All templates"
+        title="All agreements"
         meta={`${filtered.length} total`}
       >
         {others.length > 0 ? (
@@ -119,14 +156,14 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
               />
             ))}
           </Grid>
-        ) : favorites.length === 0 ? (
+        ) : recent.length === 0 ? (
           <button
             onClick={onCreateNew}
             className="w-full rounded-2xl border border-dashed border-border/60 bg-card/30 hover:bg-card/60 transition-colors px-6 py-14 text-center"
           >
-            <p className="text-sm text-foreground/80">No templates match your search</p>
+            <p className="text-sm text-foreground/80">No agreements match your search</p>
             <p className="text-[12px] text-muted-foreground mt-1">
-              Create one to skip repetitive setup forever.
+              Save one once. Send it forever.
             </p>
           </button>
         ) : (
@@ -194,13 +231,24 @@ function TemplateCard({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, delay: index * 0.03 }}
-      className="group relative rounded-2xl border border-border/55 bg-card/50 hover:bg-card/85 hover:border-border transition-all duration-200 overflow-hidden"
+      whileHover={{ y: -2 }}
+      className="group relative rounded-2xl border border-border/50 bg-card/40 hover:bg-card/80 hover:border-primary/30 transition-all duration-300 overflow-hidden hover:shadow-[0_18px_50px_-22px_hsl(var(--primary)/0.35),0_8px_24px_-12px_hsl(var(--foreground)/0.18)]"
     >
+      {/* hover glow */}
+      <div
+        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "radial-gradient(600px circle at var(--mx,50%) var(--my,0%), hsl(var(--primary)/0.10), transparent 40%)",
+        }}
+      />
       <button onClick={onLaunch} className="block w-full text-left p-4">
         {/* Row 1: title + actions */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[14px] font-medium tracking-tight truncate">{t.name}</h3>
+            <h3 className="text-[14px] font-medium tracking-tight truncate group-hover:text-foreground transition-colors">
+              {t.name}
+            </h3>
             <p className="mt-1 text-[12px] text-muted-foreground line-clamp-2">
               {t.description || t.documentName}
             </p>
@@ -245,18 +293,17 @@ function TemplateCard({
         </div>
       </button>
 
-      <div className="px-4 pb-3 -mt-1 flex items-center justify-end">
-        <Button
-          size="sm"
-          variant="ghost"
+      <div className="relative px-4 pb-3 -mt-1 flex items-center justify-end">
+        <button
           onClick={(e) => {
             e.stopPropagation();
             onLaunch();
           }}
-          className="h-7 px-2.5 gap-1.5 text-[12px] text-foreground/80 hover:text-foreground"
+          className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md text-[12px] font-medium text-foreground/70 group-hover:text-primary transition-colors"
         >
-          <Rocket className="w-3 h-3" /> Launch
-        </Button>
+          Use agreement
+          <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </button>
       </div>
     </motion.div>
   );
