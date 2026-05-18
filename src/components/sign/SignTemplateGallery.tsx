@@ -72,37 +72,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         </p>
       </motion.div>
 
-      {/* Recently launched strip */}
-      {recent.length > 0 && (
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2.5">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
-              Recently launched
-            </span>
-          </div>
-          <div className="flex gap-2 overflow-x-auto -mx-1 px-1 pb-1">
-            {recent.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setLaunchTpl(t)}
-                className="group min-w-[220px] flex-shrink-0 text-left rounded-xl border border-border/50 bg-card/40 hover:bg-card/70 hover:border-border transition-colors px-3.5 py-3"
-              >
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-[11px] text-muted-foreground">
-                    {formatDistanceToNow(new Date(t.lastUsedAt!), { addSuffix: true })}
-                  </span>
-                </div>
-                <div className="mt-1 text-[13px] font-medium truncate">{t.name}</div>
-                <div className="mt-0.5 text-[11px] text-muted-foreground truncate">
-                  Used {t.useCount ?? 0}×
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Search */}
       <div className="mb-6">
         <div className="relative">
