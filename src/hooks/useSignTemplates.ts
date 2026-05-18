@@ -21,7 +21,15 @@ export type SignFieldType =
   | "checkbox"
   | "company";
 
-export type SignVariableType = "text" | "date" | "currency" | "number" | "email";
+export type SignVariableType =
+  | "text"
+  | "date"
+  | "currency"
+  | "number"
+  | "email"
+  | "company"
+  | "address"
+  | "phone";
 
 export interface SignTemplateVariable {
   /** Token name used in document, e.g. CLIENT_NAME (without braces). */
