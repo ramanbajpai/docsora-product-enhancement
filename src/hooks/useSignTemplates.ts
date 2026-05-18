@@ -21,6 +21,20 @@ export type SignFieldType =
   | "checkbox"
   | "company";
 
+export type SignVariableType = "text" | "date" | "currency" | "number" | "email";
+
+export interface SignTemplateVariable {
+  /** Token name used in document, e.g. CLIENT_NAME (without braces). */
+  name: string;
+  /** Human-readable label shown in the launch form. */
+  label: string;
+  type: SignVariableType;
+  required?: boolean;
+  defaultValue?: string;
+  /** Original placeholder pattern as found in the source, e.g. {{CLIENT_NAME}} or [CLIENT_NAME]. */
+  pattern: string;
+}
+
 export interface SignTemplateField {
   id: string;
   type: SignFieldType;
@@ -47,11 +61,77 @@ export interface SignTemplate {
     remindersEveryDays?: number;
     ccEmails?: string[];
   };
+  /** Raw template body text with placeholders preserved. Used for personalization preview. */
+  documentBody?: string;
+  variables?: SignTemplateVariable[];
   favorite?: boolean;
   pinned?: boolean;
   createdAt: number;
   lastUsedAt?: number;
   useCount?: number;
+}
+
+/* ────────── placeholder detection ────────── */
+
+const PLACEHOLDER_RE = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}|\[\s*([A-Z][A-Z0-9_]*)\s*\]/g;
+
+const guessType = (name: string): SignVariableType => {
+  const n = name.toLowerCase();
+  if (n.includes("date") || n.includes("day")) return "date";
+  if (n.includes("email")) return "email";
+  if (
+    n.includes("value") ||
+    n.includes("amount") ||
+    n.includes("fee") ||
+    n.includes("price") ||
+    n.includes("cost")
+  )
+    return "currency";
+  if (n.includes("qty") || n.includes("count") || n.includes("number")) return "number";
+  return "text";
+};
+
+const humanize = (name: string) =>
+  name
+    .toLowerCase()
+    .split("_")
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(" ");
+
+export function detectTemplateVariables(
+  text: string,
+  existing: SignTemplateVariable[] = [],
+): SignTemplateVariable[] {
+  const seen = new Map<string, SignTemplateVariable>();
+  const prior = new Map(existing.map((v) => [v.name, v]));
+  let m: RegExpExecArray | null;
+  PLACEHOLDER_RE.lastIndex = 0;
+  while ((m = PLACEHOLDER_RE.exec(text)) !== null) {
+    const name = m[1] || m[2];
+    if (!name || seen.has(name)) continue;
+    const pattern = m[0];
+    const pre = prior.get(name);
+    seen.set(name, {
+      name,
+      label: pre?.label ?? humanize(name),
+      type: pre?.type ?? guessType(name),
+      required: pre?.required ?? true,
+      defaultValue: pre?.defaultValue,
+      pattern: pre?.pattern ?? pattern,
+    });
+  }
+  return Array.from(seen.values());
+}
+
+export function applyTemplateVariables(
+  text: string,
+  values: Record<string, string>,
+): string {
+  return text.replace(PLACEHOLDER_RE, (full, a, b) => {
+    const key = a || b;
+    const v = values[key];
+    return v && v.trim().length > 0 ? v : full;
+  });
 }
 
 const STORAGE_KEY = "docsora.signTemplates.v1";
