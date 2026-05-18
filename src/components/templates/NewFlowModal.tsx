@@ -632,7 +632,7 @@ function AssetUploader({
         <div className="flex-1 min-w-0">
           <div className="text-sm font-medium">{step.label}</div>
           <div className="text-[11px] text-muted-foreground mt-0.5">
-            {bp.assetLabel} {bp.multiple && "· multiple files"}
+            {bp.assetLabel ?? bp.description} {bp.multiple && "· multiple files"}
           </div>
           {bp.assetHint && (
             <div className="text-[11px] text-muted-foreground/80 mt-1">
@@ -642,6 +642,8 @@ function AssetUploader({
         </div>
       </div>
 
+      {bp.needsAssets && (
+        <>
       <input
         ref={inputRef}
         type="file"
@@ -694,6 +696,8 @@ function AssetUploader({
             ? "Replace file"
             : "Upload files"}
       </button>
+        </>
+      )}
 
       {hasAssets && step.type === "send_contract" && (
         <>
@@ -736,6 +740,13 @@ function AssetUploader({
         <PersonalizationConfig
           tokens={step.personalizationTokens}
           onChange={(personalizationTokens) => onUpdate({ personalizationTokens })}
+        />
+      )}
+
+      {step.type === "request_payment" && (
+        <PaymentConfigPanel
+          payment={step.payment}
+          onChange={(payment) => onUpdate({ payment })}
         />
       )}
     </div>
