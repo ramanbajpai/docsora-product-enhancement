@@ -82,12 +82,9 @@ const STEP_LIBRARY: StepBlueprint[] = [
   {
     type: "deliver_files",
     label: "Deliver work",
-    description: "Hand off deliverables for client review.",
+    description: "Upload and hand off deliverables when the work is ready.",
     icon: PackageCheck,
-    needsAssets: true,
-    assetLabel: "Deliverable files",
-    assetHint: "Final files to share at delivery.",
-    multiple: true,
+    needsAssets: false,
   },
   {
     type: "deliver_onboarding",
