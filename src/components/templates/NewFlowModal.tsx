@@ -738,10 +738,40 @@ function AssetUploader({
       )}
 
       {hasAssets && step.type === "deliver_onboarding" && (
-        <PersonalizationConfig
-          tokens={step.personalizationTokens}
-          onChange={(personalizationTokens) => onUpdate({ personalizationTokens })}
-        />
+        <>
+          <button
+            type="button"
+            onClick={() => setPersonalizeOpen(true)}
+            className="mt-3 w-full rounded-lg border border-primary/30 bg-primary/[0.06] hover:bg-primary/[0.10] transition-all px-3 py-3 flex items-center gap-3 text-left group"
+          >
+            <div className="w-9 h-9 rounded-md bg-primary/15 text-primary flex items-center justify-center shrink-0">
+              <Wand2 className="w-4 h-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-semibold">
+                {placedFields.length > 0
+                  ? "Edit personalization placements"
+                  : "Personalize on document"}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                {placedFields.length > 0
+                  ? `${placedFields.length} token${placedFields.length === 1 ? "" : "s"} placed — filled in per recipient before sending.`
+                  : "Open the document and drop recipient name, email, company or other details where they should appear."}
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-0.5 transition-transform" />
+          </button>
+          <FieldPlacementModal
+            open={personalizeOpen}
+            onOpenChange={setPersonalizeOpen}
+            mode="personalization"
+            recipientName="Recipient"
+            documentName={assets[0]?.name}
+            pageCount={3}
+            initialFields={placedFields}
+            onSave={(fields) => onUpdate({ placedFields: fields })}
+          />
+        </>
       )}
 
       {step.type === "request_payment" && (
