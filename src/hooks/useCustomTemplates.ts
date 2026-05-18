@@ -18,6 +18,10 @@ export type PlacedField = {
   y: number;
   width: number;
   height: number;
+  /** For personalization placements: which token fills this spot (e.g. "recipient_name"). */
+  token?: string;
+  /** Optional human label for the placed field. */
+  label?: string;
 };
 
 export type FlowStepType =
