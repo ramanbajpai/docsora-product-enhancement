@@ -392,29 +392,34 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
-                const f = e.dataTransfer.files?.[0];
-                if (f) onPickFile(f);
+                const fs = Array.from(e.dataTransfer.files ?? []);
+                if (fs.length) addDocuments(fs);
               }}
               className="rounded-2xl border border-dashed border-border/60 bg-card/30 hover:bg-card/50 transition-colors cursor-pointer px-6 py-16 text-center"
             >
               <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                <UploadIcon className="w-5 h-5 text-primary" />
+                <FileStack className="w-5 h-5 text-primary" />
               </div>
-              <p className="text-[14px] font-medium">Upload the agreement to templatize</p>
+              <p className="text-[14px] font-medium">
+                Upload your signing package
+              </p>
               <p className="text-[12px] text-muted-foreground mt-1">
-                PDF or Word doc — drop it here or click to browse.
+                Drop one or more PDFs / Word docs — they'll be sent together as one signing
+                session.
               </p>
               <Button size="sm" className="mt-5 h-9 rounded-lg" type="button">
-                Choose file
+                Choose files
               </Button>
               <input
                 ref={fileInputRef}
                 type="file"
+                multiple
                 accept=".pdf,.doc,.docx"
                 className="hidden"
                 onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (f) onPickFile(f);
+                  const fs = Array.from(e.target.files ?? []);
+                  if (fs.length) addDocuments(fs);
+                  e.target.value = "";
                 }}
               />
             </div>
