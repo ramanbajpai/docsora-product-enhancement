@@ -39,6 +39,9 @@ import {
   FlowStepType,
   FlowStepAsset,
   CustomRole,
+  SignatureFieldSpec,
+  SignatureFieldKind,
+  PersonalizationToken,
 } from "@/hooks/useCustomTemplates";
 
 /* ──────────────────────────── Step library ──────────────────────────── */
@@ -101,11 +104,11 @@ const STEP_LIBRARY: StepBlueprint[] = [
   {
     type: "send_invoice",
     label: "Send invoice",
-    description: "Auto-generate or attach an invoice.",
+    description: "Attach an invoice to send to your client.",
     icon: Receipt,
     needsAssets: true,
-    assetLabel: "Invoice template (optional)",
-    assetHint: "Skip to auto-generate from project details.",
+    assetLabel: "Invoice document",
+    assetHint: "PDF or DOCX. We'll send this when this step runs.",
   },
   {
     type: "final_approval",
