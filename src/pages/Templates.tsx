@@ -23,7 +23,6 @@ import {
   Upload,
   Clock,
   Bell,
-  MoreHorizontal,
 } from "lucide-react";
 
 export default function Templates() {
@@ -36,7 +35,6 @@ export default function Templates() {
   const [launchTpl, setLaunchTpl] = useState<CustomTemplate | null>(null);
   const [newFlowOpen, setNewFlowOpen] = useState(false);
   const [editTpl, setEditTpl] = useState<CustomTemplate | null>(null);
-  const [createHover, setCreateHover] = useState(false);
 
   const filteredMyTemplates = useMemo(() => {
     const q = query.toLowerCase().trim();
