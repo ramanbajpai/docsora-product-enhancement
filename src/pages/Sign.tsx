@@ -15,8 +15,12 @@ import SignMultipleSend from "@/components/sign/SignMultipleSend";
 import SignMultipleSuccess from "@/components/sign/SignMultipleSuccess";
 import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
+import SignStart from "@/components/sign/SignStart";
+import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
 
 export type SigningStep = 
+  | "start"
+  | "templates"
   | "upload" 
   | "uploading"
   | "intent" 
@@ -54,7 +58,7 @@ export interface SignaturePosition {
 
 const Sign = () => {
   const location = useLocation();
-  const [step, setStep] = useState<SigningStep>("upload");
+  const [step, setStep] = useState<SigningStep>("start");
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [signatureData, setSignatureData] = useState<SignatureData>({
@@ -200,7 +204,7 @@ const Sign = () => {
   }, []);
 
   const handleReset = useCallback(() => {
-    setStep("upload");
+    setStep("start");
     setFile(null);
     setUploadProgress(0);
     setRecipients([]);
