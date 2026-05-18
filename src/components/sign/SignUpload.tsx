@@ -1,10 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Upload, Shield, ChevronDown, Check } from "lucide-react";
+import { Upload, Shield, ChevronDown, Check, LayoutTemplate, ArrowRight } from "lucide-react";
 import TrustFooter from "@/components/shared/TrustFooter";
 
 interface SignUploadProps {
   onFileUpload: (file: File) => void;
+  onUseTemplate?: () => void;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC'];
@@ -12,7 +13,7 @@ const supportedFormats = ['PDF', 'DOCX', 'DOC'];
 // Apple-style easing
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const SignUpload = ({ onFileUpload }: SignUploadProps) => {
+const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isDropped, setIsDropped] = useState(false);
@@ -646,10 +647,10 @@ const SignUpload = ({ onFileUpload }: SignUploadProps) => {
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Sign with confidence'}
+                        {isDragging ? 'Release to upload' : 'Send agreements in minutes'}
                       </h1>
                       <p className="text-muted-foreground/80 text-[0.95rem] max-w-sm mx-auto leading-relaxed">
-                        Legally binding electronic signatures — fast, secure, and compliant.
+                        Upload a document to prepare, sign, and send — legally binding and secure.
                       </p>
                     </motion.div>
                   )}
@@ -709,6 +710,24 @@ const SignUpload = ({ onFileUpload }: SignUploadProps) => {
                   >
                     Drag & drop supported
                   </motion.p>
+                )}
+              </AnimatePresence>
+
+              {/* Secondary CTA — launch from template */}
+              <AnimatePresence>
+                {!showUploadingState && onUseTemplate && (
+                  <motion.button
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35, delay: 0.05, ease: appleEasing }}
+                    onClick={onUseTemplate}
+                    className="group mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground/80 hover:text-foreground transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-lg px-2 py-1"
+                  >
+                    <LayoutTemplate className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                    <span>Launch from a reusable template</span>
+                    <ArrowRight className="w-3.5 h-3.5 -translate-x-0.5 opacity-60 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                  </motion.button>
                 )}
               </AnimatePresence>
 
