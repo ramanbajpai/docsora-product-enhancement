@@ -20,9 +20,13 @@ import {
   ShieldCheck,
   Eye,
   AtSign,
+  Braces,
+  Wand2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -31,6 +35,9 @@ import {
   SignTemplate,
   SignTemplateRole,
   SignRoleType,
+  SignTemplateVariable,
+  SignVariableType,
+  detectTemplateVariables,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
 import {
@@ -128,12 +135,36 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2, type: "signer" },
   ]);
   const [fields, setFields] = useState<SignTemplateField[]>([]);
+  const [documentBody, setDocumentBody] = useState<string>(
+    "AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}}.\n\nTotal engagement value: {{DEAL_VALUE}}.",
+  );
+  const [variables, setVariables] = useState<SignTemplateVariable[]>([]);
   const [page, setPage] = useState(1);
   const pageCount = 3;
   const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /* ───────── dynamic variables ───────── */
+  // Auto-detect placeholders whenever the document body changes.
+  // Preserves prior label / type / required edits via detectTemplateVariables.
+  const detected = useMemo(
+    () => detectTemplateVariables(documentBody, variables),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [documentBody],
+  );
+  // Keep state in sync with detected set.
+  if (
+    detected.length !== variables.length ||
+    detected.some((d, i) => variables[i]?.name !== d.name)
+  ) {
+    // setState inside render is safe here because it short-circuits to a stable result.
+    queueMicrotask(() => setVariables(detected));
+  }
+
+  const updateVariable = (name: string, patch: Partial<SignTemplateVariable>) =>
+    setVariables((prev) => prev.map((v) => (v.name === name ? { ...v, ...patch } : v)));
 
   /* ───────── upload ───────── */
   const onPickFile = useCallback((f: File) => {
@@ -219,6 +250,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       roles,
       fields,
       signingMode,
+      documentBody: documentBody.trim() || undefined,
+      variables: variables.length > 0 ? variables : undefined,
       defaults: { expiryDays: 14, remindersEveryDays: 3 },
       createdAt: Date.now(),
       useCount: 0,
