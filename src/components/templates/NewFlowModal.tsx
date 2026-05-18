@@ -201,7 +201,11 @@ export function NewFlowModal({ open, onOpenChange }: NewFlowModalProps) {
   }, [open]);
 
   const stepsNeedingAssets = useMemo(
-    () => steps.filter((s) => blueprintFor(s.type).needsAssets),
+    () =>
+      steps.filter((s) => {
+        const bp = blueprintFor(s.type);
+        return bp.needsAssets || bp.needsConfig;
+      }),
     [steps],
   );
 
