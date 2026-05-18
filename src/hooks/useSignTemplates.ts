@@ -134,7 +134,7 @@ export function applyTemplateVariables(
   });
 }
 
-const STORAGE_KEY = "docsora.signTemplates.v1";
+const STORAGE_KEY = "docsora.signTemplates.v2";
 
 const SEED: SignTemplate[] = [
   {
