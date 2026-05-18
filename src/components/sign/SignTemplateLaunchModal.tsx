@@ -250,6 +250,67 @@ export default function SignTemplateLaunchModal({
             </div>
 
             <div className="relative px-6 py-5 max-h-[60vh] overflow-y-auto space-y-5">
+              {/* Documents in package */}
+              {isPackage && (
+                <div className="rounded-xl border border-border/50 bg-muted/10 overflow-hidden">
+                  <div className="px-3.5 py-2.5 flex items-center justify-between border-b border-border/40">
+                    <div className="inline-flex items-center gap-1.5">
+                      <Layers className="w-3 h-3 text-primary" />
+                      <span className="text-[11px] uppercase tracking-wider font-semibold text-foreground/80">
+                        Documents in this package
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground tabular-nums">
+                      {documents.length} files · one signing session
+                    </span>
+                  </div>
+                  <ol className="divide-y divide-border/30">
+                    {personalizedDocuments.map((d, i) => {
+                      const tag = SIGN_DOC_TAGS.find((t) => t.value === d.tag);
+                      const fieldCount = template.fields.filter(
+                        (f) => f.documentId === d.id,
+                      ).length;
+                      return (
+                        <li
+                          key={d.id}
+                          className="px-3.5 py-2.5 flex items-center gap-3"
+                        >
+                          <span className="w-6 h-6 rounded-md bg-muted/40 text-[10px] font-semibold text-muted-foreground inline-flex items-center justify-center tabular-nums shrink-0">
+                            {i + 1}
+                          </span>
+                          <FileText className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <motion.div
+                              key={d.personalizedName}
+                              initial={{ opacity: 0.6 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.18 }}
+                              className="text-[12.5px] font-medium text-foreground/90 truncate"
+                            >
+                              {d.personalizedName}
+                            </motion.div>
+                            <div className="text-[10.5px] text-muted-foreground inline-flex items-center gap-1.5">
+                              <span>{d.pageCount} pages</span>
+                              <span className="text-border">·</span>
+                              <span>{fieldCount} fields</span>
+                            </div>
+                          </div>
+                          {tag && (
+                            <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium shrink-0">
+                              {tag.label}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                  <div className="px-3.5 py-2 text-[10.5px] text-muted-foreground border-t border-border/30 bg-muted/10">
+                    Signers complete all {documents.length} documents in one guided session — one
+                    audit trail, one completion.
+                  </div>
+                </div>
+              )}
+
               {/* Dynamic variables */}
               {variables.length > 0 && (
                 <div className="rounded-xl border border-border/50 bg-muted/15 overflow-hidden">
