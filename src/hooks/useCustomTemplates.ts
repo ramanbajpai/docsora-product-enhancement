@@ -65,6 +65,17 @@ export type PaymentConfig = {
   allowCustomAmount?: boolean;
 };
 
+/** A recipient placeholder configured on a step. Real name/email come in at launch. */
+export type StepRecipientRole = "signer" | "approver" | "viewer" | "cc";
+export type StepRecipient = {
+  id: string;
+  role: StepRecipientRole;
+  /** Optional human label, e.g. "Client", "Legal", "CC: Accountant". */
+  label?: string;
+  /** 1-based signing order when signingMode === "sequential". */
+  order?: number;
+};
+
 export type FlowStep = {
   id: string;
   type: FlowStepType;
@@ -80,6 +91,10 @@ export type FlowStep = {
   personalizationTokens?: PersonalizationToken[];
   /** For request_payment: amount, currency and description for the payment link. */
   payment?: PaymentConfig;
+  /** Recipient placeholders configured at template time. Real people are added at launch. */
+  recipients?: StepRecipient[];
+  /** Signing order when this step has 2+ signers. Defaults to "sequential". */
+  signingMode?: "sequential" | "parallel";
 };
 
 export type CustomTemplate = {
@@ -93,6 +108,8 @@ export type CustomTemplate = {
   fields: PlacedField[];
   /** Optional flow definition for templates created via the New Flow modal */
   flowSteps?: FlowStep[];
+  /** Optional human description of what this flow does. */
+  description?: string;
 };
 
 const STORAGE_KEY = "docsora.customTemplates.v1";
