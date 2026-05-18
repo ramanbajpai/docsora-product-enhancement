@@ -607,6 +607,7 @@ function AssetUploader({
   const assets = step.assets ?? [];
   const hasAssets = assets.length > 0;
   const [placeOpen, setPlaceOpen] = useState(false);
+  const [personalizeOpen, setPersonalizeOpen] = useState(false);
   const placedFields = step.placedFields ?? [];
 
   const handleFiles = (files: FileList | null) => {
