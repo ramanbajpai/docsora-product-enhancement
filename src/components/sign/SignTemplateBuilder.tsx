@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -20,9 +20,13 @@ import {
   ShieldCheck,
   Eye,
   AtSign,
+  Braces,
+  Wand2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -31,6 +35,9 @@ import {
   SignTemplate,
   SignTemplateRole,
   SignRoleType,
+  SignTemplateVariable,
+  SignVariableType,
+  detectTemplateVariables,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
 import {
@@ -128,12 +135,26 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     { key: "sender", label: "You", color: ROLE_COLORS[1], signingOrder: 2, type: "signer" },
   ]);
   const [fields, setFields] = useState<SignTemplateField[]>([]);
+  const [documentBody, setDocumentBody] = useState<string>(
+    "AGREEMENT\n\nThis agreement is entered into on {{START_DATE}} between {{COMPANY_NAME}} and {{CLIENT_NAME}} of {{CLIENT_ADDRESS}}.\n\nTotal engagement value: {{DEAL_VALUE}}.",
+  );
+  const [variables, setVariables] = useState<SignTemplateVariable[]>([]);
   const [page, setPage] = useState(1);
   const pageCount = 3;
   const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /* ───────── dynamic variables ───────── */
+  // Auto-detect placeholders whenever the document body changes,
+  // preserving prior label / type / required edits.
+  useEffect(() => {
+    setVariables((prev) => detectTemplateVariables(documentBody, prev));
+  }, [documentBody]);
+
+  const updateVariable = (name: string, patch: Partial<SignTemplateVariable>) =>
+    setVariables((prev) => prev.map((v) => (v.name === name ? { ...v, ...patch } : v)));
 
   /* ───────── upload ───────── */
   const onPickFile = useCallback((f: File) => {
@@ -219,6 +240,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       roles,
       fields,
       signingMode,
+      documentBody: documentBody.trim() || undefined,
+      variables: variables.length > 0 ? variables : undefined,
       defaults: { expiryDays: 14, remindersEveryDays: 3 },
       createdAt: Date.now(),
       useCount: 0,
@@ -496,6 +519,94 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                     </button>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Dynamic Variables */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <Label className="mb-0">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Braces className="w-3 h-3" />
+                    Dynamic variables
+                  </span>
+                </Label>
+                <span className="text-[11px] text-muted-foreground">
+                  Auto-detected from <code className="font-mono">{"{{TOKEN}}"}</code> or{" "}
+                  <code className="font-mono">[TOKEN]</code>
+                </span>
+              </div>
+
+              <div className="rounded-xl border border-border/50 bg-card/30 p-3 space-y-3">
+                <Textarea
+                  value={documentBody}
+                  onChange={(e) => setDocumentBody(e.target.value)}
+                  placeholder="Paste the template body. Wrap any reusable value in {{LIKE_THIS}} and Docsora will turn it into a variable."
+                  className="min-h-[120px] bg-background/60 font-mono text-[12px] leading-relaxed"
+                />
+
+                {variables.length === 0 ? (
+                  <div className="rounded-lg border border-dashed border-border/50 px-3 py-3 text-[11px] text-muted-foreground inline-flex items-center gap-2">
+                    <Wand2 className="w-3.5 h-3.5" />
+                    No variables yet — add one like{" "}
+                    <code className="font-mono text-foreground/70">{"{{CLIENT_NAME}}"}</code>{" "}
+                    in the text above.
+                  </div>
+                ) : (
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold px-1">
+                      {variables.length} variable{variables.length === 1 ? "" : "s"} detected
+                    </div>
+                    {variables.map((v) => (
+                      <div
+                        key={v.name}
+                        className="rounded-lg border border-border/50 bg-background/40 p-2.5 flex flex-wrap items-center gap-2"
+                      >
+                        <code className="font-mono text-[11px] text-primary px-1.5 py-0.5 rounded bg-primary/10 shrink-0">
+                          {v.pattern}
+                        </code>
+                        <Input
+                          value={v.label}
+                          onChange={(e) => updateVariable(v.name, { label: e.target.value })}
+                          placeholder="Label"
+                          className="h-8 bg-background/60 flex-1 min-w-[140px] text-[12px]"
+                        />
+                        <Select
+                          value={v.type}
+                          onValueChange={(t) =>
+                            updateVariable(v.name, { type: t as SignVariableType })
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-[110px] bg-background/60 text-[12px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="text">Text</SelectItem>
+                            <SelectItem value="date">Date</SelectItem>
+                            <SelectItem value="currency">Currency</SelectItem>
+                            <SelectItem value="number">Number</SelectItem>
+                            <SelectItem value="email">Email</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Input
+                          value={v.defaultValue ?? ""}
+                          onChange={(e) =>
+                            updateVariable(v.name, { defaultValue: e.target.value })
+                          }
+                          placeholder="Default (optional)"
+                          className="h-8 bg-background/60 w-[150px] text-[12px]"
+                        />
+                        <label className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground shrink-0">
+                          <Switch
+                            checked={Boolean(v.required)}
+                            onCheckedChange={(c) => updateVariable(v.name, { required: c })}
+                          />
+                          Required
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 

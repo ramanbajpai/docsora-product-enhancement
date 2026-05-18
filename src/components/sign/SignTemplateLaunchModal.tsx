@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap } from "lucide-react";
+import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,7 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { SignTemplate, SignFieldType, useSignTemplates } from "@/hooks/useSignTemplates";
+import {
+  SignTemplate,
+  SignFieldType,
+  applyTemplateVariables,
+  useSignTemplates,
+} from "@/hooks/useSignTemplates";
 
 interface SignTemplateLaunchModalProps {
   template: SignTemplate | null;
@@ -42,6 +47,11 @@ export default function SignTemplateLaunchModal({
   const [ccEmails, setCcEmails] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [senderConfirmed, setSenderConfirmed] = useState(false);
+  const [variableValues, setVariableValues] = useState<Record<string, string>>({});
+  const [showPreview, setShowPreview] = useState(false);
+
+  const variables = template?.variables ?? [];
+  const documentBody = template?.documentBody ?? "";
 
   const senderFields = useMemo(
     () => (template ? template.fields.filter((f) => f.roleKey === "sender") : []),
@@ -88,6 +98,12 @@ export default function SignTemplateLaunchModal({
     setExpiry(String(template.defaults?.expiryDays ?? 14));
     setCcEmails([]);
     setSenderConfirmed(false);
+    const seed: Record<string, string> = {};
+    (template.variables ?? []).forEach((v) => {
+      if (v.defaultValue) seed[v.name] = v.defaultValue;
+    });
+    setVariableValues(seed);
+    setShowPreview(false);
   }, [template, recipientRoles]);
 
   if (!template) return null;
@@ -95,13 +111,44 @@ export default function SignTemplateLaunchModal({
   const recipientsValid = recipients.every(
     (r) => r.name.trim().length > 1 && /.+@.+\..+/.test(r.email.trim()),
   );
-  const canSend = recipientsValid && (senderFields.length === 0 || senderConfirmed);
+  const variablesValid = variables.every(
+    (v) => !v.required || (variableValues[v.name] ?? "").trim().length > 0,
+  );
+  const canSend =
+    recipientsValid && variablesValid && (senderFields.length === 0 || senderConfirmed);
+
+  const filledCount = variables.filter(
+    (v) => (variableValues[v.name] ?? "").trim().length > 0,
+  ).length;
+
+  const personalizedBody = documentBody
+    ? applyTemplateVariables(documentBody, variableValues)
+    : "";
+
+  const inputTypeFor = (t: string) =>
+    t === "date" ? "date" : t === "email" ? "email" : t === "number" || t === "currency" ? "text" : "text";
+
+  const placeholderFor = (t: string) =>
+    t === "currency" ? "$10,000" : t === "date" ? "" : t === "email" ? "name@company.com" : "";
 
   const handleSend = async () => {
     if (!canSend) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 700));
     recordLaunch(template.id);
+    if (variables.length > 0) {
+      // eslint-disable-next-line no-console
+      console.info("[audit] sign.template.variables_applied", {
+        templateId: template.id,
+        templateName: template.name,
+        appliedAt: new Date().toISOString(),
+        variables: variables.map((v) => ({
+          name: v.name,
+          type: v.type,
+          filled: (variableValues[v.name] ?? "").trim().length > 0,
+        })),
+      });
+    }
     if (senderFields.length > 0) {
       // Audit trail
       // eslint-disable-next-line no-console
@@ -168,6 +215,94 @@ export default function SignTemplateLaunchModal({
             </div>
 
             <div className="relative px-6 py-5 max-h-[60vh] overflow-y-auto space-y-5">
+              {/* Dynamic variables */}
+              {variables.length > 0 && (
+                <div className="rounded-xl border border-border/50 bg-muted/15 overflow-hidden">
+                  <div className="px-3.5 py-2.5 flex items-center justify-between border-b border-border/40">
+                    <div className="inline-flex items-center gap-1.5">
+                      <Braces className="w-3 h-3 text-primary" />
+                      <span className="text-[11px] uppercase tracking-wider font-semibold text-foreground/80">
+                        Personalize
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground tabular-nums">
+                      {filledCount}/{variables.length} filled
+                    </span>
+                  </div>
+                  <div className="p-3.5 grid grid-cols-2 gap-2">
+                    {variables.map((v) => (
+                      <div key={v.name} className="col-span-2 sm:col-span-1">
+                        <label className="block text-[11px] text-muted-foreground mb-1">
+                          {v.label}
+                          {v.required && <span className="text-primary/80 ml-0.5">*</span>}
+                        </label>
+                        <div className="relative">
+                          {v.type === "currency" && (
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[12px] text-muted-foreground">
+                              $
+                            </span>
+                          )}
+                          <Input
+                            type={inputTypeFor(v.type)}
+                            placeholder={placeholderFor(v.type)}
+                            value={variableValues[v.name] ?? ""}
+                            onChange={(e) =>
+                              setVariableValues((prev) => ({
+                                ...prev,
+                                [v.name]: e.target.value,
+                              }))
+                            }
+                            className={`h-9 bg-background/60 ${v.type === "currency" ? "pl-6" : ""}`}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {documentBody && (
+                    <div className="border-t border-border/40">
+                      <button
+                        type="button"
+                        onClick={() => setShowPreview((s) => !s)}
+                        className="w-full px-3.5 py-2 flex items-center justify-between text-[11px] text-foreground/75 hover:bg-muted/30 transition-colors"
+                      >
+                        <span className="inline-flex items-center gap-1.5">
+                          <Eye className="w-3 h-3" />
+                          Preview personalized agreement
+                        </span>
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 transition-transform ${showPreview ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {showPreview && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-3.5 pb-3.5">
+                              <div className="rounded-lg border border-border/40 bg-background/70 p-3 max-h-56 overflow-y-auto">
+                                <PersonalizedPreview
+                                  text={personalizedBody}
+                                  values={variableValues}
+                                  patterns={variables.map((v) => v.pattern)}
+                                />
+                              </div>
+                              <p className="text-[10px] text-muted-foreground mt-1.5">
+                                Values are inserted inline — original fonts, spacing and layout are preserved.
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Recipients */}
               <div className="space-y-3">
                 {recipients.map((rcp, i) => {
@@ -357,5 +492,72 @@ export default function SignTemplateLaunchModal({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/**
+ * Renders the personalized template body, highlighting injected values
+ * inline so users can visually confirm replacement without breaking
+ * the original layout (whitespace + line breaks preserved).
+ */
+function PersonalizedPreview({
+  text,
+  values,
+  patterns,
+}: {
+  text: string;
+  values: Record<string, string>;
+  patterns: string[];
+}) {
+  // Build a set of injected literal values to highlight.
+  const injected = Object.values(values)
+    .map((v) => v.trim())
+    .filter((v) => v.length > 0);
+
+  // Build a regex of either remaining {{TOKENS}}/[TOKENS] or injected values.
+  const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts: string[] = [
+    ...patterns.map(escape),
+    ...injected.map(escape),
+  ];
+  if (parts.length === 0) {
+    return (
+      <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-foreground/85">
+        {text}
+      </pre>
+    );
+  }
+  const re = new RegExp(`(${parts.join("|")})`, "g");
+  const tokens = text.split(re);
+
+  return (
+    <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-foreground/85">
+      {tokens.map((tk, i) => {
+        if (!tk) return null;
+        const isPlaceholder = patterns.includes(tk);
+        const isInjected = !isPlaceholder && injected.includes(tk);
+        if (isPlaceholder) {
+          return (
+            <span
+              key={i}
+              className="rounded-sm bg-amber-500/15 text-amber-600 dark:text-amber-400 px-1"
+            >
+              {tk}
+            </span>
+          );
+        }
+        if (isInjected) {
+          return (
+            <span
+              key={i}
+              className="rounded-sm bg-primary/10 text-foreground px-0.5 font-medium"
+            >
+              {tk}
+            </span>
+          );
+        }
+        return <span key={i}>{tk}</span>;
+      })}
+    </pre>
   );
 }
