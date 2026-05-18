@@ -212,20 +212,22 @@ export function FieldPlacementModal({
                 </div>
               </div>
 
-              <div className="border-t border-border/60 pt-3 space-y-1">
-                <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                  Text fields
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-                <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                  Controls
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-                <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                  Assets
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-              </div>
+              {mode === "signing" && (
+                <div className="border-t border-border/60 pt-3 space-y-1">
+                  <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                    Text fields
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
+                  <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                    Controls
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
+                  <button className="w-full flex items-center justify-between px-1 py-1.5 text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                    Assets
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {missing.length > 0 && (
@@ -320,7 +322,12 @@ export function FieldPlacementModal({
                 )}
 
                 {pageFields.map((f) => {
-                  const tool = TOOLS.find((t) => t.kind === f.type) ?? TOOLS[0];
+                  const tool =
+                    TOOLS.find((t) =>
+                      f.token ? t.token === f.token : t.kind === f.type && t.label === f.label,
+                    ) ??
+                    TOOLS.find((t) => t.kind === f.type) ??
+                    TOOLS[0];
                   const Icon = tool.icon;
                   return (
                     <motion.div
