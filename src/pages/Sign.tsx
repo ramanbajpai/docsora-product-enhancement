@@ -257,6 +257,38 @@ const Sign = () => {
         {/* Content */}
         <div className="relative z-10 flex-1 min-h-0 flex flex-col">
           <AnimatePresence mode="wait">
+            {step === "start" && (
+              <motion.div
+                key="start"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="flex-1 min-h-0"
+              >
+                <SignStart
+                  onOneTime={() => setStep("upload")}
+                  onUseTemplate={() => setStep("templates")}
+                />
+              </motion.div>
+            )}
+
+            {step === "templates" && (
+              <motion.div
+                key="templates"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="flex-1 min-h-0"
+              >
+                <SignTemplateGallery
+                  onBack={() => setStep("start")}
+                  onCreateNew={() => setStep("upload")}
+                />
+              </motion.div>
+            )}
+
             {(step === "upload" || step === "uploading") && (
               <motion.div
                 key="upload"
