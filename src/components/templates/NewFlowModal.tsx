@@ -21,6 +21,7 @@ import {
   MessageSquare,
   Receipt,
   Stamp,
+  CreditCard,
   Plus,
   Trash2,
   Upload,
@@ -113,6 +114,13 @@ const STEP_LIBRARY: StepBlueprint[] = [
     assetHint: "PDF or DOCX. We'll send this when this step runs.",
   },
   {
+    type: "request_payment",
+    label: "Request payment",
+    description: "Send a secure payment link to collect funds.",
+    icon: CreditCard,
+    needsAssets: false,
+  },
+  {
     type: "final_approval",
     label: "Final approval",
     description: "Collect a final sign-off to close the project.",
@@ -131,6 +139,7 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 const KEYWORDS: Array<{ rx: RegExp; type: FlowStepType }> = [
   { rx: /\b(onboard|welcome|intake)/i, type: "deliver_onboarding" },
   { rx: /\b(contract|sign|agreement|nda|msa)/i, type: "send_contract" },
+  { rx: /\b(request\s*payment|pay\s*link|collect\s*payment|deposit|checkout)/i, type: "request_payment" },
   { rx: /\b(invoice|payment|bill|charge)/i, type: "send_invoice" },
   { rx: /\b(deliver|handoff|hand off|files?|ship)/i, type: "deliver_files" },
   { rx: /\b(feedback|review|comments?)/i, type: "collect_feedback" },

@@ -27,6 +27,7 @@ export type FlowStepType =
   | "deliver_onboarding"
   | "collect_feedback"
   | "send_invoice"
+  | "request_payment"
   | "final_approval";
 
 export type FlowStepAsset = {
