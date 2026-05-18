@@ -42,7 +42,9 @@ import {
   SignatureFieldSpec,
   SignatureFieldKind,
   PersonalizationToken,
+  PlacedField,
 } from "@/hooks/useCustomTemplates";
+import { FieldPlacementModal } from "./FieldPlacementModal";
 
 /* ──────────────────────────── Step library ──────────────────────────── */
 
@@ -588,6 +590,8 @@ function AssetUploader({
   const inputRef = useRef<HTMLInputElement>(null);
   const assets = step.assets ?? [];
   const hasAssets = assets.length > 0;
+  const [placeOpen, setPlaceOpen] = useState(false);
+  const placedFields = step.placedFields ?? [];
 
   const handleFiles = (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -676,10 +680,40 @@ function AssetUploader({
       </button>
 
       {hasAssets && step.type === "send_contract" && (
-        <SignatureFieldsConfig
-          fields={step.signatureFields}
-          onChange={(signatureFields) => onUpdate({ signatureFields })}
-        />
+        <>
+          <button
+            type="button"
+            onClick={() => setPlaceOpen(true)}
+            className="mt-3 w-full rounded-lg border border-primary/30 bg-primary/[0.06] hover:bg-primary/[0.10] transition-all px-3 py-3 flex items-center gap-3 text-left group"
+          >
+            <div className="w-9 h-9 rounded-md bg-primary/15 text-primary flex items-center justify-center shrink-0">
+              <FileSignature className="w-4 h-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-semibold">
+                {placedFields.length > 0
+                  ? "Edit signing fields"
+                  : "Set up signing fields"}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                {placedFields.length > 0
+                  ? `${placedFields.length} field${placedFields.length === 1 ? "" : "s"} placed on the document`
+                  : "Open the document and place where the recipient signs, dates, or fills in details."}
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-0.5 transition-transform" />
+          </button>
+          <FieldPlacementModal
+            open={placeOpen}
+            onOpenChange={setPlaceOpen}
+            recipientName="Recipient"
+            documentName={assets[0]?.name}
+            pageCount={3}
+            initialFields={placedFields}
+            signatureFields={step.signatureFields}
+            onSave={(fields) => onUpdate({ placedFields: fields })}
+          />
+        </>
       )}
 
       {hasAssets && step.type === "deliver_onboarding" && (
