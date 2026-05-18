@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Upload, Shield, ChevronDown, Check, LayoutTemplate, ArrowRight } from "lucide-react";
+import { Upload, Shield, ChevronDown, Check, Layers, ArrowRight } from "lucide-react";
 import TrustFooter from "@/components/shared/TrustFooter";
 
 interface SignUploadProps {
@@ -724,7 +724,7 @@ const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
                     onClick={onUseTemplate}
                     className="group mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground/80 hover:text-foreground transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-lg px-2 py-1"
                   >
-                    <LayoutTemplate className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                    <Layers className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" />
                     <span>Launch from a reusable template</span>
                     <ArrowRight className="w-3.5 h-3.5 -translate-x-0.5 opacity-60 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
                   </motion.button>
