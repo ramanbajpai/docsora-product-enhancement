@@ -2,11 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 
 export type SignRoleKey = "client" | "sender" | "legal" | "approver" | "cc";
 
+export type SignRoleType = "signer" | "approver" | "viewer" | "cc";
+
 export interface SignTemplateRole {
   key: SignRoleKey | string;
   label: string;
   color: string; // hex for swatches
   signingOrder?: number;
+  type?: SignRoleType;
 }
 
 export type SignFieldType =
