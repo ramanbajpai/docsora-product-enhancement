@@ -209,16 +209,6 @@ const faqs = [
   },
 ];
 
-// SECTION 7 — Related Resources
-const resources = [
-  { title: "Compress PDFs Without Losing Quality", description: "Best settings for crisp, compact PDF documents." },
-  { title: "Reduce File Size for Email Attachments", description: "Send large files without hitting inbox limits." },
-  { title: "Best Ways to Compress Large Files", description: "A practical guide to shrinking any file efficiently." },
-  { title: "How to Compress Images Online", description: "Optimize JPG, PNG, and WEBP for web and social." },
-  { title: "Compress PowerPoint Files Efficiently", description: "Shrink decks while keeping every slide perfect." },
-  { title: "Reduce Excel File Size", description: "Optimize spreadsheets without breaking formulas." },
-];
-
 // Popular compression tool destinations (internal links to variant landings)
 const popularToolSlugs = [
   "compress-pdf",
