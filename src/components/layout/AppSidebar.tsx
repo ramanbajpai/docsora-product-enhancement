@@ -50,7 +50,6 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { title: "Dashboard", icon: Home, path: "/" },
-  { title: "Flows", icon: FlowIcon, path: "/templates", badge: "New" },
   { title: "AI Check", icon: AICheckIcon, path: "/ai-check" },
   { title: "Compress", icon: CompressIcon, path: "/compress" },
   { title: "Convert", icon: RefreshCw, path: "/convert" },
