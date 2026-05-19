@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Mail,
   Presentation,
   FileText,
   Image as ImageIcon,
@@ -205,7 +204,7 @@ const faqs = [
   {
     question: "What file types does Docsora Convert support?",
     answer:
-      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, image conversion, and email conversion — replacing the need for separate desktop utilities.",
+      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, PPT, PPTX, JPG, and PNG. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, and image conversion — replacing the need for separate desktop utilities.",
   },
   {
     question: "Is browser-based file conversion secure?",
@@ -220,12 +219,12 @@ const faqs = [
   {
     question: "How do I convert images into PDFs?",
     answer:
-      "Upload one or many JPG, PNG, WEBP, GIF, BMP, or TIFF images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
+      "Upload one or many JPG or PNG images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
   },
   {
     question: "Can I convert presentations online?",
     answer:
-      "Yes. Docsora's PowerPoint to PDF converter handles PPT, PPTX, and ODP decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
+      "Yes. Docsora's PowerPoint to PDF converter handles PPT and PPTX decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
   },
   {
     question: "Is Docsora Convert free to use?",
@@ -233,9 +232,9 @@ const faqs = [
       "Yes — Docsora Convert is free for standard files with no signup. Upgrade to Pro for larger files, batch conversions, OCR for scanned PDFs, and advanced quality controls.",
   },
   {
-    question: "Can I convert email files into PDFs?",
+    question: "Can I convert between non-PDF formats?",
     answer:
-      "Yes. Docsora's EML to PDF converter archives email files as PDFs with headers, body content, timestamps, and attachment metadata preserved — built for legal discovery, compliance archives, and audit trails.",
+      "Yes. Docsora handles cross-format conversions beyond PDF — including DOCX ↔ ODT, CSV ↔ XLSX, and JPG ↔ PNG — so you can move between document, spreadsheet, and image formats without leaving the browser.",
   },
   {
     question: "Does Docsora work without installing software?",
@@ -251,7 +250,7 @@ const workflowIntents = [
   { icon: FileSpreadsheet, title: "Convert spreadsheets for reporting", description: "Finance and ops workbooks as audit-ready PDFs." },
   { icon: Megaphone, title: "Convert presentations for sharing", description: "Decks delivered as PDFs across email and Slack." },
   { icon: ImageIcon, title: "Convert images for compliance", description: "Photo evidence and scans packaged into archive PDFs." },
-  { icon: Mail, title: "Convert email records to PDFs", description: "EML files archived for legal discovery and compliance." },
+  { icon: FileType, title: "Convert OpenDocument files", description: "Move between ODT, DOCX, and PDF for LibreOffice workflows." },
   { icon: GraduationCap, title: "Archive business documents", description: "Long-term archives in stable PDF/A-ready output." },
 ];
 
