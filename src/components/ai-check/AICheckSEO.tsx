@@ -819,14 +819,15 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 9 - Related AI Writing Tools (+ long-tail search chips) */}
+        {/* SECTION 9 - Explore Professional Writing Workflows (chips + cards on variants) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
-              Related AI Writing Tools
+              {variant ? "Related Writing Workflows" : "Explore More Writing Workflows"}
             </h2>
           </motion.div>
 
+          {variant && (
           <motion.div
             {...staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -862,10 +863,11 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
                 </motion.div>
               ))}
           </motion.div>
+          )}
 
           <motion.div {...fadeUp} className="mt-10">
             <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
-              Popular AI writing searches
+              Explore professional writing workflows
             </p>
             <div className="flex flex-wrap items-center justify-center gap-2">
               {popularSearchSlugs
