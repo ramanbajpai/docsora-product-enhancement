@@ -836,7 +836,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
 
             <motion.div
               {...staggerContainer}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-3"
             >
               {securityPoints.map((item, i) => (
                 <motion.div
