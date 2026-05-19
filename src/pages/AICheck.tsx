@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { AICheckUpload } from "@/components/ai-check/AICheckUpload";
 import { AICheckProcessing } from "@/components/ai-check/AICheckProcessing";
 import { AICheckResults } from "@/components/ai-check/AICheckResults";
 import { AICheckEnhancement } from "@/components/ai-check/AICheckEnhancement";
 import { AICheckSuccess } from "@/components/ai-check/AICheckSuccess";
+import { AICheckSEO } from "@/components/ai-check/AICheckSEO";
+import type { AICheckVariantConfig } from "@/data/aiCheckVariants";
 
 export type AICheckState = "upload" | "uploading" | "processing" | "grammar" | "enhancement" | "success";
 
@@ -40,7 +43,11 @@ export interface AICheckResultData {
 
 export type TonePreset = "executive" | "legal" | "simple" | "marketing";
 
-const AICheck = () => {
+interface AICheckProps {
+  variant?: AICheckVariantConfig;
+}
+
+const AICheck = ({ variant }: AICheckProps = {}) => {
   const location = useLocation();
   const [state, setState] = useState<AICheckState>("upload");
   const [fileName, setFileName] = useState<string>("");
@@ -48,6 +55,15 @@ const AICheck = () => {
   const [inputText, setInputText] = useState<string>("");
   const [resultData, setResultData] = useState<AICheckResultData | null>(null);
   const [selectedTone, setSelectedTone] = useState<TonePreset>("executive");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setState("upload");
+    setFileName("");
+    setUploadProgress(0);
+    setInputText("");
+    setResultData(null);
+  }, [location.pathname]);
 
   // Handle file passed from Storage
   useEffect(() => {
@@ -216,7 +232,34 @@ Move the Add Recipient button below the recipients list (shift above status)`,
 
   return (
     <AppLayout>
-      <div className="h-screen flex flex-col overflow-hidden">
+      <Helmet>
+        <title>
+          {variant
+            ? variant.title
+            : "AI Document Review & Writing Assistant | Docsora AI Check"}
+        </title>
+        <meta
+          name="description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "AI-powered grammar, proofreading and writing optimization for PDF, Word, PowerPoint and business documents - browser-based, secure, no installs."
+          }
+        />
+        <link rel="canonical" href={variant ? `/${variant.slug}` : "/ai-check"} />
+        <meta property="og:title" content={variant ? variant.title : "Docsora AI Check"} />
+        <meta
+          property="og:description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "AI-powered document review for business writing - browser-based and secure."
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={variant ? `/${variant.slug}` : "/ai-check"} />
+      </Helmet>
+      <div className={state === "upload" || state === "uploading" ? "flex flex-col" : "h-screen flex flex-col overflow-hidden"}>
         <AnimatePresence mode="wait">
           {(state === "upload" || state === "uploading") && (
             <motion.div
@@ -225,7 +268,7 @@ Move the Add Recipient button below the recipients list (shift above status)`,
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex-1 min-h-0 flex flex-col"
+              className="min-h-screen flex flex-col"
             >
               {state === "uploading" ? renderUploadingState() : (
                 <AICheckUpload 
@@ -303,6 +346,11 @@ Move the Add Recipient button below the recipients list (shift above status)`,
           )}
         </AnimatePresence>
       </div>
+
+      {/* Below-the-fold SEO content - only on upload state */}
+      {(state === "upload" || state === "uploading") && (
+        <AICheckSEO variant={variant} />
+      )}
     </AppLayout>
   );
 };
