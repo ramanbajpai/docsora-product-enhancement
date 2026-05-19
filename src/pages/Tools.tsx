@@ -4,9 +4,12 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { AppLayout } from "@/components/layout/AppLayout";
 import { getToolConfig, ToolConfig } from "@/components/tools/toolConfig";
 import { LayoutGrid, Check, Zap } from "lucide-react";
+import { FlowIcon } from "@/components/icons/FlowIcon";
 
 // Ordered by usage and value - grouped into rows
 const toolOrder = [
+  // Workflows (Row 0)
+  ["flows"],
   // Primary tools (Row 1)
   ["edit", "merge", "split", "compress"],
   // Document structure & cleanup (Row 2)
@@ -19,6 +22,7 @@ const toolOrder = [
 
 // Short, action-focused descriptions
 const toolDescriptions: Record<string, string> = {
+  flows: "Reusable agreements & workflows",
   edit: "Edit text, images, and pages",
   merge: "Combine multiple PDFs into one",
   split: "Separate pages into files",
@@ -37,6 +41,10 @@ const toolDescriptions: Record<string, string> = {
 
 // Extended tool info for contextual panel
 const toolDetails: Record<string, { bestFor: string[]; proFeatures: string[] }> = {
+  flows: {
+    bestFor: ["Reusable agreements", "Repeatable signing packages", "Operational templates"],
+    proFeatures: ["Unlimited flows", "Dynamic smart fields", "Multi-document packages"],
+  },
   edit: {
     bestFor: ["Quick text corrections", "Adding annotations", "Filling form fields"],
     proFeatures: ["Batch editing", "OCR text recognition", "Advanced annotations"],
