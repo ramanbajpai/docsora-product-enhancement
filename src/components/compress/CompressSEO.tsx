@@ -450,6 +450,74 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
+        {/* SECTION — Reduce File Size Instantly Online */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+              <Gauge className="w-3 h-3 text-primary/80" />
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                Reduce file size online
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Reduce File Size Instantly Online
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              Reduce PDF, image, presentation, spreadsheet and document file
+              sizes directly in your browser — without losing quality or
+              formatting.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            {reduceIntentCards.map((card, i) => (
+              <motion.div
+                key={card.slug}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
+                transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+              >
+                <Link
+                  to={`/${card.slug}`}
+                  className={cn(
+                    "group relative block rounded-2xl p-6 h-full overflow-hidden",
+                    "bg-card/40 border border-border/30",
+                    "hover:border-primary/25 hover:bg-card/70",
+                    "transition-all duration-300"
+                  )}
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(420px circle at 0% 0%, hsl(var(--primary) / 0.06), transparent 60%)",
+                    }}
+                  />
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/12 transition-colors">
+                      <card.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                    </div>
+                    <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug group-hover:text-primary transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed mb-4">
+                      {card.description}
+                    </p>
+                    <div className="pt-4 border-t border-border/30 flex items-center gap-1.5 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Open tool</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
         {/* SECTION — Popular Compression Tools (internal linking hub) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
