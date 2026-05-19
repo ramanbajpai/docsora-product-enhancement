@@ -22,7 +22,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { TransferPreviewModal } from "./TransferPreviewModal";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/hooks/useTheme";
@@ -661,7 +661,7 @@ export function RecipientPasswordProtectedView({ onClose }: RecipientPasswordPro
                             className="flex items-center gap-2 text-sm text-muted-foreground/70 hover:text-foreground transition-colors group mb-6"
                           >
                             <Eye className="w-4 h-4" />
-                            <span>View contents</span>
+                            <span>Preview files</span>
                             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                           </motion.button>
 
@@ -971,37 +971,11 @@ export function RecipientPasswordProtectedView({ onClose }: RecipientPasswordPro
         </div>
       </footer>
 
-      {/* Contents Modal */}
-      <Dialog open={showContentsModal} onOpenChange={setShowContentsModal}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Transfer contents</DialogTitle>
-          </DialogHeader>
-          <ScrollArea className="max-h-[400px] pr-4">
-            <div className="space-y-1">
-              {mockTransfer.files.map((file) => {
-                const category = getFileCategory(file.type);
-                const Icon = categoryIcons[category] || File;
-                const colorClass = categoryColors[category] || "text-muted-foreground";
-                return (
-                  <div
-                    key={file.id}
-                    className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-muted/30 transition-colors"
-                  >
-                    <div className={`w-9 h-9 rounded-lg bg-muted/50 flex items-center justify-center ${colorClass}`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
-                      <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
+      <TransferPreviewModal
+        open={showContentsModal}
+        files={mockTransfer.files}
+        onClose={() => setShowContentsModal(false)}
+      />
     </motion.div>
   );
 }
