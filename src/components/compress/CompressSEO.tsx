@@ -343,7 +343,19 @@ function buildJsonLd(variant?: CompressVariantConfig) {
       acceptedAnswer: { "@type": "Answer", text: f.answer },
     })),
   };
-  return [breadcrumb, software, faqPage];
+  const howTo = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: variant ? `How to ${variant.cardLabel}` : "How to compress files online",
+    description,
+    totalTime: "PT30S",
+    step: [
+      { "@type": "HowToStep", position: 1, name: "Upload", text: "Drag and drop your file into the upload area or click to browse." },
+      { "@type": "HowToStep", position: 2, name: "Choose mode", text: "Pick Balanced, Maximum, or Preserve Quality compression." },
+      { "@type": "HowToStep", position: 3, name: "Download", text: "Download the optimized file — ready to share in seconds." },
+    ],
+  };
+  return [breadcrumb, software, faqPage, howTo];
 }
 
 export function CompressSEO({ variant }: CompressSEOProps = {}) {
