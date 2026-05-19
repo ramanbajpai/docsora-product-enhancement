@@ -12,6 +12,7 @@ import TemplateBuilder from "./pages/TemplateBuilder";
 import ActiveFlow from "./pages/ActiveFlow";
 import AICheck from "./pages/AICheck";
 import Compress from "./pages/Compress";
+import CompressVariant from "./pages/CompressVariant";
 import Convert from "./pages/Convert";
 import Storage from "./pages/Storage";
 import Track from "./pages/Track";
@@ -53,6 +54,22 @@ const App = () => (
             <Route path="/flows/:runId" element={<ActiveFlow />} />
             <Route path="/ai-check" element={<AICheck />} />
             <Route path="/compress" element={<Compress />} />
+            {/* Compression authority hub — variant landing pages */}
+            <Route path="/compress-pdf" element={<CompressVariant />} />
+            <Route path="/compress-jpg" element={<CompressVariant />} />
+            <Route path="/compress-png" element={<CompressVariant />} />
+            <Route path="/compress-word-document" element={<CompressVariant />} />
+            <Route path="/compress-powerpoint" element={<CompressVariant />} />
+            <Route path="/compress-excel-files" element={<CompressVariant />} />
+            <Route path="/compress-images" element={<CompressVariant />} />
+            <Route path="/compress-large-files" element={<CompressVariant />} />
+            <Route path="/compress-email-attachments" element={<CompressVariant />} />
+            <Route path="/compress-marketing-assets" element={<CompressVariant />} />
+            <Route path="/compress-client-deliverables" element={<CompressVariant />} />
+            <Route path="/reduce-file-size-for-email" element={<CompressVariant />} />
+            <Route path="/compress-files-without-losing-quality" element={<CompressVariant />} />
+            <Route path="/online-file-compressor" element={<CompressVariant />} />
+            <Route path="/free-file-compressor" element={<CompressVariant />} />
             <Route path="/convert" element={<Convert />} />
             <Route path="/storage" element={<Storage />} />
             <Route path="/track" element={<Track />} />
