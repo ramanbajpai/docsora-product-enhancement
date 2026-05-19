@@ -18,24 +18,26 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
+const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  viewport: { once: true, margin: "-80px" as const },
+  transition: { duration: 0.6, ease: easeSmooth },
 };
 
 const staggerContainer = {
   initial: {},
   whileInView: {},
-  viewport: { once: true, margin: "-80px" },
+  viewport: { once: true, margin: "-80px" as const },
 };
 
 const staggerItem = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.5, ease: easeSmooth },
 };
 
 const useCases = [
@@ -158,7 +160,9 @@ export function CompressSEO() {
             {useCases.map((item, i) => (
               <motion.div
                 key={item.title}
-                {...staggerItem}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
                 transition={{ ...staggerItem.transition, delay: i * 0.08 }}
                 className={cn(
                   "group relative rounded-2xl p-6",
@@ -197,7 +201,9 @@ export function CompressSEO() {
             {steps.map((step, i) => (
               <div key={step.title} className="flex items-center gap-8 md:gap-10">
                 <motion.div
-                  {...staggerItem}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
                   transition={{ ...staggerItem.transition, delay: i * 0.12 }}
                   className="text-center"
                 >
@@ -265,7 +271,9 @@ export function CompressSEO() {
             {resources.map((resource, i) => (
               <motion.div
                 key={resource.title}
-                {...staggerItem}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
                 transition={{ ...staggerItem.transition, delay: i * 0.1 }}
                 className={cn(
                   "group rounded-2xl p-6",
