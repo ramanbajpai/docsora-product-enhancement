@@ -272,6 +272,7 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "reduce-powerpoint-file-size", label: "Reduce PowerPoint file size", intent: "Slim decks for sharing and screen-shares." },
   { slug: "reduce-excel-file-size", label: "Reduce Excel file size", intent: "Smaller XLSX without breaking formulas." },
   { slug: "compress-pdf-online", label: "Compress PDF online", intent: "Free browser-based PDF compression." },
+  { slug: "compress-files-online", label: "Compress files online", intent: "Any file, any format, in your browser." },
 ];
 
 // Real-world workflow intent (long-tail authority)
