@@ -65,31 +65,40 @@ const staggerItem = {
 // SECTION 1 - Check Any Document Type
 const fileTypeGroups = [
   {
-    category: "Documents",
+    category: "Reports & Documents",
     icon: FileText,
-    formats: "PDF · DOC · DOCX · TXT · HTML · ODT",
-    title: "Check PDF & Word Documents",
+    formats: "PDF · DOC · DOCX · ODT · TXT",
+    title: "Review PDF & Word Documents",
     description:
-      "Review reports, contracts and professional documents for grammar, spelling and writing clarity.",
+      "Audit reports, contracts and operational documents with editorial-grade language review.",
     slug: "proofread-pdf",
   },
   {
     category: "Presentations",
     icon: Presentation,
     formats: "PPT · PPTX",
-    title: "Proofread PowerPoint Presentations",
+    title: "Slide-by-Slide Deck Review",
     description:
-      "Improve slide clarity, tone and professional communication before presenting.",
+      "Polish wording across pitch decks, board updates and training slides without touching layout.",
     slug: "proofread-presentations",
   },
   {
-    category: "Universal",
+    category: "Web & Structured",
     icon: FileType,
-    formats: "All supported formats",
-    title: "AI Writing Review Online",
+    formats: "HTML · XML · ODT",
+    title: "HTML & Structured Documents",
     description:
-      "Upload business documents directly in your browser and receive AI-powered writing analysis instantly.",
-    slug: "ai-writing-assistant",
+      "Run editorial review on HTML drafts, exported docs and structured content before publishing.",
+    slug: "document-proofreader",
+  },
+  {
+    category: "Long-form Drafts",
+    icon: FileType,
+    formats: "Pasted text · TXT",
+    title: "Pasted Text & Draft Review",
+    description:
+      "Paste a draft section, executive summary or proposal block for a focused editorial pass.",
+    slug: "professional-writing-checker",
   },
 ];
 
@@ -155,30 +164,30 @@ const intentCards = [
 
 // SECTION 5 - Why Docsora AI Check
 const benefits = [
-  { icon: Sparkles, title: "AI-powered analysis", description: "Language-model proofreading tuned for business writing." },
-  { icon: Briefcase, title: "Professional optimization", description: "Tone, clarity and structure for the docs you actually send." },
-  { icon: MonitorSmartphone, title: "Browser-based", description: "Works on any device - no installs or plugins." },
-  { icon: ShieldCheck, title: "Secure review", description: "Encrypted uploads, automatic deletion after processing." },
-  { icon: Zap, title: "Instant feedback", description: "Suggestions returned in seconds, not minutes." },
-  { icon: Layers, title: "Multiple formats", description: "PDF, Word, ODT, HTML, PPT, PPTX and plain text." },
-  { icon: Lock, title: "Enterprise-ready", description: "TLS, ISO 27001 controls, SOC 2-aligned operations." },
-  { icon: BookOpenCheck, title: "Business-focused", description: "Built for reports and contracts - not student essays." },
+  { icon: Sparkles, title: "Document intelligence", description: "Language-model analysis that reads tone, structure and context, not just sentences." },
+  { icon: Briefcase, title: "Workflow-aware", description: "Calibrated for the documents teams actually circulate - reports, contracts, proposals, decks." },
+  { icon: MonitorSmartphone, title: "Cloud-native", description: "Open in any browser on any device. No installs, plugins or extensions." },
+  { icon: ShieldCheck, title: "Private by design", description: "Encrypted in transit, deleted after review, never used to train models." },
+  { icon: Zap, title: "Editorial speed", description: "Whole-document suggestions surface in seconds across long reports and decks." },
+  { icon: Layers, title: "Format coverage", description: "PDF, DOC, DOCX, ODT, HTML, PPT, PPTX and pasted text." },
+  { icon: Lock, title: "Enterprise controls", description: "TLS, ISO 27001 and SOC 2-aligned operations for regulated teams." },
+  { icon: BookOpenCheck, title: "Operational focus", description: "Built for reports and proposals - not student essays or generic copy." },
 ];
 
 // SECTION 6 - Security
 const securityPoints = [
-  { icon: Lock, title: "Encrypted uploads", description: "All files travel over TLS-secured connections." },
-  { icon: Trash2, title: "Automatic deletion", description: "Files are removed from our servers after processing." },
-  { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
-  { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
-  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to SOC 2 enterprise standards." },
+  { icon: Lock, title: "Encrypted transit", description: "Uploads traverse TLS-secured channels end to end." },
+  { icon: Trash2, title: "Auto-deletion", description: "Documents are purged from review servers after analysis." },
+  { icon: Globe2, title: "GDPR aligned", description: "Built to honour EU data protection requirements." },
+  { icon: BadgeCheck, title: "ISO 27001", description: "Operated under audited information security controls." },
+  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Engineered against SOC 2 trust-services criteria." },
 ];
 
 // SECTION 7 - How It Works
 const steps = [
-  { icon: Upload, title: "Upload document", description: "Drop a PDF, Word file, deck or paste text securely in your browser." },
-  { icon: Wand2, title: "AI reviews writing", description: "Grammar, spelling, tone and clarity analyzed in seconds." },
-  { icon: CheckCircle2, title: "Receive suggestions", description: "Accept, reject or refine inline - then export the polished version." },
+  { icon: Upload, title: "Upload a document", description: "Drop a PDF, Word file, deck or paste text directly into the workspace." },
+  { icon: Wand2, title: "Editorial AI reviews", description: "Grammar, tone, structure and clarity assessed across the whole document." },
+  { icon: CheckCircle2, title: "Refine and export", description: "Accept, reject or refine each suggestion - then export the polished version." },
 ];
 
 // SECTION 8 - FAQ (semantically rich; covers core writing review intents)
@@ -186,52 +195,67 @@ const faqs = [
   {
     question: "How do I proofread a PDF online?",
     answer:
-      "Drop any PDF into the upload area above. Docsora AI Check extracts the readable text from your PDF and runs AI proofreading for grammar, spelling, tone and clarity - returning inline suggestions you can review one by one. There's no need to convert to Word, copy text out, or install software. It works directly in your browser, with files deleted after processing for privacy-first review of contracts, reports and proposals.",
+      "Drop any PDF into the upload area above. Docsora extracts the readable text from the PDF - including signed contracts, exported reports and scanned-then-OCR'd files - and runs editorial review for grammar, spelling, tone, consistency and clarity. Suggestions appear inline beside the original sentence so you can accept, reject or refine each one without altering the document's formatting. There is no conversion to Word, no copy-paste, and no software install: the entire workflow runs in your browser with documents deleted after analysis.",
   },
   {
-    question: "Can AI improve professional writing?",
+    question: "What is the best AI proofreading tool for PDFs?",
     answer:
-      "Yes. Docsora's AI is tuned specifically for business and operational writing - reports, proposals, contracts, board memos, decks and PDFs. It catches grammar and spelling issues, sharpens tone with executive, legal, simple and marketing presets, and tightens structure and clarity. It's an editorial layer for serious documents, not a generic copywriting tool or student essay checker.",
+      "Docsora AI Check is built specifically for PDF document review - native PDF uploads, whole-document context, format-preserving suggestions and tone presets for executive, legal, simple and marketing audiences. Unlike browser extensions or general writing assistants, it treats a PDF as a structured business document: extracting the readable text, tracking tone across sections, and returning inline editorial suggestions tuned for reports, contracts and proposals.",
   },
   {
-    question: "What document types are supported?",
+    question: "How can I improve professional writing online?",
     answer:
-      "Docsora AI Check supports the formats business teams actually work with: TXT, DOC, DOCX, ODT, PDF, HTML, PPT and PPTX. One browser-based tool covers grammar checking, PDF proofreading, document review, presentation proofreading and pasted-text review - removing the need to bounce between desktop grammar tools and copy-paste web checkers.",
+      "Upload your document or paste a draft into Docsora AI Check. The editorial AI reviews grammar, tone, structure and clarity across the entire document - not just per sentence - and highlights issues with severity tags so high-impact fixes surface first. Tone presets reshape ambiguous phrasing for the audience: executive for board updates, legal for contracts, simple for onboarding material, marketing for proposals. The output is a polished, on-brand version of your writing without losing your voice.",
   },
   {
-    question: "Is Docsora AI Check secure?",
+    question: "What AI tool reviews contracts for grammar issues?",
     answer:
-      "Every upload runs over end-to-end TLS encryption and is processed inside an isolated, privacy-first environment. Files are automatically deleted from our servers after review - Docsora never stores, indexes or trains models on your documents. The platform is operated under ISO 27001 controls and aligned with SOC 2 and GDPR, which is why finance, legal and operations teams use it for sensitive reviewing workflows.",
+      "Docsora AI Check reviews contracts, NDAs, MSAs and legal drafts in PDF, DOC, DOCX or TXT. The editorial AI flags grammar, inconsistent terminology, ambiguous clauses and clarity gaps - the wording issues human reviewers routinely miss under deadline pressure. It does not replace legal counsel; it is the editorial pass that ensures the language is clean before it reaches counsel, counterparties or signature.",
   },
   {
-    question: "Can I review PowerPoint presentations?",
+    question: "What document types does Docsora AI Check support?",
     answer:
-      "Yes. Upload a PPT or PPTX deck and Docsora AI Check extracts text from every slide, then runs AI grammar, tone and clarity analysis slide by slide. Your design, layout, animations and theme are untouched - only the slide copy is reviewed. Ideal for investor decks, sales presentations, kickoff decks and training material before they go to clients or executives.",
+      "Docsora AI Check supports the formats professional teams actually circulate: PDF, DOC, DOCX, ODT, TXT, HTML, PPT and PPTX. A single workspace covers PDF proofreading, Word document review, PowerPoint deck analysis, HTML draft review and pasted-text auditing - removing the need to bounce between desktop proofreaders, browser extensions and copy-paste web checkers.",
   },
   {
-    question: "Can I check contracts for grammar mistakes?",
+    question: "What grammar checker supports PDF and DOCX files?",
     answer:
-      "Yes. Drop a contract, NDA, MSA or legal draft (PDF, DOC, DOCX or TXT) into Docsora AI Check and the AI returns grammar, clarity and consistency suggestions inline. Docsora is an editorial layer that strengthens contract language - it does not replace legal counsel, but it catches the wording issues that human reviewers most often miss.",
+      "Docsora AI Check is one of the few editorial tools that handles PDF, DOC and DOCX natively in the browser. Upload a PDF report or a Word draft and the platform extracts the text, runs language-model proofreading, and returns suggestions inline. Both formats retain their original structure during review, so a PDF stays a PDF and a Word document keeps its styles.",
   },
   {
-    question: "How does AI proofreading work?",
+    question: "Is Docsora AI Check secure for confidential documents?",
     answer:
-      "Docsora uses language-model analysis trained for professional writing. After upload, the AI scans the entire document for grammar, spelling, punctuation, tone misalignment, ambiguous phrasing and clarity issues. Each suggestion is tagged with severity (low, medium, high) and shown alongside the original sentence so you can accept individual fixes, reject them, or apply all safe corrections in one click.",
+      "Every upload travels over end-to-end TLS and is processed inside an isolated review environment. Documents are deleted from review servers after analysis - Docsora never stores, indexes or trains models on customer content. The platform operates under ISO 27001 controls, aligns with SOC 2 trust-services criteria and is GDPR-ready, which is why finance, legal and operations teams use it for board packs, contracts and regulated filings.",
   },
   {
-    question: "Can I improve business writing online?",
+    question: "How do I proofread PowerPoint presentations?",
     answer:
-      "Yes. Docsora is built for browser-based business writing improvement - upload a report, proposal or memo and receive AI suggestions tuned for executive, legal, simple or marketing tone. It's the fastest way to run a pre-send writing audit without switching between desktop grammar tools, browser extensions and AI rewriters.",
+      "Upload a PPT or PPTX deck and Docsora extracts text from every slide, then reviews grammar, tone, terminology and clarity slide by slide. Layout, theme, animations and master slides remain untouched - only the wording is analysed. The result is a polished deck ready for investors, executives or clients without the manual slide-by-slide proofread that usually delays delivery.",
   },
   {
-    question: "Does Docsora preserve formatting?",
+    question: "Can I audit contracts and compliance documentation?",
     answer:
-      "Yes. Proofreading is non-destructive - your original document and its formatting stay untouched during review. Suggestions are surfaced in a side-by-side view so you can apply changes consciously rather than overwriting the source file. PowerPoint layouts, PDF structure and Word styles are preserved on export where possible.",
+      "Yes. Contracts, NDAs, MSAs, compliance memos and regulatory filings (PDF, DOC, DOCX or TXT) can be reviewed for grammar, ambiguous wording, inconsistent terminology and clarity. Docsora is an editorial layer that strengthens the language of high-stakes documents - it complements legal and compliance review rather than replacing it.",
   },
   {
-    question: "Is Docsora browser-based?",
+    question: "How does editorial AI proofreading work?",
     answer:
-      "Yes. Docsora AI Check is fully browser-based with no software, plugins or extensions required. It works on macOS, Windows, Linux, ChromeOS, iOS and Android from Chrome, Safari, Edge, Firefox, Arc and Brave. Open the page, drop your document and review online instantly.",
+      "Docsora applies language-model analysis calibrated for professional writing. After upload, the system scans the whole document for grammar, spelling, punctuation, tone misalignment, terminology drift, ambiguous phrasing and structural clarity. Each suggestion is tagged with severity - low, medium, high - and surfaced beside its original sentence, so reviewers can accept individual edits, reject them, or apply every safe correction in one click.",
+  },
+  {
+    question: "Can I review board reports and investor communications?",
+    answer:
+      "Yes. Board packs, investor updates, shareholder letters and quarterly memos are typical Docsora workloads. The executive tone preset tightens phrasing for senior audiences, the consistency check tracks terminology across sections, and the inline review flow lets the author and reviewer collaborate without bouncing the document through email.",
+  },
+  {
+    question: "Does Docsora preserve document formatting?",
+    answer:
+      "Yes. Review is non-destructive. The original document - including PDF structure, PowerPoint master layouts, Word styles and ODT formatting - stays untouched while suggestions are surfaced in a side-by-side view. Exports preserve original layout where the format supports it.",
+  },
+  {
+    question: "Do I need to install anything to use Docsora AI Check?",
+    answer:
+      "No. Docsora AI Check runs entirely in the browser - no software, plugins or extensions. It works across macOS, Windows, Linux, ChromeOS, iOS and Android in Chrome, Safari, Edge, Firefox, Arc and Brave. Open the page, drop a document, and the review workspace loads in seconds.",
   },
 ];
 
@@ -239,36 +263,39 @@ const faqs = [
 const popularToolSlugs = [
   "grammar-checker",
   "proofread-pdf",
+  "document-proofreader",
   "ai-writing-assistant",
   "check-contract-language",
   "improve-business-writing",
   "proofread-presentations",
-  "check-document-for-errors",
-  "fix-grammar-online",
+  "professional-writing-checker",
 ];
 
 // Real-world workflow intent (long-tail authority)
 const workflowIntents = [
-  { icon: Presentation, title: "Review investor pitch decks", description: "Slide-by-slide grammar and tone review before the room sees it." },
-  { icon: Scale, title: "Proofread legal contracts", description: "Catch ambiguity and inconsistent wording before counsel review." },
-  { icon: HeartHandshake, title: "Improve onboarding documents", description: "Tighten HR docs, handbooks and policy material for clarity." },
-  { icon: Briefcase, title: "Review proposals before sending", description: "Final-pass audits on sales proposals and RFP responses." },
-  { icon: FileSearch, title: "Check reports for grammar issues", description: "Audit operational reports and exec summaries before circulation." },
-  { icon: Edit3, title: "Improve client deliverables", description: "Polish agency and consultancy work before client review." },
+  { icon: FileSearch, title: "Review board reports before circulation", description: "Editorial pass on board packs, exec summaries and quarterly memos." },
+  { icon: Scale, title: "Audit compliance documentation", description: "Surface ambiguity and inconsistent terminology across regulatory filings." },
+  { icon: Briefcase, title: "Proofread investor communications", description: "Tighten shareholder letters, fundraising updates and partner memos." },
+  { icon: Presentation, title: "Polish sales proposals and RFPs", description: "Final-pass review on proposals, SOWs and pitch responses before they go out." },
+  { icon: HeartHandshake, title: "Improve onboarding documents", description: "Sharpen HR handbooks, training material and policy guides for clarity." },
+  { icon: Edit3, title: "Refine consulting deliverables", description: "Review client-facing reports, strategy memos and engagement summaries." },
+  { icon: FileText, title: "Audit financial summaries", description: "Run an editorial pass on board financials and operating reviews." },
+  { icon: BookOpenCheck, title: "Standardise operational handbooks", description: "Improve readability across SOPs, playbooks and runbooks." },
 ];
 
 // Long-tail / AI-search intent chips
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
-  { slug: "grammar-checker", label: "AI grammar checker", intent: "Grammar, spelling and clarity in seconds." },
-  { slug: "proofread-pdf", label: "Proofread PDF online", intent: "Native PDF review with AI suggestions." },
-  { slug: "ai-writing-assistant", label: "AI writing assistant", intent: "Tone, clarity and structure for business writing." },
-  { slug: "improve-business-writing", label: "Improve business writing", intent: "Built for reports and proposals." },
-  { slug: "check-contract-language", label: "Check contract language", intent: "AI review for legal documents." },
-  { slug: "proofread-presentations", label: "Proofread presentations", intent: "Slide-by-slide PowerPoint review." },
-  { slug: "fix-grammar-online", label: "Fix grammar online", intent: "Free browser-based grammar fixer." },
-  { slug: "check-document-for-errors", label: "Check document for errors", intent: "Full-document AI audit." },
-  { slug: "professional-writing-checker", label: "Professional writing checker", intent: "For executive and client-facing docs." },
-  { slug: "proofreading-tool-online", label: "Proofreading tool online", intent: "AI proofreader for any business doc." },
+  { slug: "document-proofreader", label: "Document proofreader", intent: "Editorial review for board packs and contracts." },
+  { slug: "proofread-pdf", label: "Proofread PDF online", intent: "Native PDF review with inline editorial suggestions." },
+  { slug: "check-contract-language", label: "Review contract language", intent: "Editorial pass for legal and compliance teams." },
+  { slug: "proofread-presentations", label: "Proofread presentations", intent: "Slide-by-slide deck review for executives and clients." },
+  { slug: "improve-business-writing", label: "Improve business writing", intent: "Editorial AI for reports, proposals and memos." },
+  { slug: "professional-writing-checker", label: "Professional writing checker", intent: "Tone-aware review for executive documents." },
+  { slug: "grammar-checker", label: "AI grammar checker", intent: "Grammar, spelling and clarity across documents." },
+  { slug: "ai-writing-assistant", label: "AI writing assistant", intent: "Tone and structure refinement for business writing." },
+  { slug: "check-document-for-errors", label: "Check document for errors", intent: "Whole-document editorial audit." },
+  { slug: "fix-grammar-online", label: "Fix grammar online", intent: "Free browser-based grammar review." },
+  { slug: "proofreading-tool-online", label: "Online proofreading tool", intent: "Cloud-native proofreader for any document." },
 ];
 
 export interface AICheckSEOProps {
@@ -429,12 +456,13 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Check Any Document Type
+              Supported Document Types
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Analyze grammar, clarity, spelling and professional writing
-              quality across business documents, reports, PDFs and
-              presentations.
+              Docsora AI Check supports editorial review across PDFs, Word
+              documents, presentations, HTML files and professional business
+              documentation - one workspace for every document format your
+              team circulates.
             </p>
           </motion.div>
 
@@ -487,7 +515,8 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 2 - Improve Professional Writing */}
+        {/* SECTION 2 - Improve Professional Writing (variant pages only) */}
+        {variant && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
@@ -500,9 +529,9 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
               Improve Professional Writing Instantly
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Enhance grammar, tone, readability and clarity across reports,
-              proposals, contracts and presentations without leaving your
-              browser.
+              Editorial review across reports, proposals, contracts and
+              presentations - tone, structure and clarity tightened in a
+              single workspace.
             </p>
           </motion.div>
 
@@ -547,16 +576,18 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
               ))}
           </motion.div>
         </section>
+        )}
 
         {/* SECTION 3 - Popular AI Writing Tools */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Popular AI Writing & Proofreading Tools
+              Explore Professional Writing Workflows
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Dedicated entry points for the AI writing workflows teams use
-              every day - all free, browser-based and secure.
+              Dedicated workspaces for the editorial workflows professional
+              teams rely on - from PDF proofreading to contract language
+              review.
             </p>
           </motion.div>
 
@@ -603,12 +634,12 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Built for Real Document Workflows
+              Operational Document Workflows
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              From investor decks to legal contracts - Docsora AI Check
-              handles the document review workflows generic grammar tools
-              ignore.
+              From board reports to investor communications - Docsora handles
+              the editorial workflows generic writing tools were never built
+              for.
             </p>
           </motion.div>
 
@@ -789,14 +820,15 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 9 - Related AI Writing Tools (+ long-tail search chips) */}
+        {/* SECTION 9 - Explore Professional Writing Workflows (chips + cards on variants) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
-              Related AI Writing Tools
+              {variant ? "Related Writing Workflows" : "Explore More Writing Workflows"}
             </h2>
           </motion.div>
 
+          {variant && (
           <motion.div
             {...staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -832,10 +864,11 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
                 </motion.div>
               ))}
           </motion.div>
+          )}
 
           <motion.div {...fadeUp} className="mt-10">
             <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
-              Popular AI writing searches
+              Explore professional writing workflows
             </p>
             <div className="flex flex-wrap items-center justify-center gap-2">
               {popularSearchSlugs
