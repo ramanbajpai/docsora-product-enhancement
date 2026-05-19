@@ -26,6 +26,11 @@ import {
   Building2,
   GraduationCap,
   Workflow,
+  FileSpreadsheet,
+  Presentation,
+  Image as ImageIcon,
+  Mail,
+  FileBox,
 } from "lucide-react";
 import {
   Accordion,
@@ -96,6 +101,64 @@ const documentTypes = [
     description:
       "Create reusable signing templates for agreements, proposals and recurring workflows.",
     slug: "reusable-signature-templates",
+  },
+];
+
+// Supported File Types — categorised
+const supportedFileTypes = [
+  {
+    category: "Contracts & Documents",
+    icon: FileText,
+    title: "Sign Contracts & Business Documents",
+    description:
+      "Upload agreements, proposals, reports and operational documents for secure signing workflows.",
+    formats: ["PDF", "DOC", "DOCX", "ODT", "TXT", "HTML"],
+    intent: "Sign PDF online · Sign Word documents online",
+  },
+  {
+    category: "Spreadsheets",
+    icon: FileSpreadsheet,
+    title: "Approve Spreadsheet Workflows",
+    description:
+      "Collect approvals and signatures on finance sheets, operational trackers and reporting documents.",
+    formats: ["CSV", "XLS", "XLSX", "ODS"],
+    intent: "Sign Excel spreadsheets · Approve finance sheets",
+  },
+  {
+    category: "Presentations",
+    icon: Presentation,
+    title: "Sign Presentation & Pitch Deck Files",
+    description:
+      "Approve proposals, decks and presentations directly inside browser-based workflows.",
+    formats: ["PPT", "PPTX", "ODP"],
+    intent: "Sign PowerPoint presentations · Approve decks",
+  },
+  {
+    category: "Images & Visual Documents",
+    icon: ImageIcon,
+    title: "Sign Image-Based Documents",
+    description:
+      "Upload scanned documents, visual approvals and image-based workflows securely online.",
+    formats: ["JPG", "JPEG", "PNG", "GIF", "BMP", "TIFF", "WEBP"],
+    intent: "Sign image files online · Sign scanned documents",
+  },
+  {
+    category: "Email & Archive Files",
+    icon: Mail,
+    title: "Approve Email & Archive Records",
+    description:
+      "Manage approval workflows for exported email and archived operational records.",
+    formats: ["EML"],
+    intent: "Approve exported email records",
+  },
+  {
+    category: "Universal Workflows",
+    icon: FileBox,
+    title: "Multi-Format Signing Workflows",
+    description:
+      "Docsora Sign supports multi-document approval workflows across contracts, onboarding, proposals and operational approvals.",
+    formats: ["All supported formats"],
+    intent: "Multi-document approval workflows · Browser-based signing",
   },
 ];
 
@@ -455,6 +518,76 @@ export function SignSEO({ variant }: SignSEOProps = {}) {
                     <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                   </div>
                 </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* Supported File Types */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+              <FileBox className="w-3 h-3 text-primary/80" />
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                Supported formats
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Supported File Types
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              Docsora Sign supports secure browser-based signing workflows across
+              contracts, proposals, onboarding documents, spreadsheets,
+              presentations, images and operational business files.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            {supportedFileTypes.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
+                transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+                className={cn(
+                  "group relative rounded-2xl p-6 h-full flex flex-col",
+                  "bg-card/50 backdrop-blur-sm border border-border/40",
+                  "hover:border-primary/25 hover:bg-card/80 transition-all duration-300",
+                )}
+              >
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+                    <item.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground/60 font-medium">
+                    {item.category}
+                  </span>
+                </div>
+                <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed mb-5">
+                  {item.description}
+                </p>
+                <div className="mt-auto pt-5 border-t border-border/30">
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {item.formats.map((fmt) => (
+                      <span
+                        key={fmt}
+                        className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 rounded-md bg-primary/5 border border-primary/10 text-foreground/70"
+                      >
+                        {fmt}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground/55 leading-relaxed">
+                    {item.intent}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
