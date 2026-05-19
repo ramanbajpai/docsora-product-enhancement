@@ -12,6 +12,7 @@ import {
   Database,
   Mails,
   FileArchive,
+  Minimize2,
 } from "lucide-react";
 
 export interface CompressVariantConfig {
