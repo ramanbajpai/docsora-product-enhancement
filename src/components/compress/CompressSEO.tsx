@@ -73,6 +73,7 @@ const fileTypeGroups = [
     title: "Compress PDF & Word Documents",
     description:
       "Reduce the size of PDFs, Word files, and rich text documents without losing readability or formatting.",
+    slug: "compress-pdf",
   },
   {
     category: "Spreadsheets",
@@ -81,6 +82,7 @@ const fileTypeGroups = [
     title: "Compress Excel Files",
     description:
       "Shrink large spreadsheets and data exports while preserving formulas, sheets, and structure.",
+    slug: "compress-excel-files",
   },
   {
     category: "Presentations",
@@ -89,6 +91,7 @@ const fileTypeGroups = [
     title: "Compress PowerPoint Presentations",
     description:
       "Make decks lighter for email, sharing, and live presentations with no visible quality loss.",
+    slug: "compress-powerpoint",
   },
   {
     category: "Images",
@@ -97,6 +100,7 @@ const fileTypeGroups = [
     title: "Compress Images Without Quality Loss",
     description:
       "Optimize photos, graphics, and screenshots for web, social, and storage with intelligent compression.",
+    slug: "compress-images",
   },
   {
     category: "Email",
@@ -105,6 +109,7 @@ const fileTypeGroups = [
     title: "Compress Email Attachments",
     description:
       "Reduce email file sizes so attachments fit under inbox limits and send instantly.",
+    slug: "compress-email-attachments",
   },
   {
     category: "Universal",
@@ -113,6 +118,7 @@ const fileTypeGroups = [
     title: "Compress Any File Online",
     description:
       "One tool for every format — drop any document, image, or sheet and Docsora handles the rest.",
+    slug: "online-file-compressor",
   },
 ];
 
@@ -144,6 +150,7 @@ const securityPoints = [
   { icon: Trash2, title: "Automatic deletion", description: "Files are removed from our servers after processing." },
   { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
   { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
+  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to enterprise-grade SOC 2 security standards." },
   { icon: KeyRound, title: "Privacy-first", description: "Your documents are never stored, shared, or scanned." },
 ];
 
