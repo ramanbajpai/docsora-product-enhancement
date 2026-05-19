@@ -40,6 +40,7 @@
   <url><loc>/fix-grammar-online</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/professional-writing-checker</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/proofreading-tool-online</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/document-proofreader</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compare/docsora-vs-grammarly</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>/compare/docsora-vs-quillbot</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>/compare/docsora-vs-languagetool</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
