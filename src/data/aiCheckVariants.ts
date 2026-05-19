@@ -10,6 +10,7 @@ import {
   PenLine,
   ShieldCheck,
   FileSearch,
+  BookOpenCheck,
 } from "lucide-react";
 
 export interface AICheckVariantConfig {
