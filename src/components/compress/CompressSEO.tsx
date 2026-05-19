@@ -662,7 +662,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
 
           <motion.div {...fadeUp} className="max-w-2xl mx-auto">
             <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, i) => (
+              {activeFaqs.map((faq, i) => (
                 <AccordionItem
                   key={i}
                   value={`item-${i}`}
@@ -684,7 +684,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
-              Related Resources
+              Related Compression Tools
             </h2>
           </motion.div>
 
@@ -692,29 +692,35 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             {...staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {resources.map((resource, i) => (
-              <motion.a
-                key={resource.title}
-                href="#"
+            {compressVariants
+              .filter((v) => v.slug !== variant?.slug)
+              .slice(0, 9)
+              .map((resource, i) => (
+              <motion.div
+                key={resource.slug}
                 initial={staggerItem.initial}
                 whileInView={staggerItem.whileInView}
                 viewport={staggerItem.viewport}
                 transition={{ ...staggerItem.transition, delay: i * 0.06 }}
-                className={cn(
-                  "group rounded-2xl p-6 block",
-                  "bg-card/40 border border-border/30",
-                  "hover:border-primary/20 hover:bg-card/70 transition-all duration-300"
-                )}
               >
-                <h3 className="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {resource.title}
-                </h3>
-                <p className="text-sm text-muted-foreground/70 leading-relaxed">{resource.description}</p>
-                <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-primary/60 group-hover:text-primary transition-colors">
-                  <span>Read more</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </motion.a>
+                <Link
+                  to={`/${resource.slug}`}
+                  className={cn(
+                    "group rounded-2xl p-6 block h-full",
+                    "bg-card/40 border border-border/30",
+                    "hover:border-primary/20 hover:bg-card/70 transition-all duration-300"
+                  )}
+                >
+                  <h3 className="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {resource.cardLabel}
+                  </h3>
+                  <p className="text-sm text-muted-foreground/70 leading-relaxed">{resource.cardDescription}</p>
+                  <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-primary/60 group-hover:text-primary transition-colors">
+                    <span>Open tool</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
         </section>
