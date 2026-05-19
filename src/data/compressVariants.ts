@@ -358,6 +358,42 @@ export const compressVariants: CompressVariantConfig[] = [
     ],
   },
   {
+    slug: "compress-word-documents",
+    title: "Compress Word Documents Online — Free DOC & DOCX Compressor | Docsora",
+    metaDescription:
+      "Compress Word documents online for free. Reduce DOC and DOCX file size for email, sharing, and uploads — formatting, fonts, and tables preserved.",
+    h1: "Compress Word Documents Online",
+    intro:
+      "Reduce DOC and DOCX file size while keeping every heading, image, and table perfectly intact.",
+    keyword: "compress word documents",
+    acceptedFormats: "DOC · DOCX · ODT",
+    cardIcon: FileText,
+    cardLabel: "Compress Word Documents",
+    cardDescription:
+      "Shrink DOC and DOCX files for email and collaboration — formatting preserved.",
+    longCopy:
+      "Docsora's Word document compressor optimizes embedded images, fonts, and revision data inside DOC, DOCX, and ODT files — reducing size by up to 80% with zero formatting changes. Send proposals, reports, and contracts faster without hitting inbox limits.",
+    useCases: [
+      "Compress contracts and proposals for email",
+      "Reduce report and whitepaper file sizes",
+      "Optimize Word attachments for Outlook",
+      "Share long-form documents faster",
+      "Compress client deliverables and briefs",
+    ],
+    faq: [
+      {
+        question: "How do I compress a Word document online?",
+        answer:
+          "Drop your DOC, DOCX, or ODT file into the upload area. Docsora compresses the document directly in your browser, optimizing embedded media and document structure while returning a smaller file with identical formatting, fonts, and layout.",
+      },
+      {
+        question: "Will compressing change my Word document's formatting?",
+        answer:
+          "No. Headings, tables, images, comments, and tracked changes all remain intact — Docsora only optimizes how the file is stored, not how it looks.",
+      },
+    ],
+  },
+  {
     slug: "compress-powerpoint",
     title: "Compress PowerPoint Online — Free PPTX Compressor | Docsora",
     metaDescription:
