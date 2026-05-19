@@ -4,7 +4,6 @@ import {
   Mail,
   Presentation,
   FileText,
-  Globe,
   Image as ImageIcon,
   Upload,
   Minimize2,
@@ -13,9 +12,7 @@ import {
   FileSpreadsheet,
   FileType,
   Mails,
-  Users,
   Briefcase,
-  Share2,
   ShieldCheck,
   Zap,
   Lock,
@@ -123,17 +120,7 @@ const fileTypeGroups = [
   },
 ];
 
-// SECTION 2 - Use Cases
-const useCases = [
-  { icon: Mail, title: "Email Attachments", description: "Send files under strict inbox size limits without splitting." },
-  { icon: Globe, title: "Website Uploads", description: "Speed up page loads with lighter assets and documents." },
-  { icon: Users, title: "Team Collaboration", description: "Share lighter files across Slack, Notion, and Drive." },
-  { icon: Briefcase, title: "Client Deliverables", description: "Send polished, lightweight files to clients in one click." },
-  { icon: Presentation, title: "Presentations", description: "Shrink decks for smoother screen sharing and uploads." },
-  { icon: Share2, title: "Media Sharing", description: "Compress images and graphics for seamless social posting." },
-];
-
-// SECTION 3 - Why Docsora
+// Why Docsora
 const benefits = [
   { icon: Sparkles, title: "No quality loss", description: "Smart algorithms preserve clarity and detail." },
   { icon: Zap, title: "Fast processing", description: "Compression completes in seconds, not minutes." },
