@@ -60,6 +60,7 @@ const App = () => (
             <Route path="/compress-jpg" element={<CompressVariant />} />
             <Route path="/compress-png" element={<CompressVariant />} />
             <Route path="/compress-word-document" element={<CompressVariant />} />
+            <Route path="/compress-word-documents" element={<CompressVariant />} />
             <Route path="/compress-powerpoint" element={<CompressVariant />} />
             <Route path="/compress-excel-files" element={<CompressVariant />} />
             <Route path="/compress-images" element={<CompressVariant />} />
