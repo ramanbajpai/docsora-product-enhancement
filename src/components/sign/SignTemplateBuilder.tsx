@@ -553,64 +553,13 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
               </p>
             </div>
 
-            {/* Package title */}
+            {/* Template name */}
             <div>
-              <Label>
-                <span className="inline-flex items-center gap-1.5">
-                  <Braces className="w-3 h-3" />
-                  Package title (supports variables)
-                </span>
-              </Label>
+              <Label>Template name</Label>
               <Input
-                value={packageTitle}
-                onChange={(e) => setPackageTitle(e.target.value)}
-                placeholder="e.g. {{COMPANY_NAME}} – Client Onboarding"
-                className="h-10 bg-background/60 font-mono text-[12.5px]"
-              />
-              <p className="text-[10.5px] text-muted-foreground mt-1.5">
-                Leave blank to use the template name. Document names also support{" "}
-                <code className="font-mono">{"{{VARIABLES}}"}</code>.
-              </p>
-            </div>
-
-            {/* basics */}
-            <div className="grid md:grid-cols-2 gap-3">
-              <div>
-                <Label>Template name</Label>
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Agency Client Agreement"
-                  className="h-10 bg-background/60"
-                />
-              </div>
-              <div>
-                <Label>Category</Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {CATEGORIES.map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setCategory(c)}
-                      className={cn(
-                        "h-10 px-3 rounded-xl text-[12px] font-medium border transition-colors",
-                        category === c
-                          ? "bg-primary/10 text-primary border-primary/25"
-                          : "bg-card/30 text-muted-foreground hover:text-foreground border-border/50",
-                      )}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Label>Description (optional)</Label>
-              <Input
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="What's this template for?"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Agency Client Agreement"
                 className="h-10 bg-background/60"
               />
             </div>
