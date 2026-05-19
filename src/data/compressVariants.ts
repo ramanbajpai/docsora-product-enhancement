@@ -12,6 +12,7 @@ import {
   Database,
   Mails,
   FileArchive,
+  Minimize2,
 } from "lucide-react";
 
 export interface CompressVariantConfig {
@@ -35,6 +36,189 @@ export interface CompressVariantConfig {
  * Each page internally links back to /compress (the authority hub).
  */
 export const compressVariants: CompressVariantConfig[] = [
+  {
+    slug: "reduce-file-size",
+    title: "Reduce File Size Online — Free File Size Reducer | Docsora",
+    metaDescription:
+      "Reduce file size online for PDFs, images, presentations, spreadsheets, and documents. Free, browser-based, no quality loss — no installs.",
+    h1: "Reduce File Size Online",
+    intro:
+      "Reduce the size of any file directly in your browser — without losing quality or formatting. Free, secure, instant.",
+    keyword: "reduce file size",
+    acceptedFormats: "All major formats",
+    cardIcon: Minimize2,
+    cardLabel: "Reduce File Size",
+    cardDescription:
+      "Reduce the size of any file in your browser — no installs, no quality loss.",
+    longCopy:
+      "Docsora's online file size reducer compresses PDFs, images, presentations, spreadsheets, and documents with format-aware optimization. Reduce file size instantly for email, web upload, cloud storage, and sharing — without installing software or sacrificing quality.",
+    faq: [
+      {
+        question: "How do I reduce file size online?",
+        answer:
+          "Drop any file into the upload area above. Docsora reduces file size directly in your browser using format-aware compression — handling PDFs, images, Word, Excel, and PowerPoint files without any installation or signup.",
+      },
+      {
+        question: "Can I reduce file size without losing quality?",
+        answer:
+          "Yes. Docsora's lossless and visually-lossless modes shrink files while keeping every detail intact — ideal for compressing files for email, web, and client delivery.",
+      },
+    ],
+  },
+  {
+    slug: "reduce-pdf-size",
+    title: "Reduce PDF Size Online — Free PDF Size Reducer | Docsora",
+    metaDescription:
+      "Reduce PDF size online for email, sharing, and uploads. Free browser-based PDF size reducer — no quality loss, no installs, GDPR aligned.",
+    h1: "Reduce PDF Size Online",
+    intro:
+      "Reduce large PDF documents for email, sharing, and uploads while preserving readability and formatting.",
+    keyword: "reduce pdf size",
+    acceptedFormats: "PDF",
+    cardIcon: FileText,
+    cardLabel: "Reduce PDF Size",
+    cardDescription:
+      "Shrink PDFs for email and sharing — formatting and clarity preserved.",
+    longCopy:
+      "Docsora's online PDF size reducer compresses PDF documents by 60–90% while keeping text vector-sharp and images print-ready. Reduce PDF size for Gmail and Outlook attachments, e-signature workflows, and client deliverables — directly in your browser.",
+    faq: [
+      {
+        question: "How do I reduce PDF size for email?",
+        answer:
+          "Upload your PDF, pick 'Maximum compression', and Docsora reduces PDF size to fit Gmail (25MB) and Outlook (10–20MB) limits — without splitting, uploading to a cloud link, or losing quality.",
+      },
+      {
+        question: "Can I reduce PDF size without losing quality?",
+        answer:
+          "Yes. Docsora's PDF size reducer uses visually-lossless compression that keeps text crisp and images sharp while typically reducing file size by 60–90%.",
+      },
+    ],
+  },
+  {
+    slug: "reduce-image-size",
+    title: "Reduce Image Size Online — Free Image Size Reducer | Docsora",
+    metaDescription:
+      "Reduce image size online for websites, social media, and storage. Shrink JPG, PNG, and WEBP files without losing quality — free and browser-based.",
+    h1: "Reduce Image Size Online",
+    intro:
+      "Shrink JPG, PNG, and WEBP images for websites, social media, and storage optimization — no visible quality loss.",
+    keyword: "reduce image size",
+    acceptedFormats: "JPG · PNG · WEBP · GIF · BMP · TIFF",
+    cardIcon: ImageIcon,
+    cardLabel: "Reduce Image Size",
+    cardDescription:
+      "Shrink JPG, PNG, and WEBP files for web, social, and storage.",
+    longCopy:
+      "Docsora's image size reducer uses perceptual encoding to cut JPG, PNG, and WEBP file size by up to 80% with no visible quality loss. Reduce image size for websites, blog posts, social uploads, marketing assets, and email — directly in the browser.",
+    faq: [
+      {
+        question: "How do I reduce image size for a website?",
+        answer:
+          "Upload your images, pick 'Balanced' mode, and Docsora optimizes them for fast loading and strong Core Web Vitals scores while keeping visual quality intact.",
+      },
+      {
+        question: "Can I reduce image size in bulk?",
+        answer:
+          "Yes — drop multiple images at once and Docsora compresses each one independently, then bundles them for a single optimized download.",
+      },
+    ],
+  },
+  {
+    slug: "reduce-powerpoint-file-size",
+    title: "Reduce PowerPoint File Size — Free PPTX Size Reducer | Docsora",
+    metaDescription:
+      "Reduce PowerPoint file size online. Shrink PPTX decks for email, sharing, and client delivery without losing slide quality — free, browser-based.",
+    h1: "Reduce PowerPoint File Size",
+    intro:
+      "Optimize presentations for smoother sharing, uploads, and client delivery — every slide preserved.",
+    keyword: "reduce powerpoint file size",
+    acceptedFormats: "PPT · PPTX · ODP",
+    cardIcon: Presentation,
+    cardLabel: "Reduce PowerPoint Size",
+    cardDescription:
+      "Slim down decks for email and sharing — slides, animations, and fonts intact.",
+    longCopy:
+      "Docsora's PowerPoint size reducer optimizes embedded images, screenshots, and video inside PPT, PPTX, and ODP decks. Reduce PowerPoint file size for sales decks, investor presentations, and training material — without changing a single slide.",
+    faq: [
+      {
+        question: "How do I reduce PowerPoint file size for email?",
+        answer:
+          "Upload your PPTX and Docsora compresses embedded media so the deck fits Gmail and Outlook limits — slides, animations, transitions, and fonts remain perfectly intact.",
+      },
+    ],
+  },
+  {
+    slug: "reduce-excel-file-size",
+    title: "Reduce Excel File Size Online — Free XLSX Size Reducer | Docsora",
+    metaDescription:
+      "Reduce Excel file size online without breaking formulas or sheet structure. Free XLSX size reducer for finance and ops teams — browser-based.",
+    h1: "Reduce Excel File Size",
+    intro:
+      "Compress spreadsheets and exports without breaking formulas or sheet structure.",
+    keyword: "reduce excel file size",
+    acceptedFormats: "XLS · XLSX · CSV · ODS",
+    cardIcon: FileSpreadsheet,
+    cardLabel: "Reduce Excel Size",
+    cardDescription:
+      "Shrink spreadsheets without breaking formulas, pivots, or references.",
+    longCopy:
+      "Docsora's Excel size reducer rebuilds XLSX storage, clears redundant cache, and optimizes embedded objects — typically reducing Excel file size 40–70%. Every formula, named range, and pivot table remains fully intact.",
+    faq: [
+      {
+        question: "Will reducing Excel file size break my formulas?",
+        answer:
+          "No. Docsora only optimizes file storage and embedded media — formulas, named ranges, and pivot tables remain intact and recalculate exactly as before.",
+      },
+    ],
+  },
+  {
+    slug: "compress-pdf-online",
+    title: "Compress PDF Online — Free Browser-Based PDF Compressor | Docsora",
+    metaDescription:
+      "Compress PDF online for free. Browser-based PDF compressor — no installs, no signup. Reduce PDF size for email and sharing with no quality loss.",
+    h1: "Compress PDF Online",
+    intro:
+      "Compress PDF files online for free — directly in your browser, with end-to-end encryption.",
+    keyword: "compress pdf online",
+    acceptedFormats: "PDF",
+    cardIcon: FileText,
+    cardLabel: "Compress PDF Online",
+    cardDescription:
+      "Free online PDF compressor — no installs, no signup, no quality loss.",
+    longCopy:
+      "Docsora is a free online PDF compressor that runs entirely in your browser. Compress PDF files instantly for email attachments, web uploads, and document sharing — secure, GDPR-aligned, and engineered for premium document workflows.",
+    faq: [
+      {
+        question: "Is Docsora a free online PDF compressor?",
+        answer:
+          "Yes — free, browser-based, no signup, no installs. Upgrade to Pro for batch compression, larger files, and advanced quality controls.",
+      },
+    ],
+  },
+  {
+    slug: "free-online-file-compressor",
+    title: "Free Online File Compressor — No Installs, No Signup | Docsora",
+    metaDescription:
+      "Free online file compressor. Compress PDFs, images, Word, Excel, and PowerPoint in your browser — no installs, no signup, encrypted end-to-end.",
+    h1: "Free Online File Compressor",
+    intro:
+      "100% free, browser-based file compression for every major format — no software, no signup, no compromise.",
+    keyword: "free online file compressor",
+    acceptedFormats: "All major formats",
+    cardIcon: FileType,
+    cardLabel: "Free Online File Compressor",
+    cardDescription:
+      "Free browser-based compression for every major file format.",
+    longCopy:
+      "Docsora is a free online file compressor built for modern teams. Compress PDFs, images, Word, Excel, and PowerPoint files in your browser — encrypted in transit, automatically deleted after processing, no signup required.",
+    faq: [
+      {
+        question: "Is this file compressor really free?",
+        answer:
+          "Yes — completely free for all common file types and standard sizes, with no account required. Pro plans add batch compression, larger file limits, and advanced controls.",
+      },
+    ],
+  },
   {
     slug: "compress-pdf",
     title: "Compress PDF Online — Free PDF Compressor | Docsora",

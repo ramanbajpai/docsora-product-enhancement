@@ -31,6 +31,7 @@ import {
   Scale,
   Receipt,
   GraduationCap,
+  Gauge,
 } from "lucide-react";
 import {
   Accordion,
@@ -158,7 +159,7 @@ const faqs = [
   {
     question: "How do I compress file size online?",
     answer:
-      "Drop any document, image, or spreadsheet into the upload area above and Docsora compresses it directly in your browser using intelligent, format-aware optimization. Our online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more — typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a free online compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
+      "Drop any document, image, or spreadsheet into the upload area above and Docsora reduces file size directly in your browser using intelligent, format-aware optimization. Our free online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more — typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a browser-based compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
   },
   {
     question: "Can I compress files without losing quality?",
@@ -178,7 +179,7 @@ const faqs = [
   {
     question: "How do I reduce PDF size for email?",
     answer:
-      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce it to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 60–90% with no visible quality loss — perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
+      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce PDF size to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 60–90% with no visible quality loss — perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
   },
   {
     question: "Can I compress PowerPoint presentations?",
@@ -188,7 +189,7 @@ const faqs = [
   {
     question: "Can I compress images online?",
     answer:
-      "Absolutely — Docsora is a complete browser-based image compressor for JPG, JPEG, PNG, GIF, BMP, TIFF, and WEBP files, individually or in bulk. Perceptual encoding balances dimensions, color depth, and quality so photos and graphics stay visually identical while file size drops 50–80%. Use it to compress images for websites, blog posts, social media, marketing assets, and product catalogs.",
+      "Absolutely — Docsora is a complete browser-based image compressor for JPG, JPEG, PNG, GIF, BMP, TIFF, and WEBP files, individually or in bulk. Perceptual encoding balances dimensions, color depth, and quality so photos and graphics stay visually identical while image size drops 50–80%. Use it to reduce image size for websites, blog posts, social media, marketing assets, and product catalogs.",
   },
   {
     question: "Is there a maximum file size?",
@@ -203,7 +204,7 @@ const faqs = [
   {
     question: "What is the best way to reduce document size?",
     answer:
-      "Use a format-aware online compressor like Docsora. Generic ZIP archives barely shrink modern documents because PDF, DOCX, PPTX, and image files are already compressed containers — Docsora applies format-specific optimization inside each file (re-encoding images, streamlining structure, removing redundant metadata) for dramatic size reduction with no loss of meaning or visual quality.",
+      "Use a format-aware online compressor like Docsora to reduce document size without losing quality. Generic ZIP archives barely shrink modern documents because PDF, DOCX, PPTX, and image files are already compressed containers — Docsora applies format-specific optimization inside each file (re-encoding images, streamlining structure, removing redundant metadata) for dramatic size reduction with no loss of meaning or visual quality. It's the fastest way to compress large files without installing software.",
   },
 ];
 
@@ -217,6 +218,66 @@ const popularToolSlugs = [
   "compress-excel-files",
   "compress-email-attachments",
   "compress-images",
+];
+
+// "Reduce File Size" intent cards — natural, search-aligned phrasing
+const reduceIntentCards = [
+  {
+    slug: "reduce-pdf-size",
+    icon: FileText,
+    title: "Reduce PDF Size",
+    description:
+      "Reduce large PDF documents for email, sharing, and uploads while preserving readability and formatting.",
+  },
+  {
+    slug: "reduce-image-size",
+    icon: ImageIcon,
+    title: "Reduce Image Size",
+    description:
+      "Shrink JPG, PNG, and WEBP images for websites, social media, and storage optimization.",
+  },
+  {
+    slug: "reduce-powerpoint-file-size",
+    icon: Presentation,
+    title: "Reduce PowerPoint File Size",
+    description:
+      "Optimize presentations for smoother sharing, uploads, and client delivery.",
+  },
+  {
+    slug: "reduce-excel-file-size",
+    icon: FileSpreadsheet,
+    title: "Reduce Excel File Size",
+    description:
+      "Compress spreadsheets and exports without breaking formulas or sheet structure.",
+  },
+  {
+    slug: "reduce-file-size-for-email",
+    icon: Mail,
+    title: "Reduce Email Attachment Size",
+    description:
+      "Reduce attachment sizes to stay within Gmail and Outlook sending limits.",
+  },
+  {
+    slug: "compress-word-document",
+    icon: FileType,
+    title: "Reduce Document Size Online",
+    description:
+      "Compress Word documents, reports, and contracts instantly in your browser.",
+  },
+];
+
+// "Popular File Compression Searches" — long-tail internal linking
+const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
+  { slug: "reduce-file-size", label: "Reduce file size", intent: "Any file, any format — reduced in seconds." },
+  { slug: "reduce-pdf-size", label: "Reduce PDF size", intent: "Shrink PDFs for email and uploads." },
+  { slug: "reduce-image-size", label: "Reduce image size", intent: "Optimize JPG, PNG, and WEBP for web." },
+  { slug: "reduce-file-size-for-email", label: "Reduce file size for email", intent: "Fit Gmail and Outlook limits." },
+  { slug: "compress-large-files", label: "Compress large files", intent: "Handle oversized files in the browser." },
+  { slug: "compress-files-without-losing-quality", label: "Compress files without losing quality", intent: "Lossless and visually-lossless modes." },
+  { slug: "free-online-file-compressor", label: "Free online file compressor", intent: "No installs. No signup. No compromise." },
+  { slug: "reduce-powerpoint-file-size", label: "Reduce PowerPoint file size", intent: "Slim decks for sharing and screen-shares." },
+  { slug: "reduce-excel-file-size", label: "Reduce Excel file size", intent: "Smaller XLSX without breaking formulas." },
+  { slug: "compress-pdf-online", label: "Compress PDF online", intent: "Free browser-based PDF compression." },
 ];
 
 // Real-world workflow intent (long-tail authority)
@@ -389,6 +450,74 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
+        {/* SECTION — Reduce File Size Instantly Online */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+              <Gauge className="w-3 h-3 text-primary/80" />
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                Reduce file size online
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Reduce File Size Instantly Online
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              Reduce PDF, image, presentation, spreadsheet and document file
+              sizes directly in your browser — without losing quality or
+              formatting.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            {reduceIntentCards.map((card, i) => (
+              <motion.div
+                key={card.slug}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
+                transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+              >
+                <Link
+                  to={`/${card.slug}`}
+                  className={cn(
+                    "group relative block rounded-2xl p-6 h-full overflow-hidden",
+                    "bg-card/40 border border-border/30",
+                    "hover:border-primary/25 hover:bg-card/70",
+                    "transition-all duration-300"
+                  )}
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(420px circle at 0% 0%, hsl(var(--primary) / 0.06), transparent 60%)",
+                    }}
+                  />
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/12 transition-colors">
+                      <card.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                    </div>
+                    <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug group-hover:text-primary transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed mb-4">
+                      {card.description}
+                    </p>
+                    <div className="pt-4 border-t border-border/30 flex items-center gap-1.5 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Open tool</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
         {/* SECTION — Popular Compression Tools (internal linking hub) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
@@ -476,6 +605,56 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                 <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
+          </motion.div>
+        </section>
+
+        {/* SECTION — Popular File Compression Searches (long-tail internal linking) */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Popular File Compression Searches
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              The compression workflows people search for most — each one a
+              dedicated browser-based tool inside Docsora.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+          >
+            {popularSearchSlugs
+              .filter((s) => s.slug !== variant?.slug)
+              .map((search, i) => (
+                <motion.div
+                  key={search.slug}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.03 }}
+                >
+                  <Link
+                    to={`/${search.slug}`}
+                    className={cn(
+                      "group flex items-center justify-between rounded-xl px-5 py-4",
+                      "bg-card/30 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/60",
+                      "transition-all duration-300"
+                    )}
+                  >
+                    <div className="min-w-0 pr-3">
+                      <div className="text-[13px] font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                        {search.label}
+                      </div>
+                      <div className="text-[11px] text-muted-foreground/70 truncate mt-0.5">
+                        {search.intent}
+                      </div>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                  </Link>
+                </motion.div>
+              ))}
           </motion.div>
         </section>
 
