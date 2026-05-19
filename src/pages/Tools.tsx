@@ -345,7 +345,7 @@ export default function Tools() {
     subtitle: "Reusable agreements, signing packages, and operational workflows.",
     readyTitle: "Flows",
     description: "Reusable agreements & workflows",
-    icon: FlowIcon,
+    icon: FlowIcon as unknown as ToolConfig["icon"],
     acceptMultiple: false,
     supportedFormats: [],
     uploadMode: "single",
