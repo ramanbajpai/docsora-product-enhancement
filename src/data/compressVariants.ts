@@ -28,6 +28,13 @@ export interface CompressVariantConfig {
   cardDescription: string; // semantic description used in internal links
   longCopy: string; // 2-3 sentence semantic paragraph below upload
   faq: { question: string; answer: string }[];
+  // Upload hero overrides (when omitted, generic /compress hero is used)
+  uploadHeadline?: string; // e.g. "Upload your Excel files"
+  uploadSubheadline?: string;
+  uploadFormatBadges?: string[]; // chips shown in supported formats list
+  uploadAccept?: string; // file input accept attribute
+  // Optional use-case bullets specific to the variant (rendered above FAQ)
+  useCases?: string[];
 }
 
 /**
@@ -351,6 +358,42 @@ export const compressVariants: CompressVariantConfig[] = [
     ],
   },
   {
+    slug: "compress-word-documents",
+    title: "Compress Word Documents Online — Free DOC & DOCX Compressor | Docsora",
+    metaDescription:
+      "Compress Word documents online for free. Reduce DOC and DOCX file size for email, sharing, and uploads — formatting, fonts, and tables preserved.",
+    h1: "Compress Word Documents Online",
+    intro:
+      "Reduce DOC and DOCX file size while keeping every heading, image, and table perfectly intact.",
+    keyword: "compress word documents",
+    acceptedFormats: "DOC · DOCX · ODT",
+    cardIcon: FileText,
+    cardLabel: "Compress Word Documents",
+    cardDescription:
+      "Shrink DOC and DOCX files for email and collaboration — formatting preserved.",
+    longCopy:
+      "Docsora's Word document compressor optimizes embedded images, fonts, and revision data inside DOC, DOCX, and ODT files — reducing size by up to 80% with zero formatting changes. Send proposals, reports, and contracts faster without hitting inbox limits.",
+    useCases: [
+      "Compress contracts and proposals for email",
+      "Reduce report and whitepaper file sizes",
+      "Optimize Word attachments for Outlook",
+      "Share long-form documents faster",
+      "Compress client deliverables and briefs",
+    ],
+    faq: [
+      {
+        question: "How do I compress a Word document online?",
+        answer:
+          "Drop your DOC, DOCX, or ODT file into the upload area. Docsora compresses the document directly in your browser, optimizing embedded media and document structure while returning a smaller file with identical formatting, fonts, and layout.",
+      },
+      {
+        question: "Will compressing change my Word document's formatting?",
+        answer:
+          "No. Headings, tables, images, comments, and tracked changes all remain intact — Docsora only optimizes how the file is stored, not how it looks.",
+      },
+    ],
+  },
+  {
     slug: "compress-powerpoint",
     title: "Compress PowerPoint Online — Free PPTX Compressor | Docsora",
     metaDescription:
@@ -381,21 +424,53 @@ export const compressVariants: CompressVariantConfig[] = [
   },
   {
     slug: "compress-excel-files",
-    title: "Compress Excel Files Online — Free XLSX Compressor | Docsora",
+    title: "Compress Excel Files Online Free | Reduce XLS & XLSX File Size | Docsora",
     metaDescription:
-      "Compress Excel spreadsheets (XLS, XLSX, CSV) online without breaking formulas. Reduce spreadsheet size for sharing and email — free and secure.",
-    h1: "Compress Excel Spreadsheets",
+      "Compress Excel files online instantly with Docsora. Reduce XLS and XLSX spreadsheet file sizes without breaking formulas, sheets, formatting or structure. Secure browser-based Excel compression with no software installation required.",
+    h1: "Compress Excel Files Online",
     intro:
-      "Shrink XLS, XLSX, and CSV files while preserving every formula, sheet, and pivot — built for finance and ops teams.",
+      "Reduce XLS and XLSX spreadsheet file sizes instantly without losing formatting, formulas or workbook structure.",
     keyword: "compress excel files",
     acceptedFormats: "XLS · XLSX · CSV · ODS",
     cardIcon: FileSpreadsheet,
-    cardLabel: "Compress Excel",
+    cardLabel: "Compress Excel Files",
     cardDescription:
       "Reduce spreadsheet file size without breaking formulas or pivot tables.",
     longCopy:
-      "Docsora's spreadsheet compressor optimizes XLSX storage, embedded objects, and unused cached data — reducing size of large financial models, data exports, and reports while preserving every formula and sheet structure.",
+      "Docsora's online Excel compressor reduces XLS, XLSX, CSV, and ODS file sizes by 40–70% — perfect for compressing spreadsheets for email attachments, optimizing Excel exports for sharing, and shrinking large reporting workbooks. Browser-based spreadsheet compression with no installs, formulas preserved.",
+    useCases: [
+      "Compress spreadsheets for email",
+      "Reduce reporting file sizes",
+      "Optimize financial exports",
+      "Share large Excel workbooks faster",
+      "Compress client data sheets",
+    ],
     faq: [
+      {
+        question: "How do I compress Excel files online?",
+        answer:
+          "Drop your XLS, XLSX, CSV, or ODS file into the upload area above. Docsora compresses the spreadsheet directly in your browser using format-aware XLSX optimization — clearing redundant cache, rebuilding the archive, and re-encoding embedded media. The smaller file downloads in seconds, with every formula, sheet, and pivot table intact.",
+      },
+      {
+        question: "Can I reduce XLSX file size without losing formulas?",
+        answer:
+          "Yes. Docsora's spreadsheet compressor only optimizes how the workbook is stored — never what it contains. Formulas, named ranges, pivot tables, references, charts, and conditional formatting all remain fully intact and recalculate exactly as before.",
+      },
+      {
+        question: "Does Docsora preserve spreadsheet formatting?",
+        answer:
+          "Completely. Cell styles, fonts, colors, merged cells, frozen panes, headers, footers, and multi-sheet structure are preserved byte-for-byte. Browser-based spreadsheet compression with zero visible difference to the original workbook.",
+      },
+      {
+        question: "Can I compress Excel files for email attachments?",
+        answer:
+          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing 'Maximum compression' — most spreadsheets reduce 40–70%, easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
+      },
+      {
+        question: "Is Excel compression secure?",
+        answer:
+          "Every upload runs over end-to-end TLS encryption inside an isolated environment, and files are automatically deleted after compression. Docsora is operated under ISO 27001 controls and aligned with GDPR — trusted by finance, legal, and ops teams for sensitive spreadsheet workflows.",
+      },
       {
         question: "Will Excel compression break my formulas?",
         answer:
@@ -654,3 +729,72 @@ export const compressVariants: CompressVariantConfig[] = [
 export const compressVariantBySlug = Object.fromEntries(
   compressVariants.map((v) => [v.slug, v]),
 );
+
+// Map slug → file-input accept attribute (so the system file picker filters correctly)
+const acceptBySlug: Record<string, string> = {
+  "compress-pdf": ".pdf",
+  "compress-pdf-online": ".pdf",
+  "reduce-pdf-size": ".pdf",
+  "compress-jpg": ".jpg,.jpeg",
+  "compress-png": ".png",
+  "compress-images": ".jpg,.jpeg,.png,.gif,.bmp,.tiff,.webp",
+  "reduce-image-size": ".jpg,.jpeg,.png,.gif,.bmp,.tiff,.webp",
+  "compress-word-document": ".doc,.docx,.odt",
+  "compress-word-documents": ".doc,.docx,.odt",
+  "compress-powerpoint": ".ppt,.pptx,.odp",
+  "reduce-powerpoint-file-size": ".ppt,.pptx,.odp",
+  "compress-excel-files": ".xls,.xlsx,.csv,.ods",
+  "reduce-excel-file-size": ".xls,.xlsx,.csv,.ods",
+  "compress-email-attachments": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
+  "reduce-file-size-for-email": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
+};
+
+// Map slug → upload hero headline (search-intent aligned)
+const headlineBySlug: Record<string, string> = {
+  "compress-pdf": "Upload your PDF files",
+  "compress-pdf-online": "Upload your PDF files",
+  "reduce-pdf-size": "Upload your PDF files",
+  "compress-jpg": "Upload your JPG images",
+  "compress-png": "Upload your PNG images",
+  "compress-images": "Upload your images",
+  "reduce-image-size": "Upload your images",
+  "compress-word-document": "Upload your Word documents",
+  "compress-word-documents": "Upload your Word documents",
+  "compress-powerpoint": "Upload your PowerPoint files",
+  "reduce-powerpoint-file-size": "Upload your PowerPoint files",
+  "compress-excel-files": "Upload your Excel files",
+  "reduce-excel-file-size": "Upload your Excel files",
+  "compress-email-attachments": "Upload your email attachments",
+  "reduce-file-size-for-email": "Upload your email attachments",
+  "compress-large-files": "Upload your large files",
+  "compress-marketing-assets": "Upload your marketing assets",
+  "compress-client-deliverables": "Upload your client deliverables",
+  "compress-files-without-losing-quality": "Upload your files",
+  "online-file-compressor": "Upload your files",
+  "free-file-compressor": "Upload your files",
+  "free-online-file-compressor": "Upload your files",
+  "reduce-file-size": "Upload your files",
+};
+
+export interface UploadIntent {
+  headline: string;
+  subheadline: string;
+  formatBadges: string[];
+  accept: string;
+}
+
+export function getUploadIntent(variant?: CompressVariantConfig): UploadIntent | undefined {
+  if (!variant) return undefined;
+  return {
+    headline:
+      variant.uploadHeadline ?? headlineBySlug[variant.slug] ?? "Upload your files",
+    subheadline: variant.uploadSubheadline ?? variant.intro,
+    formatBadges:
+      variant.uploadFormatBadges ??
+      variant.acceptedFormats.split("·").map((s) => s.trim()),
+    accept:
+      variant.uploadAccept ??
+      acceptBySlug[variant.slug] ??
+      ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif",
+  };
+}

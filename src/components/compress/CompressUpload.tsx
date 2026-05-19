@@ -16,9 +16,16 @@ interface QueuedFile {
 interface CompressUploadProps {
   onFileSelect: (file: FileData) => void;
   onStartCompress?: (files: FileData[]) => void;
+  intent?: {
+    headline: string;
+    subheadline: string;
+    formatBadges: string[];
+    accept: string;
+  };
 }
 
-const supportedFormats = ['PDF', 'DOCX', 'DOC', 'PPTX', 'PPT', 'XLSX', 'XLS', 'JPG', 'PNG', 'TIFF', 'BMP', 'GIF'];
+const defaultSupportedFormats = ['PDF', 'DOCX', 'DOC', 'PPTX', 'PPT', 'XLSX', 'XLS', 'JPG', 'PNG', 'TIFF', 'BMP', 'GIF'];
+const defaultAccept = ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif";
 
 // Apple-style easing
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -32,7 +39,12 @@ const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-export const CompressUpload = ({ onFileSelect, onStartCompress }: CompressUploadProps) => {
+export const CompressUpload = ({ onFileSelect, onStartCompress, intent }: CompressUploadProps) => {
+  const supportedFormats = intent?.formatBadges ?? defaultSupportedFormats;
+  const acceptAttr = intent?.accept ?? defaultAccept;
+  const heroHeadline = intent?.headline ?? "Compress without compromise";
+  const heroSubheadline =
+    intent?.subheadline ?? "Reduce file size while preserving quality — fast, secure, and precise.";
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -403,10 +415,10 @@ export const CompressUpload = ({ onFileSelect, onStartCompress }: CompressUpload
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Compress without compromise'}
+                        {isDragging ? 'Release to upload' : heroHeadline}
                       </h1>
                       <p className="text-muted-foreground/80 text-[0.95rem] max-w-sm mx-auto leading-relaxed">
-                        Reduce file size while preserving quality — fast, secure, and precise.
+                        {heroSubheadline}
                       </p>
                     </motion.div>
                   )}
@@ -548,7 +560,7 @@ export const CompressUpload = ({ onFileSelect, onStartCompress }: CompressUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif"
+                accept={acceptAttr}
               />
               <input
                 ref={addMoreInputRef}
@@ -556,7 +568,7 @@ export const CompressUpload = ({ onFileSelect, onStartCompress }: CompressUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif"
+                accept={acceptAttr}
               />
 
               {/* Supported Formats Toggle - Hides when files queued */}

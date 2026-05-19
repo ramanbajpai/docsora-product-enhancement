@@ -6,6 +6,7 @@
   <url><loc>/compress-jpg</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compress-png</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compress-word-document</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-word-documents</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compress-powerpoint</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compress-excel-files</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>/compress-images</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
