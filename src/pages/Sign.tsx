@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import SignUpload from "@/components/sign/SignUpload";
 import SignIntent from "@/components/sign/SignIntent";
@@ -17,6 +18,8 @@ import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
 import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
 import SignTemplateBuilder from "@/components/sign/SignTemplateBuilder";
+import { SignSEO } from "@/components/sign/SignSEO";
+import type { SignVariantConfig } from "@/data/signVariants";
 
 export type SigningStep = 
   | "start"
@@ -57,7 +60,11 @@ export interface SignaturePosition {
   page: number;
 }
 
-const Sign = () => {
+interface SignProps {
+  variant?: SignVariantConfig;
+}
+
+const Sign = ({ variant }: SignProps = {}) => {
   const location = useLocation();
   const [step, setStep] = useState<SigningStep>("start");
   const [file, setFile] = useState<File | null>(null);
@@ -220,7 +227,40 @@ const Sign = () => {
 
   return (
     <AppLayout>
-      <div className="relative h-screen flex flex-col overflow-hidden">
+      <Helmet>
+        <title>
+          {variant
+            ? variant.title
+            : "Docsora Sign — Modern E-Signature Platform for Business Workflows"}
+        </title>
+        <meta
+          name="description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Send, sign and approve documents online with Docsora Sign — a modern browser-based e-signature platform with reusable templates, multi-party signing and audit trails."
+          }
+        />
+        <link rel="canonical" href={variant ? `/${variant.slug}` : "/sign"} />
+        <meta property="og:title" content={variant ? variant.title : "Docsora Sign"} />
+        <meta
+          property="og:description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Modern browser-based e-signature platform for contracts, proposals and approval workflows."
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={variant ? `/${variant.slug}` : "/sign"} />
+      </Helmet>
+      <div
+        className={
+          step === "start"
+            ? "relative flex flex-col"
+            : "relative h-screen flex flex-col overflow-hidden"
+        }
+      >
         {/* Ambient background - Ultra subtle */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <motion.div
@@ -561,6 +601,7 @@ const Sign = () => {
           </AnimatePresence>
         </div>
       </div>
+      {step === "start" && <SignSEO variant={variant} />}
     </AppLayout>
   );
 };
