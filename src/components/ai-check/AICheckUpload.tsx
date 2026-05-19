@@ -4,15 +4,17 @@ import { Upload, FolderUp, ChevronDown, Sparkles, Type, ArrowRight } from "lucid
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { AICheckVariantConfig } from "@/data/aiCheckVariants";
 
 interface AICheckUploadProps {
   onFileUpload: (file: File) => void;
   onTextSubmit: (text: string) => void;
+  variant?: AICheckVariantConfig;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC', 'TXT', 'RTF'];
 
-export function AICheckUpload({ onFileUpload, onTextSubmit }: AICheckUploadProps) {
+export function AICheckUpload({ onFileUpload, onTextSubmit, variant }: AICheckUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isDropped, setIsDropped] = useState(false);
@@ -82,7 +84,7 @@ export function AICheckUpload({ onFileUpload, onTextSubmit }: AICheckUploadProps
   };
 
   return (
-    <div className="relative h-full flex flex-col items-center justify-center overflow-hidden px-4">
+    <div className="relative min-h-screen flex-1 flex flex-col items-center justify-center overflow-hidden px-4 py-12">
       {/* Cinematic Background */}
       <div className="absolute inset-0 bg-background" />
       
@@ -330,10 +332,10 @@ export function AICheckUpload({ onFileUpload, onTextSubmit }: AICheckUploadProps
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to analyze' : 'Review with AI precision'}
+                        {isDragging ? 'Release to analyze' : (variant?.h1 ?? 'Review with AI precision')}
                       </h1>
-                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-sm mx-auto leading-relaxed">
-                        Intelligent grammar, spelling, and style suggestions — instant and accurate.
+                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-md mx-auto leading-relaxed">
+                        {variant?.intro ?? 'Intelligent grammar, spelling, and style suggestions — instant and accurate.'}
                       </p>
                     </motion.div>
 
