@@ -182,6 +182,9 @@ const Compress = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Below-the-fold SEO content */}
+      {(stage === "upload" || stage === "uploading") && <CompressSEO />}
     </AppLayout>
   );
 };
