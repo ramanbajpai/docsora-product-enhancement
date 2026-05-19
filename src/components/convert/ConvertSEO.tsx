@@ -226,7 +226,7 @@ const faqs = [
   {
     question: "What file types does Docsora Convert support?",
     answer:
-      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, PPT, PPTX, JPG, and PNG. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, and image conversion — replacing the need for separate desktop utilities.",
+      "Docsora Convert supports every major business format: PDF, PDF/A, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, image conversion, and email archiving — replacing the need for separate desktop utilities.",
   },
   {
     question: "Is browser-based file conversion secure?",
@@ -241,12 +241,12 @@ const faqs = [
   {
     question: "How do I convert images into PDFs?",
     answer:
-      "Upload one or many JPG or PNG images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
+      "Upload one or many JPG, JPEG, PNG, GIF, BMP, TIFF, or WEBP images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
   },
   {
     question: "Can I convert presentations online?",
     answer:
-      "Yes. Docsora's PowerPoint to PDF converter handles PPT and PPTX decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
+      "Yes. Docsora's PowerPoint to PDF converter handles PPT, PPTX, and ODP decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
   },
   {
     question: "Is Docsora Convert free to use?",
