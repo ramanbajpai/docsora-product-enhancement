@@ -26,6 +26,11 @@ import {
   Building2,
   GraduationCap,
   Workflow,
+  FileSpreadsheet,
+  Presentation,
+  Image as ImageIcon,
+  Mail,
+  FileBox,
 } from "lucide-react";
 import {
   Accordion,
