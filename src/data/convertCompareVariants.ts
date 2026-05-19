@@ -17,7 +17,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       "iLovePDF offers a wide library of standalone PDF utilities. Docsora is a unified document workspace where conversion sits alongside compression, e-signing, storage and AI — with format-aware conversion across PDF, Word, Excel, PowerPoint, images and email.",
     features: [
       { feature: "Browser-based conversion", docsora: "Yes — all formats", competitor: "Yes — PDF focused" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "PDF + common formats" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "PDF + common formats" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Limited on free tier" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, track, store", competitor: "Tool-by-tool navigation" },
       { feature: "Ads in free tier", docsora: "None", competitor: "Yes" },
@@ -45,7 +45,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "PDF ↔ Word", docsora: "Supported", competitor: "Supported" },
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Image ↔ PDF (JPG/PNG/WEBP)", docsora: "Supported", competitor: "Supported" },
+      { feature: "Image ↔ PDF (JPG/PNG)", docsora: "Supported", competitor: "Supported" },
       { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
     ],
     workflow: [
@@ -85,7 +85,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Browser-based conversion", docsora: "Yes — all formats", competitor: "Yes — PDF focused" },
       { feature: "Free daily limits", docsora: "Generous, no hourly caps", competitor: "2 free tasks per hour" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Pro plan required" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "PDF + common formats" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "PDF + common formats" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, track, store", competitor: "Tool-by-tool experience" },
     ],
     quality: [
@@ -151,7 +151,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Browser-based, no install", docsora: "Yes", competitor: "Online tool available; desktop app for full features" },
       { feature: "Free conversion tier", docsora: "Yes — generous, no signup", competitor: "Limited online; paid for desktop" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Paid plans required" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "Strong PDF; limited beyond" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "Strong PDF; limited beyond" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, store, AI", competitor: "Acrobat + separate Adobe products" },
     ],
     quality: [
