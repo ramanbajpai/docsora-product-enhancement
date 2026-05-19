@@ -195,52 +195,67 @@ const faqs = [
   {
     question: "How do I proofread a PDF online?",
     answer:
-      "Drop any PDF into the upload area above. Docsora AI Check extracts the readable text from your PDF and runs AI proofreading for grammar, spelling, tone and clarity - returning inline suggestions you can review one by one. There's no need to convert to Word, copy text out, or install software. It works directly in your browser, with files deleted after processing for privacy-first review of contracts, reports and proposals.",
+      "Drop any PDF into the upload area above. Docsora extracts the readable text from the PDF - including signed contracts, exported reports and scanned-then-OCR'd files - and runs editorial review for grammar, spelling, tone, consistency and clarity. Suggestions appear inline beside the original sentence so you can accept, reject or refine each one without altering the document's formatting. There is no conversion to Word, no copy-paste, and no software install: the entire workflow runs in your browser with documents deleted after analysis.",
   },
   {
-    question: "Can AI improve professional writing?",
+    question: "What is the best AI proofreading tool for PDFs?",
     answer:
-      "Yes. Docsora's AI is tuned specifically for business and operational writing - reports, proposals, contracts, board memos, decks and PDFs. It catches grammar and spelling issues, sharpens tone with executive, legal, simple and marketing presets, and tightens structure and clarity. It's an editorial layer for serious documents, not a generic copywriting tool or student essay checker.",
+      "Docsora AI Check is built specifically for PDF document review - native PDF uploads, whole-document context, format-preserving suggestions and tone presets for executive, legal, simple and marketing audiences. Unlike browser extensions or general writing assistants, it treats a PDF as a structured business document: extracting the readable text, tracking tone across sections, and returning inline editorial suggestions tuned for reports, contracts and proposals.",
   },
   {
-    question: "What document types are supported?",
+    question: "How can I improve professional writing online?",
     answer:
-      "Docsora AI Check supports the formats business teams actually work with: TXT, DOC, DOCX, ODT, PDF, HTML, PPT and PPTX. One browser-based tool covers grammar checking, PDF proofreading, document review, presentation proofreading and pasted-text review - removing the need to bounce between desktop grammar tools and copy-paste web checkers.",
+      "Upload your document or paste a draft into Docsora AI Check. The editorial AI reviews grammar, tone, structure and clarity across the entire document - not just per sentence - and highlights issues with severity tags so high-impact fixes surface first. Tone presets reshape ambiguous phrasing for the audience: executive for board updates, legal for contracts, simple for onboarding material, marketing for proposals. The output is a polished, on-brand version of your writing without losing your voice.",
   },
   {
-    question: "Is Docsora AI Check secure?",
+    question: "What AI tool reviews contracts for grammar issues?",
     answer:
-      "Every upload runs over end-to-end TLS encryption and is processed inside an isolated, privacy-first environment. Files are automatically deleted from our servers after review - Docsora never stores, indexes or trains models on your documents. The platform is operated under ISO 27001 controls and aligned with SOC 2 and GDPR, which is why finance, legal and operations teams use it for sensitive reviewing workflows.",
+      "Docsora AI Check reviews contracts, NDAs, MSAs and legal drafts in PDF, DOC, DOCX or TXT. The editorial AI flags grammar, inconsistent terminology, ambiguous clauses and clarity gaps - the wording issues human reviewers routinely miss under deadline pressure. It does not replace legal counsel; it is the editorial pass that ensures the language is clean before it reaches counsel, counterparties or signature.",
   },
   {
-    question: "Can I review PowerPoint presentations?",
+    question: "What document types does Docsora AI Check support?",
     answer:
-      "Yes. Upload a PPT or PPTX deck and Docsora AI Check extracts text from every slide, then runs AI grammar, tone and clarity analysis slide by slide. Your design, layout, animations and theme are untouched - only the slide copy is reviewed. Ideal for investor decks, sales presentations, kickoff decks and training material before they go to clients or executives.",
+      "Docsora AI Check supports the formats professional teams actually circulate: PDF, DOC, DOCX, ODT, TXT, HTML, PPT and PPTX. A single workspace covers PDF proofreading, Word document review, PowerPoint deck analysis, HTML draft review and pasted-text auditing - removing the need to bounce between desktop proofreaders, browser extensions and copy-paste web checkers.",
   },
   {
-    question: "Can I check contracts for grammar mistakes?",
+    question: "What grammar checker supports PDF and DOCX files?",
     answer:
-      "Yes. Drop a contract, NDA, MSA or legal draft (PDF, DOC, DOCX or TXT) into Docsora AI Check and the AI returns grammar, clarity and consistency suggestions inline. Docsora is an editorial layer that strengthens contract language - it does not replace legal counsel, but it catches the wording issues that human reviewers most often miss.",
+      "Docsora AI Check is one of the few editorial tools that handles PDF, DOC and DOCX natively in the browser. Upload a PDF report or a Word draft and the platform extracts the text, runs language-model proofreading, and returns suggestions inline. Both formats retain their original structure during review, so a PDF stays a PDF and a Word document keeps its styles.",
   },
   {
-    question: "How does AI proofreading work?",
+    question: "Is Docsora AI Check secure for confidential documents?",
     answer:
-      "Docsora uses language-model analysis trained for professional writing. After upload, the AI scans the entire document for grammar, spelling, punctuation, tone misalignment, ambiguous phrasing and clarity issues. Each suggestion is tagged with severity (low, medium, high) and shown alongside the original sentence so you can accept individual fixes, reject them, or apply all safe corrections in one click.",
+      "Every upload travels over end-to-end TLS and is processed inside an isolated review environment. Documents are deleted from review servers after analysis - Docsora never stores, indexes or trains models on customer content. The platform operates under ISO 27001 controls, aligns with SOC 2 trust-services criteria and is GDPR-ready, which is why finance, legal and operations teams use it for board packs, contracts and regulated filings.",
   },
   {
-    question: "Can I improve business writing online?",
+    question: "How do I proofread PowerPoint presentations?",
     answer:
-      "Yes. Docsora is built for browser-based business writing improvement - upload a report, proposal or memo and receive AI suggestions tuned for executive, legal, simple or marketing tone. It's the fastest way to run a pre-send writing audit without switching between desktop grammar tools, browser extensions and AI rewriters.",
+      "Upload a PPT or PPTX deck and Docsora extracts text from every slide, then reviews grammar, tone, terminology and clarity slide by slide. Layout, theme, animations and master slides remain untouched - only the wording is analysed. The result is a polished deck ready for investors, executives or clients without the manual slide-by-slide proofread that usually delays delivery.",
   },
   {
-    question: "Does Docsora preserve formatting?",
+    question: "Can I audit contracts and compliance documentation?",
     answer:
-      "Yes. Proofreading is non-destructive - your original document and its formatting stay untouched during review. Suggestions are surfaced in a side-by-side view so you can apply changes consciously rather than overwriting the source file. PowerPoint layouts, PDF structure and Word styles are preserved on export where possible.",
+      "Yes. Contracts, NDAs, MSAs, compliance memos and regulatory filings (PDF, DOC, DOCX or TXT) can be reviewed for grammar, ambiguous wording, inconsistent terminology and clarity. Docsora is an editorial layer that strengthens the language of high-stakes documents - it complements legal and compliance review rather than replacing it.",
   },
   {
-    question: "Is Docsora browser-based?",
+    question: "How does editorial AI proofreading work?",
     answer:
-      "Yes. Docsora AI Check is fully browser-based with no software, plugins or extensions required. It works on macOS, Windows, Linux, ChromeOS, iOS and Android from Chrome, Safari, Edge, Firefox, Arc and Brave. Open the page, drop your document and review online instantly.",
+      "Docsora applies language-model analysis calibrated for professional writing. After upload, the system scans the whole document for grammar, spelling, punctuation, tone misalignment, terminology drift, ambiguous phrasing and structural clarity. Each suggestion is tagged with severity - low, medium, high - and surfaced beside its original sentence, so reviewers can accept individual edits, reject them, or apply every safe correction in one click.",
+  },
+  {
+    question: "Can I review board reports and investor communications?",
+    answer:
+      "Yes. Board packs, investor updates, shareholder letters and quarterly memos are typical Docsora workloads. The executive tone preset tightens phrasing for senior audiences, the consistency check tracks terminology across sections, and the inline review flow lets the author and reviewer collaborate without bouncing the document through email.",
+  },
+  {
+    question: "Does Docsora preserve document formatting?",
+    answer:
+      "Yes. Review is non-destructive. The original document - including PDF structure, PowerPoint master layouts, Word styles and ODT formatting - stays untouched while suggestions are surfaced in a side-by-side view. Exports preserve original layout where the format supports it.",
+  },
+  {
+    question: "Do I need to install anything to use Docsora AI Check?",
+    answer:
+      "No. Docsora AI Check runs entirely in the browser - no software, plugins or extensions. It works across macOS, Windows, Linux, ChromeOS, iOS and Android in Chrome, Safari, Edge, Firefox, Arc and Brave. Open the page, drop a document, and the review workspace loads in seconds.",
   },
 ];
 
@@ -258,12 +273,14 @@ const popularToolSlugs = [
 
 // Real-world workflow intent (long-tail authority)
 const workflowIntents = [
-  { icon: Presentation, title: "Review investor pitch decks", description: "Slide-by-slide grammar and tone review before the room sees it." },
-  { icon: Scale, title: "Proofread legal contracts", description: "Catch ambiguity and inconsistent wording before counsel review." },
-  { icon: HeartHandshake, title: "Improve onboarding documents", description: "Tighten HR docs, handbooks and policy material for clarity." },
-  { icon: Briefcase, title: "Review proposals before sending", description: "Final-pass audits on sales proposals and RFP responses." },
-  { icon: FileSearch, title: "Check reports for grammar issues", description: "Audit operational reports and exec summaries before circulation." },
-  { icon: Edit3, title: "Improve client deliverables", description: "Polish agency and consultancy work before client review." },
+  { icon: FileSearch, title: "Review board reports before circulation", description: "Editorial pass on board packs, exec summaries and quarterly memos." },
+  { icon: Scale, title: "Audit compliance documentation", description: "Surface ambiguity and inconsistent terminology across regulatory filings." },
+  { icon: Briefcase, title: "Proofread investor communications", description: "Tighten shareholder letters, fundraising updates and partner memos." },
+  { icon: Presentation, title: "Polish sales proposals and RFPs", description: "Final-pass review on proposals, SOWs and pitch responses before they go out." },
+  { icon: HeartHandshake, title: "Improve onboarding documents", description: "Sharpen HR handbooks, training material and policy guides for clarity." },
+  { icon: Edit3, title: "Refine consulting deliverables", description: "Review client-facing reports, strategy memos and engagement summaries." },
+  { icon: FileText, title: "Audit financial summaries", description: "Run an editorial pass on board financials and operating reviews." },
+  { icon: BookOpenCheck, title: "Standardise operational handbooks", description: "Improve readability across SOPs, playbooks and runbooks." },
 ];
 
 // Long-tail / AI-search intent chips
