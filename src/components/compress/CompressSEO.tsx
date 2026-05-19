@@ -608,6 +608,56 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
+        {/* SECTION — Popular File Compression Searches (long-tail internal linking) */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Popular File Compression Searches
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              The compression workflows people search for most — each one a
+              dedicated browser-based tool inside Docsora.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+          >
+            {popularSearchSlugs
+              .filter((s) => s.slug !== variant?.slug)
+              .map((search, i) => (
+                <motion.div
+                  key={search.slug}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.03 }}
+                >
+                  <Link
+                    to={`/${search.slug}`}
+                    className={cn(
+                      "group flex items-center justify-between rounded-xl px-5 py-4",
+                      "bg-card/30 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/60",
+                      "transition-all duration-300"
+                    )}
+                  >
+                    <div className="min-w-0 pr-3">
+                      <div className="text-[13px] font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                        {search.label}
+                      </div>
+                      <div className="text-[11px] text-muted-foreground/70 truncate mt-0.5">
+                        {search.intent}
+                      </div>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                  </Link>
+                </motion.div>
+              ))}
+          </motion.div>
+        </section>
+
         {/* SECTION 2 — Use Cases */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
