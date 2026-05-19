@@ -9,6 +9,7 @@ import { CompressProgress } from "@/components/compress/CompressProgress";
 import { CompressResult } from "@/components/compress/CompressResult";
 import { CompressSEO } from "@/components/compress/CompressSEO";
 import type { CompressVariantConfig } from "@/data/compressVariants";
+import { getUploadIntent } from "@/data/compressVariants";
 
 export type CompressionMode = "balanced" | "maximum" | "quality";
 
@@ -26,6 +27,7 @@ interface CompressProps {
 
 const Compress = ({ variant }: CompressProps = {}) => {
   const location = useLocation();
+  const uploadIntent = getUploadIntent(variant);
   const [stage, setStage] = useState<CompressStage>("upload");
   const [file, setFile] = useState<FileData | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -173,7 +175,11 @@ const Compress = ({ variant }: CompressProps = {}) => {
               className="flex-1 min-h-0 flex flex-col"
             >
               {stage === "uploading" ? renderUploadingState() : (
-                <CompressUpload onFileSelect={handleFileSelect} onStartCompress={handleStartCompress} />
+                <CompressUpload
+                  onFileSelect={handleFileSelect}
+                  onStartCompress={handleStartCompress}
+                  intent={uploadIntent}
+                />
               )}
             </motion.div>
           )}
