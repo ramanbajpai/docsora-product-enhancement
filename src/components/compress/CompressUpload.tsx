@@ -44,7 +44,7 @@ export const CompressUpload = ({ onFileSelect, onStartCompress, intent }: Compre
   const acceptAttr = intent?.accept ?? defaultAccept;
   const heroHeadline = intent?.headline ?? "Compress without compromise";
   const heroSubheadline =
-    intent?.subheadline ?? "Reduce file size while preserving quality — fast, secure, and precise.";
+    intent?.subheadline ?? "Reduce file size while preserving quality - fast, secure, and precise.";
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);

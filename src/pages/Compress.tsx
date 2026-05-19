@@ -127,14 +127,14 @@ const Compress = ({ variant }: CompressProps = {}) => {
         <title>
           {variant
             ? variant.title
-            : "Compress Files Online — Free File Compressor | Docsora"}
+            : "Compress Files Online - Free File Compressor | Docsora"}
         </title>
         <meta
           name="description"
           content={
             variant
               ? variant.metaDescription
-              : "Compress PDFs, images, Word, Excel, and PowerPoint files online. Free, secure, browser-based file compression — no installs, no signup."
+              : "Compress PDFs, images, Word, Excel, and PowerPoint files online. Free, secure, browser-based file compression - no installs, no signup."
           }
         />
         <link
@@ -146,7 +146,7 @@ const Compress = ({ variant }: CompressProps = {}) => {
           content={
             variant
               ? variant.title
-              : "Compress Files Online — Docsora"
+              : "Compress Files Online - Docsora"
           }
         />
         <meta

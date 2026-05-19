@@ -64,7 +64,7 @@ const staggerItem = {
   transition: { duration: 0.5, ease: easeSmooth },
 };
 
-// SECTION 1 — Compress Any File Type
+// SECTION 1 - Compress Any File Type
 const fileTypeGroups = [
   {
     category: "Documents",
@@ -117,12 +117,12 @@ const fileTypeGroups = [
     formats: "All supported formats",
     title: "Compress Any File Online",
     description:
-      "One tool for every format — drop any document, image, or sheet and Docsora handles the rest.",
+      "One tool for every format - drop any document, image, or sheet and Docsora handles the rest.",
     slug: "online-file-compressor",
   },
 ];
 
-// SECTION 2 — Use Cases
+// SECTION 2 - Use Cases
 const useCases = [
   { icon: Mail, title: "Email Attachments", description: "Send files under strict inbox size limits without splitting." },
   { icon: Globe, title: "Website Uploads", description: "Speed up page loads with lighter assets and documents." },
@@ -132,19 +132,19 @@ const useCases = [
   { icon: Share2, title: "Media Sharing", description: "Compress images and graphics for seamless social posting." },
 ];
 
-// SECTION 3 — Why Docsora
+// SECTION 3 - Why Docsora
 const benefits = [
   { icon: Sparkles, title: "No quality loss", description: "Smart algorithms preserve clarity and detail." },
   { icon: Zap, title: "Fast processing", description: "Compression completes in seconds, not minutes." },
   { icon: ShieldCheck, title: "Secure uploads", description: "All transfers run over encrypted TLS connections." },
-  { icon: MonitorSmartphone, title: "Browser-based", description: "Works on any device — no installs or plugins." },
+  { icon: MonitorSmartphone, title: "Browser-based", description: "Works on any device - no installs or plugins." },
   { icon: Lock, title: "Encrypted transfers", description: "End-to-end protection from upload to download." },
   { icon: Layers, title: "Multiple formats", description: "Documents, sheets, decks, images, and email." },
   { icon: Minimize2, title: "Instant optimization", description: "Files are optimized the moment they upload." },
   { icon: CloudOff, title: "No software install", description: "Compress online directly in your browser." },
 ];
 
-// SECTION 4 — Security
+// SECTION 4 - Security
 const securityPoints = [
   { icon: Lock, title: "Encrypted uploads", description: "All files travel over TLS-secured connections." },
   { icon: Trash2, title: "Automatic deletion", description: "Files are removed from our servers after processing." },
@@ -153,39 +153,39 @@ const securityPoints = [
   { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to enterprise-grade SOC 2 security standards." },
 ];
 
-// SECTION 5 — How It Works
+// SECTION 5 - How It Works
 const steps = [
   { icon: Upload, title: "Upload", description: "Drag and drop any file securely into your browser." },
   { icon: Minimize2, title: "Compress", description: "Docsora intelligently reduces size while preserving quality." },
-  { icon: Download, title: "Download", description: "Get your optimized file instantly — ready to share." },
+  { icon: Download, title: "Download", description: "Get your optimized file instantly - ready to share." },
 ];
 
-// SECTION 6 — FAQ (semantically rich; covers core compression intents)
+// SECTION 6 - FAQ (semantically rich; covers core compression intents)
 const faqs = [
   {
     question: "How do I compress file size online?",
     answer:
-      "Drop any document, image, or spreadsheet into the upload area above and Docsora reduces file size directly in your browser using intelligent, format-aware optimization. Our free online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more — typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a browser-based compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
+      "Drop any document, image, or spreadsheet into the upload area above and Docsora reduces file size directly in your browser using intelligent, format-aware optimization. Our free online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more - typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a browser-based compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
   },
   {
     question: "Can I compress files without losing quality?",
     answer:
-      "Yes — Docsora uses lossless and visually-lossless compression algorithms tuned to each file type. PDFs keep vector text crisp, images preserve color depth and sharpness, and presentations retain every slide, animation, and embedded media element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no perceptible quality loss — ideal for compressing files for email, web upload, and client delivery without any visible compromise.",
+      "Yes - Docsora uses lossless and visually-lossless compression algorithms tuned to each file type. PDFs keep vector text crisp, images preserve color depth and sharpness, and presentations retain every slide, animation, and embedded media element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no perceptible quality loss - ideal for compressing files for email, web upload, and client delivery without any visible compromise.",
   },
   {
     question: "What file types can I compress?",
     answer:
-      "Docsora's online file compressor supports every major format teams work with: PDF, DOC, DOCX, TXT, HTML, ODT, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers document compression, spreadsheet compression, presentation compression, image compression, and email attachment compression — replacing the need for separate desktop utilities.",
+      "Docsora's online file compressor supports every major format teams work with: PDF, DOC, DOCX, TXT, HTML, ODT, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers document compression, spreadsheet compression, presentation compression, image compression, and email attachment compression - replacing the need for separate desktop utilities.",
   },
   {
     question: "Is Docsora compression secure?",
     answer:
-      "Every upload runs over end-to-end TLS encryption and is processed inside an isolated, privacy-first environment. Files are automatically deleted from our servers after compression — Docsora never stores, indexes, shares, or reads your documents. The platform is operated under ISO 27001 controls and aligned with GDPR, which is why finance, legal, and healthcare teams trust it for sensitive compression workflows.",
+      "Every upload runs over end-to-end TLS encryption and is processed inside an isolated, privacy-first environment. Files are automatically deleted from our servers after compression - Docsora never stores, indexes, shares, or reads your documents. The platform is operated under ISO 27001 controls and aligned with GDPR, which is why finance, legal, and healthcare teams trust it for sensitive compression workflows.",
   },
   {
     question: "How do I reduce PDF size for email?",
     answer:
-      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce PDF size to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 60–90% with no visible quality loss — perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
+      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce PDF size to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 60–90% with no visible quality loss - perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
   },
   {
     question: "Can I compress PowerPoint presentations?",
@@ -195,22 +195,22 @@ const faqs = [
   {
     question: "Can I compress images online?",
     answer:
-      "Absolutely — Docsora is a complete browser-based image compressor for JPG, JPEG, PNG, GIF, BMP, TIFF, and WEBP files, individually or in bulk. Perceptual encoding balances dimensions, color depth, and quality so photos and graphics stay visually identical while image size drops 50–80%. Use it to reduce image size for websites, blog posts, social media, marketing assets, and product catalogs.",
+      "Absolutely - Docsora is a complete browser-based image compressor for JPG, JPEG, PNG, GIF, BMP, TIFF, and WEBP files, individually or in bulk. Perceptual encoding balances dimensions, color depth, and quality so photos and graphics stay visually identical while image size drops 50–80%. Use it to reduce image size for websites, blog posts, social media, marketing assets, and product catalogs.",
   },
   {
     question: "Is there a maximum file size?",
     answer:
-      "Free Docsora supports files up to 50MB per upload — enough for almost every PDF, image, document, and spreadsheet. Docsora Pro unlocks large file compression (several hundred MB), batch compression for entire deliverables, advanced quality controls, and higher monthly limits for teams.",
+      "Free Docsora supports files up to 50MB per upload - enough for almost every PDF, image, document, and spreadsheet. Docsora Pro unlocks large file compression (several hundred MB), batch compression for entire deliverables, advanced quality controls, and higher monthly limits for teams.",
   },
   {
     question: "Can I compress files directly in my browser?",
     answer:
-      "Yes — Docsora is fully browser-based with no software, plugins, or downloads required. It works on macOS, Windows, Linux, ChromeOS, iOS, and Android from Chrome, Safari, Edge, Firefox, Arc, and Brave. There is nothing to install, nothing to update, and nothing to remove — open the page, drop your files, and compress online instantly.",
+      "Yes - Docsora is fully browser-based with no software, plugins, or downloads required. It works on macOS, Windows, Linux, ChromeOS, iOS, and Android from Chrome, Safari, Edge, Firefox, Arc, and Brave. There is nothing to install, nothing to update, and nothing to remove - open the page, drop your files, and compress online instantly.",
   },
   {
     question: "What is the best way to reduce document size?",
     answer:
-      "Use a format-aware online compressor like Docsora to reduce document size without losing quality. Generic ZIP archives barely shrink modern documents because PDF, DOCX, PPTX, and image files are already compressed containers — Docsora applies format-specific optimization inside each file (re-encoding images, streamlining structure, removing redundant metadata) for dramatic size reduction with no loss of meaning or visual quality. It's the fastest way to compress large files without installing software.",
+      "Use a format-aware online compressor like Docsora to reduce document size without losing quality. Generic ZIP archives barely shrink modern documents because PDF, DOCX, PPTX, and image files are already compressed containers - Docsora applies format-specific optimization inside each file (re-encoding images, streamlining structure, removing redundant metadata) for dramatic size reduction with no loss of meaning or visual quality. It's the fastest way to compress large files without installing software.",
   },
 ];
 
@@ -226,7 +226,7 @@ const popularToolSlugs = [
   "compress-images",
 ];
 
-// "Reduce File Size" intent cards — natural, search-aligned phrasing
+// "Reduce File Size" intent cards - natural, search-aligned phrasing
 const reduceIntentCards = [
   {
     slug: "reduce-pdf-size",
@@ -272,9 +272,9 @@ const reduceIntentCards = [
   },
 ];
 
-// "Popular File Compression Searches" — long-tail internal linking
+// "Popular File Compression Searches" - long-tail internal linking
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
-  { slug: "reduce-file-size", label: "Reduce file size", intent: "Any file, any format — reduced in seconds." },
+  { slug: "reduce-file-size", label: "Reduce file size", intent: "Any file, any format - reduced in seconds." },
   { slug: "reduce-pdf-size", label: "Reduce PDF size", intent: "Shrink PDFs for email and uploads." },
   { slug: "reduce-image-size", label: "Reduce image size", intent: "Optimize JPG, PNG, and WEBP for web." },
   { slug: "reduce-file-size-for-email", label: "Reduce file size for email", intent: "Fit Gmail and Outlook limits." },
@@ -288,7 +288,7 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
 
 // Real-world workflow intent (long-tail authority)
 const workflowIntents = [
-  { icon: Presentation, title: "Compress pitch decks", description: "Investor and sales decks that send in one click — no upload links." },
+  { icon: Presentation, title: "Compress pitch decks", description: "Investor and sales decks that send in one click - no upload links." },
   { icon: Briefcase, title: "Compress client deliverables", description: "Polished, lightweight handoffs for agencies, consultancies, and freelancers." },
   { icon: Scale, title: "Compress legal PDFs", description: "Contracts, NDAs, and case files compressed losslessly for legal review." },
   { icon: Receipt, title: "Compress invoices", description: "Shrink invoices and receipts to fit accounting tools and email limits." },
@@ -305,7 +305,7 @@ function buildJsonLd(variant?: CompressVariantConfig) {
   const name = variant?.h1 ?? "Docsora File Compression";
   const description =
     variant?.metaDescription ??
-    "Free online file compressor for PDFs, images, Word, Excel, and PowerPoint — browser-based, secure, no installs.";
+    "Free online file compressor for PDFs, images, Word, Excel, and PowerPoint - browser-based, secure, no installs.";
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -351,7 +351,7 @@ function buildJsonLd(variant?: CompressVariantConfig) {
     step: [
       { "@type": "HowToStep", position: 1, name: "Upload", text: "Drag and drop your file into the upload area or click to browse." },
       { "@type": "HowToStep", position: 2, name: "Choose mode", text: "Pick Balanced, Maximum, or Preserve Quality compression." },
-      { "@type": "HowToStep", position: 3, name: "Download", text: "Download the optimized file — ready to share in seconds." },
+      { "@type": "HowToStep", position: 3, name: "Download", text: "Download the optimized file - ready to share in seconds." },
     ],
   };
   return [breadcrumb, software, faqPage, howTo];
@@ -461,7 +461,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </section>
         )}
 
-        {/* SECTION 1 — Compress Any File Type */}
+        {/* SECTION 1 - Compress Any File Type */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
@@ -469,7 +469,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
               One compressor for documents, spreadsheets, presentations, images,
-              and email — optimized for every format you use.
+              and email - optimized for every format you use.
             </p>
           </motion.div>
 
@@ -522,7 +522,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION — Reduce File Size Instantly Online */}
+        {/* SECTION - Reduce File Size Instantly Online */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
@@ -536,7 +536,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
               Reduce PDF, image, presentation, spreadsheet and document file
-              sizes directly in your browser — without losing quality or
+              sizes directly in your browser - without losing quality or
               formatting.
             </p>
           </motion.div>
@@ -592,7 +592,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION — Popular Compression Tools (internal linking hub) */}
+        {/* SECTION - Popular Compression Tools (internal linking hub) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
@@ -600,7 +600,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
               Format-specific compressors for the files your team sends every
-              day — all free, online, and browser-based.
+              day - all free, online, and browser-based.
             </p>
           </motion.div>
 
@@ -643,14 +643,14 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION — Real-world workflow intent */}
+        {/* SECTION - Real-world workflow intent */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Built for Real Compression Workflows
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              From legal PDFs to investor decks — Docsora handles the
+              From legal PDFs to investor decks - Docsora handles the
               compression workflows generic tools ignore.
             </p>
           </motion.div>
@@ -682,14 +682,14 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION — Popular File Compression Searches (long-tail internal linking) */}
+        {/* SECTION - Popular File Compression Searches (long-tail internal linking) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Popular File Compression Searches
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              The compression workflows people search for most — each one a
+              The compression workflows people search for most - each one a
               dedicated browser-based tool inside Docsora.
             </p>
           </motion.div>
@@ -732,14 +732,14 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 2 — Use Cases */}
+        {/* SECTION 2 - Use Cases */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Compress Files for Any Workflow
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              From inbox limits to client deliverables — built for the way
+              From inbox limits to client deliverables - built for the way
               modern teams actually share files.
             </p>
           </motion.div>
@@ -771,14 +771,14 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 3 — Why Docsora */}
+        {/* SECTION 3 - Why Docsora */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Why Use Docsora Compression?
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Engineered for speed, security, and quality — without the
+              Engineered for speed, security, and quality - without the
               complexity of desktop software.
             </p>
           </motion.div>
@@ -808,7 +808,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 4 — Security & Privacy */}
+        {/* SECTION 4 - Security & Privacy */}
         <section>
           <motion.div
             {...fadeUp}
@@ -856,7 +856,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 5 — How It Works */}
+        {/* SECTION 5 - How It Works */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
@@ -893,7 +893,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 6 — FAQ */}
+        {/* SECTION 6 - FAQ */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
@@ -921,7 +921,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 7 — Related Resources */}
+        {/* SECTION 7 - Related Resources */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
@@ -966,7 +966,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 8 — Final CTA */}
+        {/* SECTION 8 - Final CTA */}
         <section>
           <motion.div
             {...fadeUp}
