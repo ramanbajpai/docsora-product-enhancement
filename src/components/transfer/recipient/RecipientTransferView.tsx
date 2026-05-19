@@ -452,7 +452,7 @@ export function RecipientTransferView({ onClose }: RecipientTransferViewProps) {
                         className="flex items-center gap-2 text-sm text-muted-foreground/70 hover:text-foreground transition-colors group mb-6"
                       >
                         <Eye className="w-4 h-4" />
-                        <span>View contents</span>
+                        <span>Preview files</span>
                         <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                       </motion.button>
 
