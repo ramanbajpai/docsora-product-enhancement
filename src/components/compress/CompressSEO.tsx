@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { compressVariants, type CompressVariantConfig } from "@/data/compressVariants";
+import { compareVariants } from "@/data/compareVariants";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
