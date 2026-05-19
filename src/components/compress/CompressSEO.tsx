@@ -467,20 +467,24 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {fileTypeGroups.map((item, i) => (
-              <motion.article
+              <motion.div
                 key={item.title}
                 initial={staggerItem.initial}
                 whileInView={staggerItem.whileInView}
                 viewport={staggerItem.viewport}
                 transition={{ ...staggerItem.transition, delay: i * 0.05 }}
-                className={cn(
-                  "group relative rounded-2xl p-6",
-                  "bg-card/50 backdrop-blur-sm",
-                  "border border-border/40",
-                  "hover:border-primary/20 hover:bg-card/80",
-                  "transition-all duration-300"
-                )}
               >
+                <Link
+                  to={`/${item.slug}`}
+                  aria-label={`Open ${item.title}`}
+                  className={cn(
+                    "group relative block rounded-2xl p-6 h-full",
+                    "bg-card/50 backdrop-blur-sm",
+                    "border border-border/40",
+                    "hover:border-primary/25 hover:bg-card/80",
+                    "transition-all duration-300"
+                  )}
+                >
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
                     <item.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
@@ -489,7 +493,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                     {item.category}
                   </span>
                 </div>
-                <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug">
+                <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug group-hover:text-primary transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-sm text-muted-foreground/80 leading-relaxed mb-4">
@@ -501,7 +505,8 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                 </div>
-              </motion.article>
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
         </section>
@@ -529,7 +534,9 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             {...staggerContainer}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {reduceIntentCards.map((card, i) => (
+            {reduceIntentCards
+              .filter((c) => c.slug !== variant?.slug)
+              .map((card, i) => (
               <motion.div
                 key={card.slug}
                 initial={staggerItem.initial}
