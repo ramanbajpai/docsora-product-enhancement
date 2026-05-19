@@ -156,7 +156,7 @@ const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
   const strokeDashoffset = circumference - (uploadProgress / 100) * circumference;
 
   return (
-    <div className="relative h-full flex flex-col items-center justify-center overflow-hidden px-4">
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-10">
       {/* Cinematic Background */}
       <div className="absolute inset-0 bg-background" />
       
