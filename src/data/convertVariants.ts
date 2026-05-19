@@ -297,32 +297,6 @@ export const convertVariants: ConvertVariantConfig[] = [
     ],
   },
   {
-    slug: "pdf-to-html",
-    title: "Convert PDF to HTML Online | PDF to Web Page | Docsora",
-    metaDescription:
-      "Convert PDF documents into clean HTML web pages online — preserve text, structure and styling for browser-based reading.",
-    h1: "Convert PDF to HTML Online",
-    intro:
-      "Turn PDFs into clean responsive HTML pages — perfect for web publishing and structured reading.",
-    keyword: "pdf to html",
-    acceptedFormats: "PDF",
-    cardIcon: FileCode,
-    cardLabel: "PDF to HTML",
-    cardDescription:
-      "Convert PDFs into clean HTML pages with preserved structure.",
-    longCopy:
-      "Docsora's PDF to HTML converter produces clean semantic HTML output from your PDF — preserving headings, paragraphs, lists, and image placement for web publishing and accessibility workflows.",
-    uploadHeadline: "Upload your PDF",
-    uploadAccept: ".pdf",
-    faq: [
-      {
-        question: "Is the HTML output clean and semantic?",
-        answer:
-          "Yes. Docsora generates structured HTML with semantic headings, paragraphs, and lists rather than absolute positioning soup — ideal for accessibility and indexing.",
-      },
-    ],
-  },
-  {
     slug: "pdf-to-text",
     title: "Convert PDF to Text Online | PDF to TXT Extractor | Docsora",
     metaDescription:
@@ -345,58 +319,6 @@ export const convertVariants: ConvertVariantConfig[] = [
         question: "Can I extract text from scanned PDFs?",
         answer:
           "Docsora extracts embedded text directly. For image-only scanned PDFs, OCR is required — available on Docsora Pro.",
-      },
-    ],
-  },
-  {
-    slug: "pdf-to-webp",
-    title: "Convert PDF to WEBP Online | Modern Image Export | Docsora",
-    metaDescription:
-      "Convert PDF pages into modern WEBP images online — smaller file size, faster web delivery, full quality preserved.",
-    h1: "Convert PDF to WEBP Online",
-    intro:
-      "Export PDF pages as lightweight modern WEBP images — perfect for web delivery and Core Web Vitals.",
-    keyword: "pdf to webp",
-    acceptedFormats: "PDF",
-    cardIcon: ImageIcon,
-    cardLabel: "PDF to WEBP",
-    cardDescription:
-      "Export PDF pages as modern WEBP images for fast web delivery.",
-    longCopy:
-      "Docsora's PDF to WEBP converter exports PDF pages as modern WEBP images — dramatically smaller than JPG or PNG with no visible quality loss. Ideal for web embedding and performance-critical pages.",
-    uploadHeadline: "Upload your PDF",
-    uploadAccept: ".pdf",
-    faq: [
-      {
-        question: "Why convert PDF to WEBP instead of JPG?",
-        answer:
-          "WEBP delivers the same visual quality as JPG at 25–35% smaller file size — better for Core Web Vitals and faster page loads.",
-      },
-    ],
-  },
-  {
-    slug: "email-to-pdf",
-    title: "Convert Email to PDF Online | EML to PDF Converter | Docsora",
-    metaDescription:
-      "Convert EML email files into shareable PDF documents online — for archiving, compliance and legal workflows.",
-    h1: "Convert Email to PDF Online",
-    intro:
-      "Turn EML email files into archive-ready PDFs while preserving headers, body and attachments.",
-    keyword: "email to pdf",
-    acceptedFormats: "EML",
-    cardIcon: Mail,
-    cardLabel: "Email to PDF",
-    cardDescription:
-      "Convert EML emails into archive-ready PDFs for compliance.",
-    longCopy:
-      "Docsora's EML to PDF converter archives email files as PDFs with headers, body content, and attachment metadata preserved — built for legal discovery, compliance archives, and audit trails.",
-    uploadHeadline: "Upload your EML files",
-    uploadAccept: ".eml",
-    faq: [
-      {
-        question: "Can I convert email files into PDFs for compliance?",
-        answer:
-          "Yes — Docsora preserves headers, body content, timestamps, and attachment metadata in the PDF output, suitable for legal and compliance archives.",
       },
     ],
   },
