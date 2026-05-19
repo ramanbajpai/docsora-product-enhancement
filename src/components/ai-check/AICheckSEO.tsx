@@ -455,12 +455,13 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Check Any Document Type
+              Supported Document Types
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Analyze grammar, clarity, spelling and professional writing
-              quality across business documents, reports, PDFs and
-              presentations.
+              Docsora AI Check supports editorial review across PDFs, Word
+              documents, presentations, HTML files and professional business
+              documentation - one workspace for every document format your
+              team circulates.
             </p>
           </motion.div>
 
@@ -513,7 +514,8 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 2 - Improve Professional Writing */}
+        {/* SECTION 2 - Improve Professional Writing (variant pages only) */}
+        {variant && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
@@ -526,9 +528,9 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
               Improve Professional Writing Instantly
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Enhance grammar, tone, readability and clarity across reports,
-              proposals, contracts and presentations without leaving your
-              browser.
+              Editorial review across reports, proposals, contracts and
+              presentations - tone, structure and clarity tightened in a
+              single workspace.
             </p>
           </motion.div>
 
@@ -573,16 +575,18 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
               ))}
           </motion.div>
         </section>
+        )}
 
         {/* SECTION 3 - Popular AI Writing Tools */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Popular AI Writing & Proofreading Tools
+              Explore Professional Writing Workflows
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Dedicated entry points for the AI writing workflows teams use
-              every day - all free, browser-based and secure.
+              Dedicated workspaces for the editorial workflows professional
+              teams rely on - from PDF proofreading to contract language
+              review.
             </p>
           </motion.div>
 
@@ -629,12 +633,12 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Built for Real Document Workflows
+              Operational Document Workflows
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              From investor decks to legal contracts - Docsora AI Check
-              handles the document review workflows generic grammar tools
-              ignore.
+              From board reports to investor communications - Docsora handles
+              the editorial workflows generic writing tools were never built
+              for.
             </p>
           </motion.div>
 
