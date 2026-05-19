@@ -263,12 +263,12 @@ const faqs = [
 const popularToolSlugs = [
   "grammar-checker",
   "proofread-pdf",
+  "document-proofreader",
   "ai-writing-assistant",
   "check-contract-language",
   "improve-business-writing",
   "proofread-presentations",
-  "check-document-for-errors",
-  "fix-grammar-online",
+  "professional-writing-checker",
 ];
 
 // Real-world workflow intent (long-tail authority)
@@ -285,16 +285,17 @@ const workflowIntents = [
 
 // Long-tail / AI-search intent chips
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
-  { slug: "grammar-checker", label: "AI grammar checker", intent: "Grammar, spelling and clarity in seconds." },
-  { slug: "proofread-pdf", label: "Proofread PDF online", intent: "Native PDF review with AI suggestions." },
-  { slug: "ai-writing-assistant", label: "AI writing assistant", intent: "Tone, clarity and structure for business writing." },
-  { slug: "improve-business-writing", label: "Improve business writing", intent: "Built for reports and proposals." },
-  { slug: "check-contract-language", label: "Check contract language", intent: "AI review for legal documents." },
-  { slug: "proofread-presentations", label: "Proofread presentations", intent: "Slide-by-slide PowerPoint review." },
-  { slug: "fix-grammar-online", label: "Fix grammar online", intent: "Free browser-based grammar fixer." },
-  { slug: "check-document-for-errors", label: "Check document for errors", intent: "Full-document AI audit." },
-  { slug: "professional-writing-checker", label: "Professional writing checker", intent: "For executive and client-facing docs." },
-  { slug: "proofreading-tool-online", label: "Proofreading tool online", intent: "AI proofreader for any business doc." },
+  { slug: "document-proofreader", label: "Document proofreader", intent: "Editorial review for board packs and contracts." },
+  { slug: "proofread-pdf", label: "Proofread PDF online", intent: "Native PDF review with inline editorial suggestions." },
+  { slug: "check-contract-language", label: "Review contract language", intent: "Editorial pass for legal and compliance teams." },
+  { slug: "proofread-presentations", label: "Proofread presentations", intent: "Slide-by-slide deck review for executives and clients." },
+  { slug: "improve-business-writing", label: "Improve business writing", intent: "Editorial AI for reports, proposals and memos." },
+  { slug: "professional-writing-checker", label: "Professional writing checker", intent: "Tone-aware review for executive documents." },
+  { slug: "grammar-checker", label: "AI grammar checker", intent: "Grammar, spelling and clarity across documents." },
+  { slug: "ai-writing-assistant", label: "AI writing assistant", intent: "Tone and structure refinement for business writing." },
+  { slug: "check-document-for-errors", label: "Check document for errors", intent: "Whole-document editorial audit." },
+  { slug: "fix-grammar-online", label: "Fix grammar online", intent: "Free browser-based grammar review." },
+  { slug: "proofreading-tool-online", label: "Online proofreading tool", intent: "Cloud-native proofreader for any document." },
 ];
 
 export interface AICheckSEOProps {
