@@ -38,6 +38,13 @@ const Compress = ({ variant }: CompressProps = {}) => {
     reduction: 0,
   });
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setStage("upload");
+    setFile(null);
+    setUploadProgress(0);
+  }, [location.pathname]);
+
   // Handle file passed from Storage
   useEffect(() => {
     const stateFile = location.state?.file;
