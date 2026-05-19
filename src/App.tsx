@@ -17,6 +17,8 @@ import Compress from "./pages/Compress";
 import CompressVariant from "./pages/CompressVariant";
 import CompareLanding from "./pages/CompareLanding";
 import Convert from "./pages/Convert";
+import ConvertVariant from "./pages/ConvertVariant";
+import ConvertCompareLanding from "./pages/ConvertCompareLanding";
 import Storage from "./pages/Storage";
 import Track from "./pages/Track";
 import Translate from "./pages/Translate";
@@ -100,6 +102,27 @@ const App = () => (
             <Route path="/compare/docsora-vs-ilovepdf" element={<CompareLanding />} />
             <Route path="/compare/docsora-vs-adobe-acrobat" element={<CompareLanding />} />
             <Route path="/convert" element={<Convert />} />
+            {/* Conversion authority hub — variant landing pages */}
+            <Route path="/pdf-to-word" element={<ConvertVariant />} />
+            <Route path="/word-to-pdf" element={<ConvertVariant />} />
+            <Route path="/excel-to-pdf" element={<ConvertVariant />} />
+            <Route path="/powerpoint-to-pdf" element={<ConvertVariant />} />
+            <Route path="/jpg-to-pdf" element={<ConvertVariant />} />
+            <Route path="/png-to-pdf" element={<ConvertVariant />} />
+            <Route path="/pdf-to-jpg" element={<ConvertVariant />} />
+            <Route path="/pdf-to-png" element={<ConvertVariant />} />
+            <Route path="/pdf-to-powerpoint" element={<ConvertVariant />} />
+            <Route path="/pdf-to-html" element={<ConvertVariant />} />
+            <Route path="/pdf-to-text" element={<ConvertVariant />} />
+            <Route path="/pdf-to-webp" element={<ConvertVariant />} />
+            <Route path="/email-to-pdf" element={<ConvertVariant />} />
+            <Route path="/spreadsheet-to-pdf" element={<ConvertVariant />} />
+            <Route path="/convert-files-online" element={<ConvertVariant />} />
+            {/* Conversion comparison landing pages */}
+            <Route path="/compare/docsora-vs-ilovepdf-convert" element={<ConvertCompareLanding />} />
+            <Route path="/compare/docsora-vs-smallpdf-convert" element={<ConvertCompareLanding />} />
+            <Route path="/compare/docsora-vs-adobe" element={<ConvertCompareLanding />} />
+            <Route path="/compare/docsora-vs-cloudconvert" element={<ConvertCompareLanding />} />
             <Route path="/storage" element={<Storage />} />
             <Route path="/track" element={<Track />} />
             <Route path="/translate" element={<Translate />} />
