@@ -4,7 +4,6 @@ import {
   FileSpreadsheet,
   Presentation,
   Image as ImageIcon,
-  Mail,
   FileImage,
   FileType,
   FileCode,
