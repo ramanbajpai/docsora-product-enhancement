@@ -51,9 +51,9 @@ function ComparisonTable({
       </h2>
       <div className="rounded-2xl border border-border/40 bg-card/40 overflow-hidden">
         <div className="grid grid-cols-12 px-5 py-3 text-[11px] uppercase tracking-[0.12em] font-medium text-muted-foreground/70 bg-card/60 border-b border-border/30">
-          <div className="col-span-6 md:col-span-5">Feature</div>
-          <div className="col-span-3 md:col-span-3.5 text-primary/80">Docsora</div>
-          <div className="col-span-3 md:col-span-3.5">{competitor}</div>
+          <div className="col-span-6">Feature</div>
+          <div className="col-span-3 text-primary/80">Docsora</div>
+          <div className="col-span-3">{competitor}</div>
         </div>
         {rows.map((row, idx) => (
           <div
@@ -63,14 +63,14 @@ function ComparisonTable({
               idx !== rows.length - 1 && "border-b border-border/20",
             )}
           >
-            <div className="col-span-6 md:col-span-5 text-foreground/90 font-medium">
+            <div className="col-span-6 text-foreground/90 font-medium">
               {row.feature}
             </div>
-            <div className="col-span-3 md:col-span-3.5 text-foreground/80 flex items-start gap-2">
+            <div className="col-span-3 text-foreground/80 flex items-start gap-2">
               <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
               <span>{row.docsora}</span>
             </div>
-            <div className="col-span-3 md:col-span-3.5 text-muted-foreground/80 flex items-start gap-2">
+            <div className="col-span-3 text-muted-foreground/80 flex items-start gap-2">
               <Minus className="w-3.5 h-3.5 text-muted-foreground/40 mt-0.5 shrink-0" />
               <span>{row.competitor}</span>
             </div>
