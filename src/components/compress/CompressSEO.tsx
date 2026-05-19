@@ -31,6 +31,7 @@ import {
   Scale,
   Receipt,
   GraduationCap,
+  Gauge,
 } from "lucide-react";
 import {
   Accordion,
@@ -217,6 +218,66 @@ const popularToolSlugs = [
   "compress-excel-files",
   "compress-email-attachments",
   "compress-images",
+];
+
+// "Reduce File Size" intent cards — natural, search-aligned phrasing
+const reduceIntentCards = [
+  {
+    slug: "reduce-pdf-size",
+    icon: FileText,
+    title: "Reduce PDF Size",
+    description:
+      "Reduce large PDF documents for email, sharing, and uploads while preserving readability and formatting.",
+  },
+  {
+    slug: "reduce-image-size",
+    icon: ImageIcon,
+    title: "Reduce Image Size",
+    description:
+      "Shrink JPG, PNG, and WEBP images for websites, social media, and storage optimization.",
+  },
+  {
+    slug: "reduce-powerpoint-file-size",
+    icon: Presentation,
+    title: "Reduce PowerPoint File Size",
+    description:
+      "Optimize presentations for smoother sharing, uploads, and client delivery.",
+  },
+  {
+    slug: "reduce-excel-file-size",
+    icon: FileSpreadsheet,
+    title: "Reduce Excel File Size",
+    description:
+      "Compress spreadsheets and exports without breaking formulas or sheet structure.",
+  },
+  {
+    slug: "reduce-file-size-for-email",
+    icon: Mail,
+    title: "Reduce Email Attachment Size",
+    description:
+      "Reduce attachment sizes to stay within Gmail and Outlook sending limits.",
+  },
+  {
+    slug: "compress-word-document",
+    icon: FileType,
+    title: "Reduce Document Size Online",
+    description:
+      "Compress Word documents, reports, and contracts instantly in your browser.",
+  },
+];
+
+// "Popular File Compression Searches" — long-tail internal linking
+const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
+  { slug: "reduce-file-size", label: "Reduce file size", intent: "Any file, any format — reduced in seconds." },
+  { slug: "reduce-pdf-size", label: "Reduce PDF size", intent: "Shrink PDFs for email and uploads." },
+  { slug: "reduce-image-size", label: "Reduce image size", intent: "Optimize JPG, PNG, and WEBP for web." },
+  { slug: "reduce-file-size-for-email", label: "Reduce file size for email", intent: "Fit Gmail and Outlook limits." },
+  { slug: "compress-large-files", label: "Compress large files", intent: "Handle oversized files in the browser." },
+  { slug: "compress-files-without-losing-quality", label: "Compress files without losing quality", intent: "Lossless and visually-lossless modes." },
+  { slug: "free-online-file-compressor", label: "Free online file compressor", intent: "No installs. No signup. No compromise." },
+  { slug: "reduce-powerpoint-file-size", label: "Reduce PowerPoint file size", intent: "Slim decks for sharing and screen-shares." },
+  { slug: "reduce-excel-file-size", label: "Reduce Excel file size", intent: "Smaller XLSX without breaking formulas." },
+  { slug: "compress-pdf-online", label: "Compress PDF online", intent: "Free browser-based PDF compression." },
 ];
 
 // Real-world workflow intent (long-tail authority)
