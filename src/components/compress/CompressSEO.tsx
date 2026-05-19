@@ -155,57 +155,57 @@ const steps = [
   { icon: Download, title: "Download", description: "Get your optimized file instantly — ready to share." },
 ];
 
-// SECTION 6 — FAQ
+// SECTION 6 — FAQ (semantically rich; covers core compression intents)
 const faqs = [
   {
     question: "How do I compress file size online?",
     answer:
-      "Drag and drop any document, image, or spreadsheet into the upload area above. Docsora compresses files directly in your browser using intelligent optimization, then lets you download the smaller version in seconds. No installation, account, or technical knowledge required.",
+      "Drop any document, image, or spreadsheet into the upload area above and Docsora compresses it directly in your browser using intelligent, format-aware optimization. Our online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more — typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a free online compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
   },
   {
     question: "Can I compress files without losing quality?",
     answer:
-      "Yes. Docsora uses lossless and visually lossless compression depending on file type. PDFs keep text crisp, images preserve sharpness, and presentations retain their original look. Choose 'Preserve Quality' for identical output or 'Balanced' for the smallest file with no visible difference.",
+      "Yes — Docsora uses lossless and visually-lossless compression algorithms tuned to each file type. PDFs keep vector text crisp, images preserve color depth and sharpness, and presentations retain every slide, animation, and embedded media element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no perceptible quality loss — ideal for compressing files for email, web upload, and client delivery without any visible compromise.",
   },
   {
     question: "What file types can I compress?",
     answer:
-      "Docsora supports PDF, DOC, DOCX, TXT, HTML, ODT, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML email files. One tool covers documents, spreadsheets, presentations, images, and email attachments.",
+      "Docsora's online file compressor supports every major format teams work with: PDF, DOC, DOCX, TXT, HTML, ODT, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers document compression, spreadsheet compression, presentation compression, image compression, and email attachment compression — replacing the need for separate desktop utilities.",
   },
   {
     question: "Is Docsora compression secure?",
     answer:
-      "Every upload is encrypted in transit and processed in an isolated environment. Files are automatically deleted after compression — we never store, share, or read your documents. Docsora is operated under ISO 27001 controls and aligned with GDPR.",
+      "Every upload runs over end-to-end TLS encryption and is processed inside an isolated, privacy-first environment. Files are automatically deleted from our servers after compression — Docsora never stores, indexes, shares, or reads your documents. The platform is operated under ISO 27001 controls and aligned with GDPR, which is why finance, legal, and healthcare teams trust it for sensitive compression workflows.",
   },
   {
     question: "How do I reduce PDF size for email?",
     answer:
-      "Upload your PDF, choose a compression level, and Docsora will shrink it to fit common email limits (10MB, 25MB). Most PDFs can be reduced by 60–90% with no visible quality loss — perfect for Gmail, Outlook, and Apple Mail attachments.",
+      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce it to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 60–90% with no visible quality loss — perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
   },
   {
     question: "Can I compress PowerPoint presentations?",
     answer:
-      "Yes. Docsora compresses PPT, PPTX, and ODP files by optimizing embedded images and media while keeping slides, animations, and fonts intact. Ideal for sharing decks over email, Slack, or video calls.",
+      "Yes. Docsora's online PowerPoint compressor optimizes PPT, PPTX, and ODP files by re-encoding embedded images, screenshots, and video while keeping every slide, animation, transition, and font perfectly intact. Ideal for compressing pitch decks, investor presentations, sales enablement, and training decks for sharing over email, Slack, Teams, and live screen-shares.",
   },
   {
     question: "Can I compress images online?",
     answer:
-      "Absolutely. Compress JPG, PNG, GIF, BMP, TIFF, and WEBP images individually or in bulk. Docsora intelligently balances dimensions, color depth, and quality so photos stay sharp while file size drops dramatically.",
+      "Absolutely — Docsora is a complete browser-based image compressor for JPG, JPEG, PNG, GIF, BMP, TIFF, and WEBP files, individually or in bulk. Perceptual encoding balances dimensions, color depth, and quality so photos and graphics stay visually identical while file size drops 50–80%. Use it to compress images for websites, blog posts, social media, marketing assets, and product catalogs.",
   },
   {
     question: "Is there a maximum file size?",
     answer:
-      "Free accounts support files up to 50MB each. Upgrade to Docsora Pro for larger files, batch compression, advanced quality controls, and higher monthly limits.",
+      "Free Docsora supports files up to 50MB per upload — enough for almost every PDF, image, document, and spreadsheet. Docsora Pro unlocks large file compression (several hundred MB), batch compression for entire deliverables, advanced quality controls, and higher monthly limits for teams.",
   },
   {
     question: "Can I compress files directly in my browser?",
     answer:
-      "Yes. Docsora runs entirely in the browser — no software, plugins, or downloads required. It works on macOS, Windows, Linux, iOS, and Android from Chrome, Safari, Edge, and Firefox.",
+      "Yes — Docsora is fully browser-based with no software, plugins, or downloads required. It works on macOS, Windows, Linux, ChromeOS, iOS, and Android from Chrome, Safari, Edge, Firefox, Arc, and Brave. There is nothing to install, nothing to update, and nothing to remove — open the page, drop your files, and compress online instantly.",
   },
   {
     question: "What is the best way to reduce document size?",
     answer:
-      "Use a format-aware tool like Docsora. Generic ZIP archives barely shrink modern documents — Docsora applies format-specific optimization to PDFs, Word files, presentations, and images for dramatic size reduction with no loss of meaning or visual quality.",
+      "Use a format-aware online compressor like Docsora. Generic ZIP archives barely shrink modern documents because PDF, DOCX, PPTX, and image files are already compressed containers — Docsora applies format-specific optimization inside each file (re-encoding images, streamlining structure, removing redundant metadata) for dramatic size reduction with no loss of meaning or visual quality.",
   },
 ];
 
