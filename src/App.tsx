@@ -11,6 +11,8 @@ import Templates from "./pages/Templates";
 import TemplateBuilder from "./pages/TemplateBuilder";
 import ActiveFlow from "./pages/ActiveFlow";
 import AICheck from "./pages/AICheck";
+import AICheckVariant from "./pages/AICheckVariant";
+import AICompareLanding from "./pages/AICompareLanding";
 import Compress from "./pages/Compress";
 import CompressVariant from "./pages/CompressVariant";
 import CompareLanding from "./pages/CompareLanding";
@@ -54,6 +56,19 @@ const App = () => (
             <Route path="/templates/new" element={<TemplateBuilder />} />
             <Route path="/flows/:runId" element={<ActiveFlow />} />
             <Route path="/ai-check" element={<AICheck />} />
+            <Route path="/grammar-checker" element={<AICheckVariant />} />
+            <Route path="/proofread-pdf" element={<AICheckVariant />} />
+            <Route path="/ai-writing-assistant" element={<AICheckVariant />} />
+            <Route path="/check-contract-language" element={<AICheckVariant />} />
+            <Route path="/improve-business-writing" element={<AICheckVariant />} />
+            <Route path="/proofread-presentations" element={<AICheckVariant />} />
+            <Route path="/check-document-for-errors" element={<AICheckVariant />} />
+            <Route path="/fix-grammar-online" element={<AICheckVariant />} />
+            <Route path="/professional-writing-checker" element={<AICheckVariant />} />
+            <Route path="/proofreading-tool-online" element={<AICheckVariant />} />
+            <Route path="/compare/docsora-vs-grammarly" element={<AICompareLanding />} />
+            <Route path="/compare/docsora-vs-quillbot" element={<AICompareLanding />} />
+            <Route path="/compare/docsora-vs-languagetool" element={<AICompareLanding />} />
             <Route path="/compress" element={<Compress />} />
             {/* Compression authority hub — variant landing pages */}
             <Route path="/compress-pdf" element={<CompressVariant />} />
