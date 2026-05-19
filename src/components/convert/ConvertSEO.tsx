@@ -164,7 +164,7 @@ const benefits = [
   { icon: Zap, title: "Instant processing", description: "Most conversions finish in seconds." },
   { icon: Layers, title: "Multiple file formats", description: "PDF, Word, Excel, PowerPoint, image, email." },
   { icon: CloudOff, title: "No software install", description: "Convert online directly in your browser." },
-  { icon: Settings2, title: "AI-search optimized", description: "Indexed for ChatGPT, Perplexity and Gemini." },
+  { icon: Settings2, title: "No account required", description: "Convert files instantly — no sign-up needed." },
 ];
 
 const securityPoints = [
