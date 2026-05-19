@@ -394,6 +394,55 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </section>
         )}
 
+        {/* Variant use cases (only when defined) */}
+        {variant?.useCases && variant.useCases.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Built for {variant.cardLabel} Workflows
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                The real-world workflows teams use {variant.cardLabel.toLowerCase()} for every day.
+              </p>
+            </motion.div>
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl mx-auto"
+            >
+              {variant.useCases.map((useCase, i) => (
+                <motion.div
+                  key={useCase}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.04 }}
+                  className={cn(
+                    "rounded-xl px-5 py-4",
+                    "bg-card/30 border border-border/30",
+                    "hover:border-primary/20 hover:bg-card/60 transition-all duration-300"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary/70" />
+                    <span className="text-[13px] text-foreground/90 font-medium">{useCase}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+            <motion.div {...fadeUp} className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground/70">
+              <Link to="/compress" className="hover:text-primary transition-colors">Compression hub</Link>
+              <span className="text-muted-foreground/30">·</span>
+              <Link to="/reduce-file-size" className="hover:text-primary transition-colors">Reduce file size</Link>
+              <span className="text-muted-foreground/30">·</span>
+              <Link to="/compress-email-attachments" className="hover:text-primary transition-colors">Compress email attachments</Link>
+              <span className="text-muted-foreground/30">·</span>
+              <Link to="/compress-large-files" className="hover:text-primary transition-colors">Compress large files</Link>
+              <span className="text-muted-foreground/30">·</span>
+              <Link to="/compress-word-documents" className="hover:text-primary transition-colors">Compress Word documents</Link>
+            </motion.div>
+          </section>
+        )}
+
         {/* SECTION 1 — Compress Any File Type */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
