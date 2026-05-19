@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CompressUpload } from "@/components/compress/CompressUpload";
 import { CompressModeSelect } from "@/components/compress/CompressModeSelect";
 import { CompressProgress } from "@/components/compress/CompressProgress";
 import { CompressResult } from "@/components/compress/CompressResult";
 import { CompressSEO } from "@/components/compress/CompressSEO";
+import type { CompressVariantConfig } from "@/data/compressVariants";
 
 export type CompressionMode = "balanced" | "maximum" | "quality";
 
@@ -18,7 +20,11 @@ export interface FileData {
 
 export type CompressStage = "upload" | "uploading" | "mode" | "progress" | "result";
 
-const Compress = () => {
+interface CompressProps {
+  variant?: CompressVariantConfig;
+}
+
+const Compress = ({ variant }: CompressProps = {}) => {
   const location = useLocation();
   const [stage, setStage] = useState<CompressStage>("upload");
   const [file, setFile] = useState<FileData | null>(null);
@@ -115,6 +121,46 @@ const Compress = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>
+          {variant
+            ? variant.title
+            : "Compress Files Online — Free File Compressor | Docsora"}
+        </title>
+        <meta
+          name="description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Compress PDFs, images, Word, Excel, and PowerPoint files online. Free, secure, browser-based file compression — no installs, no signup."
+          }
+        />
+        <link
+          rel="canonical"
+          href={variant ? `/${variant.slug}` : "/compress"}
+        />
+        <meta
+          property="og:title"
+          content={
+            variant
+              ? variant.title
+              : "Compress Files Online — Docsora"
+          }
+        />
+        <meta
+          property="og:description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Free browser-based file compression for every major format."
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content={variant ? `/${variant.slug}` : "/compress"}
+        />
+      </Helmet>
       <div className="h-screen flex flex-col overflow-hidden">
         <AnimatePresence mode="wait">
           {(stage === "upload" || stage === "uploading") && (
@@ -184,7 +230,9 @@ const Compress = () => {
       </div>
 
       {/* Below-the-fold SEO content */}
-      {(stage === "upload" || stage === "uploading") && <CompressSEO />}
+      {(stage === "upload" || stage === "uploading") && (
+        <CompressSEO variant={variant} />
+      )}
     </AppLayout>
   );
 };
