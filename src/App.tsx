@@ -68,6 +68,7 @@ const App = () => (
             <Route path="/fix-grammar-online" element={<AICheckVariant />} />
             <Route path="/professional-writing-checker" element={<AICheckVariant />} />
             <Route path="/proofreading-tool-online" element={<AICheckVariant />} />
+            <Route path="/document-proofreader" element={<AICheckVariant />} />
             <Route path="/compare/docsora-vs-grammarly" element={<AICompareLanding />} />
             <Route path="/compare/docsora-vs-quillbot" element={<AICompareLanding />} />
             <Route path="/compare/docsora-vs-languagetool" element={<AICompareLanding />} />
