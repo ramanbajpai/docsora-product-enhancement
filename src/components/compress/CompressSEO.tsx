@@ -151,7 +151,6 @@ const securityPoints = [
   { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
   { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
   { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to enterprise-grade SOC 2 security standards." },
-  { icon: KeyRound, title: "Privacy-first", description: "Your documents are never stored, shared, or scanned." },
 ];
 
 // SECTION 5 — How It Works
