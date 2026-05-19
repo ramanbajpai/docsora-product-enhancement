@@ -552,7 +552,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.html,.txt,.xml,.jpg,.jpeg,.png,.csv,.odt"
+                accept=".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml"
               />
               <input
                 ref={addMoreInputRef}
@@ -560,7 +560,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.html,.txt,.xml,.jpg,.jpeg,.png,.csv,.odt"
+                accept=".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml"
               />
 
               {/* Supported Formats Toggle - Hides when files queued */}

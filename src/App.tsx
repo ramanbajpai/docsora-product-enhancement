@@ -127,6 +127,29 @@ const App = () => (
             <Route path="/xlsx-to-csv" element={<ConvertVariant />} />
             <Route path="/docx-to-odt" element={<ConvertVariant />} />
             <Route path="/odt-to-docx" element={<ConvertVariant />} />
+            {/* Long-tail format-pair landing pages */}
+            <Route path="/pdf-to-pdfa" element={<ConvertVariant />} />
+            <Route path="/pdf-to-doc" element={<ConvertVariant />} />
+            <Route path="/pdf-to-docx" element={<ConvertVariant />} />
+            <Route path="/pdf-to-html" element={<ConvertVariant />} />
+            <Route path="/pdf-to-ppt" element={<ConvertVariant />} />
+            <Route path="/pdf-to-pptx" element={<ConvertVariant />} />
+            <Route path="/pdf-to-odp" element={<ConvertVariant />} />
+            <Route path="/pdf-to-xml" element={<ConvertVariant />} />
+            <Route path="/pdf-to-gif" element={<ConvertVariant />} />
+            <Route path="/pdf-to-tiff" element={<ConvertVariant />} />
+            <Route path="/pdf-to-bmp" element={<ConvertVariant />} />
+            <Route path="/pdf-to-webp" element={<ConvertVariant />} />
+            <Route path="/jpeg-to-pdf" element={<ConvertVariant />} />
+            <Route path="/gif-to-pdf" element={<ConvertVariant />} />
+            <Route path="/bmp-to-pdf" element={<ConvertVariant />} />
+            <Route path="/tiff-to-pdf" element={<ConvertVariant />} />
+            <Route path="/webp-to-pdf" element={<ConvertVariant />} />
+            <Route path="/doc-to-pdf" element={<ConvertVariant />} />
+            <Route path="/docx-to-pdf" element={<ConvertVariant />} />
+            <Route path="/ods-to-pdf" element={<ConvertVariant />} />
+            <Route path="/odp-to-pdf" element={<ConvertVariant />} />
+            <Route path="/eml-to-pdf" element={<ConvertVariant />} />
             <Route path="/convert-files-online" element={<ConvertVariant />} />
             {/* Conversion comparison landing pages */}
             <Route path="/compare/docsora-vs-ilovepdf-convert" element={<ConvertCompareLanding />} />

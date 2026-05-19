@@ -21,9 +21,12 @@ const formatGroups = [
     name: "Documents",
     icon: FileText,
     formats: [
+      { id: "pdf", label: "PDF", description: "Portable Document", recommended: true },
+      { id: "pdf-a", label: "PDF/A", description: "Archive format" },
       { id: "docx", label: "DOCX", description: "Microsoft Word" },
-      { id: "pdf-a", label: "PDF/A", description: "Archive format", recommended: true },
+      { id: "doc", label: "DOC", description: "Legacy Word" },
       { id: "odt", label: "ODT", description: "OpenDocument" },
+      { id: "html", label: "HTML", description: "Web page" },
       { id: "txt", label: "TXT", description: "Plain text" },
     ],
   },
@@ -41,6 +44,8 @@ const formatGroups = [
     icon: Table,
     formats: [
       { id: "xlsx", label: "XLSX", description: "Excel spreadsheet" },
+      { id: "xls", label: "XLS", description: "Legacy Excel" },
+      { id: "ods", label: "ODS", description: "OpenDocument" },
       { id: "csv", label: "CSV", description: "Comma separated" },
       { id: "xml", label: "XML", description: "Structured data" },
     ],
@@ -51,6 +56,10 @@ const formatGroups = [
     formats: [
       { id: "jpg", label: "JPG", description: "Compressed image" },
       { id: "png", label: "PNG", description: "Lossless image" },
+      { id: "webp", label: "WEBP", description: "Modern web image" },
+      { id: "gif", label: "GIF", description: "Animated image" },
+      { id: "tiff", label: "TIFF", description: "High-quality scan" },
+      { id: "bmp", label: "BMP", description: "Bitmap image" },
     ],
   },
 ];

@@ -160,6 +160,28 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "xlsx-to-csv", label: "XLSX to CSV", intent: "Excel sheets as clean CSV." },
   { slug: "docx-to-odt", label: "DOCX to ODT", intent: "Word into OpenDocument." },
   { slug: "odt-to-docx", label: "ODT to DOCX", intent: "OpenDocument into Word DOCX." },
+  { slug: "pdf-to-pdfa", label: "PDF to PDF/A", intent: "Archive-grade PDF/A output." },
+  { slug: "pdf-to-doc", label: "PDF to DOC", intent: "Legacy Word from PDF." },
+  { slug: "pdf-to-docx", label: "PDF to DOCX", intent: "Modern Word from PDF." },
+  { slug: "pdf-to-html", label: "PDF to HTML", intent: "Semantic HTML from PDF." },
+  { slug: "pdf-to-ppt", label: "PDF to PPT", intent: "Legacy PowerPoint from PDF." },
+  { slug: "pdf-to-pptx", label: "PDF to PPTX", intent: "Modern PowerPoint from PDF." },
+  { slug: "pdf-to-odp", label: "PDF to ODP", intent: "OpenDocument deck from PDF." },
+  { slug: "pdf-to-xml", label: "PDF to XML", intent: "Structured XML from PDF." },
+  { slug: "pdf-to-gif", label: "PDF to GIF", intent: "PDF pages as GIF images." },
+  { slug: "pdf-to-tiff", label: "PDF to TIFF", intent: "Archival-grade TIFF exports." },
+  { slug: "pdf-to-bmp", label: "PDF to BMP", intent: "Uncompressed bitmap exports." },
+  { slug: "pdf-to-webp", label: "PDF to WEBP", intent: "Modern web-ready images." },
+  { slug: "jpeg-to-pdf", label: "JPEG to PDF", intent: "JPEG photos packaged as PDFs." },
+  { slug: "gif-to-pdf", label: "GIF to PDF", intent: "GIF images into PDFs." },
+  { slug: "bmp-to-pdf", label: "BMP to PDF", intent: "Bitmap images into PDFs." },
+  { slug: "tiff-to-pdf", label: "TIFF to PDF", intent: "Multi-page TIFF scans to PDF." },
+  { slug: "webp-to-pdf", label: "WEBP to PDF", intent: "WEBP images into PDFs." },
+  { slug: "doc-to-pdf", label: "DOC to PDF", intent: "Legacy Word DOC to PDF." },
+  { slug: "docx-to-pdf", label: "DOCX to PDF", intent: "Modern Word DOCX to PDF." },
+  { slug: "ods-to-pdf", label: "ODS to PDF", intent: "OpenDocument spreadsheet to PDF." },
+  { slug: "odp-to-pdf", label: "ODP to PDF", intent: "OpenDocument deck to PDF." },
+  { slug: "eml-to-pdf", label: "EML to PDF", intent: "Email archives for compliance." },
   { slug: "spreadsheet-to-pdf", label: "Spreadsheet to PDF", intent: "All sheet formats to PDF." },
   { slug: "convert-files-online", label: "Convert files online", intent: "One tool, every format." },
 ];
@@ -204,7 +226,7 @@ const faqs = [
   {
     question: "What file types does Docsora Convert support?",
     answer:
-      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, PPT, PPTX, JPG, and PNG. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, and image conversion — replacing the need for separate desktop utilities.",
+      "Docsora Convert supports every major business format: PDF, PDF/A, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, image conversion, and email archiving — replacing the need for separate desktop utilities.",
   },
   {
     question: "Is browser-based file conversion secure?",
@@ -219,12 +241,12 @@ const faqs = [
   {
     question: "How do I convert images into PDFs?",
     answer:
-      "Upload one or many JPG or PNG images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
+      "Upload one or many JPG, JPEG, PNG, GIF, BMP, TIFF, or WEBP images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
   },
   {
     question: "Can I convert presentations online?",
     answer:
-      "Yes. Docsora's PowerPoint to PDF converter handles PPT and PPTX decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
+      "Yes. Docsora's PowerPoint to PDF converter handles PPT, PPTX, and ODP decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
   },
   {
     question: "Is Docsora Convert free to use?",
