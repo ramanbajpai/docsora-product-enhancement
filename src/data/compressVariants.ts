@@ -726,6 +726,7 @@ export const compressVariants: CompressVariantConfig[] = [
   },
 ];
 
+
 export const compressVariantBySlug = Object.fromEntries(
   compressVariants.map((v) => [v.slug, v]),
 );
