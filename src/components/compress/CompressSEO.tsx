@@ -151,7 +151,6 @@ const securityPoints = [
   { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
   { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
   { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to enterprise-grade SOC 2 security standards." },
-  { icon: KeyRound, title: "Privacy-first", description: "Your documents are never stored, shared, or scanned." },
 ];
 
 // SECTION 5 — How It Works
@@ -837,7 +836,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
 
             <motion.div
               {...staggerContainer}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-3"
             >
               {securityPoints.map((item, i) => (
                 <motion.div
