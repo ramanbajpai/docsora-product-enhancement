@@ -724,6 +724,57 @@ export const compressVariants: CompressVariantConfig[] = [
       },
     ],
   },
+  {
+    slug: "compress-files-online",
+    title: "Compress Files Online - Free Online File Compressor | Docsora",
+    metaDescription:
+      "Compress files online for free in your browser. Reduce PDF, image, Word, Excel, and PowerPoint file size instantly - no installs, no signup, secure.",
+    h1: "Compress Files Online",
+    intro:
+      "Compress any file online directly in your browser - PDFs, images, Word, Excel, and PowerPoint - with no installs, no signup, and no quality loss.",
+    keyword: "compress files online",
+    acceptedFormats: "PDF · DOCX · PPTX · XLSX · JPG · PNG · WEBP",
+    cardIcon: FileType,
+    cardLabel: "Compress Files Online",
+    cardDescription:
+      "Free, browser-based file compression for every major format.",
+    longCopy:
+      "Docsora is a free online file compressor built for modern teams that need to compress files online without installing software. Format-aware optimization typically reduces PDF, DOCX, PPTX, XLSX, JPG, and PNG file size by 60-90% in seconds - encrypted in transit, automatically deleted after processing, and accessible from any browser on macOS, Windows, Linux, ChromeOS, iOS, and Android.",
+    useCases: [
+      "Compress files online for email attachments",
+      "Compress files online without losing quality",
+      "Compress large files online for sharing",
+      "Compress PDF files online in your browser",
+      "Compress image files online for web upload",
+    ],
+    faq: [
+      {
+        question: "How do I compress files online?",
+        answer:
+          "Drop any file into the upload area on this page and Docsora compresses it directly in your browser using format-aware optimization. Compress PDF, DOCX, PPTX, XLSX, JPG, PNG, WEBP, and EML files online for free - no installs, no signup, no plugins. Most files are reduced 60-90% in seconds, then download instantly.",
+      },
+      {
+        question: "Is it safe to compress files online with Docsora?",
+        answer:
+          "Yes. Every upload runs over end-to-end TLS encryption inside an isolated, privacy-first environment. Files are automatically deleted from our servers after compression - Docsora never stores, indexes, shares, or reads your documents. The platform is operated under ISO 27001 controls, aligned with GDPR, and built with SOC 2 aligned operational and security standards.",
+      },
+      {
+        question: "Can I compress files online without losing quality?",
+        answer:
+          "Yes. Docsora's online file compressor uses lossless and visually-lossless modes tuned to each file type. PDFs keep vector text crisp, images preserve color depth, and presentations retain every slide, animation, and embedded element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no visible quality loss.",
+      },
+      {
+        question: "What file types can I compress online?",
+        answer:
+          "Docsora supports every major format teams work with online: PDF, DOC, DOCX, TXT, HTML, ODT, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML email attachments - one browser-based compressor for documents, spreadsheets, presentations, images, and email.",
+      },
+      {
+        question: "Do I need an account to compress files online?",
+        answer:
+          "No. Docsora is free to use without signup for standard files. Upgrade to Pro only when you need batch processing, large file compression (several hundred MB), or advanced quality controls for team workflows.",
+      },
+    ],
+  },
 ];
 
 
