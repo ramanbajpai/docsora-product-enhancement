@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>/compress</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>/compress-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-jpg</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-png</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-word-document</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-powerpoint</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-excel-files</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-images</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/compress-large-files</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/compress-email-attachments</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/compress-marketing-assets</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/compress-client-deliverables</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/reduce-file-size-for-email</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/compress-files-without-losing-quality</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/online-file-compressor</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/free-file-compressor</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+</urlset>
