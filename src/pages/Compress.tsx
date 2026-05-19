@@ -6,6 +6,7 @@ import { CompressUpload } from "@/components/compress/CompressUpload";
 import { CompressModeSelect } from "@/components/compress/CompressModeSelect";
 import { CompressProgress } from "@/components/compress/CompressProgress";
 import { CompressResult } from "@/components/compress/CompressResult";
+import { CompressSEO } from "@/components/compress/CompressSEO";
 
 export type CompressionMode = "balanced" | "maximum" | "quality";
 
