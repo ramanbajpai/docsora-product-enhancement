@@ -74,6 +74,7 @@ const App = () => (
             <Route path="/online-file-compressor" element={<CompressVariant />} />
             <Route path="/free-file-compressor" element={<CompressVariant />} />
             <Route path="/free-online-file-compressor" element={<CompressVariant />} />
+            <Route path="/compress-files-online" element={<CompressVariant />} />
             <Route path="/reduce-file-size" element={<CompressVariant />} />
             <Route path="/reduce-pdf-size" element={<CompressVariant />} />
             <Route path="/reduce-image-size" element={<CompressVariant />} />
