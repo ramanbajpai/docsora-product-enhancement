@@ -968,6 +968,64 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
         </section>
 
         {/* SECTION 8 - Final CTA */}
+        {/* SECTION - Compare Docsora Compression */}
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+              Compare Docsora Compression
+            </h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              See how Docsora compares to other browser-based compression
+              platforms across speed, usability, security and workflow
+              flexibility.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+          >
+            {compareVariants.map((c, i) => (
+              <motion.div
+                key={c.slug}
+                initial={staggerItem.initial}
+                whileInView={staggerItem.whileInView}
+                viewport={staggerItem.viewport}
+                transition={{ ...staggerItem.transition, delay: i * 0.06 }}
+              >
+                <Link
+                  to={`/${c.slug}`}
+                  className={cn(
+                    "group rounded-2xl p-6 block h-full",
+                    "bg-card/40 border border-border/30",
+                    "hover:border-primary/20 hover:bg-card/70 transition-all duration-300",
+                  )}
+                >
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
+                      <Scale className="w-3.5 h-3.5 text-primary/80" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
+                      Comparison
+                    </span>
+                  </div>
+                  <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {c.cardTitle}
+                  </h3>
+                  <p className="text-sm text-muted-foreground/75 leading-relaxed">
+                    {c.cardSummary}
+                  </p>
+                  <div className="mt-5 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
+                    <span>View comparison</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* SECTION 9 - Final CTA */}
         <section>
           <motion.div
             {...fadeUp}
