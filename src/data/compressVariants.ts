@@ -799,6 +799,7 @@ const acceptBySlug: Record<string, string> = {
   "reduce-excel-file-size": ".xls,.xlsx,.csv,.ods",
   "compress-email-attachments": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
   "reduce-file-size-for-email": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
+  "compress-files-online": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif,.webp,.eml",
 };
 
 // Map slug → upload hero headline (search-intent aligned)
@@ -826,6 +827,7 @@ const headlineBySlug: Record<string, string> = {
   "free-file-compressor": "Upload your files",
   "free-online-file-compressor": "Upload your files",
   "reduce-file-size": "Upload your files",
+  "compress-files-online": "Upload your files",
 };
 
 export interface UploadIntent {
