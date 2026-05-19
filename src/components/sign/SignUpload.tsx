@@ -647,10 +647,10 @@ const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Send agreements in minutes'}
+                        {isDragging ? 'Release to upload' : 'Sign with confidence'}
                       </h1>
                       <p className="text-muted-foreground/80 text-[0.95rem] max-w-sm mx-auto leading-relaxed">
-                        Upload a document to prepare, sign, and send — legally binding and secure.
+                        Legally binding electronic signatures - fast, secure, and compliant.
                       </p>
                     </motion.div>
                   )}
