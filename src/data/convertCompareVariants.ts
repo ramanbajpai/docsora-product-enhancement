@@ -46,7 +46,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF (JPG/PNG)", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams converting mixed-format deliverables in one workspace",
@@ -112,7 +112,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams converting mixed-format deliverables without hourly caps",
@@ -178,7 +178,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams that need fast browser-based conversion without Acrobat licenses",
@@ -244,7 +244,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Supported" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Supported" },
     ],
     workflow: [
       "Business teams wanting conversion + signing + storage in one place",
