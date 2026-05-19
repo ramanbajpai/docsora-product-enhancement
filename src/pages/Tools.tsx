@@ -337,10 +337,31 @@ export default function Tools() {
   const navigate = useNavigate();
   const [hoveredTool, setHoveredTool] = useState<ToolConfig | null>(null);
   
+  // Synthetic config for Flows (navigates to /templates)
+  const flowsConfig: ToolConfig = {
+    id: "flows",
+    name: "Flows",
+    title: "Flows",
+    subtitle: "Reusable agreements, signing packages, and operational workflows.",
+    readyTitle: "Flows",
+    description: "Reusable agreements & workflows",
+    icon: FlowIcon,
+    acceptMultiple: false,
+    supportedFormats: [],
+    uploadMode: "single",
+  };
+
   // Flatten tool order and get configs
-  const orderedTools = toolOrder.flat().map(id => getToolConfig(id)).filter(Boolean) as ToolConfig[];
+  const orderedTools = toolOrder.flat().map(id => {
+    if (id === "flows") return flowsConfig;
+    return getToolConfig(id);
+  }).filter(Boolean) as ToolConfig[];
 
   const handleToolClick = (tool: ToolConfig) => {
+    if (tool.id === "flows") {
+      navigate("/templates");
+      return;
+    }
     navigate(`/tools/${tool.id}`);
   };
 
