@@ -261,7 +261,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       {
         question: "Does Docsora support as many formats as CloudConvert?",
         answer:
-          "Docsora covers the most-used business document, spreadsheet, presentation, image, and email formats. CloudConvert covers broader long-tail formats geared at developers.",
+          "Docsora covers the most-used business document, spreadsheet, presentation, image, and OpenDocument formats. CloudConvert covers broader long-tail formats geared at developers.",
       },
     ],
   },
