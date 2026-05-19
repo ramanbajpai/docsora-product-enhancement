@@ -73,6 +73,7 @@ const fileTypeGroups = [
     title: "Compress PDF & Word Documents",
     description:
       "Reduce the size of PDFs, Word files, and rich text documents without losing readability or formatting.",
+    slug: "compress-pdf",
   },
   {
     category: "Spreadsheets",
@@ -81,6 +82,7 @@ const fileTypeGroups = [
     title: "Compress Excel Files",
     description:
       "Shrink large spreadsheets and data exports while preserving formulas, sheets, and structure.",
+    slug: "compress-excel-files",
   },
   {
     category: "Presentations",
@@ -89,6 +91,7 @@ const fileTypeGroups = [
     title: "Compress PowerPoint Presentations",
     description:
       "Make decks lighter for email, sharing, and live presentations with no visible quality loss.",
+    slug: "compress-powerpoint",
   },
   {
     category: "Images",
@@ -97,6 +100,7 @@ const fileTypeGroups = [
     title: "Compress Images Without Quality Loss",
     description:
       "Optimize photos, graphics, and screenshots for web, social, and storage with intelligent compression.",
+    slug: "compress-images",
   },
   {
     category: "Email",
@@ -105,6 +109,7 @@ const fileTypeGroups = [
     title: "Compress Email Attachments",
     description:
       "Reduce email file sizes so attachments fit under inbox limits and send instantly.",
+    slug: "compress-email-attachments",
   },
   {
     category: "Universal",
@@ -113,6 +118,7 @@ const fileTypeGroups = [
     title: "Compress Any File Online",
     description:
       "One tool for every format — drop any document, image, or sheet and Docsora handles the rest.",
+    slug: "online-file-compressor",
   },
 ];
 
@@ -144,6 +150,7 @@ const securityPoints = [
   { icon: Trash2, title: "Automatic deletion", description: "Files are removed from our servers after processing." },
   { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
   { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
+  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to enterprise-grade SOC 2 security standards." },
   { icon: KeyRound, title: "Privacy-first", description: "Your documents are never stored, shared, or scanned." },
 ];
 
@@ -336,7 +343,19 @@ function buildJsonLd(variant?: CompressVariantConfig) {
       acceptedAnswer: { "@type": "Answer", text: f.answer },
     })),
   };
-  return [breadcrumb, software, faqPage];
+  const howTo = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: variant ? `How to ${variant.cardLabel}` : "How to compress files online",
+    description,
+    totalTime: "PT30S",
+    step: [
+      { "@type": "HowToStep", position: 1, name: "Upload", text: "Drag and drop your file into the upload area or click to browse." },
+      { "@type": "HowToStep", position: 2, name: "Choose mode", text: "Pick Balanced, Maximum, or Preserve Quality compression." },
+      { "@type": "HowToStep", position: 3, name: "Download", text: "Download the optimized file — ready to share in seconds." },
+    ],
+  };
+  return [breadcrumb, software, faqPage, howTo];
 }
 
 export function CompressSEO({ variant }: CompressSEOProps = {}) {
@@ -460,20 +479,24 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {fileTypeGroups.map((item, i) => (
-              <motion.article
+              <motion.div
                 key={item.title}
                 initial={staggerItem.initial}
                 whileInView={staggerItem.whileInView}
                 viewport={staggerItem.viewport}
                 transition={{ ...staggerItem.transition, delay: i * 0.05 }}
-                className={cn(
-                  "group relative rounded-2xl p-6",
-                  "bg-card/50 backdrop-blur-sm",
-                  "border border-border/40",
-                  "hover:border-primary/20 hover:bg-card/80",
-                  "transition-all duration-300"
-                )}
               >
+                <Link
+                  to={`/${item.slug}`}
+                  aria-label={`Open ${item.title}`}
+                  className={cn(
+                    "group relative block rounded-2xl p-6 h-full",
+                    "bg-card/50 backdrop-blur-sm",
+                    "border border-border/40",
+                    "hover:border-primary/25 hover:bg-card/80",
+                    "transition-all duration-300"
+                  )}
+                >
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
                     <item.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
@@ -482,7 +505,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                     {item.category}
                   </span>
                 </div>
-                <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug">
+                <h3 className="text-[15px] font-semibold text-foreground mb-1.5 leading-snug group-hover:text-primary transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-sm text-muted-foreground/80 leading-relaxed mb-4">
@@ -494,7 +517,8 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                 </div>
-              </motion.article>
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
         </section>
@@ -522,7 +546,9 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             {...staggerContainer}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {reduceIntentCards.map((card, i) => (
+            {reduceIntentCards
+              .filter((c) => c.slug !== variant?.slug)
+              .map((card, i) => (
               <motion.div
                 key={card.slug}
                 initial={staggerItem.initial}
