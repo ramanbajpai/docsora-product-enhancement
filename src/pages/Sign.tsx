@@ -254,7 +254,13 @@ const Sign = ({ variant }: SignProps = {}) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={variant ? `/${variant.slug}` : "/sign"} />
       </Helmet>
-      <div className="relative h-screen flex flex-col overflow-hidden">
+      <div
+        className={
+          step === "start"
+            ? "relative flex flex-col"
+            : "relative h-screen flex flex-col overflow-hidden"
+        }
+      >
         {/* Ambient background - Ultra subtle */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <motion.div
@@ -595,6 +601,7 @@ const Sign = ({ variant }: SignProps = {}) => {
           </AnimatePresence>
         </div>
       </div>
+      {step === "start" && <SignSEO variant={variant} />}
     </AppLayout>
   );
 };
