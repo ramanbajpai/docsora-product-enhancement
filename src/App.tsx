@@ -13,6 +13,7 @@ import ActiveFlow from "./pages/ActiveFlow";
 import AICheck from "./pages/AICheck";
 import Compress from "./pages/Compress";
 import CompressVariant from "./pages/CompressVariant";
+import CompareLanding from "./pages/CompareLanding";
 import Convert from "./pages/Convert";
 import Storage from "./pages/Storage";
 import Track from "./pages/Track";
@@ -78,6 +79,10 @@ const App = () => (
             <Route path="/reduce-image-size" element={<CompressVariant />} />
             <Route path="/reduce-powerpoint-file-size" element={<CompressVariant />} />
             <Route path="/reduce-excel-file-size" element={<CompressVariant />} />
+            {/* Compression comparison landing pages */}
+            <Route path="/compare/docsora-vs-smallpdf" element={<CompareLanding />} />
+            <Route path="/compare/docsora-vs-ilovepdf" element={<CompareLanding />} />
+            <Route path="/compare/docsora-vs-adobe-acrobat" element={<CompareLanding />} />
             <Route path="/convert" element={<Convert />} />
             <Route path="/storage" element={<Storage />} />
             <Route path="/track" element={<Track />} />
