@@ -274,6 +274,7 @@ Move the Add Recipient button below the recipients list (shift above status)`,
                 <AICheckUpload 
                   onFileUpload={handleFileUpload}
                   onTextSubmit={handleTextSubmit}
+                  variant={variant}
                 />
               )}
             </motion.div>
