@@ -112,11 +112,21 @@ const App = () => (
             <Route path="/pdf-to-jpg" element={<ConvertVariant />} />
             <Route path="/pdf-to-png" element={<ConvertVariant />} />
             <Route path="/pdf-to-powerpoint" element={<ConvertVariant />} />
-            <Route path="/pdf-to-html" element={<ConvertVariant />} />
             <Route path="/pdf-to-text" element={<ConvertVariant />} />
-            <Route path="/pdf-to-webp" element={<ConvertVariant />} />
-            <Route path="/email-to-pdf" element={<ConvertVariant />} />
             <Route path="/spreadsheet-to-pdf" element={<ConvertVariant />} />
+            <Route path="/html-to-pdf" element={<ConvertVariant />} />
+            <Route path="/txt-to-pdf" element={<ConvertVariant />} />
+            <Route path="/csv-to-pdf" element={<ConvertVariant />} />
+            <Route path="/odt-to-pdf" element={<ConvertVariant />} />
+            <Route path="/xml-to-pdf" element={<ConvertVariant />} />
+            <Route path="/pdf-to-excel" element={<ConvertVariant />} />
+            <Route path="/pdf-to-odt" element={<ConvertVariant />} />
+            <Route path="/jpg-to-png" element={<ConvertVariant />} />
+            <Route path="/png-to-jpg" element={<ConvertVariant />} />
+            <Route path="/csv-to-xlsx" element={<ConvertVariant />} />
+            <Route path="/xlsx-to-csv" element={<ConvertVariant />} />
+            <Route path="/docx-to-odt" element={<ConvertVariant />} />
+            <Route path="/odt-to-docx" element={<ConvertVariant />} />
             <Route path="/convert-files-online" element={<ConvertVariant />} />
             {/* Conversion comparison landing pages */}
             <Route path="/compare/docsora-vs-ilovepdf-convert" element={<ConvertCompareLanding />} />

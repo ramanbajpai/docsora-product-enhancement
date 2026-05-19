@@ -14,10 +14,10 @@ export const convertCompareVariants: CompareVariantConfig[] = [
     heroSubtitle:
       "A side-by-side look at Docsora and iLovePDF for browser-based file conversion.",
     overview:
-      "iLovePDF offers a wide library of standalone PDF utilities. Docsora is a unified document workspace where conversion sits alongside compression, e-signing, storage and AI — with format-aware conversion across PDF, Word, Excel, PowerPoint, images and email.",
+      "iLovePDF offers a wide library of standalone PDF utilities. Docsora is a unified document workspace where conversion sits alongside compression, e-signing, storage and AI — with format-aware conversion across PDF, Word, Excel, PowerPoint, images and OpenDocument.",
     features: [
       { feature: "Browser-based conversion", docsora: "Yes — all formats", competitor: "Yes — PDF focused" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "PDF + common formats" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "PDF + common formats" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Limited on free tier" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, track, store", competitor: "Tool-by-tool navigation" },
       { feature: "Ads in free tier", docsora: "None", competitor: "Yes" },
@@ -45,12 +45,12 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "PDF ↔ Word", docsora: "Supported", competitor: "Supported" },
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Image ↔ PDF (JPG/PNG/WEBP)", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "Image ↔ PDF (JPG/PNG)", docsora: "Supported", competitor: "Supported" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams converting mixed-format deliverables in one workspace",
-      "Legal teams converting contracts and emails for archival",
+      "Legal teams converting contracts and OpenDocument files for archival",
       "Finance teams converting spreadsheets into audit-ready PDFs",
       "Sales teams converting decks for inbox-friendly delivery",
     ],
@@ -63,7 +63,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       {
         question: "Does Docsora cover the same conversion formats?",
         answer:
-          "Docsora covers every major conversion path: PDF ↔ Word, Excel, PowerPoint, JPG, PNG, WEBP, plus EML email and HTML/TXT exports — all browser-based.",
+          "Docsora covers every major conversion path: PDF ↔ Word, Excel, PowerPoint, JPG, PNG, plus HTML, TXT, XML, CSV and ODT — all browser-based.",
       },
     ],
   },
@@ -80,12 +80,12 @@ export const convertCompareVariants: CompareVariantConfig[] = [
     heroSubtitle:
       "A clear analytical look at how Docsora and SmallPDF compare for browser-based conversion.",
     overview:
-      "SmallPDF is a well-known PDF utility suite focused primarily on PDF workflows. Docsora extends conversion beyond PDFs to Word, Excel, PowerPoint, images and email — without daily caps.",
+      "SmallPDF is a well-known PDF utility suite focused primarily on PDF workflows. Docsora extends conversion beyond PDFs to Word, Excel, PowerPoint, images and OpenDocument — without daily caps.",
     features: [
       { feature: "Browser-based conversion", docsora: "Yes — all formats", competitor: "Yes — PDF focused" },
       { feature: "Free daily limits", docsora: "Generous, no hourly caps", competitor: "2 free tasks per hour" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Pro plan required" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "PDF + common formats" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "PDF + common formats" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, track, store", competitor: "Tool-by-tool experience" },
     ],
     quality: [
@@ -112,12 +112,12 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams converting mixed-format deliverables without hourly caps",
       "Finance teams converting spreadsheets into audit-ready PDFs",
-      "Legal teams converting EML emails to archive PDFs",
+      "Legal teams converting OpenDocument and Word files to archive PDFs",
       "Designers and marketers converting visuals to PDF in bulk",
     ],
     faq: [
@@ -129,7 +129,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       {
         question: "Does Docsora handle more than PDFs?",
         answer:
-          "Yes. Docsora covers Word, Excel, PowerPoint, image and email conversion alongside every PDF workflow.",
+          "Yes. Docsora covers Word, Excel, PowerPoint, image and OpenDocument conversion alongside every PDF workflow.",
       },
     ],
   },
@@ -151,7 +151,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Browser-based, no install", docsora: "Yes", competitor: "Online tool available; desktop app for full features" },
       { feature: "Free conversion tier", docsora: "Yes — generous, no signup", competitor: "Limited online; paid for desktop" },
       { feature: "Batch conversion", docsora: "Included on free tier", competitor: "Paid plans required" },
-      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, WEBP, EML", competitor: "Strong PDF; limited beyond" },
+      { feature: "Format coverage", docsora: "PDF, DOC, DOCX, ODT, XLS, XLSX, CSV, PPT, PPTX, JPG, PNG, HTML, TXT, XML", competitor: "Strong PDF; limited beyond" },
       { feature: "Unified workspace", docsora: "Convert, compress, sign, store, AI", competitor: "Acrobat + separate Adobe products" },
     ],
     quality: [
@@ -178,7 +178,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Not native" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Limited" },
     ],
     workflow: [
       "Teams that need fast browser-based conversion without Acrobat licenses",
@@ -244,7 +244,7 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Excel ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "PowerPoint ↔ PDF", docsora: "Supported", competitor: "Supported" },
       { feature: "Image ↔ PDF", docsora: "Supported", competitor: "Supported" },
-      { feature: "Email (EML) to PDF", docsora: "Supported", competitor: "Supported" },
+      { feature: "ODT ↔ DOCX conversion", docsora: "Supported", competitor: "Supported" },
     ],
     workflow: [
       "Business teams wanting conversion + signing + storage in one place",
@@ -256,12 +256,12 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       {
         question: "Is Docsora a CloudConvert alternative?",
         answer:
-          "Yes — Docsora focuses on the business-critical formats (PDF, Word, Excel, PowerPoint, image, email) with a premium UX and native workflows for signing, tracking, and storage.",
+          "Yes — Docsora focuses on the business-critical formats (PDF, Word, Excel, PowerPoint, image, OpenDocument) with a premium UX and native workflows for signing, tracking, and storage.",
       },
       {
         question: "Does Docsora support as many formats as CloudConvert?",
         answer:
-          "Docsora covers the most-used business document, spreadsheet, presentation, image, and email formats. CloudConvert covers broader long-tail formats geared at developers.",
+          "Docsora covers the most-used business document, spreadsheet, presentation, image, and OpenDocument formats. CloudConvert covers broader long-tail formats geared at developers.",
       },
     ],
   },

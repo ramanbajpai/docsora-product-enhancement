@@ -4,7 +4,6 @@ import {
   FileSpreadsheet,
   Presentation,
   Image as ImageIcon,
-  Mail,
   FileImage,
   FileType,
   FileCode,
@@ -297,32 +296,6 @@ export const convertVariants: ConvertVariantConfig[] = [
     ],
   },
   {
-    slug: "pdf-to-html",
-    title: "Convert PDF to HTML Online | PDF to Web Page | Docsora",
-    metaDescription:
-      "Convert PDF documents into clean HTML web pages online — preserve text, structure and styling for browser-based reading.",
-    h1: "Convert PDF to HTML Online",
-    intro:
-      "Turn PDFs into clean responsive HTML pages — perfect for web publishing and structured reading.",
-    keyword: "pdf to html",
-    acceptedFormats: "PDF",
-    cardIcon: FileCode,
-    cardLabel: "PDF to HTML",
-    cardDescription:
-      "Convert PDFs into clean HTML pages with preserved structure.",
-    longCopy:
-      "Docsora's PDF to HTML converter produces clean semantic HTML output from your PDF — preserving headings, paragraphs, lists, and image placement for web publishing and accessibility workflows.",
-    uploadHeadline: "Upload your PDF",
-    uploadAccept: ".pdf",
-    faq: [
-      {
-        question: "Is the HTML output clean and semantic?",
-        answer:
-          "Yes. Docsora generates structured HTML with semantic headings, paragraphs, and lists rather than absolute positioning soup — ideal for accessibility and indexing.",
-      },
-    ],
-  },
-  {
     slug: "pdf-to-text",
     title: "Convert PDF to Text Online | PDF to TXT Extractor | Docsora",
     metaDescription:
@@ -345,58 +318,6 @@ export const convertVariants: ConvertVariantConfig[] = [
         question: "Can I extract text from scanned PDFs?",
         answer:
           "Docsora extracts embedded text directly. For image-only scanned PDFs, OCR is required — available on Docsora Pro.",
-      },
-    ],
-  },
-  {
-    slug: "pdf-to-webp",
-    title: "Convert PDF to WEBP Online | Modern Image Export | Docsora",
-    metaDescription:
-      "Convert PDF pages into modern WEBP images online — smaller file size, faster web delivery, full quality preserved.",
-    h1: "Convert PDF to WEBP Online",
-    intro:
-      "Export PDF pages as lightweight modern WEBP images — perfect for web delivery and Core Web Vitals.",
-    keyword: "pdf to webp",
-    acceptedFormats: "PDF",
-    cardIcon: ImageIcon,
-    cardLabel: "PDF to WEBP",
-    cardDescription:
-      "Export PDF pages as modern WEBP images for fast web delivery.",
-    longCopy:
-      "Docsora's PDF to WEBP converter exports PDF pages as modern WEBP images — dramatically smaller than JPG or PNG with no visible quality loss. Ideal for web embedding and performance-critical pages.",
-    uploadHeadline: "Upload your PDF",
-    uploadAccept: ".pdf",
-    faq: [
-      {
-        question: "Why convert PDF to WEBP instead of JPG?",
-        answer:
-          "WEBP delivers the same visual quality as JPG at 25–35% smaller file size — better for Core Web Vitals and faster page loads.",
-      },
-    ],
-  },
-  {
-    slug: "email-to-pdf",
-    title: "Convert Email to PDF Online | EML to PDF Converter | Docsora",
-    metaDescription:
-      "Convert EML email files into shareable PDF documents online — for archiving, compliance and legal workflows.",
-    h1: "Convert Email to PDF Online",
-    intro:
-      "Turn EML email files into archive-ready PDFs while preserving headers, body and attachments.",
-    keyword: "email to pdf",
-    acceptedFormats: "EML",
-    cardIcon: Mail,
-    cardLabel: "Email to PDF",
-    cardDescription:
-      "Convert EML emails into archive-ready PDFs for compliance.",
-    longCopy:
-      "Docsora's EML to PDF converter archives email files as PDFs with headers, body content, and attachment metadata preserved — built for legal discovery, compliance archives, and audit trails.",
-    uploadHeadline: "Upload your EML files",
-    uploadAccept: ".eml",
-    faq: [
-      {
-        question: "Can I convert email files into PDFs for compliance?",
-        answer:
-          "Yes — Docsora preserves headers, body content, timestamps, and attachment metadata in the PDF output, suitable for legal and compliance archives.",
       },
     ],
   },
@@ -424,6 +345,266 @@ export const convertVariants: ConvertVariantConfig[] = [
         answer:
           "Formulas are evaluated to their current values and the rendered output is preserved exactly as it appears in your spreadsheet.",
       },
+    ],
+  },
+  {
+    slug: "html-to-pdf",
+    title: "Convert HTML to PDF Online | Web Page to PDF | Docsora",
+    metaDescription:
+      "Convert HTML files and web pages into clean PDF documents online — preserve layout, styles and structure.",
+    h1: "Convert HTML to PDF Online",
+    intro: "Turn HTML files into clean, share-ready PDF documents — directly in your browser.",
+    keyword: "html to pdf",
+    acceptedFormats: "HTML · HTM",
+    cardIcon: FileCode,
+    cardLabel: "HTML to PDF",
+    cardDescription: "Convert HTML files into clean, print-ready PDF documents.",
+    longCopy:
+      "Docsora's HTML to PDF converter renders HTML files into professional PDFs with styling, layout, and inline assets preserved — perfect for reports, invoices, and web-page archiving.",
+    uploadHeadline: "Upload your HTML file",
+    uploadAccept: ".html,.htm",
+    faq: [
+      { question: "Does the converter preserve CSS styling?", answer: "Yes. Inline and embedded CSS is rendered faithfully into the output PDF so the document matches your source layout." },
+    ],
+  },
+  {
+    slug: "txt-to-pdf",
+    title: "Convert TXT to PDF Online | Text File to PDF | Docsora",
+    metaDescription:
+      "Convert plain text (TXT) files into PDF documents online — clean typography, fast, browser-based.",
+    h1: "Convert TXT to PDF Online",
+    intro: "Turn plain text files into clean, paginated PDF documents in seconds.",
+    keyword: "txt to pdf",
+    acceptedFormats: "TXT",
+    cardIcon: FileType,
+    cardLabel: "TXT to PDF",
+    cardDescription: "Convert plain text files into clean paginated PDFs.",
+    longCopy:
+      "Docsora's TXT to PDF converter wraps plain text files into typographically clean PDFs with sensible margins, pagination, and monospace-friendly rendering — ideal for logs, notes, and code exports.",
+    uploadHeadline: "Upload your text file",
+    uploadAccept: ".txt",
+    faq: [
+      { question: "Will line breaks and indentation be preserved?", answer: "Yes — whitespace, line breaks, and indentation are preserved exactly as they appear in your source TXT file." },
+    ],
+  },
+  {
+    slug: "csv-to-pdf",
+    title: "Convert CSV to PDF Online | Spreadsheet Export | Docsora",
+    metaDescription:
+      "Convert CSV files into clean tabular PDF documents online — preserve columns, rows and structure.",
+    h1: "Convert CSV to PDF Online",
+    intro: "Render CSV data into clean tabular PDFs — perfect for reporting and sharing.",
+    keyword: "csv to pdf",
+    acceptedFormats: "CSV",
+    cardIcon: FileSpreadsheet,
+    cardLabel: "CSV to PDF",
+    cardDescription: "Render CSV data into clean tabular PDF documents.",
+    longCopy:
+      "Docsora's CSV to PDF converter renders comma-separated data as a clean, readable PDF table with sensible column widths, header detection, and consistent typography — built for finance exports, audits, and data hand-offs.",
+    uploadHeadline: "Upload your CSV file",
+    uploadAccept: ".csv",
+    faq: [
+      { question: "Are headers and column widths preserved?", answer: "Yes. The first row is treated as headers and column widths are auto-balanced for readable output." },
+    ],
+  },
+  {
+    slug: "odt-to-pdf",
+    title: "Convert ODT to PDF Online | OpenDocument to PDF | Docsora",
+    metaDescription:
+      "Convert OpenDocument (ODT) text files into professional PDFs online — preserve fonts, layout and styling.",
+    h1: "Convert ODT to PDF Online",
+    intro: "Turn OpenDocument ODT files into print-perfect PDFs directly in your browser.",
+    keyword: "odt to pdf",
+    acceptedFormats: "ODT",
+    cardIcon: FileText,
+    cardLabel: "ODT to PDF",
+    cardDescription: "Convert OpenDocument ODT files into professional PDFs.",
+    longCopy:
+      "Docsora's ODT to PDF converter renders OpenDocument text files into clean PDFs with fonts, headings, tables, and images preserved — a drop-in replacement for LibreOffice and OpenOffice exports.",
+    uploadHeadline: "Upload your ODT file",
+    uploadAccept: ".odt",
+    faq: [
+      { question: "Will fonts and headings be preserved?", answer: "Yes. Docsora preserves typography, headings, lists, tables, and inline styles from the source ODT." },
+    ],
+  },
+  {
+    slug: "xml-to-pdf",
+    title: "Convert XML to PDF Online | Structured Data to PDF | Docsora",
+    metaDescription:
+      "Convert XML files into readable PDF documents online — clean structure, fast, browser-based.",
+    h1: "Convert XML to PDF Online",
+    intro: "Turn XML data into clean, human-readable PDF documents in seconds.",
+    keyword: "xml to pdf",
+    acceptedFormats: "XML",
+    cardIcon: FileCode,
+    cardLabel: "XML to PDF",
+    cardDescription: "Render XML structured data as readable PDF documents.",
+    longCopy:
+      "Docsora's XML to PDF converter renders structured XML files into clean, indented, human-readable PDFs — perfect for archiving, sharing, and audit-friendly documentation of structured data exports.",
+    uploadHeadline: "Upload your XML file",
+    uploadAccept: ".xml",
+    faq: [
+      { question: "Will the XML structure stay readable?", answer: "Yes — indentation, hierarchy, and tag structure are preserved with monospace formatting and syntax-aware spacing." },
+    ],
+  },
+  {
+    slug: "pdf-to-excel",
+    title: "Convert PDF to Excel Online | PDF to XLSX | Docsora",
+    metaDescription:
+      "Convert PDF tables and reports into editable Excel (XLSX) spreadsheets online — preserve rows, columns and data.",
+    h1: "Convert PDF to Excel Online",
+    intro: "Extract tables from any PDF into editable Excel spreadsheets — directly in your browser.",
+    keyword: "pdf to excel",
+    acceptedFormats: "PDF",
+    cardIcon: FileSpreadsheet,
+    cardLabel: "PDF to Excel",
+    cardDescription: "Extract PDF tables into editable Excel (XLSX) spreadsheets.",
+    longCopy:
+      "Docsora's PDF to Excel converter detects tables inside any PDF and rebuilds them as editable XLSX spreadsheets — rows, columns, and numeric values preserved. Ideal for finance, reporting, and data extraction.",
+    uploadHeadline: "Upload your PDF",
+    uploadAccept: ".pdf",
+    faq: [
+      { question: "Does it detect tables automatically?", answer: "Yes — Docsora auto-detects tabular regions in the PDF and rebuilds them as native Excel rows and columns." },
+    ],
+  },
+  {
+    slug: "pdf-to-odt",
+    title: "Convert PDF to ODT Online | PDF to OpenDocument | Docsora",
+    metaDescription:
+      "Convert PDF documents into editable OpenDocument (ODT) files online — preserve fonts, structure and layout.",
+    h1: "Convert PDF to ODT Online",
+    intro: "Turn PDFs into editable OpenDocument text files — perfect for LibreOffice and OpenOffice.",
+    keyword: "pdf to odt",
+    acceptedFormats: "PDF",
+    cardIcon: FileText,
+    cardLabel: "PDF to ODT",
+    cardDescription: "Convert PDFs into editable OpenDocument ODT files.",
+    longCopy:
+      "Docsora's PDF to ODT converter rebuilds PDFs as editable OpenDocument text files with formatting, fonts, and tables preserved — a drop-in workflow for LibreOffice and OpenOffice users.",
+    uploadHeadline: "Upload your PDF",
+    uploadAccept: ".pdf",
+    faq: [
+      { question: "Is the output fully editable in LibreOffice?", answer: "Yes. The generated ODT is fully editable in LibreOffice, OpenOffice, and any OpenDocument-compatible editor." },
+    ],
+  },
+  {
+    slug: "jpg-to-png",
+    title: "Convert JPG to PNG Online | Image Format Converter | Docsora",
+    metaDescription:
+      "Convert JPG and JPEG images into PNG format online — lossless conversion, browser-based, free.",
+    h1: "Convert JPG to PNG Online",
+    intro: "Turn JPG photos into lossless PNG images — directly in your browser.",
+    keyword: "jpg to png",
+    acceptedFormats: "JPG · JPEG",
+    cardIcon: ImageIcon,
+    cardLabel: "JPG to PNG",
+    cardDescription: "Convert JPG photos into lossless PNG images instantly.",
+    longCopy:
+      "Docsora's JPG to PNG converter transforms JPG and JPEG images into lossless PNG files — ideal when you need an alpha-capable format, sharper edges, or compatibility with design tools.",
+    uploadHeadline: "Upload your JPG images",
+    uploadAccept: ".jpg,.jpeg",
+    faq: [
+      { question: "Is JPG to PNG conversion lossless?", answer: "The PNG output is lossless, but the input JPG may already contain compression artefacts — PNG preserves the image exactly as decoded." },
+    ],
+  },
+  {
+    slug: "png-to-jpg",
+    title: "Convert PNG to JPG Online | Image Compression Converter | Docsora",
+    metaDescription:
+      "Convert PNG images into JPG format online — smaller file size, faster sharing, browser-based.",
+    h1: "Convert PNG to JPG Online",
+    intro: "Turn PNG graphics into compact JPG images — perfect for web sharing and email.",
+    keyword: "png to jpg",
+    acceptedFormats: "PNG",
+    cardIcon: ImageIcon,
+    cardLabel: "PNG to JPG",
+    cardDescription: "Convert PNG graphics into compact JPG images for sharing.",
+    longCopy:
+      "Docsora's PNG to JPG converter compresses lossless PNG images into smaller JPG files — ideal for web delivery, email attachments, and storage-friendly photo archives.",
+    uploadHeadline: "Upload your PNG images",
+    uploadAccept: ".png",
+    faq: [
+      { question: "How is transparency handled?", answer: "Transparent PNG areas are flattened onto a white background in the JPG output, since JPG does not support alpha channels." },
+    ],
+  },
+  {
+    slug: "csv-to-xlsx",
+    title: "Convert CSV to XLSX Online | CSV to Excel Converter | Docsora",
+    metaDescription:
+      "Convert CSV files into Excel (XLSX) spreadsheets online — preserve columns, rows and data types.",
+    h1: "Convert CSV to XLSX Online",
+    intro: "Turn CSV files into native Excel spreadsheets — directly in your browser.",
+    keyword: "csv to xlsx",
+    acceptedFormats: "CSV",
+    cardIcon: FileSpreadsheet,
+    cardLabel: "CSV to XLSX",
+    cardDescription: "Convert CSV files into native Excel (XLSX) spreadsheets.",
+    longCopy:
+      "Docsora's CSV to XLSX converter wraps comma-separated data into a fully native Excel workbook with typed columns, header detection, and clean formatting — ready for analysis in Excel, Numbers, or Google Sheets.",
+    uploadHeadline: "Upload your CSV file",
+    uploadAccept: ".csv",
+    faq: [
+      { question: "Are number and date types detected?", answer: "Yes. Docsora auto-detects numeric and date-like columns and writes them with the correct Excel cell types." },
+    ],
+  },
+  {
+    slug: "xlsx-to-csv",
+    title: "Convert XLSX to CSV Online | Excel to CSV Converter | Docsora",
+    metaDescription:
+      "Convert Excel (XLSX, XLS) spreadsheets into CSV files online — clean, browser-based, free.",
+    h1: "Convert XLSX to CSV Online",
+    intro: "Export Excel spreadsheets as clean CSV files — directly in your browser.",
+    keyword: "xlsx to csv",
+    acceptedFormats: "XLS · XLSX",
+    cardIcon: FileSpreadsheet,
+    cardLabel: "XLSX to CSV",
+    cardDescription: "Export Excel spreadsheets as clean CSV files instantly.",
+    longCopy:
+      "Docsora's XLSX to CSV converter exports Excel workbooks as clean CSV files — formulas are evaluated, encoding is UTF-8, and delimiters are standard, so the output drops cleanly into any data pipeline.",
+    uploadHeadline: "Upload your Excel file",
+    uploadAccept: ".xls,.xlsx",
+    faq: [
+      { question: "How are multi-sheet workbooks handled?", answer: "Each sheet is exported as a separate CSV file, bundled for a single download." },
+    ],
+  },
+  {
+    slug: "docx-to-odt",
+    title: "Convert DOCX to ODT Online | Word to OpenDocument | Docsora",
+    metaDescription:
+      "Convert Word (DOC, DOCX) files into OpenDocument (ODT) format online — preserve formatting and structure.",
+    h1: "Convert DOCX to ODT Online",
+    intro: "Turn Word documents into OpenDocument ODT files — perfect for LibreOffice workflows.",
+    keyword: "docx to odt",
+    acceptedFormats: "DOC · DOCX",
+    cardIcon: FileText,
+    cardLabel: "DOCX to ODT",
+    cardDescription: "Convert Word DOC/DOCX files into OpenDocument ODT format.",
+    longCopy:
+      "Docsora's DOCX to ODT converter migrates Microsoft Word documents into OpenDocument ODT files with formatting, headings, lists, and tables preserved — ideal for open-source and LibreOffice workflows.",
+    uploadHeadline: "Upload your Word document",
+    uploadAccept: ".doc,.docx",
+    faq: [
+      { question: "Is formatting preserved?", answer: "Yes. Headings, lists, tables, fonts, and inline styles are mapped cleanly into the ODT output." },
+    ],
+  },
+  {
+    slug: "odt-to-docx",
+    title: "Convert ODT to DOCX Online | OpenDocument to Word | Docsora",
+    metaDescription:
+      "Convert OpenDocument (ODT) files into Microsoft Word (DOCX) format online — preserve formatting and styling.",
+    h1: "Convert ODT to DOCX Online",
+    intro: "Turn OpenDocument ODT files into Microsoft Word DOCX — directly in your browser.",
+    keyword: "odt to docx",
+    acceptedFormats: "ODT",
+    cardIcon: FileText,
+    cardLabel: "ODT to DOCX",
+    cardDescription: "Convert OpenDocument ODT files into Microsoft Word DOCX.",
+    longCopy:
+      "Docsora's ODT to DOCX converter migrates OpenDocument text files into native Microsoft Word DOCX format with formatting, structure, and inline media preserved — ideal for moving between LibreOffice and Word workflows.",
+    uploadHeadline: "Upload your ODT file",
+    uploadAccept: ".odt",
+    faq: [
+      { question: "Will the DOCX open natively in Word?", answer: "Yes. The output is standards-compliant DOCX that opens natively in Microsoft Word, Google Docs, and any DOCX-compatible editor." },
     ],
   },
   {

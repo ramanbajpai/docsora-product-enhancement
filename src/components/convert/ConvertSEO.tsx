@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Mail,
   Presentation,
   FileText,
   Image as ImageIcon,
@@ -68,34 +67,34 @@ const fileTypeGroups = [
   {
     category: "PDF Conversion",
     icon: FileText,
-    formats: "PDF → DOC · DOCX · PPTX · PNG · JPG · TXT · HTML · XML · WEBP",
+    formats: "PDF → DOCX · PPTX · XLSX · ODT · JPG · PNG · TXT",
     title: "Convert PDFs Into Multiple Formats",
     description:
-      "Transform PDFs into Word documents, presentations, images, text files and archive-ready formats while preserving formatting.",
+      "Transform PDFs into Word, Excel, PowerPoint, OpenDocument, image and text files while preserving formatting.",
     slug: "pdf-to-word",
   },
   {
     category: "Documents",
     icon: FileText,
-    formats: "DOC · DOCX · ODT → PDF",
+    formats: "DOC · DOCX · ODT · TXT · HTML · XML → PDF",
     title: "Convert Word Documents to PDF",
     description:
-      "Convert DOC, DOCX and ODT files into professional PDFs instantly online.",
+      "Convert DOC, DOCX, ODT, TXT, HTML and XML files into professional PDFs instantly online.",
     slug: "word-to-pdf",
   },
   {
     category: "Spreadsheets",
     icon: FileSpreadsheet,
-    formats: "CSV · XLS · XLSX · ODS → PDF",
+    formats: "CSV · XLS · XLSX → PDF · XLSX · CSV",
     title: "Convert Excel Files to PDF",
     description:
-      "Transform spreadsheets and exports into clean shareable PDF documents.",
+      "Convert between spreadsheet formats and into clean shareable PDF documents.",
     slug: "excel-to-pdf",
   },
   {
     category: "Presentations",
     icon: Presentation,
-    formats: "PPT · PPTX · ODP → PDF",
+    formats: "PPT · PPTX → PDF · PPTX",
     title: "Convert PowerPoint Presentations",
     description:
       "Convert presentations into PDFs while preserving layouts, slides and formatting.",
@@ -104,20 +103,20 @@ const fileTypeGroups = [
   {
     category: "Images",
     icon: ImageIcon,
-    formats: "JPG · PNG · WEBP · TIFF → PDF",
+    formats: "JPG · PNG → PDF · JPG · PNG",
     title: "Convert Images to PDF",
     description:
-      "Turn JPG, PNG, GIF, TIFF and WEBP files into secure browser-based PDF documents.",
+      "Convert JPG and PNG images into PDFs — or between image formats — securely in your browser.",
     slug: "jpg-to-pdf",
   },
   {
-    category: "Email",
-    icon: Mail,
-    formats: "EML → PDF",
-    title: "Convert Email Files to PDF",
+    category: "OpenDocument",
+    icon: FileType,
+    formats: "ODT ↔ DOCX · PDF",
+    title: "Convert OpenDocument Files",
     description:
-      "Convert EML email files into shareable PDF documents for archiving and compliance workflows.",
-    slug: "email-to-pdf",
+      "Convert ODT files to and from Word, and export to PDF — built for LibreOffice and OpenOffice workflows.",
+    slug: "odt-to-pdf",
   },
 ];
 
@@ -132,9 +131,9 @@ const popularToolSlugs = [
   "pdf-to-jpg",
   "pdf-to-png",
   "pdf-to-powerpoint",
-  "pdf-to-html",
+  "pdf-to-excel",
   "pdf-to-text",
-  "email-to-pdf",
+  "html-to-pdf",
 ];
 
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
@@ -147,10 +146,20 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "pdf-to-jpg", label: "PDF to JPG", intent: "Each PDF page as a JPG." },
   { slug: "pdf-to-png", label: "PDF to PNG", intent: "High-quality PNG exports." },
   { slug: "pdf-to-powerpoint", label: "PDF to PowerPoint", intent: "Editable PPTX from PDF." },
-  { slug: "pdf-to-html", label: "PDF to HTML", intent: "Clean semantic HTML." },
+  { slug: "pdf-to-excel", label: "PDF to Excel", intent: "PDF tables to editable XLSX." },
+  { slug: "pdf-to-odt", label: "PDF to ODT", intent: "Editable OpenDocument from PDF." },
   { slug: "pdf-to-text", label: "PDF to Text", intent: "Plain text extraction." },
-  { slug: "pdf-to-webp", label: "PDF to WEBP", intent: "Modern lightweight images." },
-  { slug: "email-to-pdf", label: "Email to PDF", intent: "EML archives for compliance." },
+  { slug: "html-to-pdf", label: "HTML to PDF", intent: "Web pages as PDF documents." },
+  { slug: "txt-to-pdf", label: "TXT to PDF", intent: "Plain text into clean PDFs." },
+  { slug: "csv-to-pdf", label: "CSV to PDF", intent: "Tabular data as PDF tables." },
+  { slug: "odt-to-pdf", label: "ODT to PDF", intent: "OpenDocument to professional PDF." },
+  { slug: "xml-to-pdf", label: "XML to PDF", intent: "Readable PDFs from structured XML." },
+  { slug: "jpg-to-png", label: "JPG to PNG", intent: "Lossless image format." },
+  { slug: "png-to-jpg", label: "PNG to JPG", intent: "Compact image format." },
+  { slug: "csv-to-xlsx", label: "CSV to XLSX", intent: "CSV into native Excel workbooks." },
+  { slug: "xlsx-to-csv", label: "XLSX to CSV", intent: "Excel sheets as clean CSV." },
+  { slug: "docx-to-odt", label: "DOCX to ODT", intent: "Word into OpenDocument." },
+  { slug: "odt-to-docx", label: "ODT to DOCX", intent: "OpenDocument into Word DOCX." },
   { slug: "spreadsheet-to-pdf", label: "Spreadsheet to PDF", intent: "All sheet formats to PDF." },
   { slug: "convert-files-online", label: "Convert files online", intent: "One tool, every format." },
 ];
@@ -195,7 +204,7 @@ const faqs = [
   {
     question: "What file types does Docsora Convert support?",
     answer:
-      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, ODS, PPT, PPTX, ODP, JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP, and EML. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, image conversion, and email conversion — replacing the need for separate desktop utilities.",
+      "Docsora Convert supports every major business format: PDF, DOC, DOCX, ODT, TXT, HTML, XML, CSV, XLS, XLSX, PPT, PPTX, JPG, and PNG. One browser-based tool covers PDF conversion, document conversion, spreadsheet conversion, presentation conversion, and image conversion — replacing the need for separate desktop utilities.",
   },
   {
     question: "Is browser-based file conversion secure?",
@@ -210,12 +219,12 @@ const faqs = [
   {
     question: "How do I convert images into PDFs?",
     answer:
-      "Upload one or many JPG, PNG, WEBP, GIF, BMP, or TIFF images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
+      "Upload one or many JPG or PNG images and Docsora packages them into a single clean multi-page PDF in the order you provided. Original resolution and color accuracy are preserved — ideal for scanned receipts, photo evidence, compliance archives, and visual handoffs.",
   },
   {
     question: "Can I convert presentations online?",
     answer:
-      "Yes. Docsora's PowerPoint to PDF converter handles PPT, PPTX, and ODP decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
+      "Yes. Docsora's PowerPoint to PDF converter handles PPT and PPTX decks with pixel-accurate slide rendering. Fonts, layouts, embedded images, charts, and master slide templates are preserved — built for investor decks, sales presentations, and training material.",
   },
   {
     question: "Is Docsora Convert free to use?",
@@ -223,9 +232,9 @@ const faqs = [
       "Yes — Docsora Convert is free for standard files with no signup. Upgrade to Pro for larger files, batch conversions, OCR for scanned PDFs, and advanced quality controls.",
   },
   {
-    question: "Can I convert email files into PDFs?",
+    question: "Can I convert between non-PDF formats?",
     answer:
-      "Yes. Docsora's EML to PDF converter archives email files as PDFs with headers, body content, timestamps, and attachment metadata preserved — built for legal discovery, compliance archives, and audit trails.",
+      "Yes. Docsora handles cross-format conversions beyond PDF — including DOCX ↔ ODT, CSV ↔ XLSX, and JPG ↔ PNG — so you can move between document, spreadsheet, and image formats without leaving the browser.",
   },
   {
     question: "Does Docsora work without installing software?",
@@ -241,7 +250,7 @@ const workflowIntents = [
   { icon: FileSpreadsheet, title: "Convert spreadsheets for reporting", description: "Finance and ops workbooks as audit-ready PDFs." },
   { icon: Megaphone, title: "Convert presentations for sharing", description: "Decks delivered as PDFs across email and Slack." },
   { icon: ImageIcon, title: "Convert images for compliance", description: "Photo evidence and scans packaged into archive PDFs." },
-  { icon: Mail, title: "Convert email records to PDFs", description: "EML files archived for legal discovery and compliance." },
+  { icon: FileType, title: "Convert OpenDocument files", description: "Move between ODT, DOCX, and PDF for LibreOffice workflows." },
   { icon: GraduationCap, title: "Archive business documents", description: "Long-term archives in stable PDF/A-ready output." },
 ];
 
