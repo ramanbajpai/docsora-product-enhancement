@@ -683,96 +683,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION - Popular File Compression Searches (long-tail internal linking) */}
-        <section>
-          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Popular File Compression Searches
-            </h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              The compression workflows people search for most - each one a
-              dedicated browser-based tool inside Docsora.
-            </p>
-          </motion.div>
-
-          <motion.div
-            {...staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
-          >
-            {popularSearchSlugs
-              .filter((s) => s.slug !== variant?.slug)
-              .map((search, i) => (
-                <motion.div
-                  key={search.slug}
-                  initial={staggerItem.initial}
-                  whileInView={staggerItem.whileInView}
-                  viewport={staggerItem.viewport}
-                  transition={{ ...staggerItem.transition, delay: i * 0.03 }}
-                >
-                  <Link
-                    to={`/${search.slug}`}
-                    className={cn(
-                      "group flex items-center justify-between rounded-xl px-5 py-4",
-                      "bg-card/30 border border-border/30",
-                      "hover:border-primary/25 hover:bg-card/60",
-                      "transition-all duration-300"
-                    )}
-                  >
-                    <div className="min-w-0 pr-3">
-                      <div className="text-[13px] font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-                        {search.label}
-                      </div>
-                      <div className="text-[11px] text-muted-foreground/70 truncate mt-0.5">
-                        {search.intent}
-                      </div>
-                    </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
-                  </Link>
-                </motion.div>
-              ))}
-          </motion.div>
-        </section>
-
-        {/* SECTION 2 - Use Cases */}
-        <section>
-          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Compress Files for Any Workflow
-            </h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              From inbox limits to client deliverables - built for the way
-              modern teams actually share files.
-            </p>
-          </motion.div>
-
-          <motion.div
-            {...staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-          >
-            {useCases.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={staggerItem.initial}
-                whileInView={staggerItem.whileInView}
-                viewport={staggerItem.viewport}
-                transition={{ ...staggerItem.transition, delay: i * 0.06 }}
-                className={cn(
-                  "group rounded-2xl p-6",
-                  "bg-card/40 border border-border/30",
-                  "hover:border-primary/20 hover:bg-card/70 transition-all duration-300"
-                )}
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4 group-hover:bg-primary/12 transition-colors">
-                  <item.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
-                <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
-
-        {/* SECTION 3 - Why Docsora */}
+        {/* SECTION - Why Docsora */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
@@ -922,7 +833,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
-        {/* SECTION 7 - Related Resources */}
+        {/* SECTION - Related Compression Tools (+ long-tail search chips) */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
@@ -964,6 +875,33 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                 </Link>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Long-tail internal linking - popular search intents */}
+          <motion.div {...fadeUp} className="mt-10">
+            <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
+              Popular file compression searches
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {popularSearchSlugs
+                .filter((s) => s.slug !== variant?.slug)
+                .map((search) => (
+                  <Link
+                    key={search.slug}
+                    to={`/${search.slug}`}
+                    title={search.intent}
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full px-3.5 py-1.5",
+                      "bg-card/40 border border-border/30",
+                      "text-[12px] font-medium text-foreground/80",
+                      "hover:border-primary/30 hover:text-primary hover:bg-card/70",
+                      "transition-all duration-200",
+                    )}
+                  >
+                    {search.label}
+                  </Link>
+                ))}
+            </div>
           </motion.div>
         </section>
 
