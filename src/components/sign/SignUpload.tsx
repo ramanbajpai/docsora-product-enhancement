@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Upload, Shield, ChevronDown, Check, Layers, ArrowRight } from "lucide-react";
+import { Upload, Shield, ChevronDown, Check, Layers, ArrowRight, Zap } from "lucide-react";
 import TrustFooter from "@/components/shared/TrustFooter";
 
 interface SignUploadProps {
@@ -722,11 +722,17 @@ const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35, delay: 0.05, ease: appleEasing }}
                     onClick={onUseTemplate}
-                    className="group mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground/80 hover:text-foreground transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-lg px-2 py-1"
+                    className="group mt-6 inline-flex items-center gap-2 pl-3 pr-4 py-2 rounded-full text-[13px] font-medium text-foreground/90 hover:text-foreground bg-primary/[0.06] hover:bg-primary/[0.12] border border-primary/20 hover:border-primary/40 shadow-[0_0_0_1px_hsl(var(--primary)/0.05),0_8px_24px_-12px_hsl(var(--primary)/0.35)] hover:shadow-[0_0_0_1px_hsl(var(--primary)/0.1),0_12px_32px_-12px_hsl(var(--primary)/0.5)] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                   >
-                    <Layers className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" />
-                    <span>Use a reusable agreement</span>
-                    <ArrowRight className="w-3.5 h-3.5 -translate-x-0.5 opacity-60 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/15 text-primary">
+                      <Layers className="w-3 h-3" />
+                    </span>
+                    <span>Use or create a template</span>
+                    <span className="inline-flex items-center gap-1 ml-1 pl-2 border-l border-primary/20 text-[11px] font-semibold uppercase tracking-wide text-primary">
+                      <Zap className="w-3 h-3 fill-current" />
+                      10× faster
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:opacity-100 transition-all" />
                   </motion.button>
                 )}
               </AnimatePresence>
