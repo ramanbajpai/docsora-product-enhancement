@@ -68,34 +68,34 @@ const fileTypeGroups = [
   {
     category: "PDF Conversion",
     icon: FileText,
-    formats: "PDF → DOC · DOCX · PPTX · PNG · JPG · TXT · HTML · XML · WEBP",
+    formats: "PDF → DOCX · PPTX · XLSX · ODT · JPG · PNG · TXT",
     title: "Convert PDFs Into Multiple Formats",
     description:
-      "Transform PDFs into Word documents, presentations, images, text files and archive-ready formats while preserving formatting.",
+      "Transform PDFs into Word, Excel, PowerPoint, OpenDocument, image and text files while preserving formatting.",
     slug: "pdf-to-word",
   },
   {
     category: "Documents",
     icon: FileText,
-    formats: "DOC · DOCX · ODT → PDF",
+    formats: "DOC · DOCX · ODT · TXT · HTML · XML → PDF",
     title: "Convert Word Documents to PDF",
     description:
-      "Convert DOC, DOCX and ODT files into professional PDFs instantly online.",
+      "Convert DOC, DOCX, ODT, TXT, HTML and XML files into professional PDFs instantly online.",
     slug: "word-to-pdf",
   },
   {
     category: "Spreadsheets",
     icon: FileSpreadsheet,
-    formats: "CSV · XLS · XLSX · ODS → PDF",
+    formats: "CSV · XLS · XLSX → PDF · XLSX · CSV",
     title: "Convert Excel Files to PDF",
     description:
-      "Transform spreadsheets and exports into clean shareable PDF documents.",
+      "Convert between spreadsheet formats and into clean shareable PDF documents.",
     slug: "excel-to-pdf",
   },
   {
     category: "Presentations",
     icon: Presentation,
-    formats: "PPT · PPTX · ODP → PDF",
+    formats: "PPT · PPTX → PDF · PPTX",
     title: "Convert PowerPoint Presentations",
     description:
       "Convert presentations into PDFs while preserving layouts, slides and formatting.",
@@ -104,20 +104,20 @@ const fileTypeGroups = [
   {
     category: "Images",
     icon: ImageIcon,
-    formats: "JPG · PNG · WEBP · TIFF → PDF",
+    formats: "JPG · PNG → PDF · JPG · PNG",
     title: "Convert Images to PDF",
     description:
-      "Turn JPG, PNG, GIF, TIFF and WEBP files into secure browser-based PDF documents.",
+      "Convert JPG and PNG images into PDFs — or between image formats — securely in your browser.",
     slug: "jpg-to-pdf",
   },
   {
-    category: "Email",
-    icon: Mail,
-    formats: "EML → PDF",
-    title: "Convert Email Files to PDF",
+    category: "OpenDocument",
+    icon: FileType,
+    formats: "ODT ↔ DOCX · PDF",
+    title: "Convert OpenDocument Files",
     description:
-      "Convert EML email files into shareable PDF documents for archiving and compliance workflows.",
-    slug: "email-to-pdf",
+      "Convert ODT files to and from Word, and export to PDF — built for LibreOffice and OpenOffice workflows.",
+    slug: "odt-to-pdf",
   },
 ];
 
@@ -132,9 +132,9 @@ const popularToolSlugs = [
   "pdf-to-jpg",
   "pdf-to-png",
   "pdf-to-powerpoint",
-  "pdf-to-html",
+  "pdf-to-excel",
   "pdf-to-text",
-  "email-to-pdf",
+  "html-to-pdf",
 ];
 
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
@@ -147,10 +147,20 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "pdf-to-jpg", label: "PDF to JPG", intent: "Each PDF page as a JPG." },
   { slug: "pdf-to-png", label: "PDF to PNG", intent: "High-quality PNG exports." },
   { slug: "pdf-to-powerpoint", label: "PDF to PowerPoint", intent: "Editable PPTX from PDF." },
-  { slug: "pdf-to-html", label: "PDF to HTML", intent: "Clean semantic HTML." },
+  { slug: "pdf-to-excel", label: "PDF to Excel", intent: "PDF tables to editable XLSX." },
+  { slug: "pdf-to-odt", label: "PDF to ODT", intent: "Editable OpenDocument from PDF." },
   { slug: "pdf-to-text", label: "PDF to Text", intent: "Plain text extraction." },
-  { slug: "pdf-to-webp", label: "PDF to WEBP", intent: "Modern lightweight images." },
-  { slug: "email-to-pdf", label: "Email to PDF", intent: "EML archives for compliance." },
+  { slug: "html-to-pdf", label: "HTML to PDF", intent: "Web pages as PDF documents." },
+  { slug: "txt-to-pdf", label: "TXT to PDF", intent: "Plain text into clean PDFs." },
+  { slug: "csv-to-pdf", label: "CSV to PDF", intent: "Tabular data as PDF tables." },
+  { slug: "odt-to-pdf", label: "ODT to PDF", intent: "OpenDocument to professional PDF." },
+  { slug: "xml-to-pdf", label: "XML to PDF", intent: "Readable PDFs from structured XML." },
+  { slug: "jpg-to-png", label: "JPG to PNG", intent: "Lossless image format." },
+  { slug: "png-to-jpg", label: "PNG to JPG", intent: "Compact image format." },
+  { slug: "csv-to-xlsx", label: "CSV to XLSX", intent: "CSV into native Excel workbooks." },
+  { slug: "xlsx-to-csv", label: "XLSX to CSV", intent: "Excel sheets as clean CSV." },
+  { slug: "docx-to-odt", label: "DOCX to ODT", intent: "Word into OpenDocument." },
+  { slug: "odt-to-docx", label: "ODT to DOCX", intent: "OpenDocument into Word DOCX." },
   { slug: "spreadsheet-to-pdf", label: "Spreadsheet to PDF", intent: "All sheet formats to PDF." },
   { slug: "convert-files-online", label: "Convert files online", intent: "One tool, every format." },
 ];
