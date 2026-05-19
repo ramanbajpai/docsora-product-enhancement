@@ -388,21 +388,53 @@ export const compressVariants: CompressVariantConfig[] = [
   },
   {
     slug: "compress-excel-files",
-    title: "Compress Excel Files Online — Free XLSX Compressor | Docsora",
+    title: "Compress Excel Files Online Free | Reduce XLS & XLSX File Size | Docsora",
     metaDescription:
-      "Compress Excel spreadsheets (XLS, XLSX, CSV) online without breaking formulas. Reduce spreadsheet size for sharing and email — free and secure.",
-    h1: "Compress Excel Spreadsheets",
+      "Compress Excel files online instantly with Docsora. Reduce XLS and XLSX spreadsheet file sizes without breaking formulas, sheets, formatting or structure. Secure browser-based Excel compression with no software installation required.",
+    h1: "Compress Excel Files Online",
     intro:
-      "Shrink XLS, XLSX, and CSV files while preserving every formula, sheet, and pivot — built for finance and ops teams.",
+      "Reduce XLS and XLSX spreadsheet file sizes instantly without losing formatting, formulas or workbook structure.",
     keyword: "compress excel files",
     acceptedFormats: "XLS · XLSX · CSV · ODS",
     cardIcon: FileSpreadsheet,
-    cardLabel: "Compress Excel",
+    cardLabel: "Compress Excel Files",
     cardDescription:
       "Reduce spreadsheet file size without breaking formulas or pivot tables.",
     longCopy:
-      "Docsora's spreadsheet compressor optimizes XLSX storage, embedded objects, and unused cached data — reducing size of large financial models, data exports, and reports while preserving every formula and sheet structure.",
+      "Docsora's online Excel compressor reduces XLS, XLSX, CSV, and ODS file sizes by 40–70% — perfect for compressing spreadsheets for email attachments, optimizing Excel exports for sharing, and shrinking large reporting workbooks. Browser-based spreadsheet compression with no installs, formulas preserved.",
+    useCases: [
+      "Compress spreadsheets for email",
+      "Reduce reporting file sizes",
+      "Optimize financial exports",
+      "Share large Excel workbooks faster",
+      "Compress client data sheets",
+    ],
     faq: [
+      {
+        question: "How do I compress Excel files online?",
+        answer:
+          "Drop your XLS, XLSX, CSV, or ODS file into the upload area above. Docsora compresses the spreadsheet directly in your browser using format-aware XLSX optimization — clearing redundant cache, rebuilding the archive, and re-encoding embedded media. The smaller file downloads in seconds, with every formula, sheet, and pivot table intact.",
+      },
+      {
+        question: "Can I reduce XLSX file size without losing formulas?",
+        answer:
+          "Yes. Docsora's spreadsheet compressor only optimizes how the workbook is stored — never what it contains. Formulas, named ranges, pivot tables, references, charts, and conditional formatting all remain fully intact and recalculate exactly as before.",
+      },
+      {
+        question: "Does Docsora preserve spreadsheet formatting?",
+        answer:
+          "Completely. Cell styles, fonts, colors, merged cells, frozen panes, headers, footers, and multi-sheet structure are preserved byte-for-byte. Browser-based spreadsheet compression with zero visible difference to the original workbook.",
+      },
+      {
+        question: "Can I compress Excel files for email attachments?",
+        answer:
+          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing 'Maximum compression' — most spreadsheets reduce 40–70%, easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
+      },
+      {
+        question: "Is Excel compression secure?",
+        answer:
+          "Every upload runs over end-to-end TLS encryption inside an isolated environment, and files are automatically deleted after compression. Docsora is operated under ISO 27001 controls and aligned with GDPR — trusted by finance, legal, and ops teams for sensitive spreadsheet workflows.",
+      },
       {
         question: "Will Excel compression break my formulas?",
         answer:
