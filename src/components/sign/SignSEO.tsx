@@ -104,6 +104,64 @@ const documentTypes = [
   },
 ];
 
+// Supported File Types — categorised
+const supportedFileTypes = [
+  {
+    category: "Contracts & Documents",
+    icon: FileText,
+    title: "Sign Contracts & Business Documents",
+    description:
+      "Upload agreements, proposals, reports and operational documents for secure signing workflows.",
+    formats: ["PDF", "DOC", "DOCX", "ODT", "TXT", "HTML"],
+    intent: "Sign PDF online · Sign Word documents online",
+  },
+  {
+    category: "Spreadsheets",
+    icon: FileSpreadsheet,
+    title: "Approve Spreadsheet Workflows",
+    description:
+      "Collect approvals and signatures on finance sheets, operational trackers and reporting documents.",
+    formats: ["CSV", "XLS", "XLSX", "ODS"],
+    intent: "Sign Excel spreadsheets · Approve finance sheets",
+  },
+  {
+    category: "Presentations",
+    icon: Presentation,
+    title: "Sign Presentation & Pitch Deck Files",
+    description:
+      "Approve proposals, decks and presentations directly inside browser-based workflows.",
+    formats: ["PPT", "PPTX", "ODP"],
+    intent: "Sign PowerPoint presentations · Approve decks",
+  },
+  {
+    category: "Images & Visual Documents",
+    icon: ImageIcon,
+    title: "Sign Image-Based Documents",
+    description:
+      "Upload scanned documents, visual approvals and image-based workflows securely online.",
+    formats: ["JPG", "JPEG", "PNG", "GIF", "BMP", "TIFF", "WEBP"],
+    intent: "Sign image files online · Sign scanned documents",
+  },
+  {
+    category: "Email & Archive Files",
+    icon: Mail,
+    title: "Approve Email & Archive Records",
+    description:
+      "Manage approval workflows for exported email and archived operational records.",
+    formats: ["EML"],
+    intent: "Approve exported email records",
+  },
+  {
+    category: "Universal Workflows",
+    icon: FileBox,
+    title: "Multi-Format Signing Workflows",
+    description:
+      "Docsora Sign supports multi-document approval workflows across contracts, onboarding, proposals and operational approvals.",
+    formats: ["All supported formats"],
+    intent: "Multi-document approval workflows · Browser-based signing",
+  },
+];
+
 // SECTION 2 — Modern Signing Workflows
 const modernWorkflows = [
   { icon: ShieldCheck, title: "Sign NDAs online", description: "Mutual, one-way and multi-party NDAs sent and signed in minutes.", slug: "nda-signing" },
