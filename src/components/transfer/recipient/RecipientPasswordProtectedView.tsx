@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TransferPreviewModal } from "./TransferPreviewModal";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/hooks/useTheme";
 
