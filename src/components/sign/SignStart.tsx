@@ -27,9 +27,9 @@ const SignStart = ({ onOneTime, onUseTemplate }: SignStartProps) => {
             <Sparkles className="w-3 h-3 text-primary" />
             <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">Sign</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">How do you want to start?</h1>
+          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Sign with confidence</h1>
           <p className="text-sm text-muted-foreground mt-3 max-w-md mx-auto">
-            Send a one-off agreement, or launch a reusable template in seconds.
+            Legally binding electronic signatures - fast, secure, and compliant.
           </p>
         </div>
 
