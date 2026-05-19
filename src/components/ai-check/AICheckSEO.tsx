@@ -65,31 +65,40 @@ const staggerItem = {
 // SECTION 1 - Check Any Document Type
 const fileTypeGroups = [
   {
-    category: "Documents",
+    category: "Reports & Documents",
     icon: FileText,
-    formats: "PDF · DOC · DOCX · TXT · HTML · ODT",
-    title: "Check PDF & Word Documents",
+    formats: "PDF · DOC · DOCX · ODT · TXT",
+    title: "Review PDF & Word Documents",
     description:
-      "Review reports, contracts and professional documents for grammar, spelling and writing clarity.",
+      "Audit reports, contracts and operational documents with editorial-grade language review.",
     slug: "proofread-pdf",
   },
   {
     category: "Presentations",
     icon: Presentation,
     formats: "PPT · PPTX",
-    title: "Proofread PowerPoint Presentations",
+    title: "Slide-by-Slide Deck Review",
     description:
-      "Improve slide clarity, tone and professional communication before presenting.",
+      "Polish wording across pitch decks, board updates and training slides without touching layout.",
     slug: "proofread-presentations",
   },
   {
-    category: "Universal",
+    category: "Web & Structured",
     icon: FileType,
-    formats: "All supported formats",
-    title: "AI Writing Review Online",
+    formats: "HTML · XML · ODT",
+    title: "HTML & Structured Documents",
     description:
-      "Upload business documents directly in your browser and receive AI-powered writing analysis instantly.",
-    slug: "ai-writing-assistant",
+      "Run editorial review on HTML drafts, exported docs and structured content before publishing.",
+    slug: "document-proofreader",
+  },
+  {
+    category: "Long-form Drafts",
+    icon: FileType,
+    formats: "Pasted text · TXT",
+    title: "Pasted Text & Draft Review",
+    description:
+      "Paste a draft section, executive summary or proposal block for a focused editorial pass.",
+    slug: "professional-writing-checker",
   },
 ];
 
@@ -155,30 +164,30 @@ const intentCards = [
 
 // SECTION 5 - Why Docsora AI Check
 const benefits = [
-  { icon: Sparkles, title: "AI-powered analysis", description: "Language-model proofreading tuned for business writing." },
-  { icon: Briefcase, title: "Professional optimization", description: "Tone, clarity and structure for the docs you actually send." },
-  { icon: MonitorSmartphone, title: "Browser-based", description: "Works on any device - no installs or plugins." },
-  { icon: ShieldCheck, title: "Secure review", description: "Encrypted uploads, automatic deletion after processing." },
-  { icon: Zap, title: "Instant feedback", description: "Suggestions returned in seconds, not minutes." },
-  { icon: Layers, title: "Multiple formats", description: "PDF, Word, ODT, HTML, PPT, PPTX and plain text." },
-  { icon: Lock, title: "Enterprise-ready", description: "TLS, ISO 27001 controls, SOC 2-aligned operations." },
-  { icon: BookOpenCheck, title: "Business-focused", description: "Built for reports and contracts - not student essays." },
+  { icon: Sparkles, title: "Document intelligence", description: "Language-model analysis that reads tone, structure and context, not just sentences." },
+  { icon: Briefcase, title: "Workflow-aware", description: "Calibrated for the documents teams actually circulate - reports, contracts, proposals, decks." },
+  { icon: MonitorSmartphone, title: "Cloud-native", description: "Open in any browser on any device. No installs, plugins or extensions." },
+  { icon: ShieldCheck, title: "Private by design", description: "Encrypted in transit, deleted after review, never used to train models." },
+  { icon: Zap, title: "Editorial speed", description: "Whole-document suggestions surface in seconds across long reports and decks." },
+  { icon: Layers, title: "Format coverage", description: "PDF, DOC, DOCX, ODT, HTML, PPT, PPTX and pasted text." },
+  { icon: Lock, title: "Enterprise controls", description: "TLS, ISO 27001 and SOC 2-aligned operations for regulated teams." },
+  { icon: BookOpenCheck, title: "Operational focus", description: "Built for reports and proposals - not student essays or generic copy." },
 ];
 
 // SECTION 6 - Security
 const securityPoints = [
-  { icon: Lock, title: "Encrypted uploads", description: "All files travel over TLS-secured connections." },
-  { icon: Trash2, title: "Automatic deletion", description: "Files are removed from our servers after processing." },
-  { icon: Globe2, title: "GDPR aligned", description: "Built to respect EU data protection standards." },
-  { icon: BadgeCheck, title: "ISO 27001", description: "Operated under enterprise-grade security controls." },
-  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Built with controls aligned to SOC 2 enterprise standards." },
+  { icon: Lock, title: "Encrypted transit", description: "Uploads traverse TLS-secured channels end to end." },
+  { icon: Trash2, title: "Auto-deletion", description: "Documents are purged from review servers after analysis." },
+  { icon: Globe2, title: "GDPR aligned", description: "Built to honour EU data protection requirements." },
+  { icon: BadgeCheck, title: "ISO 27001", description: "Operated under audited information security controls." },
+  { icon: ShieldCheck, title: "SOC 2 aligned", description: "Engineered against SOC 2 trust-services criteria." },
 ];
 
 // SECTION 7 - How It Works
 const steps = [
-  { icon: Upload, title: "Upload document", description: "Drop a PDF, Word file, deck or paste text securely in your browser." },
-  { icon: Wand2, title: "AI reviews writing", description: "Grammar, spelling, tone and clarity analyzed in seconds." },
-  { icon: CheckCircle2, title: "Receive suggestions", description: "Accept, reject or refine inline - then export the polished version." },
+  { icon: Upload, title: "Upload a document", description: "Drop a PDF, Word file, deck or paste text directly into the workspace." },
+  { icon: Wand2, title: "Editorial AI reviews", description: "Grammar, tone, structure and clarity assessed across the whole document." },
+  { icon: CheckCircle2, title: "Refine and export", description: "Accept, reject or refine each suggestion - then export the polished version." },
 ];
 
 // SECTION 8 - FAQ (semantically rich; covers core writing review intents)
