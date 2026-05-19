@@ -9,6 +9,7 @@ import {
   FileCode,
   Files,
 } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export interface ConvertVariantConfig {
   slug: string;
@@ -637,6 +638,86 @@ export const convertVariants: ConvertVariantConfig[] = [
     ],
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Long-tail format-pair variants (compact factory) — every supported
+// input/output conversion gets its own landing page for SEO + LLM GEO.
+// ---------------------------------------------------------------------------
+
+type IconKey =
+  | "doc" | "sheet" | "slides" | "image" | "imageAlt" | "code" | "type" | "mail" | "files";
+
+const iconMap: Record<IconKey, LucideIcon> = {
+  doc: FileText,
+  sheet: FileSpreadsheet,
+  slides: Presentation,
+  image: ImageIcon,
+  imageAlt: FileImage,
+  code: FileCode,
+  type: FileType,
+  mail: Mail,
+  files: Files,
+};
+
+interface PairSpec {
+  slug: string;
+  from: string;
+  to: string;
+  icon: IconKey;
+  accept: string;
+  uploadLabel: string;
+  acceptedFormats: string;
+  longCopy: string;
+  faqQ: string;
+  faqA: string;
+}
+
+const buildPair = (s: PairSpec): ConvertVariantConfig => ({
+  slug: s.slug,
+  title: `Convert ${s.from} to ${s.to} Online | ${s.from} to ${s.to} Converter | Docsora`,
+  metaDescription: `Convert ${s.from} files to ${s.to} online instantly — free, secure, browser-based with Docsora. Preserve formatting and structure.`,
+  h1: `Convert ${s.from} to ${s.to} Online`,
+  intro: `Turn ${s.from} files into ${s.to} format directly in your browser — no installs, no signup.`,
+  keyword: `${s.from.toLowerCase()} to ${s.to.toLowerCase()}`,
+  acceptedFormats: s.acceptedFormats,
+  cardIcon: iconMap[s.icon],
+  cardLabel: `${s.from} to ${s.to}`,
+  cardDescription: `Convert ${s.from} files into ${s.to} format — secure, browser-based, instant.`,
+  longCopy: s.longCopy,
+  uploadHeadline: `Upload your ${s.uploadLabel}`,
+  uploadAccept: s.accept,
+  faq: [{ question: s.faqQ, answer: s.faqA }],
+});
+
+const pairVariants: ConvertVariantConfig[] = [
+  // PDF → other formats
+  buildPair({ slug: "pdf-to-pdfa", from: "PDF", to: "PDF/A", icon: "doc", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to PDF/A converter produces archive-grade PDFs that meet ISO 19005 long-term preservation standards — fonts embedded, color profiles normalized, metadata locked. Built for legal, healthcare and government archival workflows.", faqQ: "Is PDF/A suitable for long-term archiving?", faqA: "Yes. PDF/A is an ISO-standardized format designed specifically for long-term document preservation with embedded fonts and self-contained rendering." }),
+  buildPair({ slug: "pdf-to-doc", from: "PDF", to: "DOC", icon: "doc", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to DOC converter rebuilds PDFs as legacy Microsoft Word DOC files — compatible with older Word versions and enterprise systems that haven't migrated to DOCX.", faqQ: "Why convert to DOC instead of DOCX?", faqA: "DOC is the legacy Word format, supported by older Microsoft Word installations and some enterprise document systems that haven't adopted the modern DOCX standard." }),
+  buildPair({ slug: "pdf-to-docx", from: "PDF", to: "DOCX", icon: "doc", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to DOCX converter rebuilds PDFs as fully editable modern Word documents — formatting, headings, tables, and images preserved. The DOCX output opens natively in Word, Google Docs, and Pages.", faqQ: "Will the DOCX preserve PDF formatting?", faqA: "Yes. Fonts, headings, tables, images, and layout are preserved in the DOCX so the output closely matches the source PDF." }),
+  buildPair({ slug: "pdf-to-html", from: "PDF", to: "HTML", icon: "code", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to HTML converter produces clean semantic HTML output from your PDF — headings, paragraphs, lists, and image placement preserved for web publishing and accessibility workflows.", faqQ: "Is the HTML output semantic?", faqA: "Yes. Docsora generates structured semantic HTML with proper headings, paragraphs, and lists — ideal for accessibility and search indexing." }),
+  buildPair({ slug: "pdf-to-ppt", from: "PDF", to: "PPT", icon: "slides", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to PPT converter rebuilds PDFs as legacy PowerPoint PPT presentations — pages become slides, text and images placed faithfully, compatible with older PowerPoint versions.", faqQ: "Will the PPT be editable in PowerPoint?", faqA: "Yes. Slides, text, and images become editable inside PowerPoint and any PPT-compatible presentation editor." }),
+  buildPair({ slug: "pdf-to-pptx", from: "PDF", to: "PPTX", icon: "slides", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to PPTX converter rebuilds PDFs as modern editable PowerPoint decks — pages become slides, text becomes editable, and images, charts, and layout retain their original structure.", faqQ: "Will the PPTX be editable?", faqA: "Yes. Text becomes editable text boxes, images are placed on slides, and layout is preserved so you can continue editing in PowerPoint." }),
+  buildPair({ slug: "pdf-to-odp", from: "PDF", to: "ODP", icon: "slides", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to ODP converter rebuilds PDFs as editable OpenDocument presentations — perfect for LibreOffice Impress and other OpenDocument-compatible editors.", faqQ: "Is the ODP editable in LibreOffice?", faqA: "Yes. The generated ODP opens natively in LibreOffice Impress and any OpenDocument-compatible presentation editor." }),
+  buildPair({ slug: "pdf-to-xml", from: "PDF", to: "XML", icon: "code", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to XML converter extracts structured content from your PDF as clean XML — perfect for data pipelines, archival systems, and downstream processing.", faqQ: "What structure is preserved in the XML?", faqA: "Document hierarchy, headings, paragraphs, lists, and table structure are exported as nested XML elements ready for data processing." }),
+  buildPair({ slug: "pdf-to-gif", from: "PDF", to: "GIF", icon: "image", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to GIF converter exports PDF pages as GIF images — ideal for embedding in chat, slack threads, and quick visual previews.", faqQ: "Does each page become one GIF?", faqA: "Yes. Each PDF page is exported as a separate GIF image, bundled together for a single download." }),
+  buildPair({ slug: "pdf-to-tiff", from: "PDF", to: "TIFF", icon: "imageAlt", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to TIFF converter exports PDF pages as high-quality TIFF images — preferred for archival, print production, and document imaging workflows.", faqQ: "Is TIFF suitable for archival?", faqA: "Yes. TIFF preserves image quality losslessly and is widely used in archival, medical imaging, and print production workflows." }),
+  buildPair({ slug: "pdf-to-bmp", from: "PDF", to: "BMP", icon: "image", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to BMP converter exports PDF pages as uncompressed bitmap images — useful for legacy imaging systems and pixel-perfect rendering needs.", faqQ: "Why use BMP over JPG or PNG?", faqA: "BMP is uncompressed and pixel-perfect — useful for legacy software and workflows that require raw bitmap data without compression artefacts." }),
+  buildPair({ slug: "pdf-to-webp", from: "PDF", to: "WEBP", icon: "image", accept: ".pdf", uploadLabel: "PDF", acceptedFormats: "PDF", longCopy: "Docsora's PDF to WEBP converter exports PDF pages as modern WEBP images — dramatically smaller than JPG or PNG with no visible quality loss. Ideal for web embedding and Core Web Vitals.", faqQ: "Why convert PDF to WEBP?", faqA: "WEBP delivers the same visual quality as JPG at 25–35% smaller file size — better for Core Web Vitals and faster page loads." }),
+
+  // → PDF (input format-specific landing pages)
+  buildPair({ slug: "jpeg-to-pdf", from: "JPEG", to: "PDF", icon: "image", accept: ".jpg,.jpeg", uploadLabel: "JPEG images", acceptedFormats: "JPEG", longCopy: "Docsora's JPEG to PDF converter packages one or many JPEG photos into a clean multi-page PDF — perfect for scanned receipts, evidence, and visual archives.", faqQ: "Can I combine multiple JPEGs into one PDF?", faqA: "Yes. Upload multiple JPEGs and Docsora merges them into a single multi-page PDF in the order you provided." }),
+  buildPair({ slug: "gif-to-pdf", from: "GIF", to: "PDF", icon: "image", accept: ".gif", uploadLabel: "GIF images", acceptedFormats: "GIF", longCopy: "Docsora's GIF to PDF converter renders GIF images — static or animated — into clean PDF documents. The first frame of animated GIFs is used for the PDF rendering.", faqQ: "How are animated GIFs handled?", faqA: "Animated GIFs are flattened to the first frame in the output PDF, since PDF does not natively support animation." }),
+  buildPair({ slug: "bmp-to-pdf", from: "BMP", to: "PDF", icon: "image", accept: ".bmp", uploadLabel: "BMP images", acceptedFormats: "BMP", longCopy: "Docsora's BMP to PDF converter wraps uncompressed bitmap images into clean PDF documents — perfect for archiving legacy graphics, scans, and pixel-perfect imagery.", faqQ: "Is image quality preserved?", faqA: "Yes. BMP is a lossless format and Docsora embeds it into the PDF without re-compression." }),
+  buildPair({ slug: "tiff-to-pdf", from: "TIFF", to: "PDF", icon: "imageAlt", accept: ".tif,.tiff", uploadLabel: "TIFF images", acceptedFormats: "TIFF · TIF", longCopy: "Docsora's TIFF to PDF converter wraps high-resolution TIFF scans into clean PDF documents — ideal for archival, medical imaging, and document scanning workflows.", faqQ: "Are multi-page TIFFs supported?", faqA: "Yes. Multi-page TIFF files are converted into multi-page PDFs preserving page order and resolution." }),
+  buildPair({ slug: "webp-to-pdf", from: "WEBP", to: "PDF", icon: "image", accept: ".webp", uploadLabel: "WEBP images", acceptedFormats: "WEBP", longCopy: "Docsora's WEBP to PDF converter wraps modern WEBP images into clean PDF documents — preserving color fidelity and transparency where possible.", faqQ: "Is transparency preserved?", faqA: "WEBP alpha channels are flattened onto a clean PDF background while preserving sharp edges and color depth." }),
+  buildPair({ slug: "doc-to-pdf", from: "DOC", to: "PDF", icon: "doc", accept: ".doc", uploadLabel: "DOC file", acceptedFormats: "DOC", longCopy: "Docsora's DOC to PDF converter renders legacy Microsoft Word DOC files into print-perfect PDFs — fonts, layout, headings, and tables preserved exactly.", faqQ: "Does it support legacy Word files?", faqA: "Yes. Docsora handles legacy DOC files alongside modern DOCX with consistent output quality." }),
+  buildPair({ slug: "docx-to-pdf", from: "DOCX", to: "PDF", icon: "doc", accept: ".docx", uploadLabel: "DOCX file", acceptedFormats: "DOCX", longCopy: "Docsora's DOCX to PDF converter renders modern Microsoft Word documents into professional PDFs — fonts, headings, tables, images, and styling preserved pixel-accurate.", faqQ: "Will the PDF match the Word document?", faqA: "Yes. Fonts, layout, headings, tables, and images are preserved so the output PDF closely mirrors the source DOCX." }),
+  buildPair({ slug: "ods-to-pdf", from: "ODS", to: "PDF", icon: "sheet", accept: ".ods", uploadLabel: "ODS spreadsheet", acceptedFormats: "ODS", longCopy: "Docsora's ODS to PDF converter renders OpenDocument spreadsheets into clean PDFs with multi-sheet support, formula evaluation, and faithful formatting — ideal for LibreOffice Calc workflows.", faqQ: "Are multi-sheet ODS files supported?", faqA: "Yes — every sheet is paginated cleanly into the output PDF preserving structure and formatting." }),
+  buildPair({ slug: "odp-to-pdf", from: "ODP", to: "PDF", icon: "slides", accept: ".odp", uploadLabel: "ODP presentation", acceptedFormats: "ODP", longCopy: "Docsora's ODP to PDF converter renders OpenDocument presentations into pixel-accurate PDFs — slide layouts, fonts, embedded media, and master templates preserved. Built for LibreOffice Impress decks.", faqQ: "Will slide quality be preserved?", faqA: "Yes. Slide layouts, fonts, and embedded media are preserved so output PDFs look identical to your ODP deck." }),
+  buildPair({ slug: "eml-to-pdf", from: "EML", to: "PDF", icon: "mail", accept: ".eml", uploadLabel: "EML email files", acceptedFormats: "EML", longCopy: "Docsora's EML to PDF converter archives email files as PDFs with headers, body content, timestamps, and attachment metadata preserved — built for legal discovery, compliance archives, and audit trails.", faqQ: "Can I convert email files for compliance?", faqA: "Yes. Docsora preserves headers, body content, timestamps, and attachment metadata in the PDF output — suitable for legal and compliance archives." }),
+];
+
+convertVariants.push(...pairVariants);
 
 export const convertVariantBySlug = convertVariants.reduce<Record<string, ConvertVariantConfig>>(
   (acc, v) => {
