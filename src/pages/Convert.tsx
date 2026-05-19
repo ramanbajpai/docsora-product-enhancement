@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import ConvertUpload from "@/components/convert/ConvertUpload";
 import ConvertAnalysis from "@/components/convert/ConvertAnalysis";
 import ConvertFormatSelect from "@/components/convert/ConvertFormatSelect";
 import ConvertProgress from "@/components/convert/ConvertProgress";
 import ConvertResult from "@/components/convert/ConvertResult";
+import { ConvertSEO } from "@/components/convert/ConvertSEO";
+import type { ConvertVariantConfig } from "@/data/convertVariants";
 
 type ConvertStage = "upload" | "uploading" | "analysis" | "format" | "converting" | "success";
 
@@ -24,13 +27,27 @@ interface ConversionData {
   newSize: number;
 }
 
-const Convert = () => {
+interface ConvertProps {
+  variant?: ConvertVariantConfig;
+}
+
+const Convert = ({ variant }: ConvertProps = {}) => {
   const location = useLocation();
   const [stage, setStage] = useState<ConvertStage>("upload");
   const [files, setFiles] = useState<FileData[]>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedFormat, setSelectedFormat] = useState<string>("");
   const [conversionData, setConversionData] = useState<ConversionData | null>(null);
+
+  // Reset state and scroll to top when navigating between /convert variants
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setStage("upload");
+    setFiles([]);
+    setUploadProgress(0);
+    setSelectedFormat("");
+    setConversionData(null);
+  }, [location.pathname]);
 
   // Handle file passed from Storage
   useEffect(() => {
@@ -125,6 +142,42 @@ const Convert = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>
+          {variant
+            ? variant.title
+            : "Convert Files Online — Free File Converter | Docsora"}
+        </title>
+        <meta
+          name="description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Convert PDFs, Word, Excel, PowerPoint, images and email files online. Free, secure, browser-based file conversion — no installs, no signup."
+          }
+        />
+        <link
+          rel="canonical"
+          href={variant ? `/${variant.slug}` : "/convert"}
+        />
+        <meta
+          property="og:title"
+          content={variant ? variant.title : "Convert Files Online — Docsora"}
+        />
+        <meta
+          property="og:description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Free browser-based file conversion for every major format."
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content={variant ? `/${variant.slug}` : "/convert"}
+        />
+      </Helmet>
       <div className="h-screen flex flex-col overflow-hidden relative">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5 dark:to-primary/10" />
@@ -215,6 +268,11 @@ const Convert = () => {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Below-the-fold SEO content */}
+      {(stage === "upload" || stage === "uploading") && (
+        <ConvertSEO variant={variant} />
+      )}
     </AppLayout>
   );
 };
