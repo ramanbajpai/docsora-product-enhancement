@@ -257,7 +257,7 @@ const Sign = ({ variant }: SignProps = {}) => {
       <div
         className={
           step === "start"
-            ? "relative flex flex-col"
+            ? "relative min-h-screen flex flex-col"
             : "relative h-screen flex flex-col overflow-hidden"
         }
       >
