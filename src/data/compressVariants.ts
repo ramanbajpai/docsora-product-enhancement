@@ -28,6 +28,13 @@ export interface CompressVariantConfig {
   cardDescription: string; // semantic description used in internal links
   longCopy: string; // 2-3 sentence semantic paragraph below upload
   faq: { question: string; answer: string }[];
+  // Upload hero overrides (when omitted, generic /compress hero is used)
+  uploadHeadline?: string; // e.g. "Upload your Excel files"
+  uploadSubheadline?: string;
+  uploadFormatBadges?: string[]; // chips shown in supported formats list
+  uploadAccept?: string; // file input accept attribute
+  // Optional use-case bullets specific to the variant (rendered above FAQ)
+  useCases?: string[];
 }
 
 /**
