@@ -406,6 +406,43 @@ export const aiCheckVariants: AICheckVariantConfig[] = [
       },
     ],
   },
+  {
+    slug: "document-proofreader",
+    title: "Document Proofreader for Professional Teams | Docsora AI Check",
+    metaDescription:
+      "A document proofreader engineered for professional teams. Audit contracts, board reports, investor decks and operational documentation with editorial-grade AI.",
+    h1: "Document Proofreader for Professional Teams",
+    intro:
+      "An editorial document review layer for contracts, board reports, investor communications and operational documentation.",
+    keyword: "document proofreader",
+    acceptedFormats: "TXT · DOC · DOCX · ODT · PDF · HTML · PPT · PPTX",
+    cardIcon: BookOpenCheck,
+    cardLabel: "Document Proofreader",
+    cardDescription:
+      "Editorial document review for contracts, board reports and operational documentation.",
+    longCopy:
+      "Docsora's document proofreader applies editorial-grade language analysis to the documents teams actually circulate - board packs, compliance memos, investor updates, sales proposals and onboarding handbooks. It reads structure, tone and consistency at the document level rather than rewriting line by line.",
+    useCases: [
+      "Review board packs before circulation",
+      "Audit compliance documentation for clarity",
+      "Proofread investor updates and shareholder letters",
+      "Sharpen consulting deliverables",
+      "Review onboarding handbooks and policy guides",
+      "Tighten financial summaries and quarterly memos",
+    ],
+    faq: [
+      {
+        question: "What is a document proofreader used for?",
+        answer:
+          "A document proofreader is the editorial layer professional teams run before circulating a document - catching grammar, ambiguity, tone misalignment and structural inconsistencies across reports, contracts and decks. Docsora's proofreader is workflow-aware, designed for documents that go to boards, clients, regulators and investors.",
+      },
+      {
+        question: "How is this different from a generic grammar tool?",
+        answer:
+          "Generic grammar tools focus on sentence-level correctness. Docsora operates at the document level - tracking tone across sections, surfacing ambiguous contract language, and respecting the format and structure of business reports, slide decks and PDFs.",
+      },
+    ],
+  },
 ];
 
 export const aiCheckVariantBySlug = Object.fromEntries(
