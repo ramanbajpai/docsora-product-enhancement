@@ -27,8 +27,6 @@ import {
   Trash2,
   Globe2,
   BadgeCheck,
-  FileImage,
-  FileArchive,
   Megaphone,
   Scale,
   Receipt,
