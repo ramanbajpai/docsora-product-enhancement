@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import Compress from "./Compress";
 import { compressVariantBySlug } from "@/data/compressVariants";
@@ -10,6 +11,10 @@ const CompressVariant = () => {
   const { pathname } = useLocation();
   const slug = pathname.replace(/^\/+/, "").split("/")[0];
   const variant = slug ? compressVariantBySlug[slug] : undefined;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
 
   if (!variant) {
     return <Navigate to="/compress" replace />;
