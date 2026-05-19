@@ -661,3 +661,72 @@ export const compressVariants: CompressVariantConfig[] = [
 export const compressVariantBySlug = Object.fromEntries(
   compressVariants.map((v) => [v.slug, v]),
 );
+
+// Map slug → file-input accept attribute (so the system file picker filters correctly)
+const acceptBySlug: Record<string, string> = {
+  "compress-pdf": ".pdf",
+  "compress-pdf-online": ".pdf",
+  "reduce-pdf-size": ".pdf",
+  "compress-jpg": ".jpg,.jpeg",
+  "compress-png": ".png",
+  "compress-images": ".jpg,.jpeg,.png,.gif,.bmp,.tiff,.webp",
+  "reduce-image-size": ".jpg,.jpeg,.png,.gif,.bmp,.tiff,.webp",
+  "compress-word-document": ".doc,.docx,.odt",
+  "compress-word-documents": ".doc,.docx,.odt",
+  "compress-powerpoint": ".ppt,.pptx,.odp",
+  "reduce-powerpoint-file-size": ".ppt,.pptx,.odp",
+  "compress-excel-files": ".xls,.xlsx,.csv,.ods",
+  "reduce-excel-file-size": ".xls,.xlsx,.csv,.ods",
+  "compress-email-attachments": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
+  "reduce-file-size-for-email": ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.eml",
+};
+
+// Map slug → upload hero headline (search-intent aligned)
+const headlineBySlug: Record<string, string> = {
+  "compress-pdf": "Upload your PDF files",
+  "compress-pdf-online": "Upload your PDF files",
+  "reduce-pdf-size": "Upload your PDF files",
+  "compress-jpg": "Upload your JPG images",
+  "compress-png": "Upload your PNG images",
+  "compress-images": "Upload your images",
+  "reduce-image-size": "Upload your images",
+  "compress-word-document": "Upload your Word documents",
+  "compress-word-documents": "Upload your Word documents",
+  "compress-powerpoint": "Upload your PowerPoint files",
+  "reduce-powerpoint-file-size": "Upload your PowerPoint files",
+  "compress-excel-files": "Upload your Excel files",
+  "reduce-excel-file-size": "Upload your Excel files",
+  "compress-email-attachments": "Upload your email attachments",
+  "reduce-file-size-for-email": "Upload your email attachments",
+  "compress-large-files": "Upload your large files",
+  "compress-marketing-assets": "Upload your marketing assets",
+  "compress-client-deliverables": "Upload your client deliverables",
+  "compress-files-without-losing-quality": "Upload your files",
+  "online-file-compressor": "Upload your files",
+  "free-file-compressor": "Upload your files",
+  "free-online-file-compressor": "Upload your files",
+  "reduce-file-size": "Upload your files",
+};
+
+export interface UploadIntent {
+  headline: string;
+  subheadline: string;
+  formatBadges: string[];
+  accept: string;
+}
+
+export function getUploadIntent(variant?: CompressVariantConfig): UploadIntent | undefined {
+  if (!variant) return undefined;
+  return {
+    headline:
+      variant.uploadHeadline ?? headlineBySlug[variant.slug] ?? "Upload your files",
+    subheadline: variant.uploadSubheadline ?? variant.intro,
+    formatBadges:
+      variant.uploadFormatBadges ??
+      variant.acceptedFormats.split("·").map((s) => s.trim()),
+    accept:
+      variant.uploadAccept ??
+      acceptBySlug[variant.slug] ??
+      ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif",
+  };
+}
