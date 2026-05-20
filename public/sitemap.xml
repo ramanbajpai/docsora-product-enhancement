@@ -174,4 +174,13 @@
   <url><loc>/translate-business-documents-to-hindi</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/translate-contracts-to-portuguese</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/translate-training-material-to-spanish</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/convert-guides/convert-pdf-to-word-without-losing-formatting</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>/convert-guides/best-way-to-convert-excel-to-pdf</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>/convert-guides/convert-powerpoint-for-sharing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/convert-guides/pdf-vs-docx-for-business-workflows</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/convert-guides/convert-scanned-documents-into-editable-formats</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>/convert-guides/best-image-to-pdf-workflow-for-teams</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/convert-guides/archive-documents-using-pdfa</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/convert-guides/browser-based-file-conversion-explained</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/convert-guides/convert-files-securely-online</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

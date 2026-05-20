@@ -39,6 +39,9 @@ import {
 import { cn } from "@/lib/utils";
 import { convertVariants, type ConvertVariantConfig } from "@/data/convertVariants";
 import { convertCompareVariants } from "@/data/convertCompareVariants";
+import { convertGuides } from "@/data/convertGuides";
+import { ConvertProofMockup, type ConvertProofPair } from "./ConvertProofMockup";
+import { BookOpen } from "lucide-react";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -219,6 +222,36 @@ const faqs = [
       "Drop your PDF into the upload area above, select Word (DOCX) as the conversion target, and Docsora returns a fully editable Word document in seconds — preserving fonts, headings, tables, images, and layout. The PDF to Word conversion runs entirely in your browser, with end-to-end TLS encryption and automatic file deletion after processing.",
   },
   {
+    question: "How do I convert PDF to Word without losing formatting?",
+    answer:
+      "Use a format-aware converter that reconstructs the document structure — headings, tables, columns, and embedded fonts — before mapping them onto native Word elements. Docsora's PDF to Word converter does this automatically, so the output DOCX matches the source PDF visually while staying fully editable. For a step-by-step workflow, see the guide on converting PDF to Word without losing formatting.",
+  },
+  {
+    question: "What is the best PDF converter online?",
+    answer:
+      "The best online PDF converter preserves formatting across every direction — PDF to Word, PDF to Excel, PDF to PowerPoint, PDF to JPG, PDF to PNG, PDF to HTML and PDF to DOCX — without installs, signup, or ads. Docsora is a workflow-native browser-based PDF converter built on that principle, with enterprise-grade security and zero quality loss.",
+  },
+  {
+    question: "How do I convert PDF into editable DOCX?",
+    answer:
+      "Upload the PDF, choose DOCX as the output, and Docsora rebuilds the document as a native Word file with editable text, real tables and proper heading styles. The DOCX opens cleanly in Word, Google Docs and Pages with formatting preserved.",
+  },
+  {
+    question: "What converter supports PDF and PPTX?",
+    answer:
+      "Docsora supports conversion between PDF and PPTX in both directions — PowerPoint to PDF for sharing, and PDF to PPTX for rebuilding editable decks. Slides, layouts, fonts, embedded images and master templates are preserved on both sides.",
+  },
+  {
+    question: "How do I convert Excel to PDF without breaking formatting?",
+    answer:
+      "Docsora's Excel to PDF converter preserves multi-sheet workbooks, conditional formatting, cell styles, column widths and evaluated formula values. Each sheet paginates cleanly in workbook order so the PDF mirrors exactly what your team sees in Excel — perfect for finance reports, board exports and audit-ready archives.",
+  },
+  {
+    question: "What is the best browser-based file converter?",
+    answer:
+      "Docsora is a workflow-native browser-based file converter designed for teams. It handles PDF, Word, Excel, PowerPoint, image, OpenDocument and email formats inside one premium workspace — no installs, no plugins, no signup — alongside compression, signing, translation and storage.",
+  },
+  {
     question: "Can I convert Excel spreadsheets to PDF?",
     answer:
       "Yes. Docsora's Excel to PDF converter supports XLS, XLSX, CSV, and ODS files with full multi-sheet support. Conditional formatting, cell styling, column widths, and formula values are preserved exactly as they appear on screen — perfect for finance reports, audits, and audit-ready archives.",
@@ -337,6 +370,13 @@ function buildJsonLd(variant?: ConvertVariantConfig) {
   return [breadcrumb, software, faqPage, howTo];
 }
 
+const proofPairs: ConvertProofPair[] = [
+  { kind: "doc", from: "PDF", to: "DOCX", label: "PDF to Word — formatting preserved" },
+  { kind: "deck", from: "PPTX", to: "PDF", label: "PowerPoint to PDF — slide fidelity preserved" },
+  { kind: "sheet", from: "XLSX", to: "PDF", label: "Excel to PDF — tables and styles preserved" },
+  { kind: "image", from: "JPG", to: "PDF", label: "Images to PDF — original quality preserved" },
+];
+
 export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -452,6 +492,25 @@ export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
 
         {/* SECTION 2 — Popular Conversion Tools */}
         <section>
+          {/* Visual proof — formatting fidelity across formats */}
+          <motion.div {...fadeUp} className="mb-20">
+            <div className="text-center mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
+                <Sparkles className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Visual proof
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Formatting Preserved Across Every Format
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                See how Docsora keeps fonts, tables, slides and layouts intact across PDF, Word, Excel, PowerPoint and image conversions.
+              </p>
+            </div>
+            <ConvertProofMockup pairs={proofPairs} />
+          </motion.div>
+
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Popular File Conversion Tools
@@ -688,6 +747,57 @@ export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
 
         {/* SECTION 8 — Related conversion tools + search chips */}
         <section>
+          {/* Knowledge guides */}
+          <motion.div {...fadeUp} className="mb-20">
+            <div className="text-center mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
+                <BookOpen className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Conversion knowledge
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                File Conversion Guides
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Operational guides on PDF, Word, Excel, PowerPoint and image conversion workflows used by professional teams.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {convertGuides.map((g) => {
+                const GIcon = g.icon;
+                return (
+                  <Link
+                    key={g.slug}
+                    to={`/convert-guides/${g.slug}`}
+                    className={cn(
+                      "group block rounded-2xl p-5 h-full",
+                      "bg-card/40 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                    )}
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-3 group-hover:bg-primary/12 transition-colors">
+                      <GIcon className="w-4 h-4 text-primary/70" />
+                    </div>
+                    <p className="text-[10px] uppercase tracking-[0.12em] font-medium text-muted-foreground/60 mb-1.5">
+                      {g.category}
+                    </p>
+                    <h3 className="text-[13px] font-semibold text-foreground leading-snug group-hover:text-primary transition-colors mb-2">
+                      {g.h1}
+                    </h3>
+                    <p className="text-[12px] text-muted-foreground/75 leading-relaxed line-clamp-2">
+                      {g.intro}
+                    </p>
+                    <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Read guide</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
               Related Conversion Tools
