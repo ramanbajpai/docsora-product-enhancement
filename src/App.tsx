@@ -208,6 +208,18 @@ const App = () => (
             <Route path="/translate-product-documentation" element={<TranslateVariant />} />
             {/* Translate knowledge / guide pages */}
             <Route path="/translate-guides/:slug" element={<TranslateGuide />} />
+            {/* Translate — language-pair long-tail landing pages */}
+            <Route path="/translate-english-to-spanish" element={<TranslateVariant />} />
+            <Route path="/translate-english-to-arabic" element={<TranslateVariant />} />
+            <Route path="/translate-english-to-french" element={<TranslateVariant />} />
+            <Route path="/translate-english-to-german" element={<TranslateVariant />} />
+            <Route path="/translate-english-to-chinese" element={<TranslateVariant />} />
+            <Route path="/translate-pdf-to-french" element={<TranslateVariant />} />
+            <Route path="/translate-word-document-to-german" element={<TranslateVariant />} />
+            <Route path="/translate-pptx-to-japanese" element={<TranslateVariant />} />
+            <Route path="/translate-business-documents-to-hindi" element={<TranslateVariant />} />
+            <Route path="/translate-contracts-to-portuguese" element={<TranslateVariant />} />
+            <Route path="/translate-training-material-to-spanish" element={<TranslateVariant />} />
             {/* Translate comparison landing pages */}
             <Route path="/compare/docsora-vs-google-translate" element={<TranslateCompareLanding />} />
             <Route path="/compare/docsora-vs-deepl" element={<TranslateCompareLanding />} />
