@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TransferLanding } from "@/components/transfer/TransferLanding";
+import { TransferSEO } from "@/components/transfer/TransferSEO";
+import type { TransferVariantConfig } from "@/components/transfer/transferVariants";
 
 // Export types for other components that may need them
 export interface TransferFile {
@@ -27,7 +29,11 @@ export interface TransferSettings {
   viewOnly: boolean;
 }
 
-export default function Transfer() {
+interface TransferProps {
+  variant?: TransferVariantConfig;
+}
+
+export default function Transfer({ variant }: TransferProps = {}) {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -80,9 +86,16 @@ export default function Transfer() {
 
   return (
     <AppLayout>
-      <div className="h-screen flex flex-col overflow-hidden">
-        {isLoading ? renderUploadingState() : <TransferLanding />}
-      </div>
+      {isLoading ? (
+        <div className="h-screen flex flex-col overflow-hidden">
+          {renderUploadingState()}
+        </div>
+      ) : (
+        <div className="relative min-h-screen flex flex-col">
+          <TransferLanding />
+          <TransferSEO variant={variant} />
+        </div>
+      )}
     </AppLayout>
   );
 }
