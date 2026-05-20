@@ -12,6 +12,50 @@ import { TranslateProcessing } from "@/components/translate/TranslateProcessing"
 import { UpgradeModal } from "@/components/translate/UpgradeModal";
 import { TranslateSEO } from "@/components/translate/TranslateSEO";
 import type { TranslateVariantConfig } from "@/data/translateVariants";
+import { documentToolVariants, workflowVariants, languagePairVariants } from "@/data/translateVariants";
+
+const TRANSLATE_FAQS = [
+  {
+    q: "How do I translate a PDF without losing formatting?",
+    a: "Upload your PDF to Docsora Translate and pick a target language. The entire document is translated into 75+ languages while layouts, fonts, tables, and pagination are preserved — no copy-paste, no manual rebuild. Download the translated PDF in the same format, ready to share or e-sign.",
+  },
+  {
+    q: "What is the best document translation tool online?",
+    a: "Docsora is built for whole-document translation across PDF, DOCX, PPTX, HTML, and TXT in 75+ languages, with formatting preserved end-to-end. It's a workflow-native multilingual workspace — translate, share, sign, and track in the same browser.",
+  },
+  {
+    q: "Can I translate PowerPoint presentations online?",
+    a: "Yes. Docsora's PPTX translator localizes every slide while keeping layouts, fonts, charts, animations, and speaker notes intact — ideal for investor decks, board reviews, and multilingual training material.",
+  },
+  {
+    q: "How do I translate Word documents into another language?",
+    a: "Upload a DOC, DOCX, or ODT file and choose a target language. Docsora translates the full document while preserving styles, headings, lists, and tables, and exports back into the original Word format.",
+  },
+  {
+    q: "What translation platform supports PDF and PPTX?",
+    a: "Docsora supports PDF, DOC, DOCX, ODT, TXT, HTML, PPT, and PPTX — one multilingual workspace covering documents, decks, contracts, and operational documentation.",
+  },
+  {
+    q: "How can I translate contracts online?",
+    a: "Upload a contract in PDF or DOCX and pick the target language. Docsora preserves clause numbering, defined terms, and signature blocks while translating into 75+ languages — secure enough for legal operations and counterparty review.",
+  },
+  {
+    q: "Can I translate onboarding documents and training material?",
+    a: "Yes. Docsora translates onboarding decks, handbooks, and L&D modules into 75+ languages while keeping structure and brand formatting intact — built for global HR and training teams.",
+  },
+  {
+    q: "What is the best multilingual document workflow?",
+    a: "Author once, translate inside Docsora into every target language, then share, sign, and track the localized variants centrally. One source of truth, every region operating in their own language.",
+  },
+  {
+    q: "How do I translate presentations while preserving layout?",
+    a: "Docsora's PPTX translator translates each slide in place. Layouts, typography, charts, and embedded media stay visually identical so the translated deck looks exactly like the original.",
+  },
+  {
+    q: "Can I translate HTML files online?",
+    a: "Yes. Docsora's HTML translator is tag-aware — it translates user-visible content while leaving tags, attributes, and scripts untouched.",
+  },
+];
 
 export type TranslateMode = "text" | "document" | "dual";
 export type TranslateStage = "input" | "uploading" | "translating" | "success";
@@ -158,6 +202,48 @@ const Translate = ({ variant }: TranslateProps = {}) => {
             operatingSystem: "Any",
             description: "Whole-document translation in 75+ languages with formatting, layouts, tables, and slide structure preserved.",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          })}</script>
+        )}
+        {!variant && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: TRANSLATE_FAQS.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          })}</script>
+        )}
+        {!variant && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "How to translate a document online into another language",
+            description: "Translate PDF, Word, PowerPoint, HTML, or TXT documents into 75+ languages while preserving formatting.",
+            step: [
+              { "@type": "HowToStep", position: 1, name: "Upload your document", text: "Drop a PDF, DOCX, PPTX, HTML, or TXT file into Docsora Translate in your browser." },
+              { "@type": "HowToStep", position: 2, name: "Select a target language", text: "Pick from 75+ languages — Docsora auto-detects the source language." },
+              { "@type": "HowToStep", position: 3, name: "Translate with formatting preserved", text: "Docsora localizes the entire document while keeping layouts, fonts, tables, and slide structure intact." },
+              { "@type": "HowToStep", position: 4, name: "Download the translated file", text: "Export the translated document in the original format, ready to share, sign, or distribute." },
+            ],
+          })}</script>
+        )}
+        {!variant && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Docsora Translate tools and language pairs",
+            itemListElement: [
+              ...documentToolVariants.slice(0, 8),
+              ...workflowVariants.slice(0, 6),
+              ...languagePairVariants.slice(0, 10),
+            ].map((v, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: v.cardTitle ?? v.h1,
+              url: `/${v.slug}`,
+            })),
           })}</script>
         )}
       </Helmet>
