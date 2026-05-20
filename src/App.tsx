@@ -178,6 +178,8 @@ const App = () => (
             <Route path="/compare/docsora-vs-smallpdf-convert" element={<ConvertCompareLanding />} />
             <Route path="/compare/docsora-vs-adobe" element={<ConvertCompareLanding />} />
             <Route path="/compare/docsora-vs-cloudconvert" element={<ConvertCompareLanding />} />
+            {/* Conversion knowledge guides */}
+            <Route path="/convert-guides/:slug" element={<ConvertGuide />} />
             <Route path="/storage" element={<Storage />} />
             <Route path="/track" element={<Track />} />
             <Route path="/translate" element={<Translate />} />
