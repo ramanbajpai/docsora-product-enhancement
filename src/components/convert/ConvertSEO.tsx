@@ -492,6 +492,25 @@ export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
 
         {/* SECTION 2 — Popular Conversion Tools */}
         <section>
+          {/* Visual proof — formatting fidelity across formats */}
+          <motion.div {...fadeUp} className="mb-20">
+            <div className="text-center mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
+                <Sparkles className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Visual proof
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Formatting Preserved Across Every Format
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                See how Docsora keeps fonts, tables, slides and layouts intact across PDF, Word, Excel, PowerPoint and image conversions.
+              </p>
+            </div>
+            <ConvertProofMockup pairs={proofPairs} />
+          </motion.div>
+
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Popular File Conversion Tools
