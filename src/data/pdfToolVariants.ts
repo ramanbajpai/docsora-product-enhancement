@@ -175,6 +175,38 @@ export const pdfToolVariants: PDFToolVariant[] = [
       { slug: "extract-pdf-pages", title: "Edit → Extract", description: "Pull edited sections into standalone PDFs." },
       { slug: "transfer", title: "Edit → Transfer", description: "Deliver edited PDFs securely to clients and reviewers." },
     ],
+    audiences: [
+      { title: "Legal teams", description: "Revise contracts, redlines and approvals before signing." },
+      { title: "Agencies", description: "Annotate creative deliverables and proposals collaboratively." },
+      { title: "Freelancers", description: "Update invoices, portfolios and contracts before sending clients." },
+      { title: "Students", description: "Annotate lecture notes, coursework and academic PDFs online." },
+      { title: "HR teams", description: "Edit onboarding packets, policies and offer letters." },
+      { title: "Finance teams", description: "Update reports, spreadsheets and operational summaries." },
+      { title: "Operations", description: "Modify SOPs, internal documentation and process guides." },
+      { title: "Personal use", description: "Fill forms, update resumes and edit scanned paperwork online." },
+    ],
+    workflowChains: [
+      { title: "Edit → Compare → Sign", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Compare", slug: "compare-pdf" },
+        { label: "Sign", slug: "sign" },
+      ]},
+      { title: "Edit → Protect → Transfer", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Protect", slug: "protect-pdf" },
+        { label: "Transfer", slug: "transfer" },
+      ]},
+      { title: "Edit → Compress → Send", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Compress", slug: "compress-pdf" },
+        { label: "Send", slug: "transfer" },
+      ]},
+      { title: "Edit → Watermark → Approve", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Watermark", slug: "watermark-pdf" },
+        { label: "Approve", slug: "sign" },
+      ]},
+    ],
   },
   {
     slug: "merge-pdf",
