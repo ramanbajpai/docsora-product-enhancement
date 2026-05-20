@@ -310,6 +310,7 @@ const Sign = ({ variant }: SignProps = {}) => {
                 <SignUpload
                   onFileUpload={handleFileUpload}
                   onUseTemplate={() => setStep("templates")}
+                  variant={variant}
                 />
               </motion.div>
             )}
@@ -385,7 +386,7 @@ const Sign = ({ variant }: SignProps = {}) => {
                     </div>
                   </div>
                 ) : (
-                  <SignUpload onFileUpload={handleFileUpload} />
+                  <SignUpload onFileUpload={handleFileUpload} variant={variant} />
                 )}
               </motion.div>
             )}

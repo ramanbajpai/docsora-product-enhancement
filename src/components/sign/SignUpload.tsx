@@ -2,10 +2,12 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Upload, Shield, ChevronDown, Check, Layers, ArrowRight, Zap } from "lucide-react";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { SignVariantConfig } from "@/data/signVariants";
 
 interface SignUploadProps {
   onFileUpload: (file: File) => void;
   onUseTemplate?: () => void;
+  variant?: SignVariantConfig;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC'];
@@ -13,7 +15,7 @@ const supportedFormats = ['PDF', 'DOCX', 'DOC'];
 // Apple-style easing
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
+const SignUpload = ({ onFileUpload, onUseTemplate, variant }: SignUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isDropped, setIsDropped] = useState(false);
@@ -647,10 +649,10 @@ const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Sign with confidence'}
+                        {isDragging ? 'Release to upload' : (variant?.h1 ?? 'Sign with confidence')}
                       </h1>
                       <p className="text-muted-foreground/80 text-[0.95rem] max-w-sm mx-auto leading-relaxed">
-                        Legally binding electronic signatures - fast, secure, and compliant.
+                        {variant?.intro ?? 'Legally binding electronic signatures - fast, secure, and compliant.'}
                       </p>
                     </motion.div>
                   )}
