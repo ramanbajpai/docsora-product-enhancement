@@ -9,6 +9,7 @@ import {
   Library,
   ShieldCheck,
 } from "lucide-react";
+import { Sparkle, Pen, FileSignature, Users } from "lucide-react";
 
 export interface AIGuideSection {
   heading: string;
@@ -703,6 +704,341 @@ export const aiCheckGuides: AICheckGuide[] = [
       "how-to-audit-board-reports",
       "how-to-review-contract-language",
       "how-to-standardize-operational-documentation",
+    ],
+  },
+  {
+    slug: "improve-sentence-clarity",
+    title: "How to Improve Sentence Clarity in Business Writing | Docsora",
+    metaDescription:
+      "A practical guide to improving sentence clarity in business documents — remove ambiguity, tighten phrasing and sharpen meaning without flattening voice.",
+    h1: "How to improve sentence clarity in business writing",
+    intro:
+      "Most business writing fails at the sentence, not the document. This guide explains the patterns that quietly erode clarity — and the editorial moves that fix them without flattening voice.",
+    readTime: "6 min read",
+    category: "Sentence enhancement",
+    icon: Sparkle,
+    primaryToolSlug: "improve-sentence-clarity",
+    primaryToolLabel: "Improve Sentence Clarity",
+    sections: [
+      {
+        heading: "Where sentence clarity breaks down",
+        paragraphs: [
+          "Clarity rarely fails because the writer does not know what they mean. It fails because four patterns sneak into business writing under deadline: ambiguous references, overloaded subordinate clauses, hedged commitments and weak emphasis. Each is invisible to the author and obvious to the reader.",
+          "Editorial review surfaces these patterns inline — without rewriting the substance of what the document is trying to say.",
+        ],
+      },
+      {
+        heading: "The four patterns to look for",
+        paragraphs: [
+          "Run through any business document and most clarity issues will fall into one of the four categories below.",
+        ],
+        bullets: [
+          "Ambiguous references — pronouns or shorthand without a clear antecedent.",
+          "Overloaded constructions — sentences carrying three ideas where one would land.",
+          "Hedged commitments — softening language that turns a statement into an opinion.",
+          "Weak emphasis — the most important claim buried in the middle of a paragraph.",
+        ],
+      },
+      {
+        heading: "The workflow: a focused clarity pass",
+        paragraphs: [
+          "Use the workflow below for reports, proposals, memos and contracts when the substance is settled but the document does not yet read cleanly.",
+        ],
+        bullets: [
+          "Upload the document to Docsora AI Check.",
+          "Filter suggestions by clarity severity — start with high.",
+          "Accept rewrites that preserve meaning; reject ones that change emphasis.",
+          "Switch to the audience-appropriate tone preset for a second pass.",
+          "Export the cleaned version for distribution.",
+        ],
+      },
+      {
+        heading: "When clarity is the wrong target",
+        paragraphs: [
+          "Heavily negotiated legal language and intentionally formal contracts sometimes resist clarity rewrites — the ambiguity is the point. Editorial AI flags these so reviewers can keep negotiated phrasing intact while still tightening the rest of the document.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will clarity edits change meaning?",
+        answer:
+          "No. The clarity pass preserves intent and factual content. Suggestions focus on structure, references and word choice — meaning stays intact.",
+      },
+      {
+        question: "How is this different from a grammar checker?",
+        answer:
+          "Grammar checkers fix mechanical errors. A clarity pass works at the sentence-meaning level — ambiguity, hedging, overload — the patterns grammar tools miss entirely.",
+      },
+      {
+        question: "Does it work on long documents?",
+        answer:
+          "Yes. Whole-document review handles long reports without chunking, so clarity issues are flagged in context rather than in isolation.",
+      },
+    ],
+    relatedTools: [
+      { slug: "improve-sentence-clarity", label: "Improve Sentence Clarity" },
+      { slug: "sentence-enhancer", label: "Sentence Enhancer" },
+      { slug: "clarity-improver", label: "Clarity Improver" },
+      { slug: "rewrite-awkward-sentences", label: "Rewrite Awkward Sentences" },
+    ],
+    relatedGuides: [
+      "improve-business-writing",
+      "improve-executive-writing",
+      "how-to-check-documents-for-errors",
+    ],
+  },
+  {
+    slug: "improve-executive-writing",
+    title: "How to Improve Executive Writing with AI | Docsora",
+    metaDescription:
+      "A workflow for improving executive writing with editorial AI — tighter phrasing, sharper tone and stronger structure for memos, board reports and CEO updates.",
+    h1: "How to improve executive writing with editorial AI",
+    intro:
+      "Executive writing is read in minutes and judged in seconds. This guide walks through the editorial moves that make CEO memos, board commentary and senior briefings land with the audiences they are written for.",
+    readTime: "7 min guide",
+    category: "Executive writing",
+    icon: Pen,
+    primaryToolSlug: "improve-executive-writing",
+    primaryToolLabel: "Improve Executive Writing",
+    sections: [
+      {
+        heading: "What separates executive writing from business writing",
+        paragraphs: [
+          "Executive writing is the highest-stakes editorial bucket in a company. It is read by directors, investors and senior leaders who reward precision and punish hedging. The bar is not 'professional' — it is 'concrete, structured, low on hedging, claim before evidence'.",
+          "Editorial AI helps because the patterns that weaken executive writing — softening, indirect constructions, throat-clearing, terminology drift — are pattern-detection work, which AI handles faster and more consistently than human reviewers.",
+        ],
+      },
+      {
+        heading: "The five moves of strong executive writing",
+        paragraphs: [
+          "Run the five moves below in order. Most executive documents improve dramatically after one pass.",
+        ],
+        bullets: [
+          "Lead with the claim. Push the recommendation to the first sentence of every section.",
+          "Cut throat-clearing. Delete the opening that delays the point.",
+          "Replace hedging with concrete language. 'May contribute' becomes 'contributes'.",
+          "Tighten transitions. Sections should build, not restart.",
+          "Align terminology. One term per concept across every section.",
+        ],
+      },
+      {
+        heading: "The workflow: editorial pass on an executive document",
+        paragraphs: [
+          "Use the workflow below on CEO memos, board commentary, investor updates and senior briefings.",
+        ],
+        bullets: [
+          "Upload the document to Docsora AI Check.",
+          "Switch to the executive tone preset.",
+          "Step through high-severity suggestions — claim placement, hedging, throat-clearing.",
+          "Accept tightening rewrites; reject any that flatten voice.",
+          "Export the polished version for distribution.",
+        ],
+      },
+      {
+        heading: "Common mistakes to avoid",
+        paragraphs: [
+          "Three mistakes recur: writing the executive summary last (rather than first), softening every claim to sound balanced, and accepting every editorial suggestion. Strong executive writing has a point of view — protect it.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will editorial AI flatten my voice?",
+        answer:
+          "Only if you accept every suggestion. The executive tone preset surfaces hedging and softening — reviewers choose what to apply. Reject rewrites that change voice rather than improve precision.",
+      },
+      {
+        question: "Is it safe for confidential executive material?",
+        answer:
+          "Yes. Documents travel over TLS, are processed in an isolated environment, deleted after analysis and never used to train models. Operated under ISO 27001 controls aligned with SOC 2 and GDPR.",
+      },
+      {
+        question: "Can I review a draft I'm still writing?",
+        answer:
+          "Yes. Paste the draft section into Docsora AI Check for a focused pass. Continue drafting, then run a full document-level review when the structure is settled.",
+      },
+    ],
+    relatedTools: [
+      { slug: "improve-executive-writing", label: "Improve Executive Writing" },
+      { slug: "professional-writing-checker", label: "Professional Writing Checker" },
+      { slug: "review-board-reports", label: "Review Board Reports" },
+      { slug: "sentence-enhancer", label: "Sentence Enhancer" },
+    ],
+    relatedGuides: [
+      "how-to-audit-board-reports",
+      "improve-business-writing",
+      "improve-sentence-clarity",
+    ],
+  },
+  {
+    slug: "how-to-improve-rfp-responses",
+    title: "How to Improve RFP Responses with Editorial AI | Docsora",
+    metaDescription:
+      "An editorial workflow for sharpening RFP responses, proposals and SOWs — tone alignment, terminology consistency and win-theme clarity.",
+    h1: "How to improve RFP responses with editorial AI",
+    intro:
+      "Most RFP responses lose deals at the editorial level — inconsistent terminology, weak win themes, tone that drifts between sections. This guide walks through the editorial pass enterprise sales teams use before submission.",
+    readTime: "7 min guide",
+    category: "Proposals & RFPs",
+    icon: FileSignature,
+    primaryToolSlug: "proofread-rfps",
+    primaryToolLabel: "Proofread RFPs",
+    sections: [
+      {
+        heading: "Why RFP responses quietly lose",
+        paragraphs: [
+          "Buyers do not pick the cheapest response — they pick the cleanest. When five vendors answer the same RFP with similar capability, the response that reads as one document by one team wins disproportionately. The losing responses sound like five people writing in five tones.",
+          "Editorial review is the layer that unifies a multi-contributor proposal into a single voice without rewriting the substance.",
+        ],
+      },
+      {
+        heading: "The four pillars of a strong RFP response",
+        paragraphs: [
+          "Run the four checks below on every proposal before submission.",
+        ],
+        bullets: [
+          "Win themes — stated up front and reinforced consistently across sections.",
+          "Terminology consistency — one term per concept across all contributors.",
+          "Tone alignment — same voice in the executive summary and the technical detail.",
+          "Scope precision — no ambiguous language in deliverables, dependencies or timelines.",
+        ],
+      },
+      {
+        heading: "The workflow: editorial pass on an RFP response",
+        paragraphs: [
+          "Use the workflow below 24 hours before submission — late enough that content is settled, early enough that fixes can be applied.",
+        ],
+        bullets: [
+          "Upload the full response (PDF, DOC, DOCX or PPTX) to Docsora AI Check.",
+          "Run the editorial pass with the executive tone preset.",
+          "Review terminology suggestions across sections — accept consistency fixes.",
+          "Step through clarity suggestions for scope and deliverables.",
+          "Export the polished response for final sign-off.",
+        ],
+      },
+      {
+        heading: "What buyers actually notice",
+        paragraphs: [
+          "Buyers do not annotate proposals; they form impressions. The proposal that feels effortful and consistent earns trust before the technical evaluation begins. Editorial polish is not cosmetic — it is the first signal of execution discipline.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can it review a full RFP in one pass?",
+        answer:
+          "Yes. Whole-document review covers the executive summary, technical sections, pricing commentary and appendices in a single pass. Suggestions are organised by section so reviewers move start to finish without context-switching.",
+      },
+      {
+        question: "Does it work on PowerPoint proposals?",
+        answer:
+          "Yes. Upload PPT or PPTX. Decks are reviewed slide-by-slide; design, layout and master slides remain untouched.",
+      },
+      {
+        question: "Is it secure for confidential proposals?",
+        answer:
+          "Yes. Uploads travel over TLS, documents are processed in an isolated environment, deleted after review and never used to train models.",
+      },
+    ],
+    relatedTools: [
+      { slug: "proofread-rfps", label: "Proofread RFPs" },
+      { slug: "improve-business-writing", label: "Improve Business Writing" },
+      { slug: "rewrite-business-sentences", label: "Rewrite Business Sentences" },
+      { slug: "professional-writing-checker", label: "Professional Writing Checker" },
+    ],
+    relatedGuides: [
+      "improve-business-writing",
+      "improve-executive-writing",
+      "ai-proofreading-for-enterprise-teams",
+    ],
+  },
+  {
+    slug: "business-writing-for-enterprise-teams",
+    title: "Business Writing for Enterprise Teams | Editorial Playbook | Docsora",
+    metaDescription:
+      "An editorial playbook for business writing across enterprise teams — terminology standards, tone presets and review workflows that scale.",
+    h1: "Business writing for enterprise teams",
+    intro:
+      "Enterprise teams produce more documents than any single editor can review. This playbook explains how to standardise business writing across departments — without booking a content design team or slowing delivery.",
+    readTime: "8 min playbook",
+    category: "Enterprise editorial",
+    icon: Users,
+    primaryToolSlug: "improve-professional-writing",
+    primaryToolLabel: "Improve Professional Writing",
+    sections: [
+      {
+        heading: "Why enterprise writing drifts",
+        paragraphs: [
+          "Enterprise teams produce documents at volume — proposals, reports, memos, decks — written by contributors who rarely overlap. Each contributor writes in their tone, with their terminology, in their structure. The result is a document portfolio that reads like a federation, not a company.",
+          "Standardisation is the editorial layer that makes the portfolio read as one voice — without forcing every contributor through a copywriter's queue.",
+        ],
+      },
+      {
+        heading: "The three layers of an enterprise editorial standard",
+        paragraphs: [
+          "Most enterprise editorial standards collapse into the three layers below. Done in order, they cover 90% of the editorial drift inside a multi-team document portfolio.",
+        ],
+        bullets: [
+          "Terminology — one term per concept, applied across every team.",
+          "Tone presets — executive, legal, simple and marketing — matched to audience.",
+          "Document templates — structural skeletons for the most common document types.",
+        ],
+      },
+      {
+        heading: "The rollout: from one team to the portfolio",
+        paragraphs: [
+          "The rollout pattern that works inside enterprise teams: start with one document type, establish the standard, expand to a second document type, iterate. Trying to standardise everything at once usually stalls in governance.",
+        ],
+        bullets: [
+          "Pick one high-volume document type — typically RFPs or board reports.",
+          "Establish the terminology, tone and template for that document type.",
+          "Roll out editorial AI as the final pre-review pass.",
+          "Measure revision cycles and reviewer feedback after one quarter.",
+          "Expand to a second document type with the standard in place.",
+        ],
+      },
+      {
+        heading: "What to require from editorial AI at enterprise scale",
+        paragraphs: [
+          "Enterprise procurement teams typically require five capabilities before adopting editorial AI — encryption in transit and at rest, deletion after analysis, ISO 27001 and SOC 2 alignment, broad format coverage, and document-level (not sentence-level) review.",
+          "Docsora is built against these requirements from day one. Editorial review happens inside an isolated environment, documents are deleted after analysis, and the platform operates under ISO 27001 controls aligned with SOC 2 and GDPR.",
+        ],
+      },
+      {
+        heading: "What to measure",
+        paragraphs: [
+          "Revision cycles per document, time-to-review on standardised documents, and qualitative reviewer feedback. Most enterprise teams see a 30-50% drop in editorial revision cycles within the first quarter.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is it secure for confidential enterprise documents?",
+        answer:
+          "Yes. Uploads travel over TLS, documents are processed in an isolated environment, deleted after analysis and never used to train models. Docsora operates under ISO 27001 controls aligned with SOC 2 and GDPR.",
+      },
+      {
+        question: "Does it integrate with existing document workflows?",
+        answer:
+          "Yes. Docsora runs entirely in the browser — reviewers upload documents from existing storage (SharePoint, Drive, Notion exports, local) and export the cleaned version back. No installs, no plugins.",
+      },
+      {
+        question: "Is there a team or enterprise plan?",
+        answer:
+          "Yes. Pro and Team plans unlock longer documents, batch review and team workflows. Enterprise terms are available for regulated industries.",
+      },
+    ],
+    relatedTools: [
+      { slug: "improve-professional-writing", label: "Improve Professional Writing" },
+      { slug: "document-proofreader", label: "Document Proofreader" },
+      { slug: "review-board-reports", label: "Review Board Reports" },
+      { slug: "review-operational-handbooks", label: "Review Operational Handbooks" },
+    ],
+    relatedGuides: [
+      "ai-proofreading-for-enterprise-teams",
+      "how-to-standardize-operational-documentation",
+      "how-to-improve-rfp-responses",
     ],
   },
 ];
