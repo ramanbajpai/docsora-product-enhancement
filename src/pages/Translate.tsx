@@ -121,7 +121,7 @@ const Translate = ({ variant }: TranslateProps = {}) => {
           content={
             variant
               ? variant.metaDescription
-              : "Translate PDFs, Word, PowerPoint, HTML, and TXT documents into 75+ languages with formatting preserved. Free, secure, browser-based document translator."
+              : "Translate PDFs, Word, PowerPoint, HTML, and TXT documents into 75+ languages with formatting preserved. Free, secure, browser-based document translator for students, professionals, and teams."
           }
         />
         <link rel="canonical" href={variant ? `/${variant.slug}` : "/translate"} />
@@ -171,10 +171,10 @@ const Translate = ({ variant }: TranslateProps = {}) => {
           {stage === "input" && (
             <div className="mb-8">
               <h1 className="text-2xl font-semibold text-foreground mb-2">
-                {variant ? variant.h1 : "Translate"}
+                {variant ? variant.h1 : "Translate documents into 75+ languages"}
               </h1>
               <p className="text-muted-foreground">
-                {variant ? variant.intro : "Enterprise-grade translation for documents and text"}
+                {variant ? variant.intro : "PDFs, presentations, Word files, and more — translated online with formatting preserved."}
               </p>
             </div>
           )}
@@ -245,7 +245,7 @@ const Translate = ({ variant }: TranslateProps = {}) => {
             >
               <span className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Enterprise-grade translation
+                Formatting preserved
               </span>
               <span className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -253,7 +253,7 @@ const Translate = ({ variant }: TranslateProps = {}) => {
               </span>
               <span className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Formatting preserved
+                75+ languages
               </span>
             </motion.div>
           )}

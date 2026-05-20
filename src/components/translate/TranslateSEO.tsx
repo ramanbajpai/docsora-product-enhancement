@@ -247,10 +247,10 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-4">
-              Translate every business document
+              Translate documents into 75+ languages
             </h2>
             <p className="text-base text-muted-foreground/80 leading-relaxed">
-              Docsora translates PDFs, Word documents, presentations, HTML, and plain text into 75+ languages — with layouts, fonts, and structure preserved end-to-end.
+              Translate PDFs, Word documents, presentations, HTML, and plain text into 75+ languages — with layouts, fonts, and structure preserved end-to-end.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -284,6 +284,48 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
           </div>
         </motion.section>
 
+        {/* SECTION — Popular Use Cases */}
+        <motion.section {...fadeUp}>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+              <Sparkles className="w-3 h-3 text-primary/80" />
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                Popular Use Cases
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-4">
+              What people translate with Docsora
+            </h2>
+            <p className="text-base text-muted-foreground/80 leading-relaxed">
+              From personal documents to multinational workflows — everyone gets whole-document translation with formatting preserved.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { title: "Resumes & CVs", desc: "Translate your resume into any language while keeping layout, headings, and styling intact for international job applications." },
+              { title: "University documents", desc: "Translate academic transcripts, research papers, and course materials for study-abroad and international admissions." },
+              { title: "PDFs for school", desc: "Translate textbooks, reading materials, and assignments into your preferred language without losing formatting." },
+              { title: "Freelance proposals", desc: "Send localized project proposals to international clients with professional formatting preserved." },
+              { title: "Travel documents", desc: "Translate itineraries, travel guides, visa paperwork, and immigration documents quickly and accurately." },
+              { title: "Presentations", desc: "Localize pitch decks, investor updates, and conference slides with layouts and animations intact." },
+              { title: "Contracts", desc: "Translate legal agreements, NDAs, and employment contracts while preserving clause structure and signature blocks." },
+              { title: "Reports", desc: "Translate business reports, financial summaries, and operational documentation across languages." },
+              { title: "Onboarding material", desc: "Localize employee handbooks, training decks, and HR documentation for global teams." },
+              { title: "Client deliverables", desc: "Send translated project files, creative assets, and documentation to clients in their native language." },
+              { title: "E-books & guides", desc: "Translate digital publications, manuals, and long-form content with chapter structure preserved." },
+              { title: "Portfolios", desc: "Share translated design portfolios, photography collections, and creative work with global audiences." },
+            ].map((u) => (
+              <div
+                key={u.title}
+                className="rounded-xl p-5 bg-card/40 border border-border/30 hover:border-primary/20 transition-colors"
+              >
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{u.title}</h3>
+                <p className="text-xs text-muted-foreground/75 leading-relaxed">{u.desc}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
         {/* SECTION — 75+ languages */}
         <motion.section {...fadeUp}>
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -297,7 +339,7 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
               Built for global teams
             </h2>
             <p className="text-base text-muted-foreground/80 leading-relaxed">
-              A multilingual document infrastructure for global operations — multilingual onboarding, international client delivery, cross-border documentation, multilingual compliance workflows, translated investor presentations, and business communication across every region.
+              A multilingual document platform for everyone — students, freelancers, creators, agencies, and global teams running international operations, client delivery, and cross-border documentation.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -318,7 +360,7 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
 
           {/* Semantic support copy */}
           <p className="mt-8 max-w-3xl mx-auto text-center text-sm text-muted-foreground/75 leading-relaxed">
-            Docsora Translate supports multilingual document workflows across contracts, presentations, onboarding documents, operational handbooks, reports, PDFs, and business communication in 75+ languages — built for global teams running international operations.
+            Docsora Translate supports multilingual document workflows across resumes, academic papers, travel documents, presentations, contracts, onboarding material, creative portfolios, reports, and business communication in 75+ languages — built for anyone who needs professional document translation.
           </p>
 
           {/* View all supported languages — expandable, crawlable */}
@@ -667,10 +709,10 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
             />
             <h2 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-4">
-              Translate operational documents across 75+ languages.
+              Translate any document into 75+ languages
             </h2>
             <p className="text-base text-muted-foreground/80 max-w-xl mx-auto leading-relaxed mb-8">
-              Whole-document translation built for modern teams — PDFs, decks, contracts, and business documentation, formatting preserved end-to-end.
+              Whole-document translation for personal and professional use — PDFs, decks, contracts, resumes, and more, with formatting preserved end-to-end.
             </p>
             <motion.div
               whileHover={{ y: -1 }}
