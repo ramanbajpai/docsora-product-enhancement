@@ -29,6 +29,12 @@ export interface ConvertVariantConfig {
   uploadFormatBadges?: string[];
   uploadAccept?: string;
   useCases?: string[];
+  uploadTitle?: string;
+  uploadDescription?: string;
+  ctaLabel?: string;
+  inputFormat?: string;
+  outputFormat?: string;
+  relatedConversions?: string[];
 }
 
 /**
