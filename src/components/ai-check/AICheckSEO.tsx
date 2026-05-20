@@ -922,7 +922,7 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
                 >
                   <div className="flex items-center gap-2.5 mb-4">
                     <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
-                      <Scale className="w-3.5 h-3.5 text-primary/80" />
+                      <GitCompare className="w-3.5 h-3.5 text-primary/80" />
                     </div>
                     <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
                       Comparison
@@ -945,34 +945,77 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
         </section>
 
         {/* SECTION 11 - Final CTA */}
-        <section>
+        <section className="relative">
+          {/* Ambient background lighting */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+          >
+            <div className="absolute left-1/2 top-1/2 h-[520px] w-[820px] max-w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.18),hsl(var(--primary)/0.06)_38%,transparent_70%)] blur-3xl" />
+            <motion.div
+              className="absolute left-1/2 top-1/2 h-[360px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.14),transparent_65%)] blur-2xl"
+              animate={{ opacity: [0.7, 1, 0.7], scale: [1, 1.04, 1] }}
+              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+
           <motion.div
             {...fadeUp}
             className={cn(
-              "text-center rounded-3xl p-12 md:p-16",
-              "bg-card/40 border border-border/30 backdrop-blur-sm"
+              "relative text-center rounded-[28px] px-8 py-16 md:px-16 md:py-20",
+              "bg-gradient-to-b from-card/70 via-card/50 to-card/40",
+              "border border-border/40",
+              "shadow-[0_1px_0_0_hsl(var(--foreground)/0.04)_inset,0_30px_60px_-30px_hsl(var(--primary)/0.25),0_18px_40px_-20px_hsl(var(--foreground)/0.12)]",
+              "backdrop-blur-xl overflow-hidden"
             )}
           >
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-3">
-              Review your documents with AI precision.
-            </h2>
-            <p className="text-sm text-muted-foreground/70 mb-8 max-w-md mx-auto">
-              No signup required. Drop a document above and receive AI-powered
-              writing suggestions in seconds.
-            </p>
-            <button
-              onClick={scrollToTop}
-              className={cn(
-                "inline-flex items-center justify-center gap-2",
-                "px-7 py-3 rounded-xl text-sm font-semibold",
-                "text-primary-foreground bg-primary hover:bg-primary/90",
-                "shadow-lg shadow-primary/20",
-                "transition-all duration-200 active:scale-[0.98]"
-              )}
-            >
-              <Type className="w-4 h-4" />
-              Review with AI
-            </button>
+            {/* Faint inner top highlight */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+            />
+            {/* Subtle animated light pass */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]"
+              animate={{ x: ["-15%", "15%", "-15%"] }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            <div className="relative">
+              <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                Editorial AI review
+                <br className="hidden sm:block" />
+                <span className="text-foreground/70"> for every document.</span>
+              </h2>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">
+                Grammar, tone and clarity analysis for reports, contracts,
+                decks and PDFs — built for professional writing workflows.
+              </p>
+              <motion.button
+                onClick={scrollToTop}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                className={cn(
+                  "group relative inline-flex items-center justify-center gap-2",
+                  "px-7 py-3.5 rounded-xl text-sm font-semibold",
+                  "text-primary-foreground",
+                  "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]",
+                  "border border-primary/40",
+                  "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]",
+                  "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]",
+                  "transition-shadow duration-300"
+                )}
+              >
+                <span
+                  aria-hidden
+                  className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                />
+                <Type className="w-4 h-4" />
+                Review with AI
+              </motion.button>
+            </div>
           </motion.div>
         </section>
       </div>
