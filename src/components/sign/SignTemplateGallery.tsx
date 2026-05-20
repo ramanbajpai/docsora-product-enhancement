@@ -12,10 +12,11 @@ import {
   Clock,
   Sparkles,
   ArrowUpRight,
-  Send,
-  CheckCircle2,
+  Activity,
+  ArrowRight,
   Layers,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SignTemplate, getTemplateDocuments, useSignTemplates } from "@/hooks/useSignTemplates";
@@ -77,37 +78,22 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         transition={{ duration: 0.3 }}
         className="mb-8"
       >
-        <div className="flex items-center gap-1.5 mb-2">
-          <Sparkles className="w-3 h-3 text-primary" />
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-            Reusable templates
-          </span>
-        </div>
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">Launch in seconds</h1>
-        <p className="text-sm text-muted-foreground mt-1.5 max-w-md">
-          Configured once. Send forever. Just add a name and email.
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+          Launch workflows in seconds
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1.5 max-w-xl">
+          Preconfigured recipients, fields and actions. Reuse your most common workflows
+          instantly — no rebuilding, no copy-paste, no setup.
         </p>
 
-        {/* Operational liveliness */}
-        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <Send className="w-3 h-3 text-foreground/60" />
-            <span className="text-foreground/80 font-medium tabular-nums">{sentThisMonth}</span>
-            sent this month
-          </span>
-          <span className="w-px h-3 bg-border/60" />
-          <span className="inline-flex items-center gap-1.5">
-            <Clock className="w-3 h-3 text-foreground/60" />
-            <span className="text-foreground/80 font-medium tabular-nums">{awaitingSignature}</span>
-            awaiting signature
-          </span>
-          <span className="w-px h-3 bg-border/60" />
-          <span className="inline-flex items-center gap-1.5">
-            <CheckCircle2 className="w-3 h-3 text-foreground/60" />
-            <span className="text-foreground/80 font-medium tabular-nums">{templates.length}</span>
-            ready to send
-          </span>
-        </div>
+        <Link
+          to="/track"
+          className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-medium text-primary hover:text-primary/80 transition-colors"
+        >
+          <Activity className="w-3.5 h-3.5" />
+          View live activity
+          <ArrowRight className="w-3 h-3" />
+        </Link>
       </motion.div>
 
       {/* Search — secondary */}
