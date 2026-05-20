@@ -85,19 +85,68 @@ export default function Transfer({ variant }: TransferProps = {}) {
     </div>
   );
 
+  const pageTitle = variant?.title ?? "Docsora Transfer — Send Large Files Instantly";
+  const pageDescription =
+    variant?.metaDescription ??
+    "Browser-native file delivery for creators, agencies, freelancers and teams. Send large files securely with tracking, branding and encryption.";
+  const canonicalPath = variant ? `/${variant.slug}` : "/transfer";
+  const h1 = variant?.h1 ?? "Send Large Files Instantly";
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: (variant?.faq ?? [
+      { question: "How do I send large files online?", answer: "Drop your files into the transfer card, choose link or email delivery, set an expiry and password, and Docsora generates a secure delivery link in seconds." },
+      { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, branding, encryption and workflow integration for modern teams." },
+      { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
+      { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
+    ]).map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Docsora", item: "/" },
+      { "@type": "ListItem", position: 2, name: "Transfer", item: "/transfer" },
+      ...(variant
+        ? [{ "@type": "ListItem", position: 3, name: variant.cardLabel ?? variant.h1, item: `/${variant.slug}` }]
+        : []),
+    ],
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Docsora Transfer",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    description: pageDescription,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+
   return (
     <AppLayout>
       <Helmet>
-        <title>{variant?.title ?? "Docsora Transfer — Send Large Files Securely"}</title>
-        <meta
-          name="description"
-          content={
-            variant?.metaDescription ??
-            "Browser-native large file transfer with tracking, branding and encrypted delivery for modern teams."
-          }
-        />
-        <link rel="canonical" href={variant ? `/${variant.slug}` : "/transfer"} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonicalPath} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalPath} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(softwareSchema)}</script>
       </Helmet>
+      <h1 className="sr-only">{h1}</h1>
       {isLoading ? (
         <div className="h-screen flex flex-col overflow-hidden">
           {renderUploadingState()}
