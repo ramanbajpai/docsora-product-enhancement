@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { Upload, ChevronDown, X, Plus, FileText, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { ConvertVariantConfig } from "@/data/convertVariants";
 
 interface FileData {
   name: string;
@@ -21,6 +22,7 @@ interface ConvertUploadProps {
   onFilesUploaded: (files: FileData[]) => void;
   onStartConvert?: (files: FileData[]) => void;
   files: FileData[];
+  variant?: ConvertVariantConfig;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC', 'PPTX', 'PPT', 'XLSX', 'XLS', 'HTML', 'TXT', 'XML', 'JPG', 'PNG', 'CSV', 'ODT'];
@@ -37,7 +39,23 @@ const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUploadProps) => {
+const ConvertUpload = ({ onFilesUploaded, onStartConvert, files, variant }: ConvertUploadProps) => {
+  const uploadTitle =
+    variant?.uploadTitle ??
+    (variant?.inputFormat && variant?.outputFormat
+      ? `Convert ${variant.inputFormat} to ${variant.outputFormat}`
+      : variant?.cardLabel
+        ? `Convert ${variant.cardLabel}`
+        : "Convert with confidence");
+  const uploadDescription =
+    variant?.uploadDescription ??
+    variant?.uploadSubheadline ??
+    variant?.intro ??
+    "Transform documents into the formats you need — fast, accurate, and secure.";
+  const ctaLabel = variant?.ctaLabel ?? "Choose Files";
+  const acceptAttr =
+    variant?.uploadAccept ??
+    ".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml";
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
