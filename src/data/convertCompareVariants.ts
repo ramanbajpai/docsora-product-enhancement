@@ -38,7 +38,6 @@ export const convertCompareVariants: CompareVariantConfig[] = [
     experience: [
       { feature: "Upload to download time", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
       { feature: "Account required", docsora: "No for standard files", competitor: "Required above limits" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
       { feature: "Mobile experience", docsora: "Responsive in browser", competitor: "Mobile app + web" },
     ],
     fileSupport: [
@@ -104,7 +103,6 @@ export const convertCompareVariants: CompareVariantConfig[] = [
     experience: [
       { feature: "Upload to download time", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
       { feature: "Account required", docsora: "No — free without signup", competitor: "Required for some features" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
       { feature: "Ads in free tier", docsora: "None", competitor: "Limited" },
     ],
     fileSupport: [
@@ -171,7 +169,6 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Setup time", docsora: "Zero — open and drop file", competitor: "Account / install required" },
       { feature: "Pricing", docsora: "Free for standard use", competitor: "Subscription for full features" },
       { feature: "Cross-device", docsora: "Any modern browser", competitor: "Web + desktop + mobile apps" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Enterprise-utility" },
     ],
     fileSupport: [
       { feature: "PDF ↔ Word", docsora: "Supported", competitor: "Supported" },
@@ -237,7 +234,6 @@ export const convertCompareVariants: CompareVariantConfig[] = [
       { feature: "Upload to download", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
       { feature: "Account required", docsora: "No for standard files", competitor: "Required above limits" },
       { feature: "Native integrations", docsora: "Storage, sign, track in-app", competitor: "API & integrations" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Developer-utility" },
     ],
     fileSupport: [
       { feature: "PDF ↔ Word", docsora: "Supported", competitor: "Supported" },

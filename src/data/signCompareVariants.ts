@@ -67,7 +67,6 @@ export const signCompareVariants: SignCompareVariantConfig[] = [
     ],
     security: baseSecurity("DocuSign"),
     experience: [
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Enterprise-utility" },
       { feature: "Signer experience", docsora: "Branded, minimal, fast", competitor: "Functional, multi-step" },
       { feature: "Mobile signing", docsora: "Native browser flow", competitor: "App + browser" },
       { feature: "Learning curve", docsora: "Near zero", competitor: "Moderate" },
@@ -130,7 +129,6 @@ export const signCompareVariants: SignCompareVariantConfig[] = [
     ],
     security: baseSecurity("PandaDoc"),
     experience: [
-      { feature: "Design language", docsora: "Premium, minimal", competitor: "Productivity-utility" },
       { feature: "Signer experience", docsora: "Branded, fast, focused", competitor: "Functional" },
       { feature: "Setup time", docsora: "Minutes", competitor: "Hours of template build-out" },
     ],
@@ -184,7 +182,6 @@ export const signCompareVariants: SignCompareVariantConfig[] = [
     ],
     security: baseSecurity("SignNow"),
     experience: [
-      { feature: "Design language", docsora: "Premium, minimal", competitor: "Utility-first" },
       { feature: "Signer UX", docsora: "Branded, focused", competitor: "Functional" },
       { feature: "Workspace breadth", docsora: "Sign + store + track + AI", competitor: "Signing primary" },
     ],
@@ -238,7 +235,6 @@ export const signCompareVariants: SignCompareVariantConfig[] = [
     ],
     security: baseSecurity("Dropbox Sign"),
     experience: [
-      { feature: "Design language", docsora: "Premium, minimal", competitor: "Clean, friendly" },
       { feature: "Signer UX", docsora: "Branded, focused", competitor: "Approachable" },
       { feature: "Workspace breadth", docsora: "Sign + store + track + AI", competitor: "Signing + storage" },
     ],
