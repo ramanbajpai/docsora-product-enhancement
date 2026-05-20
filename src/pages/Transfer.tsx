@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TransferLanding } from "@/components/transfer/TransferLanding";
 import { TransferSEO } from "@/components/transfer/TransferSEO";
-import type { TransferVariantConfig } from "@/components/transfer/transferVariants";
+import type { TransferVariantConfig } from "@/data/transferVariants";
 
 // Export types for other components that may need them
 export interface TransferFile {
