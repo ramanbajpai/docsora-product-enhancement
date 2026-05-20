@@ -130,10 +130,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">WeTransfer evolved</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Modern Teams Move to Docsora</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Operational delivery infrastructure for teams that ship work daily — not a generic upload utility.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files Without Limits</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Move videos, presentations, creative assets and business files securely from any browser. No failed uploads. No inbox limits.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {whyLeaveWeTransfer.map((item, i) => (
@@ -151,8 +151,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">One Workflow For Every Operational File Type</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From contracts to RAW video — one browser-native transfer layer for every file your team actually ships.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">One Workflow For Every File Type</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">From contracts to 8K video and RAW photography — one browser-native transfer layer for everything you actually send.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fileTypeGroups.map((g, i) => (
@@ -174,7 +174,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular Transfer Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Dedicated workspaces for the operational delivery workflows teams reach for most.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Dedicated landing pages for the file delivery workflows creators, freelancers and teams reach for most.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {transferVariants.slice(0, 12).map((tool, i) => (
@@ -198,8 +198,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Operational workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Modern Operational Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From creative agencies to finance teams — operational delivery for every team that ships work.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Built for Real File Sharing Workflows</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">From creators and freelancers to creative agencies and finance teams — modern file delivery for every workflow.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {operationalWorkflows.map((w, i) => (
@@ -215,8 +215,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Features */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Operational Transfer Features</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for operational reliability, recipient experience and workflow integration.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Professional File Delivery Features</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for reliability, recipient experience and collaborative workflows.</p>
           </motion.div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {features.map((f, i) => (
@@ -305,7 +305,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <BookOpen className="w-3 h-3 text-primary/80" />
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer guides</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Operational Transfer Knowledge</h2>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer Guides</h2>
               <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples — no generic AI filler.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -338,11 +338,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
               <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
-                Move operational work instantly.
+                Send Large Files Instantly.
                 <br className="hidden sm:block" />
-                <span className="text-foreground/70"> Across every file type, every team, every workflow.</span>
+                <span className="text-foreground/70"> Professional file delivery starts here.</span>
               </h2>
-              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Browser-native delivery. Tracked. Branded. Encrypted. Connected to signing and approvals.</p>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Branded. Built for modern file sharing — for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 <Upload className="w-4 h-4" />
