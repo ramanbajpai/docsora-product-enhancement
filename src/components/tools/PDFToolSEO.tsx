@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, HelpCircle, BookOpen, GitCompare, Upload, FileText,
+  Layers as LayersIcon, Check,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -85,7 +86,84 @@ export function PDFToolSEO({ variant }: PDFToolSEOProps) {
               </span>
             ))}
           </motion.div>
+          {variant.supportedDocTypes && variant.supportedDocTypes.length > 0 && (
+            <motion.div {...fadeUp} className="mt-8 max-w-3xl mx-auto text-center">
+              <p className="text-xs text-muted-foreground/70 mb-3">Optimized specifically for:</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {variant.supportedDocTypes.map((d) => (
+                  <span key={d} className="text-[11px] px-3 py-1.5 rounded-full bg-primary/5 border border-primary/15 text-foreground/85">
+                    {d}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </section>
+
+        {/* PROFESSIONAL EDITING FEATURES (optional) */}
+        {variant.editingFeatures && variant.editingFeatures.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Professional Editing Features</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Every capability modern document teams expect — in one premium browser-native surface.</p>
+            </motion.div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
+              {variant.editingFeatures.map((f, i) => (
+                <motion.div key={f} {...stagger} transition={{ ...stagger.transition, delay: i * 0.03 }} className="flex items-center gap-2 rounded-xl px-3.5 py-2.5 bg-card/40 border border-border/30">
+                  <Check className="w-3.5 h-3.5 text-primary/70 flex-shrink-0" />
+                  <span className="text-[12px] text-foreground/85 leading-snug">{f}</span>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* POPULAR WORKFLOW LINKS (optional) */}
+        {variant.workflowLinks && variant.workflowLinks.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular {variant.category} Workflows</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Jump straight into the specific workflow your team needs.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {variant.workflowLinks.map((w, i) => (
+                <motion.div key={w.slug} {...stagger} transition={{ ...stagger.transition, delay: i * 0.03 }}>
+                  <Link to={`/${w.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 hover:shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.25)] transition-all duration-300">
+                    <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{w.title}</h3>
+                    <p className="text-xs text-muted-foreground/80 leading-relaxed mb-3">{w.description}</p>
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-primary/70 group-hover:text-primary transition-colors">
+                      <span>Open workflow</span>
+                      <ArrowRight className="w-2.5 h-2.5 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* CROSS-LINKS — Connected workflows (optional) */}
+        {variant.crossLinks && variant.crossLinks.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Connected Document Workflows</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">One platform — every step of the document lifecycle.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+              {variant.crossLinks.map((c, i) => (
+                <motion.div key={c.slug} {...stagger} transition={{ ...stagger.transition, delay: i * 0.025 }}>
+                  <Link to={`/${c.slug}`} className="group block rounded-xl p-4 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <LayersIcon className="w-3 h-3 text-primary/60 group-hover:text-primary transition-colors" />
+                      <h3 className="text-[12px] font-semibold text-foreground group-hover:text-primary transition-colors">{c.title}</h3>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground/75 leading-relaxed">{c.description}</p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* WHY DOCSORA FEATURE GRID */}
         <section>
