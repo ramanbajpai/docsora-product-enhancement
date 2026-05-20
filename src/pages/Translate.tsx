@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TranslateModeSelector } from "@/components/translate/TranslateModeSelector";
 import { TranslateTextMode } from "@/components/translate/TranslateTextMode";
@@ -9,6 +10,8 @@ import { TranslateDualMode } from "@/components/translate/TranslateDualMode";
 import { TranslateSuccess } from "@/components/translate/TranslateSuccess";
 import { TranslateProcessing } from "@/components/translate/TranslateProcessing";
 import { UpgradeModal } from "@/components/translate/UpgradeModal";
+import { TranslateSEO } from "@/components/translate/TranslateSEO";
+import type { TranslateVariantConfig } from "@/data/translateVariants";
 
 export type TranslateMode = "text" | "document" | "dual";
 export type TranslateStage = "input" | "uploading" | "translating" | "success";
@@ -23,7 +26,11 @@ export interface TranslationResult {
   mode: TranslateMode;
 }
 
-const Translate = () => {
+interface TranslateProps {
+  variant?: TranslateVariantConfig;
+}
+
+const Translate = ({ variant }: TranslateProps = {}) => {
   const location = useLocation();
   const [mode, setMode] = useState<TranslateMode>("document");
   const [stage, setStage] = useState<TranslateStage>("input");
@@ -103,6 +110,36 @@ const Translate = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>
+          {variant
+            ? variant.title
+            : "Translate Documents Online — 75+ Languages | Docsora"}
+        </title>
+        <meta
+          name="description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Translate PDFs, Word, PowerPoint, HTML, and TXT documents into 75+ languages with formatting preserved. Free, secure, browser-based document translator."
+          }
+        />
+        <link rel="canonical" href={variant ? `/${variant.slug}` : "/translate"} />
+        <meta
+          property="og:title"
+          content={variant ? variant.title : "Translate Documents Online — Docsora"}
+        />
+        <meta
+          property="og:description"
+          content={
+            variant
+              ? variant.metaDescription
+              : "Whole-document translation in 75+ languages with formatting preserved."
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={variant ? `/${variant.slug}` : "/translate"} />
+      </Helmet>
       <div className="p-6 lg:p-8 min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -112,9 +149,11 @@ const Translate = () => {
           {/* Header - hide during translating and success */}
           {stage === "input" && (
             <div className="mb-8">
-              <h1 className="text-2xl font-semibold text-foreground mb-2">Translate</h1>
+              <h1 className="text-2xl font-semibold text-foreground mb-2">
+                {variant ? variant.h1 : "Translate"}
+              </h1>
               <p className="text-muted-foreground">
-                Enterprise-grade translation for documents and text
+                {variant ? variant.intro : "Enterprise-grade translation for documents and text"}
               </p>
             </div>
           )}
@@ -205,6 +244,9 @@ const Translate = () => {
           onClose={() => setShowUpgradeModal(false)} 
         />
       </div>
+
+      {/* Below-the-fold SEO ecosystem */}
+      {stage === "input" && <TranslateSEO variant={variant} />}
     </AppLayout>
   );
 };
