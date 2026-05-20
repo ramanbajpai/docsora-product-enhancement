@@ -357,7 +357,7 @@ export function PriorityActions() {
           <p className="text-sm text-muted-foreground mt-0.5">
             {allHandled
               ? "Docsora is handling everything for you"
-              : `${sortedActions.length} item${sortedActions.length !== 1 ? "s" : ""} — sign yourself, or let Docsora drive`}
+              : "Everything requiring attention — organized and ready in the dashboard"}
           </p>
         </div>
 
