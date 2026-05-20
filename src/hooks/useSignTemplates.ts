@@ -195,14 +195,14 @@ export function applyTemplateVariables(
   });
 }
 
-const STORAGE_KEY = "docsora.signTemplates.v3";
+const STORAGE_KEY = "docsora.signTemplates.v4";
 
 const SEED: SignTemplate[] = [
   {
     id: "seed-agency-client",
     name: "Agency Client Onboarding",
-    description: "Standard service agreement for new agency clients.",
-    category: "Client",
+    description: "MSA, NDA and pricing — sent, signed and filed in one motion.",
+    category: "Client Delivery",
     documentName: "agency-client-agreement.pdf",
     pageCount: 4,
     roles: [
@@ -268,8 +268,8 @@ const SEED: SignTemplate[] = [
   },
   {
     id: "seed-nda",
-    name: "Mutual NDA",
-    description: "Short mutual non-disclosure agreement for partners and prospects.",
+    name: "Mutual NDA Signing Workflow",
+    description: "Two-party NDA. Parallel signing, 7-day expiry, auto-reminders.",
     category: "Legal",
     documentName: "mutual-nda.pdf",
     pageCount: 2,
@@ -305,8 +305,8 @@ const SEED: SignTemplate[] = [
   },
   {
     id: "seed-offer-letter",
-    name: "Employment Offer Letter",
-    description: "Offer letter for new hires with HR and candidate signatures.",
+    name: "Employee Offer & Onboarding",
+    description: "HR drafts, candidate signs, hiring manager countersigns — in order.",
     category: "HR",
     documentName: "offer-letter.pdf",
     pageCount: 3,
