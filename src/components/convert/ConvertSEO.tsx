@@ -23,6 +23,7 @@ import {
   Globe2,
   BadgeCheck,
   Megaphone,
+  Scale,
   GitCompare,
   Briefcase,
   GraduationCap,
