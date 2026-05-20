@@ -1,8 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Rocket, Plus, Trash2, Calendar, Building2, Zap, Braces, Eye, ChevronDown, FileText, Layers } from "lucide-react";
+import {
+  X,
+  Rocket,
+  Plus,
+  Trash2,
+  ChevronDown,
+  FileText,
+  Layers,
+  PenLine,
+  CheckCircle2,
+  Eye,
+  Upload,
+  Sparkles,
+  Activity,
+  Link2,
+  ArrowUpRight,
+  Check,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -12,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Link as RouterLink } from "react-router-dom";
 import {
   SignTemplate,
   SignFieldType,
@@ -30,6 +50,15 @@ interface SignTemplateLaunchModalProps {
 
 type RoleRecipient = { roleKey: string; name: string; email: string };
 
+type DeliveryMode = "signature" | "approval" | "review" | "upload";
+
+const DELIVERY_MODES: { value: DeliveryMode; label: string; icon: typeof PenLine; hint: string }[] = [
+  { value: "signature", label: "Signature", icon: PenLine, hint: "Recipients sign the agreement" },
+  { value: "approval", label: "Approval", icon: CheckCircle2, hint: "Recipients approve — no signature" },
+  { value: "review", label: "Review only", icon: Eye, hint: "Read-only acknowledgement" },
+  { value: "upload", label: "Upload required", icon: Upload, hint: "Recipients return a file" },
+];
+
 export default function SignTemplateLaunchModal({
   template,
   open,
@@ -43,14 +72,21 @@ export default function SignTemplateLaunchModal({
   );
 
   const [recipients, setRecipients] = useState<RoleRecipient[]>([]);
-  const [company, setCompany] = useState("");
   const defaultExpiry = String(template?.defaults?.expiryDays ?? 14);
   const [expiry, setExpiry] = useState<string>(defaultExpiry);
   const [ccEmails, setCcEmails] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [senderConfirmed, setSenderConfirmed] = useState(false);
   const [variableValues, setVariableValues] = useState<Record<string, string>>({});
-  const [showPreview, setShowPreview] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [message, setMessage] = useState("");
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("signature");
+  const [autoRemind, setAutoRemind] = useState(true);
+  const [remindDays, setRemindDays] = useState("3");
+  const [notifyOnOpen, setNotifyOnOpen] = useState(true);
+  const [notifyOnComplete, setNotifyOnComplete] = useState(true);
+  const [sent, setSent] = useState(false);
+  const [sentLink, setSentLink] = useState("");
 
   const variables = template?.variables ?? [];
   const documentBody = template?.documentBody ?? "";
@@ -98,7 +134,6 @@ export default function SignTemplateLaunchModal({
   useEffect(() => {
     if (!template) return;
     setRecipients(recipientRoles.map((r) => ({ roleKey: r.key, name: "", email: "" })));
-    setCompany("");
     setExpiry(String(template.defaults?.expiryDays ?? 14));
     setCcEmails([]);
     setSenderConfirmed(false);
@@ -107,7 +142,15 @@ export default function SignTemplateLaunchModal({
       if (v.defaultValue) seed[v.name] = v.defaultValue;
     });
     setVariableValues(seed);
-    setShowPreview(false);
+    setShowAdvanced(false);
+    setMessage("");
+    setDeliveryMode("signature");
+    setAutoRemind(true);
+    setRemindDays("3");
+    setNotifyOnOpen(true);
+    setNotifyOnComplete(true);
+    setSent(false);
+    setSentLink("");
   }, [template, recipientRoles]);
 
   if (!template) return null;
@@ -194,11 +237,13 @@ export default function SignTemplateLaunchModal({
       });
     }
     setSubmitting(false);
+    const link = `https://docsora.app/s/${template.id.slice(0, 6)}-${Math.random().toString(36).slice(2, 8)}`;
+    setSentLink(link);
+    setSent(true);
     toast.success(isPackage ? "Signing package sent" : "Agreement sent", {
       description: `${personalizedPackageTitle} is on its way to ${recipients[0]?.name || "recipient"}.`,
     });
     onLaunched?.();
-    onOpenChange(false);
   };
 
   return (
