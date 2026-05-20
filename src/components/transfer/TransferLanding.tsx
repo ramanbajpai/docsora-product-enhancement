@@ -9,6 +9,7 @@ import { TransferSuccess } from "./TransferSuccess";
 import { TransferConfigure } from "./TransferConfigure";
 import { TransferFile, TransferSettings as TransferSettingsType } from "@/pages/Transfer";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { TransferVariantConfig } from "@/data/transferVariants";
 
 interface QueuedFile {
   id: string;
