@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { getToolConfig, ToolConfig } from "@/components/tools/toolConfig";
+import { pdfToolVariantByToolId } from "@/data/pdfToolVariants";
 import { LayoutGrid, Check, Zap } from "lucide-react";
 import { FlowIcon } from "@/components/icons/FlowIcon";
 
