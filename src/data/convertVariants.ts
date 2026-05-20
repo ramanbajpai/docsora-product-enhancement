@@ -693,6 +693,11 @@ const buildPair = (s: PairSpec): ConvertVariantConfig => ({
   uploadHeadline: `Upload your ${s.uploadLabel}`,
   uploadAccept: s.accept,
   faq: [{ question: s.faqQ, answer: s.faqA }],
+  uploadTitle: `Convert ${s.from} to ${s.to}`,
+  uploadDescription: `Upload your ${s.uploadLabel} and convert it into ${s.to} format — secure, browser-based, formatting preserved.`,
+  ctaLabel: `Convert ${s.from} to ${s.to}`,
+  inputFormat: s.from,
+  outputFormat: s.to,
 });
 
 const pairVariants: ConvertVariantConfig[] = [
