@@ -12,6 +12,7 @@ import TemplateBuilder from "./pages/TemplateBuilder";
 import ActiveFlow from "./pages/ActiveFlow";
 import AICheck from "./pages/AICheck";
 import AICheckVariant from "./pages/AICheckVariant";
+import AICheckGuide from "./pages/AICheckGuide";
 import AICompareLanding from "./pages/AICompareLanding";
 import Compress from "./pages/Compress";
 import CompressVariant from "./pages/CompressVariant";
@@ -63,6 +64,19 @@ const App = () => (
             <Route path="/proofread-pdf" element={<AICheckVariant />} />
             <Route path="/ai-writing-assistant" element={<AICheckVariant />} />
             <Route path="/review-contract-language" element={<AICheckVariant />} />
+            {/* AI Check — sentence enhancement / rewriting workflows */}
+            <Route path="/sentence-enhancer" element={<AICheckVariant />} />
+            <Route path="/improve-sentence-clarity" element={<AICheckVariant />} />
+            <Route path="/rewrite-business-sentences" element={<AICheckVariant />} />
+            <Route path="/improve-writing-flow" element={<AICheckVariant />} />
+            <Route path="/rewrite-awkward-sentences" element={<AICheckVariant />} />
+            <Route path="/improve-executive-writing" element={<AICheckVariant />} />
+            <Route path="/sentence-rewriter" element={<AICheckVariant />} />
+            <Route path="/clarity-improver" element={<AICheckVariant />} />
+            <Route path="/improve-document-readability" element={<AICheckVariant />} />
+            <Route path="/improve-professional-writing" element={<AICheckVariant />} />
+            {/* AI Check — guides */}
+            <Route path="/ai-guides/:slug" element={<AICheckGuide />} />
             <Route path="/improve-business-writing" element={<AICheckVariant />} />
             <Route path="/proofread-presentations" element={<AICheckVariant />} />
             <Route path="/check-document-for-errors" element={<AICheckVariant />} />
