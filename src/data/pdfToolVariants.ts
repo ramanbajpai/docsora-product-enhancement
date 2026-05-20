@@ -8,6 +8,8 @@ export interface PDFToolFAQ { question: string; answer: string }
 export interface PDFToolGuide { title: string; description: string }
 export interface PDFToolUseCase { title: string; description: string }
 export interface PDFToolFeature { title: string; description: string }
+export interface PDFToolWorkflowLink { slug: string; title: string; description: string }
+export interface PDFToolCrossLink { slug: string; title: string; description: string }
 
 export interface PDFToolVariant {
   slug: string;
@@ -29,6 +31,11 @@ export interface PDFToolVariant {
   aiQuestions: PDFToolFAQ[];
   guides: PDFToolGuide[];
   acceptedFormats: string[];
+  // Optional richer SEO sections — only populated where deep ecosystems exist (e.g. edit-pdf).
+  editingFeatures?: string[];
+  supportedDocTypes?: string[];
+  workflowLinks?: PDFToolWorkflowLink[];
+  crossLinks?: PDFToolCrossLink[];
 }
 
 const universalFormats = ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'];
