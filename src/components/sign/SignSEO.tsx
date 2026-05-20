@@ -41,6 +41,7 @@ import {
 import { cn } from "@/lib/utils";
 import { signVariants, type SignVariantConfig } from "@/data/signVariants";
 import { signCompareVariants } from "@/data/signCompareVariants";
+import { GitCompare } from "lucide-react";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
