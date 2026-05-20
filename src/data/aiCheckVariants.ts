@@ -20,6 +20,7 @@ import {
   Library,
   FileSignature,
   TrendingUp,
+  GraduationCap,
 } from "lucide-react";
 
 export interface AICheckVariantConfig {
