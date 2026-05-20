@@ -71,9 +71,8 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
           Launch workflows in seconds
         </h1>
-        <p className="text-sm text-muted-foreground mt-1.5 max-w-xl">
-          Preconfigured recipients, fields and actions. Reuse your most common workflows
-          instantly — no rebuilding, no copy-paste, no setup.
+        <p className="text-sm text-muted-foreground mt-1.5 max-w-md">
+          Configured once. Send forever. Just add a name and email.
         </p>
 
         <Link
