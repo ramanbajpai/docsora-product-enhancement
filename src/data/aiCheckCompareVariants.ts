@@ -83,11 +83,6 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
     ],
     faq: [
       {
-        question: "Is Docsora a free Grammarly alternative?",
-        answer:
-          "Yes. Docsora AI Check offers free browser-based proofreading for business documents - including PDF, Word and PowerPoint - without an account for standard documents.",
-      },
-      {
         question: "Does Docsora review PDFs and slides like Grammarly?",
         answer:
           "Docsora reviews PDFs and PowerPoint decks natively as uploaded files, which Grammarly's extension-based model handles less directly. Suggestions appear in a structured side-by-side review.",
