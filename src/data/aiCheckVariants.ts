@@ -798,6 +798,376 @@ export const aiCheckVariants: AICheckVariantConfig[] = [
       },
     ],
   },
+  {
+    slug: "sentence-enhancer",
+    title: "AI Sentence Enhancer | Refine Sentences for Clarity & Tone | Docsora",
+    metaDescription:
+      "An AI sentence enhancer for business writing — tighten phrasing, sharpen tone and improve flow without changing meaning. Built for reports, proposals and decks.",
+    h1: "AI Sentence Enhancer for Business Writing",
+    intro:
+      "Refine every sentence with editorial AI tuned for business documents — clarity, concision and tone, without flattening voice.",
+    keyword: "sentence enhancer",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Wand2,
+    cardLabel: "Sentence Enhancer",
+    cardDescription:
+      "Sentence-level editorial AI for business documents — clarity, tone and flow.",
+    longCopy:
+      "Docsora's sentence enhancer rewrites individual sentences for clarity, concision and tone while preserving meaning. It surfaces wordy constructions, passive voice, ambiguous phrasing and tone drift, then proposes cleaner alternatives inline — so every paragraph reads with the precision of a senior editor.",
+    useCases: [
+      "Tighten executive summaries",
+      "Rewrite passive voice into active",
+      "Smooth awkward transitions",
+      "Sharpen pitch and proposal language",
+      "Align tone across long documents",
+      "Refine customer-facing copy",
+    ],
+    faq: [
+      {
+        question: "Does the sentence enhancer change meaning?",
+        answer:
+          "No. Suggestions preserve intent and factual content. The enhancer focuses on word choice, structure and flow — reviewers accept or reject every change inline.",
+      },
+      {
+        question: "How is this different from a grammar checker?",
+        answer:
+          "A grammar checker fixes mechanical errors. The sentence enhancer rewrites for clarity, concision and tone — the editorial layer that makes professional documents read cleanly end to end.",
+      },
+    ],
+  },
+  {
+    slug: "improve-sentence-clarity",
+    title: "Improve Sentence Clarity Online with AI | Docsora",
+    metaDescription:
+      "Improve sentence clarity in business documents with AI editorial review — remove ambiguity, tighten phrasing and sharpen meaning across reports and proposals.",
+    h1: "Improve Sentence Clarity Across Business Documents",
+    intro:
+      "Surface every ambiguous, wordy or unclear sentence in a document and propose a cleaner alternative — without changing meaning.",
+    keyword: "improve sentence clarity",
+    acceptedFormats: "PDF · DOC · DOCX · TXT · HTML",
+    cardIcon: Sparkle,
+    cardLabel: "Improve Sentence Clarity",
+    cardDescription:
+      "AI editorial pass focused on clarity — remove ambiguity and tighten phrasing.",
+    longCopy:
+      "Docsora analyses business documents sentence by sentence for clarity gaps — ambiguous references, hedged language, overloaded constructions and weak emphasis. Each suggestion is surfaced inline with the original sentence so reviewers can sharpen meaning without flattening voice.",
+    useCases: [
+      "Sharpen reports for executive audiences",
+      "Remove ambiguity in proposals",
+      "Clarify operational documentation",
+      "Tighten policy and compliance memos",
+      "Improve onboarding material readability",
+      "Polish client deliverables",
+    ],
+    faq: [
+      {
+        question: "What counts as a clarity issue?",
+        answer:
+          "Ambiguous references, overloaded sentences, hedged or vague phrasing, weak emphasis and structurally complex constructions that obscure meaning. Each is surfaced with severity so reviewers triage by impact.",
+      },
+      {
+        question: "Will it rewrite my entire document?",
+        answer:
+          "No. Suggestions appear sentence by sentence. Reviewers accept individual rewrites, reject ones that miss context, or apply only the high-confidence clarity fixes in one click.",
+      },
+    ],
+  },
+  {
+    slug: "rewrite-business-sentences",
+    title: "Rewrite Business Sentences with AI | Editorial Rewriter | Docsora",
+    metaDescription:
+      "Rewrite awkward business sentences with editorial AI — sharper phrasing, professional tone and stronger flow across reports, proposals and memos.",
+    h1: "Rewrite Business Sentences for Clarity and Tone",
+    intro:
+      "Editorial rewriter for business documents — replace awkward phrasing with cleaner alternatives, sentence by sentence.",
+    keyword: "rewrite business sentences",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Pencil,
+    cardLabel: "Rewrite Business Sentences",
+    cardDescription:
+      "AI rewriter for business writing — clean phrasing, professional tone, sharper flow.",
+    longCopy:
+      "Docsora's editorial rewriter targets the awkward, overloaded or imprecise sentences that quietly weaken business writing. Each rewrite preserves meaning while sharpening phrasing, smoothing flow and aligning tone with the document's audience.",
+    useCases: [
+      "Rewrite weak openings in proposals",
+      "Smooth awkward transitions in reports",
+      "Tighten verbose executive prose",
+      "Polish operational documentation",
+      "Refine email templates and one-pagers",
+      "Sharpen partner and investor commentary",
+    ],
+    faq: [
+      {
+        question: "Does the rewriter change my voice?",
+        answer:
+          "Only if you accept suggestions that change voice. The rewriter is designed to sharpen phrasing, not flatten it — reject any rewrite that loses the document's tone.",
+      },
+      {
+        question: "Can I rewrite a single paragraph?",
+        answer:
+          "Yes. Paste a paragraph or upload the full document. Suggestions appear sentence by sentence in either flow.",
+      },
+    ],
+  },
+  {
+    slug: "improve-writing-flow",
+    title: "Improve Writing Flow with AI | Document Flow Review | Docsora",
+    metaDescription:
+      "Improve writing flow across business documents with AI — smoother transitions, stronger paragraph structure and tighter narrative arc.",
+    h1: "Improve Writing Flow Across Business Documents",
+    intro:
+      "An editorial review focused on flow — paragraph transitions, sentence rhythm and narrative arc across long documents.",
+    keyword: "improve writing flow",
+    acceptedFormats: "PDF · DOC · DOCX · TXT · HTML",
+    cardIcon: AlignLeft,
+    cardLabel: "Improve Writing Flow",
+    cardDescription:
+      "Editorial review for paragraph transitions, sentence rhythm and narrative flow.",
+    longCopy:
+      "Docsora reviews documents for flow — the paragraph transitions, sentence rhythm and structural arc that make long documents readable end to end. Issues are surfaced section by section so reviewers can fix the connective tissue without rewriting the substance.",
+    useCases: [
+      "Smooth transitions in long reports",
+      "Strengthen narrative in proposals",
+      "Fix abrupt section breaks",
+      "Improve readability of whitepapers",
+      "Tighten flow in board memos",
+      "Refine training material structure",
+    ],
+    faq: [
+      {
+        question: "What does a flow review surface?",
+        answer:
+          "Weak transitions between paragraphs, repetitive sentence rhythm, sections that restart rather than build, and structural moves that lose the reader. Each is flagged inline with a recommended fix.",
+      },
+      {
+        question: "Does it work on long documents?",
+        answer:
+          "Yes. Whole-document review handles long reports without chunking, which is essential for catching structural flow issues that span sections.",
+      },
+    ],
+  },
+  {
+    slug: "rewrite-awkward-sentences",
+    title: "Rewrite Awkward Sentences with AI | Sentence Rewriter | Docsora",
+    metaDescription:
+      "Rewrite awkward sentences with AI editorial review — cleaner phrasing, stronger structure and professional tone without changing meaning.",
+    h1: "Rewrite Awkward Sentences with Editorial AI",
+    intro:
+      "Find every awkward, overloaded or hedged sentence in a document and replace it with a clean alternative.",
+    keyword: "rewrite awkward sentences",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: WandSparkles,
+    cardLabel: "Rewrite Awkward Sentences",
+    cardDescription:
+      "Editorial AI for awkward phrasing — cleaner structure, sharper tone.",
+    longCopy:
+      "Docsora identifies the awkward sentences that quietly slow down business writing — overloaded subordinate clauses, ambiguous pronouns, hedged commitments, double negatives — and proposes cleaner alternatives inline. Meaning is preserved; phrasing is sharpened.",
+    useCases: [
+      "Clean overloaded executive prose",
+      "Tighten investor commentary",
+      "Sharpen RFP responses",
+      "Polish customer-facing copy",
+      "Rewrite hedged risk language",
+      "Refine policy and compliance memos",
+    ],
+    faq: [
+      {
+        question: "What makes a sentence 'awkward'?",
+        answer:
+          "Overloaded clause structures, ambiguous references, mismatched register, hedged commitments and unnatural phrasing. Editorial AI flags each and proposes a cleaner alternative without altering meaning.",
+      },
+      {
+        question: "Is this safe for legal documents?",
+        answer:
+          "Editorial review on legal documents focuses on language clarity, not legal substance. Substantive legal review by qualified counsel remains essential.",
+      },
+    ],
+  },
+  {
+    slug: "improve-executive-writing",
+    title: "Improve Executive Writing with AI | Editorial Review | Docsora",
+    metaDescription:
+      "Improve executive writing with AI editorial review — sharper tone, tighter phrasing and stronger structure for memos, board reports and CEO communications.",
+    h1: "Improve Executive Writing with Editorial AI",
+    intro:
+      "An editorial layer for executive memos, board commentary and CEO communications — tighter language, sharper tone, stronger structure.",
+    keyword: "improve executive writing",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Pen,
+    cardLabel: "Improve Executive Writing",
+    cardDescription:
+      "Editorial AI for executive memos, CEO updates and board commentary.",
+    longCopy:
+      "Docsora reviews executive writing the way a chief of staff would — tightening phrasing, sharpening tone, removing throat-clearing and aligning terminology across sections. Designed for documents that go to boards, investors and senior audiences.",
+    useCases: [
+      "Sharpen CEO memos and updates",
+      "Tighten board commentary",
+      "Refine investor narrative",
+      "Polish strategy memos",
+      "Improve all-hands talking points",
+      "Align tone across executive briefings",
+    ],
+    faq: [
+      {
+        question: "What does 'executive tone' mean here?",
+        answer:
+          "Direct, concrete, low on hedging, structured by claim and evidence. Docsora's executive tone preset surfaces softening, hedging and indirect constructions that weaken senior writing.",
+      },
+      {
+        question: "Is it secure for confidential executive material?",
+        answer:
+          "Yes. Uploads travel over TLS, documents are processed in an isolated environment, deleted after analysis and never used to train models. Operated under ISO 27001 controls aligned with SOC 2 and GDPR.",
+      },
+    ],
+  },
+  {
+    slug: "sentence-rewriter",
+    title: "AI Sentence Rewriter for Business Writing | Docsora",
+    metaDescription:
+      "An AI sentence rewriter for business documents — clean phrasing, sharper tone and stronger flow without changing meaning. Free, browser-based, secure.",
+    h1: "AI Sentence Rewriter for Business Writing",
+    intro:
+      "Rewrite any sentence for clarity, concision and tone — sentence by sentence, with meaning preserved.",
+    keyword: "sentence rewriter",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Pilcrow,
+    cardLabel: "Sentence Rewriter",
+    cardDescription:
+      "AI rewriter for individual sentences — clarity, concision, tone.",
+    longCopy:
+      "Docsora's AI sentence rewriter targets individual sentences inside business documents — proposals, reports, memos, contracts — and proposes cleaner phrasing without changing meaning. Built for editorial workflows, not generic paraphrasing.",
+    useCases: [
+      "Rewrite weak opening sentences",
+      "Sharpen calls to action",
+      "Tighten verbose paragraphs",
+      "Refine pitch and positioning lines",
+      "Polish executive bullets",
+      "Clean up first drafts",
+    ],
+    faq: [
+      {
+        question: "How is this different from a paraphrasing tool?",
+        answer:
+          "Paraphrasing tools rephrase for novelty. Docsora's rewriter is editorial — it sharpens phrasing for clarity, concision and tone while preserving meaning, designed for business documents rather than content rewriting.",
+      },
+      {
+        question: "Can I rewrite individual sentences inline?",
+        answer:
+          "Yes. Suggestions surface sentence by sentence so reviewers accept individual rewrites, reject ones that miss context, or apply only high-confidence improvements.",
+      },
+    ],
+  },
+  {
+    slug: "clarity-improver",
+    title: "AI Clarity Improver for Documents | Docsora",
+    metaDescription:
+      "Improve clarity across business documents with AI — remove ambiguity, tighten phrasing and sharpen meaning across reports, proposals and contracts.",
+    h1: "AI Clarity Improver for Business Documents",
+    intro:
+      "Identify every clarity gap in a document — ambiguity, hedging, overloaded phrasing — and propose a cleaner alternative inline.",
+    keyword: "clarity improver",
+    acceptedFormats: "PDF · DOC · DOCX · TXT · HTML",
+    cardIcon: Lightbulb,
+    cardLabel: "Clarity Improver",
+    cardDescription:
+      "AI editorial pass focused on clarity — ambiguity, hedging, overload.",
+    longCopy:
+      "Docsora's clarity improver runs a focused editorial pass that surfaces ambiguous references, hedged commitments, overloaded sentences and weak emphasis — the patterns that quietly erode trust in business documents. Each suggestion is inline with the original phrasing.",
+    useCases: [
+      "Remove ambiguity from contracts",
+      "Tighten hedged risk language",
+      "Sharpen recommendation memos",
+      "Improve clarity in board packs",
+      "Clean overloaded analytics commentary",
+      "Strengthen RFP win themes",
+    ],
+    faq: [
+      {
+        question: "What clarity issues does it catch?",
+        answer:
+          "Ambiguous pronouns and references, hedged commitments, overloaded constructions, weak emphasis and structurally complex sentences. Each is flagged inline with a cleaner alternative.",
+      },
+      {
+        question: "Does it preserve technical accuracy?",
+        answer:
+          "Yes. The clarity layer focuses on phrasing, not substance. Technical content, defined terms and numerical facts remain untouched.",
+      },
+    ],
+  },
+  {
+    slug: "improve-document-readability",
+    title: "Improve Document Readability with AI | Docsora",
+    metaDescription:
+      "Improve readability across business documents with AI editorial review — sentence flow, paragraph structure and audience-appropriate tone.",
+    h1: "Improve Document Readability with Editorial AI",
+    intro:
+      "A document-level readability pass — sentence length, paragraph rhythm, transitions and tone calibrated to the audience.",
+    keyword: "improve document readability",
+    acceptedFormats: "PDF · DOC · DOCX · TXT · HTML",
+    cardIcon: BookOpen,
+    cardLabel: "Improve Document Readability",
+    cardDescription:
+      "AI editorial pass for readability — sentence flow, structure and tone.",
+    longCopy:
+      "Docsora analyses business documents for readability — sentence length variation, paragraph rhythm, transitions and tone calibration. Suggestions appear inline so reviewers improve readability without losing voice or substance.",
+    useCases: [
+      "Improve readability of long reports",
+      "Calibrate tone for executive audiences",
+      "Tighten dense operational handbooks",
+      "Polish whitepapers for prospects",
+      "Sharpen training and enablement docs",
+      "Refine investor narrative arcs",
+    ],
+    faq: [
+      {
+        question: "Does it use a readability score?",
+        answer:
+          "Readability is treated as a pattern set, not a single score. The editorial pass surfaces sentence rhythm, paragraph structure and tone calibration issues directly — more useful than a single number.",
+      },
+      {
+        question: "Will my voice survive the pass?",
+        answer:
+          "Yes. The readability pass sharpens structure and rhythm; voice belongs to the author. Reject any suggestion that flattens tone.",
+      },
+    ],
+  },
+  {
+    slug: "improve-professional-writing",
+    title: "Improve Professional Writing with AI | Editorial Review | Docsora",
+    metaDescription:
+      "Improve professional writing with AI editorial review for tone, clarity and structure across reports, proposals, contracts and decks.",
+    h1: "Improve Professional Writing with Editorial AI",
+    intro:
+      "An editorial AI tuned for the documents professional teams send — reports, proposals, contracts and decks — not student essays.",
+    keyword: "improve professional writing",
+    acceptedFormats: "PDF · DOC · DOCX · ODT · HTML · PPT · PPTX",
+    cardIcon: Feather,
+    cardLabel: "Improve Professional Writing",
+    cardDescription:
+      "Editorial AI for the documents professional teams actually send.",
+    longCopy:
+      "Docsora is engineered for professional writing workflows — tone, structure and clarity across reports, proposals, contracts, memos and decks. It treats each document as an editorial object, not a stream of sentences, surfacing the patterns that matter at the document level.",
+    useCases: [
+      "Sharpen executive reports",
+      "Tighten enterprise proposals",
+      "Polish board and investor decks",
+      "Refine contract language",
+      "Improve client deliverables",
+      "Standardise operational documentation",
+    ],
+    faq: [
+      {
+        question: "What makes this 'professional' editorial AI?",
+        answer:
+          "Tone, structure and consistency are weighed alongside grammar. Tone presets (executive, legal, simple, marketing) match the audience, and review is document-level rather than sentence-level — built for documents that go to boards, clients and regulators.",
+      },
+      {
+        question: "Is it secure for confidential business documents?",
+        answer:
+          "Yes. Uploads travel over TLS, documents are processed in an isolated environment, deleted after analysis and never used to train models. Operated under ISO 27001 controls aligned with SOC 2 and GDPR.",
+      },
+    ],
+  },
 ];
 
 export const aiCheckVariantBySlug = Object.fromEntries(
