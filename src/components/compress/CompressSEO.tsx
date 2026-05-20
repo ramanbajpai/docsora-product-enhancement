@@ -155,7 +155,7 @@ const faqs = [
   {
     question: "How do I compress file size online?",
     answer:
-      "Drop any document, image, or spreadsheet into the upload area above and Docsora reduces file size directly in your browser using intelligent, format-aware optimization. Our free online file compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more - typically reducing file size by 60–90% in seconds with no installation, account, or technical setup. It's a browser-based compressor designed to feel as polished as a desktop app while running entirely in a secure browser tab.",
+      "Drop any document, image, or spreadsheet into the upload area above and Docsora reduces file size directly in your browser using intelligent, format-aware optimization. The browser-based compressor handles PDF, DOCX, PPTX, XLSX, JPG, PNG, and more - typically reducing file size by 60–80% in seconds with no installation, account, or technical setup. A modern in-browser workflow engineered to feel as polished as a desktop app while running entirely in a secure browser tab.",
   },
   {
     question: "Can I compress files without losing quality?",
@@ -521,7 +521,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
-                  Online · Free · Secure
+                  Browser-based · Secure · Instant
                 </span>
               </div>
               <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-4">
@@ -734,7 +734,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
               Format-specific compressors for the files your team sends every
-              day - all free, online, and browser-based.
+              day - browser-based, secure, and workflow-ready.
             </p>
           </motion.div>
 
