@@ -112,7 +112,7 @@ const intentCards = [
       "Sharpen tone, clarity and structure across reports, proposals and internal comms.",
   },
   {
-    slug: "check-contract-language",
+    slug: "review-contract-language",
     icon: Scale,
     title: "Proofread Contracts",
     description:
@@ -265,7 +265,7 @@ const popularToolSlugs = [
   "proofread-pdf",
   "document-proofreader",
   "ai-writing-assistant",
-  "check-contract-language",
+  "review-contract-language",
   "improve-business-writing",
   "proofread-presentations",
   "professional-writing-checker",
@@ -285,7 +285,7 @@ const workflowIntents = [
 const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "document-proofreader", label: "Document proofreader", intent: "Editorial review for board packs and contracts." },
   { slug: "proofread-pdf", label: "Proofread PDF online", intent: "Native PDF review with inline editorial suggestions." },
-  { slug: "check-contract-language", label: "Review contract language", intent: "Editorial pass for legal and compliance teams." },
+  { slug: "review-contract-language", label: "Review contract language", intent: "Editorial pass for legal and compliance teams." },
   { slug: "proofread-presentations", label: "Proofread presentations", intent: "Slide-by-slide deck review for executives and clients." },
   { slug: "improve-business-writing", label: "Improve business writing", intent: "Editorial AI for reports, proposals and memos." },
   { slug: "professional-writing-checker", label: "Professional writing checker", intent: "Tone-aware review for executive documents." },
