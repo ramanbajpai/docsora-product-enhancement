@@ -131,7 +131,7 @@ export const compareVariants: CompareVariantConfig[] = [
       { feature: "Automatic file deletion", docsora: "After processing", competitor: "After 2 hours" },
       { feature: "GDPR aligned", docsora: "Yes", competitor: "Yes" },
       { feature: "ISO 27001 controls", docsora: "Aligned", competitor: "Yes" },
-      { feature: "SOC 2 aligned", docsora: "Aligned", competitor: "Partial" },
+      { feature: "SOC 2 aligned", docsora: "Aligned", competitor: "No" },
     ],
     experience: [
       { feature: "Upload to result time", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
