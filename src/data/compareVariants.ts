@@ -67,7 +67,6 @@ export const compareVariants: CompareVariantConfig[] = [
       { feature: "Upload to result time", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
       { feature: "Ads in free tier", docsora: "None", competitor: "Limited" },
       { feature: "Account required", docsora: "No - free without signup", competitor: "Required for some features" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
     ],
     fileSupport: [
       { feature: "PDF / DOC / DOCX", docsora: "Supported", competitor: "Supported" },
