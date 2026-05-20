@@ -22,6 +22,18 @@ import {
   TrendingUp,
   GraduationCap,
 } from "lucide-react";
+import {
+  Wand2,
+  WandSparkles,
+  Sparkle,
+  Pilcrow,
+  AlignLeft,
+  Lightbulb,
+  Pencil,
+  Pen,
+  BookOpen,
+  Feather,
+} from "lucide-react";
 
 export interface AICheckVariantConfig {
   slug: string; // route path (without leading slash)
