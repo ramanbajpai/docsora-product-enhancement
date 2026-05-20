@@ -12,6 +12,16 @@ import {
   FileSearch,
   BookOpenCheck,
 } from "lucide-react";
+import {
+  Building2,
+  ClipboardCheck,
+  Users,
+  Handshake,
+  Library,
+  FileSignature,
+  TrendingUp,
+  GraduationCap,
+} from "lucide-react";
 
 export interface AICheckVariantConfig {
   slug: string; // route path (without leading slash)
@@ -440,6 +450,302 @@ export const aiCheckVariants: AICheckVariantConfig[] = [
         question: "How is this different from a generic grammar tool?",
         answer:
           "Generic grammar tools focus on sentence-level correctness. Docsora operates at the document level - tracking tone across sections, surfacing ambiguous contract language, and respecting the format and structure of business reports, slide decks and PDFs.",
+      },
+    ],
+  },
+  {
+    slug: "review-board-reports",
+    title: "Review Board Reports with AI | Editorial Audit | Docsora",
+    metaDescription:
+      "Run a final editorial pass on board reports, executive summaries and quarterly memos. AI-powered grammar, tone and clarity review for board-grade documents.",
+    h1: "Review Board Reports with Editorial AI",
+    intro:
+      "An editorial layer for board packs, executive summaries and quarterly memos - before they reach directors.",
+    keyword: "review board reports",
+    acceptedFormats: "PDF · DOC · DOCX · PPT · PPTX",
+    cardIcon: Building2,
+    cardLabel: "Review Board Reports",
+    cardDescription:
+      "Editorial review for board packs, exec summaries and quarterly memos.",
+    longCopy:
+      "Docsora reviews board reports, exec summaries and quarterly updates the way a chief of staff would - tightening tone, flagging inconsistent terminology, and surfacing structural clarity gaps before the document reaches the board. Built for finance, operations and CEO offices preparing audit-grade material under deadline.",
+    useCases: [
+      "Final pass on quarterly board packs",
+      "Tighten exec summaries before distribution",
+      "Audit financial commentary for clarity",
+      "Align terminology across sections",
+      "Sharpen risk and compliance language",
+      "Polish CEO and CFO commentary",
+    ],
+    faq: [
+      {
+        question: "Can Docsora review confidential board reports?",
+        answer:
+          "Yes. Uploads run over TLS, documents are deleted after analysis, and Docsora operates under ISO 27001 controls aligned with SOC 2 and GDPR. Finance and operations teams use it for pre-board reviews precisely because content never leaves the review environment or trains models.",
+      },
+      {
+        question: "What does an editorial AI catch on a board report?",
+        answer:
+          "Grammar and spelling, but also tone misalignment, inconsistent terminology across sections, ambiguous risk language, weak transitions, and structural clarity gaps - the issues that erode credibility with directors when the document is read end-to-end.",
+      },
+    ],
+  },
+  {
+    slug: "proofread-investor-updates",
+    title: "Proofread Investor Updates with AI | Docsora AI Check",
+    metaDescription:
+      "Polish investor updates, shareholder letters and partner memos with AI-powered grammar, tone and clarity review. Built for founder and IR teams.",
+    h1: "Proofread Investor Updates with AI",
+    intro:
+      "An editorial review layer for monthly investor updates, shareholder letters and partner memos - before they hit inboxes.",
+    keyword: "proofread investor updates",
+    acceptedFormats: "PDF · DOC · DOCX · TXT · HTML",
+    cardIcon: TrendingUp,
+    cardLabel: "Proofread Investor Updates",
+    cardDescription:
+      "AI review for investor updates, shareholder letters and partner memos.",
+    longCopy:
+      "Docsora's editorial AI reviews investor communications for the things investors notice first - inconsistent metrics, ambiguous commentary, weak narrative flow and tone drift between sections. Ideal for founder offices, IR teams and portfolio managers sending monthly updates, year-in-review letters and partner memos.",
+    useCases: [
+      "Monthly investor updates",
+      "Year-in-review shareholder letters",
+      "Fundraising commentary",
+      "Quarterly portfolio memos",
+      "Acquisition announcements",
+      "Strategic narrative drafts",
+    ],
+    faq: [
+      {
+        question: "Can I proofread an investor update online?",
+        answer:
+          "Yes. Drop a draft into Docsora AI Check - in PDF, DOC, DOCX, TXT or HTML - and the editorial AI reviews tone, clarity and consistency. The executive tone preset is calibrated for IR and shareholder communications.",
+      },
+      {
+        question: "Is content kept private?",
+        answer:
+          "Yes. Documents are processed inside an isolated review environment, encrypted in transit, deleted after analysis and never used for training. Standard for founder offices and IR teams.",
+      },
+    ],
+  },
+  {
+    slug: "audit-compliance-documentation",
+    title: "Audit Compliance Documentation with AI | Docsora AI Check",
+    metaDescription:
+      "Audit compliance documentation, regulatory filings and policy memos for clarity, ambiguity and terminology consistency with AI-powered review.",
+    h1: "Audit Compliance Documentation with AI",
+    intro:
+      "Surface ambiguity, inconsistent terminology and clarity gaps across compliance documentation, regulatory filings and policy memos.",
+    keyword: "audit compliance documentation",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: ClipboardCheck,
+    cardLabel: "Audit Compliance Documentation",
+    cardDescription:
+      "AI editorial review for compliance documentation, policy memos and regulatory filings.",
+    longCopy:
+      "Docsora reviews compliance documentation the way a senior reviewer would - flagging ambiguous wording, inconsistent terminology, and clarity gaps that trigger follow-up questions from regulators, auditors and internal review boards. It is an editorial layer that strengthens the language of compliance, not a substitute for compliance review itself.",
+    useCases: [
+      "Regulatory filings and submissions",
+      "Policy memos and standards",
+      "Compliance training material",
+      "Risk assessment narratives",
+      "Audit response letters",
+      "Internal control documentation",
+    ],
+    faq: [
+      {
+        question: "Does this replace compliance or legal review?",
+        answer:
+          "No. Docsora is an editorial layer that improves the clarity and consistency of compliance language. Compliance, legal and regulatory review by qualified human reviewers remains essential.",
+      },
+      {
+        question: "What file types are supported?",
+        answer:
+          "PDF, DOC, DOCX and TXT - the formats compliance documentation typically ships in. Documents are processed in your browser and deleted after analysis.",
+      },
+    ],
+  },
+  {
+    slug: "proofread-rfps",
+    title: "Proofread RFPs and Proposals with AI | Docsora AI Check",
+    metaDescription:
+      "AI-powered review for RFP responses, sales proposals and statements of work. Tighten tone, eliminate ambiguity and polish proposals before delivery.",
+    h1: "Proofread RFP Responses and Sales Proposals",
+    intro:
+      "Editorial review tuned for RFP responses, sales proposals, SOWs and pitch responses - before they go to the buyer.",
+    keyword: "proofread rfp",
+    acceptedFormats: "PDF · DOC · DOCX · PPT · PPTX",
+    cardIcon: FileSignature,
+    cardLabel: "Proofread RFPs",
+    cardDescription:
+      "AI proposal review for RFP responses, SOWs and sales decks.",
+    longCopy:
+      "Docsora reviews RFP responses, sales proposals, statements of work and pitch documents for the issues that quietly cost deals - inconsistent terminology between sections, weak win themes, ambiguous scope, and tone misalignment between executive summary and technical detail. A final editorial pass that makes the proposal feel built by one team, not five.",
+    useCases: [
+      "RFP and RFI responses",
+      "Enterprise sales proposals",
+      "Statements of work (SOWs)",
+      "Pitch decks and pricing memos",
+      "Renewal and expansion proposals",
+      "Public sector tender responses",
+    ],
+    faq: [
+      {
+        question: "Can I review a full RFP response in one pass?",
+        answer:
+          "Yes. Docsora reviews the document end-to-end - executive summary, technical sections, pricing commentary and appendices - in a single pass and surfaces inline suggestions by section so reviewers can move from start to finish without context-switching.",
+      },
+      {
+        question: "Does it work on PowerPoint and PDF proposals?",
+        answer:
+          "Yes. Upload PDF, DOC, DOCX, PPT or PPTX. Docsora handles each format natively - slide decks are reviewed slide-by-slide while documents are reviewed by section.",
+      },
+    ],
+  },
+  {
+    slug: "improve-onboarding-documents",
+    title: "Improve Onboarding Documents with AI | Docsora AI Check",
+    metaDescription:
+      "Sharpen HR onboarding documents, training material and policy guides with AI-powered editorial review for clarity, tone and readability.",
+    h1: "Improve Onboarding Documents with AI",
+    intro:
+      "Editorial review for HR onboarding documents, training material and policy guides - so new hires read documents that actually make sense.",
+    keyword: "improve onboarding documents",
+    acceptedFormats: "PDF · DOC · DOCX · ODT · HTML · PPT · PPTX",
+    cardIcon: GraduationCap,
+    cardLabel: "Improve Onboarding Documents",
+    cardDescription:
+      "AI editorial review for HR handbooks, training material and policy guides.",
+    longCopy:
+      "Docsora's editorial AI improves the clarity and tone of onboarding documents, training material and policy guides - the documents most new hires read once and never revisit. The simple tone preset removes jargon, the consistency check aligns terminology across sections, and the structural review surfaces gaps that confuse first-week readers.",
+    useCases: [
+      "Employee onboarding handbooks",
+      "Training and enablement guides",
+      "HR policies and benefits docs",
+      "Engineering onboarding wikis",
+      "Customer onboarding playbooks",
+      "Partner training material",
+    ],
+    faq: [
+      {
+        question: "What tone is best for onboarding documents?",
+        answer:
+          "Simple. Docsora's simple tone preset strips jargon and tightens structure for first-week readers - while keeping the document's voice intact.",
+      },
+      {
+        question: "Can I review training decks and PDFs together?",
+        answer:
+          "Yes. A single workspace handles PDF policies, DOCX handbooks and PPTX training decks - so HR and enablement teams can run one editorial pass instead of three.",
+      },
+    ],
+  },
+  {
+    slug: "review-consulting-deliverables",
+    title: "Review Consulting Deliverables with AI | Docsora AI Check",
+    metaDescription:
+      "AI editorial review for consulting deliverables, client reports and strategy memos. Tighten narrative, align terminology and polish before delivery.",
+    h1: "Review Consulting Deliverables with AI",
+    intro:
+      "Editorial review for client-facing reports, strategy memos and engagement summaries - the deliverables consulting teams ship every week.",
+    keyword: "review consulting deliverables",
+    acceptedFormats: "PDF · DOC · DOCX · PPT · PPTX",
+    cardIcon: Briefcase,
+    cardLabel: "Review Consulting Deliverables",
+    cardDescription:
+      "AI editorial pass for client reports, strategy memos and engagement summaries.",
+    longCopy:
+      "Docsora reviews consulting deliverables for what partners and clients actually notice - narrative flow, terminology consistency across workstreams, and tone alignment between executive summary and detailed findings. Built for engagement teams that need a polished final pass without booking a full editorial review.",
+    useCases: [
+      "Final client reports",
+      "Steering committee updates",
+      "Strategy and diagnostic memos",
+      "Workshop output documents",
+      "Engagement closeout summaries",
+      "Sales-stage consulting proposals",
+    ],
+    faq: [
+      {
+        question: "Can Docsora review long-form consulting reports?",
+        answer:
+          "Yes. Long reports are reviewed end-to-end with section-aware suggestions - so issues in the executive summary surface alongside issues in the appendix without separate passes.",
+      },
+      {
+        question: "Does it handle PowerPoint deliverables?",
+        answer:
+          "Yes. Decks are reviewed slide-by-slide; layout, charts and master slides are untouched while wording is analysed for grammar, tone and clarity.",
+      },
+    ],
+  },
+  {
+    slug: "review-operational-handbooks",
+    title: "Review Operational Handbooks with AI | Docsora AI Check",
+    metaDescription:
+      "Standardise SOPs, playbooks and operational handbooks with AI-powered editorial review for clarity, terminology consistency and structure.",
+    h1: "Review Operational Handbooks with AI",
+    intro:
+      "Editorial review for SOPs, playbooks, runbooks and operational handbooks - so the team reads documents that read the same.",
+    keyword: "review operational handbooks",
+    acceptedFormats: "PDF · DOC · DOCX · ODT · HTML",
+    cardIcon: Library,
+    cardLabel: "Review Operational Handbooks",
+    cardDescription:
+      "AI editorial review for SOPs, playbooks and operational handbooks.",
+    longCopy:
+      "Docsora reviews operational documentation the way an editor would - aligning terminology across modules, standardising tone between contributors, and surfacing structural gaps that make handbooks hard to follow. Ideal for operations, customer success, engineering and revenue teams maintaining living documentation.",
+    useCases: [
+      "Standard operating procedures",
+      "Customer success playbooks",
+      "Engineering runbooks",
+      "Sales enablement handbooks",
+      "Support escalation guides",
+      "Internal process documentation",
+    ],
+    faq: [
+      {
+        question: "Can I standardise tone across multiple authors?",
+        answer:
+          "Yes. Docsora's tone presets normalise voice across modules so handbooks written by different contributors read as one document. The simple and executive presets cover most operational documentation.",
+      },
+      {
+        question: "Does it work on long handbooks?",
+        answer:
+          "Yes. Whole-document review handles long handbooks without splitting them into chunks. Issues surface inline with the original section for fast review.",
+      },
+    ],
+  },
+  {
+    slug: "review-contracts-online",
+    title: "Review Contracts Online with AI | Editorial Contract Review | Docsora",
+    metaDescription:
+      "Review contracts online with AI-powered editorial analysis for grammar, ambiguous wording and terminology consistency. Built for legal and ops teams.",
+    h1: "Review Contracts Online with Editorial AI",
+    intro:
+      "An editorial layer for contracts, NDAs, MSAs and vendor agreements - clean the language before it reaches counsel or counterparty.",
+    keyword: "review contracts online",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Handshake,
+    cardLabel: "Review Contracts Online",
+    cardDescription:
+      "AI editorial review for contracts, NDAs and vendor agreements.",
+    longCopy:
+      "Docsora reviews contracts as language documents - flagging grammar, ambiguous wording, inconsistent defined terms and clarity issues that slow down legal review and confuse counterparties. It is an editorial layer for legal operations and in-house teams, not a replacement for legal advice or contract analytics.",
+    useCases: [
+      "Pre-review NDAs and MSAs",
+      "Audit vendor agreements",
+      "Tighten employment contracts",
+      "Review partnership terms",
+      "Polish SLA language",
+      "Clean up redline drafts",
+    ],
+    faq: [
+      {
+        question: "Does this replace contract review by counsel?",
+        answer:
+          "No. Docsora is an editorial layer that improves contract language - grammar, defined-term consistency, ambiguity. Substantive legal review by qualified counsel remains essential.",
+      },
+      {
+        question: "Is it secure for sensitive contracts?",
+        answer:
+          "Yes. Uploads travel over TLS, contracts are processed in an isolated environment, deleted after review and never used to train models. Operated under ISO 27001 controls aligned with SOC 2 and GDPR.",
       },
     ],
   },
