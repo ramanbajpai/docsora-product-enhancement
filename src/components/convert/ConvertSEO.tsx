@@ -40,7 +40,6 @@ import { cn } from "@/lib/utils";
 import { convertVariants, type ConvertVariantConfig } from "@/data/convertVariants";
 import { convertCompareVariants } from "@/data/convertCompareVariants";
 import { convertGuides } from "@/data/convertGuides";
-import { ConvertProofMockup, type ConvertProofPair } from "./ConvertProofMockup";
 import { BookOpen } from "lucide-react";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -370,13 +369,6 @@ function buildJsonLd(variant?: ConvertVariantConfig) {
   return [breadcrumb, software, faqPage, howTo];
 }
 
-const proofPairs: ConvertProofPair[] = [
-  { kind: "doc", from: "PDF", to: "DOCX", label: "PDF to Word — formatting preserved" },
-  { kind: "deck", from: "PPTX", to: "PDF", label: "PowerPoint to PDF — slide fidelity preserved" },
-  { kind: "sheet", from: "XLSX", to: "PDF", label: "Excel to PDF — tables and styles preserved" },
-  { kind: "image", from: "JPG", to: "PDF", label: "Images to PDF — original quality preserved" },
-];
-
 export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -492,25 +484,6 @@ export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
 
         {/* SECTION 2 — Popular Conversion Tools */}
         <section>
-          {/* Visual proof — formatting fidelity across formats */}
-          <motion.div {...fadeUp} className="mb-20">
-            <div className="text-center mb-10 max-w-2xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
-                <Sparkles className="w-3 h-3 text-primary/80" />
-                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
-                  Visual proof
-                </span>
-              </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-                Formatting Preserved Across Every Format
-              </h2>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">
-                See how Docsora keeps fonts, tables, slides and layouts intact across PDF, Word, Excel, PowerPoint and image conversions.
-              </p>
-            </div>
-            <ConvertProofMockup pairs={proofPairs} />
-          </motion.div>
-
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
               Popular File Conversion Tools
