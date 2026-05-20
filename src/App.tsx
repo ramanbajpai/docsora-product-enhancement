@@ -265,6 +265,11 @@ const App = () => (
             <Route path="/markup-pdf-online" element={<PDFToolLanding />} />
             <Route path="/browser-pdf-editor" element={<PDFToolLanding />} />
             <Route path="/edit-pdf-without-adobe" element={<PDFToolLanding />} />
+            <Route path="/edit-pdf-text" element={<PDFToolLanding />} />
+            <Route path="/fill-pdf-forms" element={<PDFToolLanding />} />
+            <Route path="/edit-pdf-on-mac" element={<PDFToolLanding />} />
+            <Route path="/online-pdf-editor" element={<PDFToolLanding />} />
+            <Route path="/pdf-markup-tool" element={<PDFToolLanding />} />
             <Route path="/merge-pdf" element={<PDFToolLanding />} />
             <Route path="/split-pdf" element={<PDFToolLanding />} />
             <Route path="/rotate-pdf" element={<PDFToolLanding />} />
