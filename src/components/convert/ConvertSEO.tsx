@@ -367,6 +367,13 @@ function buildJsonLd(variant?: ConvertVariantConfig) {
   return [breadcrumb, software, faqPage, howTo];
 }
 
+const proofPairs: ConvertProofPair[] = [
+  { kind: "doc", from: "PDF", to: "DOCX", label: "PDF to Word — formatting preserved" },
+  { kind: "deck", from: "PPTX", to: "PDF", label: "PowerPoint to PDF — slide fidelity preserved" },
+  { kind: "sheet", from: "XLSX", to: "PDF", label: "Excel to PDF — tables and styles preserved" },
+  { kind: "image", from: "JPG", to: "PDF", label: "Images to PDF — original quality preserved" },
+];
+
 export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
