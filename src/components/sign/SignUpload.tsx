@@ -2,10 +2,12 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Upload, Shield, ChevronDown, Check, Layers, ArrowRight, Zap } from "lucide-react";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { SignVariantConfig } from "@/data/signVariants";
 
 interface SignUploadProps {
   onFileUpload: (file: File) => void;
   onUseTemplate?: () => void;
+  variant?: SignVariantConfig;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC'];
@@ -13,7 +15,7 @@ const supportedFormats = ['PDF', 'DOCX', 'DOC'];
 // Apple-style easing
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const SignUpload = ({ onFileUpload, onUseTemplate }: SignUploadProps) => {
+const SignUpload = ({ onFileUpload, onUseTemplate, variant }: SignUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isDropped, setIsDropped] = useState(false);
