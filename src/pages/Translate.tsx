@@ -241,7 +241,7 @@ const Translate = ({ variant }: TranslateProps = {}) => {
             ].map((v, i) => ({
               "@type": "ListItem",
               position: i + 1,
-              name: v.cardTitle ?? v.h1,
+              name: v.h1,
               url: `/${v.slug}`,
             })),
           })}</script>
