@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { MessageSquare, BookOpen, FileBox } from "lucide-react";
 import { Clock3, HelpCircle } from "lucide-react";
+import { GitCompare } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
