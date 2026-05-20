@@ -747,6 +747,57 @@ export function ConvertSEO({ variant }: ConvertSEOProps = {}) {
 
         {/* SECTION 8 — Related conversion tools + search chips */}
         <section>
+          {/* Knowledge guides */}
+          <motion.div {...fadeUp} className="mb-20">
+            <div className="text-center mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
+                <BookOpen className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Conversion knowledge
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                File Conversion Guides
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Operational guides on PDF, Word, Excel, PowerPoint and image conversion workflows used by professional teams.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {convertGuides.map((g) => {
+                const GIcon = g.icon;
+                return (
+                  <Link
+                    key={g.slug}
+                    to={`/convert-guides/${g.slug}`}
+                    className={cn(
+                      "group block rounded-2xl p-5 h-full",
+                      "bg-card/40 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                    )}
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-3 group-hover:bg-primary/12 transition-colors">
+                      <GIcon className="w-4 h-4 text-primary/70" />
+                    </div>
+                    <p className="text-[10px] uppercase tracking-[0.12em] font-medium text-muted-foreground/60 mb-1.5">
+                      {g.category}
+                    </p>
+                    <h3 className="text-[13px] font-semibold text-foreground leading-snug group-hover:text-primary transition-colors mb-2">
+                      {g.h1}
+                    </h3>
+                    <p className="text-[12px] text-muted-foreground/75 leading-relaxed line-clamp-2">
+                      {g.intro}
+                    </p>
+                    <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Read guide</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">
               Related Conversion Tools
