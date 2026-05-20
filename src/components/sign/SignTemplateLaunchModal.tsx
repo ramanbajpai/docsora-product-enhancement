@@ -753,3 +753,105 @@ function PersonalizedPreview({
     </pre>
   );
 }
+
+function ToggleRow({
+  label,
+  hint,
+  checked,
+  onChange,
+  trailing,
+}: {
+  label: string;
+  hint?: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  trailing?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <div className="min-w-0">
+        <div className="text-[12.5px] text-foreground/85 font-medium">{label}</div>
+        {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
+      </div>
+      <div className="flex items-center gap-2 shrink-0">
+        {trailing}
+        <Switch checked={checked} onCheckedChange={onChange} />
+      </div>
+    </div>
+  );
+}
+
+function SentSuccessView({
+  title,
+  recipientName,
+  link,
+  onClose,
+}: {
+  title: string;
+  recipientName: string;
+  link: string;
+  onClose: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      toast.success("Signing link copied");
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      toast.error("Couldn't copy link");
+    }
+  };
+
+  return (
+    <div className="relative px-8 py-10 text-center">
+      <motion.div
+        initial={{ scale: 0.6, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"
+      >
+        <Check className="w-7 h-7 text-primary" />
+      </motion.div>
+      <h3 className="text-[20px] font-semibold tracking-tight">Sent to {recipientName}</h3>
+      <p className="text-[13px] text-muted-foreground mt-1.5 max-w-sm mx-auto">
+        <span className="text-foreground/85 font-medium">{title}</span> is now live. We'll update
+        Track the moment anything happens.
+      </p>
+
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <RouterLink
+          to="/track"
+          onClick={onClose}
+          className="inline-flex items-center justify-center gap-1.5 h-10 rounded-xl bg-primary text-primary-foreground text-[12.5px] font-medium hover:opacity-90 transition-opacity"
+        >
+          <Activity className="w-3.5 h-3.5" />
+          View in Track
+        </RouterLink>
+        <RouterLink
+          to="/track"
+          onClick={onClose}
+          className="inline-flex items-center justify-center gap-1.5 h-10 rounded-xl bg-muted/40 border border-border/40 text-foreground/85 text-[12.5px] font-medium hover:bg-muted/70 transition-colors"
+        >
+          <ArrowUpRight className="w-3.5 h-3.5" />
+          Signing status
+        </RouterLink>
+        <button
+          onClick={copy}
+          className="inline-flex items-center justify-center gap-1.5 h-10 rounded-xl bg-muted/40 border border-border/40 text-foreground/85 text-[12.5px] font-medium hover:bg-muted/70 transition-colors"
+        >
+          <Link2 className="w-3.5 h-3.5" />
+          {copied ? "Copied" : "Copy link"}
+        </button>
+      </div>
+
+      <button
+        onClick={onClose}
+        className="mt-5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+      >
+        Close
+      </button>
+    </div>
+  );
+}
