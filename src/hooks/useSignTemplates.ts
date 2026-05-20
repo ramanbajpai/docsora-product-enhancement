@@ -4,12 +4,21 @@ export type SignRoleKey = "client" | "sender" | "legal" | "approver" | "cc";
 
 export type SignRoleType = "signer" | "approver" | "viewer" | "cc";
 
+export type SignRolePermission =
+  | "sign"
+  | "approve"
+  | "view"
+  | "upload"
+  | "edit_fields";
+
 export interface SignTemplateRole {
   key: SignRoleKey | string;
   label: string;
   color: string; // hex for swatches
   signingOrder?: number;
   type?: SignRoleType;
+  /** Granular permissions for this role on the template. */
+  permissions?: SignRolePermission[];
 }
 
 export type SignFieldType =
@@ -109,11 +118,35 @@ export interface SignTemplate {
   packageTitle?: string;
   /** Optional multi-document package. When set, treat this as a signing package. */
   documents?: SignTemplateDocument[];
+  /** Delivery & email configuration. */
+  delivery?: SignTemplateDelivery;
+  /** Reminders, escalations, notifications. */
+  automation?: SignTemplateAutomation;
+  /** Output filename pattern. Supports {{TOKENS}}. */
+  filenamePattern?: string;
   favorite?: boolean;
   pinned?: boolean;
   createdAt: number;
   lastUsedAt?: number;
   useCount?: number;
+}
+
+export interface SignTemplateDelivery {
+  emailSubject?: string;
+  emailMessage?: string;
+  senderName?: string;
+  expiryDays?: number;
+  ccEmails?: string[];
+  redirectUrl?: string;
+  allowDownload?: boolean;
+}
+
+export interface SignTemplateAutomation {
+  remindEveryDays?: number;
+  expiryWarningDays?: number;
+  escalateAfterDays?: number;
+  notifyOnOpen?: boolean;
+  notifyOnComplete?: boolean;
 }
 
 /**
