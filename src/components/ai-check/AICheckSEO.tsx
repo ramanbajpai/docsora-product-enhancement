@@ -40,6 +40,8 @@ import {
   type AICheckVariantConfig,
 } from "@/data/aiCheckVariants";
 import { aiCheckCompareVariants } from "@/data/aiCheckCompareVariants";
+import { aiCheckGuides } from "@/data/aiCheckGuides";
+import { HelpCircle, Clock3 } from "lucide-react";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -290,6 +292,72 @@ const popularSearchSlugs: { slug: string; label: string; intent: string }[] = [
   { slug: "check-document-for-errors", label: "Check document for errors", intent: "Whole-document editorial audit." },
   { slug: "fix-grammar-online", label: "Fix grammar online", intent: "Free browser-based grammar review." },
   { slug: "proofreading-tool-online", label: "Online proofreading tool", intent: "Cloud-native proofreader for any document." },
+];
+
+// Premium semantic workflow cards (hub page)
+const workflowCards: { slug: string; title: string; description: string }[] = [
+  { slug: "improve-sentence-clarity", title: "Improve sentence clarity", description: "Remove ambiguity and tighten phrasing without flattening voice." },
+  { slug: "rewrite-awkward-sentences", title: "Rewrite awkward sentences", description: "Replace overloaded constructions with cleaner alternatives." },
+  { slug: "improve-executive-writing", title: "Improve executive writing", description: "Sharpen CEO memos, board commentary and senior briefings." },
+  { slug: "rewrite-business-sentences", title: "Rewrite business sentences", description: "Editorial rewriter for reports, proposals and memos." },
+  { slug: "review-contract-language", title: "Review contract language", description: "Editorial pass for NDAs, MSAs and vendor agreements." },
+  { slug: "proofread-presentations", title: "Proofread investor presentations", description: "Slide-by-slide editorial review without touching design." },
+  { slug: "improve-document-readability", title: "Improve document readability", description: "Sentence flow, paragraph rhythm and audience-tuned tone." },
+  { slug: "improve-professional-writing", title: "Improve professional writing", description: "Editorial AI for documents teams actually send." },
+];
+
+// "Writing Questions Answered" — semantic Q&A block
+const writingQuestions: { question: string; answer: string }[] = [
+  {
+    question: "What is the best AI proofreading tool for PDFs?",
+    answer:
+      "An editorial AI built for native PDF review — extracting text in document order and surfacing inline suggestions without converting to Word. Docsora reviews PDFs in place, non-destructively, and supports DOC, DOCX, ODT, HTML and PPTX in the same workspace.",
+  },
+  {
+    question: "Can AI improve sentence clarity?",
+    answer:
+      "Yes. Editorial AI targets the sentence-level patterns that erode clarity — ambiguous references, overloaded clauses, hedged commitments and weak emphasis — and proposes cleaner alternatives inline while preserving meaning.",
+  },
+  {
+    question: "How do I rewrite awkward business sentences?",
+    answer:
+      "Upload the document, filter suggestions by clarity severity, and step through rewrites sentence by sentence. The rewriter sharpens phrasing without changing meaning; reviewers accept individual suggestions or apply only the high-confidence improvements.",
+  },
+  {
+    question: "What AI tool improves professional writing?",
+    answer:
+      "An editorial AI tuned for business writing — reports, proposals, contracts, decks — with tone presets calibrated for executive, legal, simple and marketing audiences. Docsora is engineered for professional documents, not student essays or generic copy.",
+  },
+  {
+    question: "How do I proofread contracts online?",
+    answer:
+      "Upload the contract (PDF, DOC, DOCX or TXT) for an editorial pass that flags grammar, inconsistent defined terms, ambiguous phrasing and clarity gaps. Editorial review complements legal review — it does not replace counsel.",
+  },
+  {
+    question: "Can AI improve board reports and executive summaries?",
+    answer:
+      "Yes. Document-level editorial AI surfaces terminology drift, tone misalignment between sections, weak transitions and hedged risk language — the issues directors notice when board packs are read end to end.",
+  },
+  {
+    question: "What grammar checker supports PDF and DOCX?",
+    answer:
+      "Most grammar checkers operate inside Word or the browser via extensions. Docsora reviews PDF, DOC, DOCX, ODT, HTML, PPT and PPTX natively in a single workspace, with format-aware analysis for each.",
+  },
+  {
+    question: "How can I improve readability in operational documents?",
+    answer:
+      "Run a readability-focused editorial pass — sentence length variation, paragraph rhythm, transitions and tone calibration. Suggestions surface inline so SOPs and handbooks read as one document across contributors.",
+  },
+  {
+    question: "Can AI improve PowerPoint presentation wording?",
+    answer:
+      "Yes. Editorial AI extracts text from every slide and reviews grammar, tone and clarity slide by slide. Design, layout, themes and animations remain untouched.",
+  },
+  {
+    question: "What is the best proofreading software for business writing?",
+    answer:
+      "An editorial AI built for the documents professional teams send — not consumer grammar tools. Look for document-level review, broad format coverage, tone presets calibrated for business audiences, and enterprise-grade security (TLS, deletion after analysis, ISO 27001 controls).",
+  },
 ];
 
 export interface AICheckSEOProps {
@@ -860,32 +928,188 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </motion.div>
           )}
 
-          <motion.div {...fadeUp} className="mt-10">
-            <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
-              Explore professional writing workflows
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {popularSearchSlugs
-                .filter((s) => s.slug !== variant?.slug)
-                .map((search) => (
+          {!variant && (
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
+            >
+              {workflowCards.map((card, i) => (
+                <motion.div
+                  key={card.slug}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.04 }}
+                >
                   <Link
-                    key={search.slug}
-                    to={`/${search.slug}`}
-                    title={search.intent}
+                    to={`/${card.slug}`}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-3.5 py-1.5",
+                      "group block rounded-2xl p-5 h-full",
                       "bg-card/40 border border-border/30",
-                      "text-[12px] font-medium text-foreground/80",
-                      "hover:border-primary/30 hover:text-primary hover:bg-card/70",
-                      "transition-all duration-200",
+                      "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
                     )}
                   >
-                    {search.label}
+                    <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors leading-snug">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">
+                      {card.description}
+                    </p>
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Open workflow</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
                   </Link>
-                ))}
-            </div>
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {variant && (
+            <motion.div {...fadeUp} className="mt-10">
+              <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
+                Explore professional writing workflows
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {popularSearchSlugs
+                  .filter((s) => s.slug !== variant?.slug)
+                  .map((search) => (
+                    <Link
+                      key={search.slug}
+                      to={`/${search.slug}`}
+                      title={search.intent}
+                      className={cn(
+                        "inline-flex items-center gap-1 rounded-full px-3.5 py-1.5",
+                        "bg-card/40 border border-border/30",
+                        "text-[12px] font-medium text-foreground/80",
+                        "hover:border-primary/30 hover:text-primary hover:bg-card/70",
+                        "transition-all duration-200",
+                      )}
+                    >
+                      {search.label}
+                    </Link>
+                  ))}
+              </div>
+            </motion.div>
+          )}
         </section>
+
+        {/* SECTION 9b — Writing Questions Answered (hub only) */}
+        {!variant && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <HelpCircle className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Professional writing
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Writing Questions Answered
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Concise, operational answers to the questions professional teams
+                ask about editorial AI and document review.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-5xl mx-auto"
+            >
+              {writingQuestions.map((q, i) => (
+                <motion.div
+                  key={q.question}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.03 }}
+                  className={cn(
+                    "rounded-2xl p-5",
+                    "bg-card/40 border border-border/30",
+                    "hover:border-primary/20 hover:bg-card/70 transition-all duration-300",
+                  )}
+                >
+                  <h3 className="text-[13px] font-semibold text-foreground mb-2 leading-snug">
+                    {q.question}
+                  </h3>
+                  <p className="text-[13px] text-muted-foreground/80 leading-relaxed">
+                    {q.answer}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+        )}
+
+        {/* SECTION 9c — Knowledge Guides (hub only) */}
+        {!variant && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <BadgeCheck className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Editorial guides
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Knowledge Guides for Professional Writing
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Practical editorial playbooks — sentence clarity, executive
+                writing, contract review, board reporting and enterprise
+                workflows.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
+              {aiCheckGuides.map((guide, i) => {
+                const GIcon = guide.icon;
+                return (
+                  <motion.div
+                    key={guide.slug}
+                    initial={staggerItem.initial}
+                    whileInView={staggerItem.whileInView}
+                    viewport={staggerItem.viewport}
+                    transition={{ ...staggerItem.transition, delay: i * 0.04 }}
+                  >
+                    <Link
+                      to={`/ai-guides/${guide.slug}`}
+                      className={cn(
+                        "group block rounded-2xl p-6 h-full",
+                        "bg-card/40 border border-border/30",
+                        "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                      )}
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+                          <GIcon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                        </div>
+                        <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.12em] font-medium text-muted-foreground/60">
+                          <Clock3 className="w-3 h-3" />
+                          {guide.readTime}
+                        </span>
+                      </div>
+                      <h3 className="text-[14px] font-semibold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">
+                        {guide.h1}
+                      </h3>
+                      <p className="text-[12.5px] text-muted-foreground/75 leading-relaxed line-clamp-3 mb-3">
+                        {guide.intro}
+                      </p>
+                      <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                        <span>Read guide</span>
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </section>
+        )}
 
         {/* SECTION 10 - Compare AI Writing Platforms */}
         <section>
