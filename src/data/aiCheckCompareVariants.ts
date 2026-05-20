@@ -67,7 +67,6 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       { feature: "Document-first workflow", docsora: "Upload and review documents end-to-end", competitor: "Extension overlays text fields" },
       { feature: "Account required", docsora: "No for standard documents", competitor: "Required" },
       { feature: "Browser-only", docsora: "Yes - no installs", competitor: "Browser + desktop + extensions" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Productivity-utility" },
     ],
     fileSupport: [
       { feature: "PDF", docsora: "Native upload + review", competitor: "Limited" },
@@ -138,7 +137,6 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       { feature: "Workflow", docsora: "Upload, audit, accept fixes", competitor: "Paste and rewrite" },
       { feature: "Account required", docsora: "No for standard documents", competitor: "Required for full features" },
       { feature: "Cross-format support", docsora: "PDF, Word, PowerPoint, HTML, TXT", competitor: "Primarily text" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
     ],
     fileSupport: [
       { feature: "PDF", docsora: "Supported", competitor: "Limited" },
@@ -209,7 +207,6 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       { feature: "Workflow", docsora: "Upload, audit, accept fixes", competitor: "Editor + extensions" },
       { feature: "Account required", docsora: "No for standard documents", competitor: "Required for advanced features" },
       { feature: "Cross-format support", docsora: "PDF, Word, PowerPoint", competitor: "Primarily text + Word add-ins" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
     ],
     fileSupport: [
       { feature: "PDF", docsora: "Supported", competitor: "Limited" },

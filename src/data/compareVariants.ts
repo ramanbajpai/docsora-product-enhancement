@@ -137,7 +137,6 @@ export const compareVariants: CompareVariantConfig[] = [
       { feature: "Upload to result time", docsora: "Seconds, single screen", competitor: "Multi-step funnel" },
       { feature: "Ads in free tier", docsora: "None", competitor: "Yes" },
       { feature: "Account required", docsora: "No for standard files", competitor: "Required above limits" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Utility-first" },
     ],
     fileSupport: [
       { feature: "PDF / DOC / DOCX", docsora: "Supported", competitor: "Supported" },
@@ -208,7 +207,6 @@ export const compareVariants: CompareVariantConfig[] = [
       { feature: "Setup time", docsora: "Zero - open and drop file", competitor: "Account / install required" },
       { feature: "Pricing for compression", docsora: "Free for standard use", competitor: "Subscription for full features" },
       { feature: "Cross-device support", docsora: "Any modern browser", competitor: "Web + desktop + mobile apps" },
-      { feature: "Design language", docsora: "Premium, Apple-inspired", competitor: "Enterprise-utility" },
     ],
     fileSupport: [
       { feature: "PDF / DOC / DOCX", docsora: "Supported", competitor: "Supported" },
