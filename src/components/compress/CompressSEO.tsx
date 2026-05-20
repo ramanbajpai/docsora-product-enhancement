@@ -1056,6 +1056,147 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
           </motion.div>
         </section>
 
+        {/* SECTION - Supported File Types (semantic block, hub only) */}
+        {!variant && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <FileBox className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Supported file types
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Every Format Modern Teams Use
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Compress PDF documents, PowerPoint presentations, Excel
+                spreadsheets, image files, and email attachments through a
+                single in-browser optimization workflow.
+              </p>
+            </motion.div>
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 max-w-5xl mx-auto"
+            >
+              {supportedFormatGroups.map((group, i) => (
+                <motion.div
+                  key={group.category}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+                  className="rounded-xl p-5 bg-card/40 border border-border/30 text-center"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.14em] font-semibold text-primary/70 mb-2">
+                    {group.category}
+                  </p>
+                  <p className="text-[11px] font-mono text-muted-foreground/70 leading-relaxed">
+                    {group.formats}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+        )}
+
+        {/* SECTION - AI Search / Conversational Q&A (GEO, hub only) */}
+        {!variant && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <MessageSquare className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Conversational search
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Answers for AI Search & LLM Retrieval
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Direct, retrieval-friendly answers to the questions users ask
+                ChatGPT, Perplexity, Gemini, and Claude about file compression.
+              </p>
+            </motion.div>
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto"
+            >
+              {aiSearchPrompts.map((p, i) => (
+                <motion.div
+                  key={p.question}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+                  className="rounded-2xl p-6 bg-card/40 border border-border/30"
+                >
+                  <h3 className="text-[13px] font-semibold text-foreground mb-2 leading-snug">
+                    {p.question}
+                  </h3>
+                  <p className="text-[13px] text-muted-foreground/80 leading-relaxed">
+                    {p.answer}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+        )}
+
+        {/* SECTION - Knowledge & Guides (hub only) */}
+        {!variant && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <BookOpen className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
+                  Knowledge
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
+                Compression Guides
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                In-depth walkthroughs for the workflows teams hit every week.
+              </p>
+            </motion.div>
+            <motion.div
+              {...staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
+              {knowledgeGuides.map((g, i) => (
+                <motion.div
+                  key={g.slug}
+                  initial={staggerItem.initial}
+                  whileInView={staggerItem.whileInView}
+                  viewport={staggerItem.viewport}
+                  transition={{ ...staggerItem.transition, delay: i * 0.05 }}
+                >
+                  <Link
+                    to={`/${g.slug}`}
+                    className={cn(
+                      "group block rounded-2xl p-6 h-full",
+                      "bg-card/40 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                    )}
+                  >
+                    <h3 className="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {g.title}
+                    </h3>
+                    <p className="text-[13px] text-muted-foreground/80 leading-relaxed">
+                      {g.description}
+                    </p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Read guide</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+        )}
+
         {/* SECTION 9 - Final CTA */}
         <section>
           <motion.div
