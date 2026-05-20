@@ -12,6 +12,16 @@ import {
   FileSearch,
   BookOpenCheck,
 } from "lucide-react";
+import {
+  Building2,
+  ClipboardCheck,
+  Users,
+  GraduationCap,
+  HandshakeIcon,
+  Library,
+  FileSignature,
+  TrendingUp,
+} from "lucide-react";
 
 export interface AICheckVariantConfig {
   slug: string; // route path (without leading slash)
