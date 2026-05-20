@@ -1,92 +1,97 @@
-## Goal
 
-Make Flows the operational core of Docsora. Keep the UI as light as Linear/Notion/Arc — no Zapier-style canvas. Build incrementally on the existing `NewFlowModal` + `useCustomTemplates` + `Templates` page + `SendTemplateModal` so we don't fragment the product.
+# Redesign: Create Template — Premium Workflow Builder
 
-I'll split this into 4 shippable phases. **Phase 1** is the next change I'd make; the rest are scoped so we can decide order after you see Phase 1 land.
+Transform the current single-screen template setup into a guided 6-step experience that cleanly separates **personalization variables** (sender-filled, pre-send) from **signing fields** (recipient-filled). The end-state feeling: *"Configure once. Launch infinitely."*
+
+## Scope
+
+Rebuild the template creation route (currently `src/pages/TemplateBuilder.tsx` + `src/components/sign/SignTemplateBuilder.tsx`) as a stepper-driven flow. Extend `useCustomTemplates` types to support the new concepts. Keep the existing field-placement engine and reuse it inside Step 4. Update the launch modal to consume personalization variables.
+
+## The 6 Steps
+
+```text
+┌──────────┬──────────┬──────────────┬──────────┬───────────┬──────────┐
+│ 1 Upload │ 2 Roles  │ 3 Variables  │ 4 Fields │ 5 Deliver │ 6 Review │
+└──────────┴──────────┴──────────────┴──────────┴───────────┴──────────┘
+```
+
+**1. Upload** — Multi-file drop zone, reorderable file cards with thumbnail, remove, "N files ready" → Continue. No auto-advance.
+
+**2. Roles** — Define recipient roles (name, color, signing order, permission set: sign / approve / view / upload / edit-fields). Drag-to-reorder for sequential signing. Default seeded role: "Client".
+
+**3. Personalization Variables** — Side panel + live list. Add variable: key, label, type (text / currency / date / email / phone / number / dropdown / multi-select), required toggle, example value, options (for dropdown). Clear "filled by sender before send" framing. Visually distinct from Step 4.
+
+**4. Signing Fields** — Reuse the existing placement canvas from `SignTemplateBuilder`. Each placed field is assigned to a **role** (color-coded from Step 2). Toolbar: signature / initials / date / text / checkbox / dropdown. Keyboard delete, undo/redo, zoom, page nav, multi-doc tabs.
+
+**5. Delivery & Automation** — Two grouped cards:
+- *Delivery*: email subject, message, sender name, expiry days.
+- *Automation*: reminder cadence, escalation, expiry warning, post-open & post-complete notifications, redirect URL, CC recipients, allow attachment download.
+
+**6. Preview & Save** — Tabs: Sender preview · Recipient preview · Email preview · Final PDF preview. Filename pattern field with variable autocomplete (e.g. `{{company_name}} - NDA.pdf`). Save → returns to template gallery.
+
+## Stepper Shell
+
+- Top progress bar with step labels, completed/active/upcoming states, click-to-jump for completed steps.
+- Persistent footer: Back · step counter · Continue (disabled until step valid).
+- Auto-save draft to localStorage between steps.
+- Smooth slide+fade transitions between steps (framer-motion).
+- Sticky right-side summary on wider viewports showing files / roles / variables / fields counts.
+
+## Data Model Changes (`useCustomTemplates.ts`)
+
+Extend `CustomTemplate`:
+```ts
+files: TemplateFile[]              // multi-file support
+roles: CustomRole[] (extended)     // + order, permissions[]
+variables: PersonalizationVariable[]   // NEW — sender-filled
+fields: PlacedField[] (extended)   // + assigned roleKey already exists
+delivery: DeliveryConfig           // NEW
+automation: AutomationConfig       // NEW
+filenamePattern: string            // NEW
+```
+
+New types: `PersonalizationVariable`, `VariableType`, `RolePermission`, `DeliveryConfig`, `AutomationConfig`, `TemplateFile`. Keep backward compatibility with existing stored templates by defaulting missing fields.
+
+## File Plan
+
+**New files**
+- `src/components/templates/builder/TemplateBuilderShell.tsx` — stepper layout, nav, summary rail.
+- `src/components/templates/builder/StepUpload.tsx`
+- `src/components/templates/builder/StepRoles.tsx`
+- `src/components/templates/builder/StepVariables.tsx`
+- `src/components/templates/builder/StepFields.tsx` (wraps existing placement canvas)
+- `src/components/templates/builder/StepDelivery.tsx`
+- `src/components/templates/builder/StepReview.tsx`
+- `src/components/templates/builder/useTemplateDraft.ts` — single source of truth + autosave.
+- `src/components/templates/builder/types.ts`
+
+**Updated**
+- `src/pages/TemplateBuilder.tsx` — render the new shell instead of the legacy builder.
+- `src/hooks/useCustomTemplates.ts` — extend types, migration defaults.
+- `src/components/sign/SignTemplateLaunchModal.tsx` — surface personalization variables as the first step of launch, then recipients.
+- `src/components/sign/SignTemplateGallery.tsx` — minor: show variable count on cards.
+
+**Reused as-is**
+- Existing field placement primitives (`FieldPlacementModal` logic, drag handlers, page render) lifted into `StepFields`.
+
+## Visual Direction
+
+- Generous whitespace, soft surfaces, no heavy borders.
+- One accent color per role, used consistently across roles list, variable assignment, field chips, preview.
+- Motion: 200ms ease-out step transitions; field placement uses spring; success ticks for completed steps.
+- Empty states with one-line helper + single CTA — no illustrations.
+- Sticky CTAs; never modal-on-modal.
+
+## Out of Scope (this pass)
+
+- Version history & archive UI (data model supports it; UI later).
+- Server-side persistence (continues to use localStorage via `useCustomTemplates`).
+- Actual email rendering pipeline (preview is a faithful mockup).
+
+## Validation Per Step
+
+1. ≥1 file. 2. ≥1 role with name. 3. Variables optional but each must have key+type. 4. ≥1 signature field assigned to a role. 5. Defaults provided, all editable. 6. Filename pattern non-empty.
 
 ---
 
-## Phase 1 — Flow authoring upgrade (the "create" experience)
-
-Refines `NewFlowModal.tsx` and the data model so a flow is genuinely reusable.
-
-**Data (`useCustomTemplates.ts`)**
-- Add `description?: string` to `CustomTemplate`.
-- Add to `FlowStep`:
-  - `recipients: StepRecipient[]` where `StepRecipient = { id; roleKey: "signer"|"approver"|"viewer"|"cc"; label?: string; order?: number }`
-  - `signingMode?: "sequential" | "parallel"` (only meaningful when multiple signers)
-  - `assignedRoleKey?: string` for non-signing steps (who receives/uploads)
-- Keep existing fields (`assets`, `placedFields`, `payment`, `personalizationTokens`) — they already cover the "save once, reuse" promise.
-
-**Authoring UI (single modal, three calm stages — same shell as today)**
-
-1. **Describe** (existing) — AI box stays the primary entry. Add a `description` field next to `name`. Parser already produces steps.
-2. **Steps** (new compact stage between Describe and Assets)
-   - Each step is a minimal card: icon · name · 1-line recipient summary · edit · delete · drag handle.
-   - Click a card → inline expand (no nested modal) to set:
-     - Recipient roles (chips: Signer / Approver / Viewer / CC) — placeholder role labels like "Signer 1", "Client", "CC: Accountant". Real names are entered at launch.
-     - For `send_contract` with 2+ signers: a single toggle "Sequential ⇄ Parallel" with a one-line explainer.
-     - For `send_contract`: "Place fields" button reuses existing `FieldPlacementModal` and binds fields to role keys (already supported by `PlacedField.roleKey`).
-   - Drag-to-reorder via framer-motion `Reorder` (no extra dep).
-3. **Assets/config** (existing AssetsStage) — unchanged, just renders for steps that need it.
-
-**Visual polish (calm/premium)**
-- Replace the heavy "Create a new flow" CTA card on `Templates.tsx` with a Linear-style soft surface: subtle radial gradient, single-line headline, hairline border, no orbiting dots.
-- Step cards: `bg-card/60`, `border-border/50`, hover `bg-card`, no gradients on the row itself. Recipient role rendered as a 1.5px dot + tiny label.
-
----
-
-## Phase 2 — Launch experience ("Start a flow" with just name + email)
-
-A new `LaunchFlowModal` (replaces today's `SendTemplateModal` invocation from the saved-flow card).
-- Inputs: Client name, Client email, optional Project name.
-- Below: a read-only preview of the steps and what will happen, so the user trusts the automation.
-- "Start flow" persists a `FlowRun` to localStorage (`docsora.flowRuns.v1`):
-  ```ts
-  FlowRun = { id; templateId; clientName; clientEmail; projectName?; startedAt; status: "active"|"blocked"|"done"; currentStepIndex; steps: FlowRunStep[] }
-  FlowRunStep = { id; type; label; status: "pending"|"waiting"|"done"|"blocked"; dueAt?; blockedReason? }
-  ```
-- No field reassignment — fields already placed on the template are reused as-is.
-
----
-
-## Phase 3 — Priority Actions wiring
-
-`PriorityActions.tsx` already exists. Add a `useFlowRuns` hook that derives action items from active runs:
-- "Waiting on signature — {client}" (sequential signer 1 hasn't signed)
-- "Approval required — {client}"
-- "Client hasn't uploaded requested files"
-- "Payment pending"
-- "Flow blocked" / "Flow completed"
-
-Render them through the existing PriorityActions surface (no new page). Clicking an item opens the flow run drawer.
-
----
-
-## Phase 4 — Run detail + reminders (lightweight)
-
-A right-side drawer (reuses `Sheet`) showing run timeline, recipients, and an "Advance step" action for the mock backend. Reminders are simulated with the existing `useReminders` hook.
-
----
-
-## Technical notes
-
-- All persistence stays in `localStorage` (no backend changes) — matches current architecture.
-- No new heavyweight dependencies. Drag/reorder uses `framer-motion`'s `Reorder` already installed.
-- Existing `FieldPlacementModal` already supports `roleKey` on placed fields → role-bound fields work without changes there.
-- Backward compatible: old saved templates without `recipients`/`description` get sensible defaults at read time.
-
----
-
-## Files I'd touch in Phase 1
-
-- `src/hooks/useCustomTemplates.ts` — extend types + safe defaults on read.
-- `src/components/templates/NewFlowModal.tsx` — add description field, recipient editor inside step card, signing-mode toggle, reorder polish.
-- `src/pages/Templates.tsx` — tone down the "Create a project" CTA, refine saved-flow card meta to show recipient roles per step.
-- (No changes to `FieldPlacementModal`, `SendTemplateModal`, or routes in Phase 1.)
-
----
-
-## Question before I build
-
-Want me to ship **Phase 1 only** (authoring + recipients + signing order + calmer CTA), or go straight through **Phase 1 + Phase 2** (authoring + the simplified launch experience) in one pass? Phase 1 alone is a focused diff; 1+2 doubles the surface area but completes the "create once, launch with just name + email" story end-to-end.
+Approve to build, or tell me which steps to trim/expand first.
