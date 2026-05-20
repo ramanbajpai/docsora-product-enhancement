@@ -32,6 +32,7 @@ import Transfer from "./pages/Transfer";
 import TransferVariant from "./pages/TransferVariant";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
+import PDFToolLanding from "./pages/PDFToolLanding";
 import Sign from "./pages/Sign";
 import SignVariant from "./pages/SignVariant";
 import DocumentViewer from "./pages/DocumentViewer";
@@ -252,6 +253,19 @@ const App = () => (
             <Route path="/transfer-large-files-online" element={<TransferVariant />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
+            <Route path="/edit-pdf" element={<PDFToolLanding />} />
+            <Route path="/merge-pdf" element={<PDFToolLanding />} />
+            <Route path="/split-pdf" element={<PDFToolLanding />} />
+            <Route path="/rotate-pdf" element={<PDFToolLanding />} />
+            <Route path="/delete-pdf-pages" element={<PDFToolLanding />} />
+            <Route path="/organize-pdf" element={<PDFToolLanding />} />
+            <Route path="/extract-pdf-pages" element={<PDFToolLanding />} />
+            <Route path="/protect-pdf" element={<PDFToolLanding />} />
+            <Route path="/watermark-pdf" element={<PDFToolLanding />} />
+            <Route path="/compare-pdf" element={<PDFToolLanding />} />
+            <Route path="/repair-pdf" element={<PDFToolLanding />} />
+            <Route path="/pdf-metadata-editor" element={<PDFToolLanding />} />
+            <Route path="/pdf-to-one-page" element={<PDFToolLanding />} />
             <Route path="/sign" element={<Sign />} />
             <Route path="/sign-pdf-online" element={<SignVariant />} />
             <Route path="/request-signatures" element={<SignVariant />} />
