@@ -90,7 +90,7 @@ export const compareVariants: CompareVariantConfig[] = [
       {
         question: "Does Docsora preserve PDF quality as well as SmallPDF?",
         answer:
-          "Docsora uses format-aware optimization with three quality modes (Balanced, Maximum, Preserve Quality), keeping text vector-sharp and images print-ready. Typical PDF size reduction is 60-90% with no visible quality loss.",
+          "Docsora uses format-aware optimization with three quality modes (Balanced, Maximum, Preserve Quality), keeping text vector-sharp and images print-ready. Typical PDF size reduction is 60-80% with no visible quality loss.",
       },
       {
         question: "Can I compress more than PDFs?",
