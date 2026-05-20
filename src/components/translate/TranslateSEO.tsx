@@ -30,10 +30,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   documentToolVariants,
   workflowVariants,
+  languagePairVariants,
   type TranslateVariantConfig,
 } from "@/data/translateVariants";
 import { translateGuides } from "@/data/translateGuides";
@@ -94,23 +101,44 @@ const languageGroups = [
   {
     region: "Europe",
     examples:
-      "English · Spanish · French · German · Italian · Portuguese · Dutch · Polish · Swedish · Greek",
+      "English · French · German · Spanish · Italian · Dutch · Portuguese · Polish · Swedish · Greek · Romanian · Czech",
   },
   {
     region: "Asia",
     examples:
-      "Chinese (Simplified & Traditional) · Japanese · Korean · Hindi · Indonesian · Vietnamese · Thai",
+      "Chinese Simplified · Chinese Traditional · Japanese · Korean · Hindi · Indonesian · Vietnamese · Thai · Malay · Tamil · Telugu",
   },
   {
     region: "Middle East & Africa",
     examples:
-      "Arabic · Hebrew · Turkish · Persian · Swahili · Amharic",
+      "Arabic · Hebrew · Turkish · Persian · Swahili · Amharic · Hausa · Somali · Urdu · Pashto",
   },
   {
     region: "Americas",
     examples:
       "English (US) · Spanish (LATAM) · Portuguese (Brazil) · French (Canada) · Haitian Creole",
   },
+  {
+    region: "South Asia",
+    examples:
+      "Hindi · Bengali · Urdu · Tamil · Telugu · Marathi · Gujarati · Punjabi · Sinhala · Nepali",
+  },
+  {
+    region: "Eastern Europe & CIS",
+    examples:
+      "Russian · Ukrainian · Polish · Romanian · Czech · Slovak · Hungarian · Bulgarian · Serbian · Croatian · Lithuanian · Estonian",
+  },
+];
+
+const allSupportedLanguages = [
+  "Afrikaans","Albanian","Amharic","Arabic","Armenian","Azerbaijani","Bengali","Bosnian","Bulgarian","Burmese",
+  "Catalan","Chinese (Simplified)","Chinese (Traditional)","Croatian","Czech","Danish","Dutch","English (UK)","English (US)","Estonian",
+  "Filipino","Finnish","French","French (Canada)","Galician","Georgian","German","Greek","Gujarati","Haitian Creole",
+  "Hausa","Hebrew","Hindi","Hungarian","Icelandic","Indonesian","Irish","Italian","Japanese","Kannada",
+  "Kazakh","Khmer","Korean","Kurdish","Lao","Latvian","Lithuanian","Macedonian","Malay","Malayalam",
+  "Maltese","Marathi","Mongolian","Nepali","Norwegian","Pashto","Persian","Polish","Portuguese","Portuguese (Brazil)",
+  "Punjabi","Romanian","Russian","Serbian","Sinhala","Slovak","Slovenian","Somali","Spanish","Spanish (LATAM)",
+  "Swahili","Swedish","Tamil","Telugu","Thai","Turkish","Ukrainian","Urdu","Uzbek","Vietnamese","Welsh","Yoruba","Zulu",
 ];
 
 const benefits = [
@@ -269,10 +297,10 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
               Built for global teams
             </h2>
             <p className="text-base text-muted-foreground/80 leading-relaxed">
-              Localize documents across every major language used in international business, operational documentation, and multilingual collaboration.
+              A multilingual document infrastructure for global operations — multilingual onboarding, international client delivery, cross-border documentation, multilingual compliance workflows, translated investor presentations, and business communication across every region.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {languageGroups.map((g) => (
               <div
                 key={g.region}
@@ -286,6 +314,70 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Semantic support copy */}
+          <p className="mt-8 max-w-3xl mx-auto text-center text-sm text-muted-foreground/75 leading-relaxed">
+            Docsora Translate supports multilingual document workflows across contracts, presentations, onboarding documents, operational handbooks, reports, PDFs, and business communication in 75+ languages — built for global teams running international operations.
+          </p>
+
+          {/* View all supported languages — expandable, crawlable */}
+          <div className="mt-8 max-w-4xl mx-auto">
+            <Collapsible>
+              <CollapsibleTrigger
+                className={cn(
+                  "group w-full flex items-center justify-center gap-2",
+                  "px-5 py-3 rounded-xl border border-border/30 bg-card/30",
+                  "text-sm font-medium text-foreground/85",
+                  "hover:border-primary/25 hover:bg-card/60 transition-colors",
+                )}
+              >
+                <span>View all supported languages</span>
+                <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-180" />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                <div className="mt-5 rounded-2xl border border-border/30 bg-card/30 p-6 md:p-8">
+                  <ul className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-x-8 gap-y-1 text-[13px] text-muted-foreground/85 leading-7">
+                    {allSupportedLanguages.map((lang) => (
+                      <li key={lang} className="break-inside-avoid">
+                        {lang}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+
+          {/* Language-pair landing grid — long-tail semantic surface */}
+          <div className="mt-14">
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight mb-2">
+                Popular language workflows
+              </h3>
+              <p className="text-sm text-muted-foreground/75 leading-relaxed">
+                Purpose-built landing pages for multilingual document workflows across every region.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {languagePairVariants.map((p) => (
+                <Link
+                  key={p.slug}
+                  to={`/${p.slug}`}
+                  className={cn(
+                    "group rounded-xl p-4 bg-card/40 border border-border/30",
+                    "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                  )}
+                >
+                  <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+                    {p.cardLabel}
+                  </h4>
+                  <p className="text-xs text-muted-foreground/75 leading-relaxed">
+                    {p.cardDescription}
+                  </p>
+                </Link>
+              ))}
+            </div>
           </div>
         </motion.section>
 

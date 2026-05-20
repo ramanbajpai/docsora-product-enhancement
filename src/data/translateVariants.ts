@@ -35,7 +35,7 @@ export interface TranslateVariantConfig {
   longCopy: string;
   faq: { question: string; answer: string }[];
   useCases?: string[];
-  category: "Document" | "Workflow";
+  category: "Document" | "Workflow" | "LanguagePair";
 }
 
 const baseFaq = (label: string, format: string) => [
@@ -502,3 +502,203 @@ export const workflowVariants = translateVariants.filter(
 );
 
 export const defaultLanguagesIcon: LucideIcon = Languages;
+
+// ─────────────────────────────────────────────────────────────
+// Language-pair landing pages (long-tail multilingual SEO)
+// ─────────────────────────────────────────────────────────────
+
+const pairFaq = (pairLabel: string, contentType: string) => [
+  {
+    question: `How do I ${pairLabel.toLowerCase()} online?`,
+    answer: `Drop your ${contentType} into the upload area above and pick the target language. Docsora translates the entire document while preserving layouts, fonts, tables, and structure — the translated file downloads in the same format, ready to share or e-sign.`,
+  },
+  {
+    question: `Is Docsora secure enough to ${pairLabel.toLowerCase()} for business?`,
+    answer: `Yes. Files travel over TLS-encrypted connections, are isolated during processing, and never used to train models. Docsora is GDPR aligned and operated under ISO 27001 controls — trusted by legal, finance, HR, and operations teams.`,
+  },
+  {
+    question: `Does formatting stay intact when I ${pairLabel.toLowerCase()}?`,
+    answer: `Yes. Layouts, fonts, tables, charts, headings, and slide structure are preserved end-to-end. The translated document looks visually identical to the source — no manual reformatting required.`,
+  },
+];
+
+interface PairSeed {
+  slug: string;
+  label: string; // e.g. "Translate English to Spanish"
+  meta: string;
+  intro: string;
+  longCopy: string;
+  formats: string;
+  cardLabel: string;
+  cardDescription: string;
+  keyword: string;
+  contentType: string;
+  icon: LucideIcon;
+}
+
+const pairSeeds: PairSeed[] = [
+  {
+    slug: "translate-english-to-spanish",
+    label: "Translate English to Spanish",
+    meta: "Translate English documents into Spanish (Spain or LATAM) with formatting preserved. Free browser-based English-to-Spanish document translator.",
+    intro: "Translate English documents into Spanish — Spain and LATAM variants — with layouts, fonts, and structure preserved.",
+    longCopy: "Docsora translates English PDFs, Word documents, and presentations into Spanish — including Spain and LATAM variants — while preserving layouts, tables, and slide design. Built for global teams operating across Iberia and Latin America.",
+    formats: "PDF · DOCX · PPTX · HTML",
+    cardLabel: "English → Spanish",
+    cardDescription: "Translate English documents to Spanish (Spain & LATAM).",
+    keyword: "translate english to spanish",
+    contentType: "English document",
+    icon: Languages,
+  },
+  {
+    slug: "translate-english-to-arabic",
+    label: "Translate English to Arabic",
+    meta: "Translate English documents into Arabic with RTL layout and formatting preserved. Free browser-based English-to-Arabic document translator.",
+    intro: "Translate English documents into Arabic with right-to-left layout, fonts, and structure preserved end-to-end.",
+    longCopy: "Docsora translates English contracts, decks, and reports into Arabic with RTL handling, layout preservation, and formal business tone — built for MENA operations, regional partners, and multilingual compliance teams.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "English → Arabic",
+    cardDescription: "Translate English documents to Arabic with RTL preserved.",
+    keyword: "translate english to arabic",
+    contentType: "English document",
+    icon: Languages,
+  },
+  {
+    slug: "translate-english-to-french",
+    label: "Translate English to French",
+    meta: "Translate English documents into French (France or Canada) with formatting preserved. Free English-to-French document translator.",
+    intro: "Translate English documents into French — France and Canada variants — with layouts and structure preserved.",
+    longCopy: "Docsora translates English documents into French while preserving layouts, fonts, and document structure — covering France and Canadian French variants for global business operations.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "English → French",
+    cardDescription: "Translate English documents to French (FR & CA).",
+    keyword: "translate english to french",
+    contentType: "English document",
+    icon: Languages,
+  },
+  {
+    slug: "translate-english-to-german",
+    label: "Translate English to German",
+    meta: "Translate English documents into German with formatting preserved. Free browser-based English-to-German document translator.",
+    intro: "Translate English documents into German with layouts, fonts, and structure preserved end-to-end.",
+    longCopy: "Docsora translates English business documents into German with formal tone, structural preservation, and visual fidelity — built for DACH operations and multilingual enterprise teams.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "English → German",
+    cardDescription: "Translate English documents to German with formatting intact.",
+    keyword: "translate english to german",
+    contentType: "English document",
+    icon: Languages,
+  },
+  {
+    slug: "translate-pdf-to-french",
+    label: "Translate PDF to French",
+    meta: "Translate PDF documents into French with layout, fonts, and tables preserved. Free PDF-to-French translator from Docsora.",
+    intro: "Translate entire PDF documents into French while preserving layout, fonts, tables, and page structure.",
+    longCopy: "Docsora translates PDF contracts, reports, and proposals into French with layout, fonts, and pagination preserved — ideal for international business operations between English-speaking and French-speaking regions.",
+    formats: "PDF",
+    cardLabel: "PDF → French",
+    cardDescription: "PDF-to-French translation with full formatting preserved.",
+    keyword: "translate pdf to french",
+    contentType: "PDF",
+    icon: FileText,
+  },
+  {
+    slug: "translate-word-document-to-german",
+    label: "Translate Word Document to German",
+    meta: "Translate Word documents (DOC, DOCX) into German with formatting preserved. Free DOCX-to-German translator from Docsora.",
+    intro: "Translate Word documents into German while preserving headings, paragraphs, tables, and document structure.",
+    longCopy: "Docsora translates Word documents into German while keeping styles, lists, headers, and tables intact — built for DACH legal, HR, and operations teams who need formal, ready-to-share localized files.",
+    formats: "DOC · DOCX · ODT",
+    cardLabel: "Word → German",
+    cardDescription: "Translate DOCX files to German with formatting preserved.",
+    keyword: "translate word document to german",
+    contentType: "Word document",
+    icon: FileType,
+  },
+  {
+    slug: "translate-pptx-to-japanese",
+    label: "Translate PPTX to Japanese",
+    meta: "Translate PowerPoint (PPTX) presentations into Japanese with layout, fonts, and visuals preserved. Free PPTX-to-Japanese translator.",
+    intro: "Translate PPTX presentations into Japanese with slides, layouts, fonts, and visuals preserved end-to-end.",
+    longCopy: "Docsora translates PPTX decks into Japanese while keeping layouts, fonts, charts, and speaker notes visually identical — perfect for investor updates, board reviews, and product launches in APAC.",
+    formats: "PPT · PPTX",
+    cardLabel: "PPTX → Japanese",
+    cardDescription: "Localize PPTX decks for Japanese teams with design intact.",
+    keyword: "translate pptx to japanese",
+    contentType: "PPTX deck",
+    icon: Presentation,
+  },
+  {
+    slug: "translate-business-documents-to-hindi",
+    label: "Translate Business Documents to Hindi",
+    meta: "Translate business documents, reports, and proposals into Hindi with formatting preserved. Built for global teams operating in India.",
+    intro: "Translate operational business documents into Hindi while preserving structure, headings, and tables.",
+    longCopy: "Docsora translates business documents — proposals, reports, briefs, and operational documentation — into Hindi while preserving formatting and tables. Built for global teams running multilingual operations in India.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "Business Docs → Hindi",
+    cardDescription: "Translate business documents to Hindi for Indian operations.",
+    keyword: "translate business documents to hindi",
+    contentType: "business document",
+    icon: Briefcase,
+  },
+  {
+    slug: "translate-contracts-to-portuguese",
+    label: "Translate Contracts to Portuguese",
+    meta: "Translate contracts into Portuguese (Brazil or Portugal) with clause structure preserved. Secure browser-based contract translator.",
+    intro: "Translate legal contracts into Portuguese — Brazil and Portugal variants — with clause numbering and formatting preserved.",
+    longCopy: "Docsora translates MSAs, NDAs, SOWs, and employment agreements into Portuguese while preserving clause numbering, defined terms, and signature blocks — secure enough for legal operations across Brazil and Portugal.",
+    formats: "PDF · DOCX",
+    cardLabel: "Contracts → Portuguese",
+    cardDescription: "Translate contracts to Portuguese (BR & PT) with clauses intact.",
+    keyword: "translate contracts to portuguese",
+    contentType: "contract",
+    icon: Scale,
+  },
+  {
+    slug: "translate-training-material-to-spanish",
+    label: "Translate Training Material to Spanish",
+    meta: "Translate training material and onboarding decks into Spanish with structure preserved. Built for global L&D and onboarding teams.",
+    intro: "Translate training material and learning modules into Spanish while keeping module structure and visuals intact.",
+    longCopy: "Docsora localizes training material, onboarding decks, and certification content into Spanish — built for global L&D teams scaling enablement programs across Spain and Latin America.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "Training → Spanish",
+    cardDescription: "Localize training material to Spanish for global L&D teams.",
+    keyword: "translate training material to spanish",
+    contentType: "training file",
+    icon: GraduationCap,
+  },
+  {
+    slug: "translate-english-to-chinese",
+    label: "Translate English to Chinese",
+    meta: "Translate English documents into Chinese (Simplified or Traditional) with formatting preserved. Free English-to-Chinese document translator.",
+    intro: "Translate English documents into Chinese — Simplified and Traditional — with layouts and structure preserved.",
+    longCopy: "Docsora translates English documents into Chinese Simplified and Traditional with layout and font fidelity — built for APAC operations, cross-border partnerships, and multilingual business communication.",
+    formats: "PDF · DOCX · PPTX",
+    cardLabel: "English → Chinese",
+    cardDescription: "Translate English documents to Chinese (Simplified & Traditional).",
+    keyword: "translate english to chinese",
+    contentType: "English document",
+    icon: Languages,
+  },
+];
+
+export const languagePairVariants: TranslateVariantConfig[] = pairSeeds.map((p) => ({
+  slug: p.slug,
+  title: `${p.label} — Document Translator | Docsora`,
+  metaDescription: p.meta,
+  h1: p.label,
+  intro: p.intro,
+  keyword: p.keyword,
+  acceptedFormats: p.formats,
+  cardIcon: p.icon,
+  cardLabel: p.cardLabel,
+  cardDescription: p.cardDescription,
+  longCopy: p.longCopy,
+  faq: pairFaq(p.label, p.contentType),
+  category: "LanguagePair",
+}));
+
+// Merge pair variants into the slug lookup
+for (const v of languagePairVariants) {
+  translateVariantBySlug[v.slug] = v;
+}
