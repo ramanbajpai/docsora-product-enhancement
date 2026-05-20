@@ -24,6 +24,9 @@ import ConvertCompareLanding from "./pages/ConvertCompareLanding";
 import Storage from "./pages/Storage";
 import Track from "./pages/Track";
 import Translate from "./pages/Translate";
+import TranslateVariant from "./pages/TranslateVariant";
+import TranslateGuide from "./pages/TranslateGuide";
+import TranslateCompareLanding from "./pages/TranslateCompareLanding";
 import Transfer from "./pages/Transfer";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
@@ -177,6 +180,39 @@ const App = () => (
             <Route path="/storage" element={<Storage />} />
             <Route path="/track" element={<Track />} />
             <Route path="/translate" element={<Translate />} />
+            {/* Translate authority hub — variant landing pages */}
+            <Route path="/translate-pdf" element={<TranslateVariant />} />
+            <Route path="/translate-word-document" element={<TranslateVariant />} />
+            <Route path="/translate-powerpoint" element={<TranslateVariant />} />
+            <Route path="/translate-contracts" element={<TranslateVariant />} />
+            <Route path="/translate-business-documents" element={<TranslateVariant />} />
+            <Route path="/translate-presentation-slides" element={<TranslateVariant />} />
+            <Route path="/translate-html-files" element={<TranslateVariant />} />
+            <Route path="/translate-operational-documents" element={<TranslateVariant />} />
+            <Route path="/translate-reports" element={<TranslateVariant />} />
+            <Route path="/translate-txt-files" element={<TranslateVariant />} />
+            <Route path="/translate-docx" element={<TranslateVariant />} />
+            <Route path="/translate-pptx" element={<TranslateVariant />} />
+            <Route path="/translate-legal-documents" element={<TranslateVariant />} />
+            <Route path="/translate-training-materials" element={<TranslateVariant />} />
+            <Route path="/translate-onboarding-documents" element={<TranslateVariant />} />
+            {/* Translate operational workflow pages */}
+            <Route path="/multilingual-business-workflows" element={<TranslateVariant />} />
+            <Route path="/translate-investor-presentations" element={<TranslateVariant />} />
+            <Route path="/translate-client-proposals" element={<TranslateVariant />} />
+            <Route path="/translate-operational-handbooks" element={<TranslateVariant />} />
+            <Route path="/translate-hr-documents" element={<TranslateVariant />} />
+            <Route path="/translate-global-training-material" element={<TranslateVariant />} />
+            <Route path="/translate-board-presentations" element={<TranslateVariant />} />
+            <Route path="/translate-marketing-material" element={<TranslateVariant />} />
+            <Route path="/translate-product-documentation" element={<TranslateVariant />} />
+            {/* Translate knowledge / guide pages */}
+            <Route path="/translate-guides/:slug" element={<TranslateGuide />} />
+            {/* Translate comparison landing pages */}
+            <Route path="/compare/docsora-vs-google-translate" element={<TranslateCompareLanding />} />
+            <Route path="/compare/docsora-vs-deepl" element={<TranslateCompareLanding />} />
+            <Route path="/compare/docsora-vs-smallpdf-translate" element={<TranslateCompareLanding />} />
+            <Route path="/compare/docsora-vs-ilovepdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/transfer" element={<Transfer />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
