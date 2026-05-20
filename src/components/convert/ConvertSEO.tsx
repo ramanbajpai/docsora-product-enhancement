@@ -39,6 +39,9 @@ import {
 import { cn } from "@/lib/utils";
 import { convertVariants, type ConvertVariantConfig } from "@/data/convertVariants";
 import { convertCompareVariants } from "@/data/convertCompareVariants";
+import { convertGuides } from "@/data/convertGuides";
+import { ConvertProofMockup, type ConvertProofPair } from "./ConvertProofMockup";
+import { BookOpen } from "lucide-react";
 
 const easeSmooth: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
