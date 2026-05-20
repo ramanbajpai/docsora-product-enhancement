@@ -98,6 +98,13 @@ const App = () => (
             <Route path="/reduce-image-size" element={<CompressVariant />} />
             <Route path="/reduce-powerpoint-file-size" element={<CompressVariant />} />
             <Route path="/reduce-excel-file-size" element={<CompressVariant />} />
+            {/* Compression knowledge / guide spoke pages */}
+            <Route path="/best-way-to-reduce-pdf-size" element={<CompressVariant />} />
+            <Route path="/compress-powerpoint-without-losing-quality" element={<CompressVariant />} />
+            <Route path="/reduce-email-attachment-size" element={<CompressVariant />} />
+            <Route path="/compress-images-for-websites" element={<CompressVariant />} />
+            <Route path="/reduce-spreadsheet-file-size" element={<CompressVariant />} />
+            <Route path="/compress-pitch-decks-for-email" element={<CompressVariant />} />
             {/* Compression comparison landing pages */}
             <Route path="/compare/docsora-vs-smallpdf" element={<CompareLanding />} />
             <Route path="/compare/docsora-vs-ilovepdf" element={<CompareLanding />} />
