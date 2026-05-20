@@ -64,40 +64,40 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Operational visibility", description: "Track opens, downloads and recipient activity in real time." },
-  { icon: Workflow, title: "Workflow-native delivery", description: "Move files through approvals, signatures and collaborative workflows." },
-  { icon: Palette, title: "Branded delivery experience", description: "Professional branded transfer pages for agencies and operational teams." },
-  { icon: Layers, title: "Massive file support", description: "Transfer oversized videos, RAW assets and operational packages without inbox limits." },
-  { icon: Zap, title: "Integrated workflows", description: "Transfer, approve, sign and collaborate in one operational ecosystem." },
-  { icon: Globe2, title: "Browser-native infrastructure", description: "No sync clients, desktop apps or fragmented workflows." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
+  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
+  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
+  { icon: Globe2, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
 ];
 
 const operationalWorkflows = [
-  { title: "Creative agencies", description: "Deliver campaign assets, videos and creative exports professionally." },
-  { title: "Video production", description: "Transfer RAW footage and exports without compression or fragmented storage." },
-  { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
-  { title: "Consulting firms", description: "Send proposals, board packs and operational reports instantly." },
-  { title: "Finance teams", description: "Transfer audit exports, spreadsheets and sensitive operational files securely." },
-  { title: "Legal operations", description: "Deliver contracts, evidence files and legal documentation with tracking." },
-  { title: "HR & onboarding", description: "Send onboarding packets and training documentation across teams." },
+  { title: "Creators", description: "Send 8K videos, RAW photography and creative exports without compression." },
   { title: "Freelancers", description: "Deliver client work professionally without cloud-drive friction." },
-  { title: "Startups", description: "Share operational files instantly without enterprise-heavy systems." },
+  { title: "Creative agencies", description: "Branded delivery pages for campaigns, videos and creative work." },
+  { title: "Video production", description: "Move RAW footage, ProRes and BRAW masters at full source quality." },
+  { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
+  { title: "Consulting teams", description: "Send proposals, board packs and business reports instantly." },
+  { title: "Finance teams", description: "Transfer audit exports and sensitive spreadsheets securely." },
+  { title: "Legal teams", description: "Deliver contracts, evidence files and legal documentation with tracking." },
+  { title: "HR & onboarding", description: "Send onboarding packets and training documentation across teams." },
   { title: "Developers", description: "Transfer builds, exports and project packages securely across environments." },
 ];
 
 const features = [
-  { icon: Send, title: "Instant sharing links", description: "Generate delivery links immediately after upload begins." },
-  { icon: Eye, title: "Live transfer tracking", description: "Track opens, downloads and recipient activity in real time." },
-  { icon: Palette, title: "Branded delivery", description: "Professional transfer pages for agencies and operational teams." },
-  { icon: Layers, title: "Large file infrastructure", description: "Move oversized files without inbox limits." },
-  { icon: Lock, title: "Encrypted sessions", description: "TLS-secured browser-native delivery, encrypted at rest." },
-  { icon: MonitorSmartphone, title: "Cross-platform", description: "macOS, Windows, Linux, iOS and Android — same browser experience." },
-  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire operational packages into one transfer workflow." },
-  { icon: Workflow, title: "Workflow integration", description: "Route delivered files into approvals, signatures and operational workflows." },
+  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
+  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
+  { icon: MonitorSmartphone, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
+  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
+  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
 ];
 
 const aiQuestions = [
-  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — same browser-native simplicity, with branded delivery pages, real-time tracking, encrypted sessions and direct workflow integration into signing and approvals." },
+  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — browser-native simplicity with branded delivery pages, real-time tracking, encrypted sessions and direct integration into signing and approvals." },
   { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment — no inbox limits." },
   { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation — recipients can begin downloading the moment upload starts." },
   { q: "How do agencies send large client deliverables?", a: "Through branded delivery platforms like Docsora — recipients see a branded recipient page, agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
@@ -105,7 +105,7 @@ const aiQuestions = [
   { q: "What is the best platform for sending large videos?", a: "Browser-native platforms that preserve source quality — Docsora moves RAW, ProRes, BRAW and master exports byte-for-byte with no transcoding." },
   { q: "How do I share large files professionally?", a: "Use a branded delivery platform with tracking. Docsora's recipient pages reflect your brand and show exactly when each recipient opened and downloaded." },
   { q: "Can I transfer files directly from my browser?", a: "Yes — Docsora is 100% browser-native. No installs, no sync clients, no plugins." },
-  { q: "What transfer platform supports operational workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
+  { q: "What transfer platform supports collaborative workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
   { q: "How do I track large file downloads?", a: "Docsora records every open and download event with timestamps, surfaced on the transfer dashboard in real time." },
 ];
 
@@ -117,8 +117,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const activeFaqs = variant?.faq ?? [
     { question: "How do I send large files online?", answer: "Drop your files into the transfer card, choose link or email delivery, set an expiry and password, and Docsora generates a secure delivery link in seconds." },
-    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora replicates WeTransfer's drag-and-drop flow and adds operational infrastructure — tracking, branding, encryption and workflow integration." },
-    { question: "What's the max file size?", answer: "Docsora supports oversized operational files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
+    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, branding, encryption and workflow integration for modern teams." },
+    { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
     { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
   ];
 
