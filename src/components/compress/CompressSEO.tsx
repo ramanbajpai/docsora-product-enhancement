@@ -1153,12 +1153,6 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
         {!variant && (
           <section>
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
-                <MessageSquare className="w-3 h-3 text-primary/80" />
-                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
-                  Conversational search
-                </span>
-              </div>
               <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
                 Compression Questions Answered
               </h2>
