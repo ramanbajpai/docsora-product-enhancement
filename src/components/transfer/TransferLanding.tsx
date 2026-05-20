@@ -607,10 +607,10 @@ export function TransferLanding({ variant }: TransferLandingProps = {}) {
 
                     {/* Title & Subtitle */}
                     <motion.h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-3 text-center">
-                      Send anything
+                      {variant?.uploadHeadline ?? "Send anything"}
                     </motion.h2>
                     <motion.p className="text-base text-muted-foreground mb-10 text-center max-w-sm">
-                      Files of any size, delivered securely
+                      {variant?.uploadSubheadline ?? "Files of any size, delivered securely"}
                     </motion.p>
 
                     {/* Action Buttons */}
