@@ -1230,7 +1230,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                   transition={{ ...staggerItem.transition, delay: i * 0.05 }}
                 >
                   <Link
-                    to={`/${g.slug}`}
+                    to={`/guides/${g.slug}`}
                     className={cn(
                       "group block rounded-2xl p-6 h-full",
                       "bg-card/40 border border-border/30",
