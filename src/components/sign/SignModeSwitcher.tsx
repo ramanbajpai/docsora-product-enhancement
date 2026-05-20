@@ -11,7 +11,7 @@ interface SignModeSwitcherProps {
 
 const OPTIONS: { id: SignMode; label: string; icon: any }[] = [
   { id: "agreements", label: "One-time sign", icon: FileUp },
-  { id: "templates", label: "Reusable agreements", icon: Layers },
+  { id: "templates", label: "Reusable templates", icon: Layers },
 ];
 
 export default function SignModeSwitcher({ value, onChange }: SignModeSwitcherProps) {
