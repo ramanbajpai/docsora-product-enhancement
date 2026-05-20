@@ -51,16 +51,6 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
   const recentIds = new Set(recent.map((t) => t.id));
   const others = filtered.filter((t) => !recentIds.has(t.id));
 
-  // Operational liveliness
-  const monthStart = new Date();
-  monthStart.setDate(1);
-  monthStart.setHours(0, 0, 0, 0);
-  const sentThisMonth = templates.reduce((sum, t) => {
-    if (!t.lastUsedAt || t.lastUsedAt < monthStart.getTime()) return sum;
-    return sum + (t.useCount ? Math.min(t.useCount, 4) : 1);
-  }, 0);
-  const awaitingSignature = Math.max(1, Math.min(6, Math.round(templates.length * 0.6)));
-
   return (
     <div className="px-6 md:px-10 py-8 max-w-6xl mx-auto">
       {/* Top mode switcher */}
