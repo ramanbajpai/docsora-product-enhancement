@@ -961,32 +961,41 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
             ))}
           </motion.div>
 
-          {/* Long-tail internal linking - popular search intents */}
-          <motion.div {...fadeUp} className="mt-10">
-            <p className="text-center text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-5">
-              Popular file compression searches
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {popularSearchSlugs
-                .filter((s) => s.slug !== variant?.slug)
-                .map((search) => (
-                  <Link
-                    key={search.slug}
-                    to={`/${search.slug}`}
-                    title={search.intent}
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-3.5 py-1.5",
-                      "bg-card/40 border border-border/30",
-                      "text-[12px] font-medium text-foreground/80",
-                      "hover:border-primary/30 hover:text-primary hover:bg-card/70",
-                      "transition-all duration-200",
-                    )}
-                  >
-                    {search.label}
-                  </Link>
+          {/* Categorized semantic search groups (hub only) */}
+          {!variant && (
+            <motion.div {...fadeUp} className="mt-16">
+              <div className="text-center mb-10">
+                <p className="text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground/60 mb-3">
+                  Popular file compression searches
+                </p>
+                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight">
+                  Organized by intent
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {searchCategories.map((cat) => (
+                  <div key={cat.heading} className="space-y-3">
+                    <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/70">
+                      {cat.heading}
+                    </p>
+                    <ul className="space-y-2">
+                      {cat.items.map((item) => (
+                        <li key={`${cat.heading}-${item.label}`}>
+                          <Link
+                            to={`/${item.slug}`}
+                            className="group inline-flex items-center gap-1.5 text-[13px] text-foreground/85 hover:text-primary transition-colors"
+                          >
+                            <span className="leading-snug">{item.label}</span>
+                            <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          )}
         </section>
 
         {/* SECTION 8 - Final CTA */}
