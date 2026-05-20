@@ -22,6 +22,7 @@ import {
   BookOpen,
   HelpCircle,
   GitCompare,
+  Files,
 } from "lucide-react";
 import {
   Accordion,
@@ -606,8 +607,5 @@ export const TranslateSEO = ({ variant }: TranslateSEOProps) => {
     </section>
   );
 };
-
-// Files icon import shim (kept here to avoid extra named imports)
-import { Files } from "lucide-react";
 
 export default TranslateSEO;
