@@ -10,6 +10,8 @@ export interface PDFToolUseCase { title: string; description: string }
 export interface PDFToolFeature { title: string; description: string }
 export interface PDFToolWorkflowLink { slug: string; title: string; description: string }
 export interface PDFToolCrossLink { slug: string; title: string; description: string }
+export interface PDFToolAudience { title: string; description: string }
+export interface PDFToolWorkflowChain { title: string; steps: { label: string; slug: string }[] }
 
 export interface PDFToolVariant {
   slug: string;
@@ -36,6 +38,8 @@ export interface PDFToolVariant {
   supportedDocTypes?: string[];
   workflowLinks?: PDFToolWorkflowLink[];
   crossLinks?: PDFToolCrossLink[];
+  audiences?: PDFToolAudience[];
+  workflowChains?: PDFToolWorkflowChain[];
 }
 
 const universalFormats = ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'];
@@ -47,14 +51,14 @@ export const pdfToolVariants: PDFToolVariant[] = [
     toolId: "edit",
     icon: Edit,
     category: "PDF Editor",
-    h1: "Edit PDFs Online Without Adobe",
-    hero: "Professional browser-native PDF editing — edit text, annotate, add images, comments and shapes without desktop software.",
-    title: "Edit PDF Online — Browser-Native PDF Editor | Docsora",
-    metaDescription: "Edit PDFs instantly in your browser. Modify text, annotate, add images and shapes — no Adobe Acrobat required. Professional PDF editing for modern teams.",
-    uploadHeadline: "Edit any PDF in seconds",
-    uploadSubheadline: "Drop a PDF to start editing — text, images, annotations, shapes.",
-    ctaLabel: "Edit PDFs instantly in your browser.",
-    intents: ["edit pdf online", "pdf editor", "edit pdf without adobe", "browser pdf editor", "edit text in pdf", "annotate pdf online"],
+    h1: "Edit PDFs Online",
+    hero: "Modify text, annotate pages, add signatures, redact sensitive information and update documents directly in your browser — without breaking formatting.",
+    title: "Edit PDF Online — The Modern Browser-Native PDF Editor | Docsora",
+    metaDescription: "Edit PDFs online in your browser. Modify text, annotate, sign, redact and update documents without breaking formatting. Premium browser-native PDF editing.",
+    uploadHeadline: "Edit PDF Now",
+    uploadSubheadline: "Drop a PDF — edit text, annotate, sign and redact directly in your browser.",
+    ctaLabel: "Edit PDF Now",
+    intents: ["edit pdf online", "pdf editor", "edit text in pdf", "annotate pdf", "redact pdf", "add signature to pdf"],
     features: [
       { title: "Edit text directly", description: "Modify any text in your PDF while preserving fonts and layout." },
       { title: "Annotate & comment", description: "Highlight, comment and mark up pages collaboratively." },
@@ -170,6 +174,38 @@ export const pdfToolVariants: PDFToolVariant[] = [
       { slug: "organize-pdf", title: "Edit → Organize", description: "Reorder pages and clean structure after editing." },
       { slug: "extract-pdf-pages", title: "Edit → Extract", description: "Pull edited sections into standalone PDFs." },
       { slug: "transfer", title: "Edit → Transfer", description: "Deliver edited PDFs securely to clients and reviewers." },
+    ],
+    audiences: [
+      { title: "Legal teams", description: "Revise contracts, redlines and approvals before signing." },
+      { title: "Agencies", description: "Annotate creative deliverables and proposals collaboratively." },
+      { title: "Freelancers", description: "Update invoices, portfolios and contracts before sending clients." },
+      { title: "Students", description: "Annotate lecture notes, coursework and academic PDFs online." },
+      { title: "HR teams", description: "Edit onboarding packets, policies and offer letters." },
+      { title: "Finance teams", description: "Update reports, spreadsheets and operational summaries." },
+      { title: "Operations", description: "Modify SOPs, internal documentation and process guides." },
+      { title: "Personal use", description: "Fill forms, update resumes and edit scanned paperwork online." },
+    ],
+    workflowChains: [
+      { title: "Edit → Compare → Sign", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Compare", slug: "compare-pdf" },
+        { label: "Sign", slug: "sign" },
+      ]},
+      { title: "Edit → Protect → Transfer", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Protect", slug: "protect-pdf" },
+        { label: "Transfer", slug: "transfer" },
+      ]},
+      { title: "Edit → Compress → Send", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Compress", slug: "compress-pdf" },
+        { label: "Send", slug: "transfer" },
+      ]},
+      { title: "Edit → Watermark → Approve", steps: [
+        { label: "Edit", slug: "edit-pdf" },
+        { label: "Watermark", slug: "watermark-pdf" },
+        { label: "Approve", slug: "sign" },
+      ]},
     ],
   },
   {
@@ -911,6 +947,51 @@ export const editPdfSubVariants: PDFToolVariant[] = [
     title: "Edit PDF Without Adobe — Acrobat Alternative | Docsora",
     metaDescription: "Edit PDFs without Adobe Acrobat. A modern browser-native Acrobat alternative — text editing, annotation, signing and redaction.",
     intents: ["edit pdf without adobe", "adobe acrobat alternative", "pdf editor without adobe", "free adobe alternative"],
+  }),
+  editVariant({
+    slug: "edit-pdf-text",
+    category: "Edit PDF Text",
+    h1: "Edit PDF Text Online",
+    hero: "Modify text inside any PDF inline — fonts, spacing and layout preserved, no re-export, no conversion step.",
+    title: "Edit PDF Text Online — Inline PDF Text Editor | Docsora",
+    metaDescription: "Edit PDF text online without losing formatting. Inline text editing for contracts, proposals and reports — fully browser-native.",
+    intents: ["edit pdf text", "edit text in pdf", "change pdf text", "modify pdf text online"],
+  }),
+  editVariant({
+    slug: "fill-pdf-forms",
+    category: "PDF Form Filler",
+    h1: "Fill PDF Forms Online",
+    hero: "Complete official PDF forms directly in your browser — application forms, government documents, HR paperwork and more.",
+    title: "Fill PDF Forms Online — Free Browser PDF Form Filler | Docsora",
+    metaDescription: "Fill PDF forms online in your browser. Complete application forms, HR paperwork and government PDFs without printing or scanning.",
+    intents: ["fill pdf forms", "pdf form filler online", "complete pdf forms", "fill out pdf online"],
+  }),
+  editVariant({
+    slug: "edit-pdf-on-mac",
+    category: "PDF Editor for Mac",
+    h1: "Edit PDFs on Mac — No Acrobat Required",
+    hero: "A premium browser-native PDF editor for macOS. Edit text, annotate and sign PDFs in Safari, Chrome or Arc — no Acrobat install.",
+    title: "Edit PDF on Mac Online — Browser PDF Editor for macOS | Docsora",
+    metaDescription: "Edit PDFs on Mac without Acrobat. A modern browser-native PDF editor for macOS — text editing, annotation, signing and redaction.",
+    intents: ["edit pdf on mac", "pdf editor for mac", "mac pdf editor online", "edit pdf macos"],
+  }),
+  editVariant({
+    slug: "online-pdf-editor",
+    category: "Online PDF Editor",
+    h1: "The Modern Online PDF Editor",
+    hero: "A premium browser-native online PDF editor built for modern document teams — text editing, annotations, signing and redaction in one workflow.",
+    title: "Online PDF Editor — Premium Browser-Native PDF Editing | Docsora",
+    metaDescription: "The modern online PDF editor. Edit text, annotate, sign and redact PDFs in the browser. Built for professional document workflows.",
+    intents: ["online pdf editor", "free online pdf editor", "web pdf editor", "browser pdf editor"],
+  }),
+  editVariant({
+    slug: "pdf-markup-tool",
+    category: "PDF Markup Tool",
+    h1: "Premium PDF Markup Tool",
+    hero: "Browser-native markup for collaborative review cycles — highlights, comments, freehand, shapes and stamps for executive and legal review.",
+    title: "PDF Markup Tool — Online PDF Review & Markup | Docsora",
+    metaDescription: "A premium PDF markup tool for collaborative review. Highlight, comment, shape and stamp PDFs for legal, executive and client review cycles.",
+    intents: ["pdf markup tool", "markup pdf online", "review pdf", "pdf review tool"],
   }),
 ];
 
