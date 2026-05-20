@@ -195,6 +195,43 @@ export const aiCheckVariants: AICheckVariantConfig[] = [
     ],
   },
   {
+    slug: "review-contract-language",
+    title: "Review Contract Language with AI | Docsora AI Check",
+    metaDescription:
+      "Audit contracts, NDAs and MSAs for ambiguous wording, inconsistent terminology and clarity gaps with AI-powered editorial review built for legal and commercial teams.",
+    h1: "Review Contract Language with AI",
+    intro:
+      "An editorial layer for contracts, NDAs and MSAs - surfacing ambiguous wording, inconsistent terminology and clarity gaps before signature.",
+    keyword: "review contract language",
+    acceptedFormats: "PDF · DOC · DOCX · TXT",
+    cardIcon: Scale,
+    cardLabel: "Review Contract Language",
+    cardDescription:
+      "AI editorial review for contracts, NDAs and MSAs - clarity, ambiguity and terminology.",
+    longCopy:
+      "Docsora reviews contract language the way a senior reviewer would on a final pass - flagging ambiguous phrasing, inconsistent defined terms, mismatched references between clauses, and tone drift across schedules. It is an editorial layer for contracts, NDAs, MSAs and SOWs, designed to strengthen language without replacing legal review.",
+    useCases: [
+      "Final pass on NDAs before signature",
+      "Audit defined terms across MSAs",
+      "Review SOWs for scope ambiguity",
+      "Check vendor and partnership agreements",
+      "Tighten data processing addenda",
+      "Polish commercial term sheets",
+    ],
+    faq: [
+      {
+        question: "Does this replace legal review?",
+        answer:
+          "No. Docsora is an editorial layer that improves the clarity and consistency of contract language. Substantive legal review by qualified counsel remains essential.",
+      },
+      {
+        question: "What does the AI catch in a contract?",
+        answer:
+          "Ambiguous phrasing, inconsistent defined terms, broken cross-references, tone drift between sections, and clarity gaps that typically trigger follow-up questions from counterparties or counsel.",
+      },
+    ],
+  },
+  {
     slug: "improve-business-writing",
     title: "Improve Business Writing Online with AI | Docsora AI Check",
     metaDescription:

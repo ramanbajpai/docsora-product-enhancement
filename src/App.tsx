@@ -62,7 +62,7 @@ const App = () => (
             <Route path="/grammar-checker" element={<AICheckVariant />} />
             <Route path="/proofread-pdf" element={<AICheckVariant />} />
             <Route path="/ai-writing-assistant" element={<AICheckVariant />} />
-            <Route path="/check-contract-language" element={<AICheckVariant />} />
+            <Route path="/review-contract-language" element={<AICheckVariant />} />
             <Route path="/improve-business-writing" element={<AICheckVariant />} />
             <Route path="/proofread-presentations" element={<AICheckVariant />} />
             <Route path="/check-document-for-errors" element={<AICheckVariant />} />
