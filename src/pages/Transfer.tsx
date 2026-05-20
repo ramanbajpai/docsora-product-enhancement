@@ -91,8 +91,10 @@ export default function Transfer({ variant }: TransferProps = {}) {
           {renderUploadingState()}
         </div>
       ) : (
-        <div className="relative min-h-screen flex flex-col">
-          <TransferLanding />
+        <div className="relative flex flex-col">
+          <div className="h-screen flex flex-col">
+            <TransferLanding variant={variant} />
+          </div>
           <TransferSEO variant={variant} />
         </div>
       )}
