@@ -219,6 +219,36 @@ const faqs = [
       "Drop your PDF into the upload area above, select Word (DOCX) as the conversion target, and Docsora returns a fully editable Word document in seconds — preserving fonts, headings, tables, images, and layout. The PDF to Word conversion runs entirely in your browser, with end-to-end TLS encryption and automatic file deletion after processing.",
   },
   {
+    question: "How do I convert PDF to Word without losing formatting?",
+    answer:
+      "Use a format-aware converter that reconstructs the document structure — headings, tables, columns, and embedded fonts — before mapping them onto native Word elements. Docsora's PDF to Word converter does this automatically, so the output DOCX matches the source PDF visually while staying fully editable. For a step-by-step workflow, see the guide on converting PDF to Word without losing formatting.",
+  },
+  {
+    question: "What is the best PDF converter online?",
+    answer:
+      "The best online PDF converter preserves formatting across every direction — PDF to Word, PDF to Excel, PDF to PowerPoint, PDF to JPG, PDF to PNG, PDF to HTML and PDF to DOCX — without installs, signup, or ads. Docsora is a workflow-native browser-based PDF converter built on that principle, with enterprise-grade security and zero quality loss.",
+  },
+  {
+    question: "How do I convert PDF into editable DOCX?",
+    answer:
+      "Upload the PDF, choose DOCX as the output, and Docsora rebuilds the document as a native Word file with editable text, real tables and proper heading styles. The DOCX opens cleanly in Word, Google Docs and Pages with formatting preserved.",
+  },
+  {
+    question: "What converter supports PDF and PPTX?",
+    answer:
+      "Docsora supports conversion between PDF and PPTX in both directions — PowerPoint to PDF for sharing, and PDF to PPTX for rebuilding editable decks. Slides, layouts, fonts, embedded images and master templates are preserved on both sides.",
+  },
+  {
+    question: "How do I convert Excel to PDF without breaking formatting?",
+    answer:
+      "Docsora's Excel to PDF converter preserves multi-sheet workbooks, conditional formatting, cell styles, column widths and evaluated formula values. Each sheet paginates cleanly in workbook order so the PDF mirrors exactly what your team sees in Excel — perfect for finance reports, board exports and audit-ready archives.",
+  },
+  {
+    question: "What is the best browser-based file converter?",
+    answer:
+      "Docsora is a workflow-native browser-based file converter designed for teams. It handles PDF, Word, Excel, PowerPoint, image, OpenDocument and email formats inside one premium workspace — no installs, no plugins, no signup — alongside compression, signing, translation and storage.",
+  },
+  {
     question: "Can I convert Excel spreadsheets to PDF?",
     answer:
       "Yes. Docsora's Excel to PDF converter supports XLS, XLSX, CSV, and ODS files with full multi-sheet support. Conditional formatting, cell styling, column widths, and formula values are preserved exactly as they appear on screen — perfect for finance reports, audits, and audit-ready archives.",
