@@ -233,11 +233,6 @@ const faqs = [
       "Upload a PPT or PPTX deck and Docsora extracts text from every slide, then reviews grammar, tone, terminology and clarity slide by slide. Layout, theme, animations and master slides remain untouched - only the wording is analysed. The result is a polished deck ready for investors, executives or clients without the manual slide-by-slide proofread that usually delays delivery.",
   },
   {
-    question: "Can I audit contracts and compliance documentation?",
-    answer:
-      "Yes. Contracts, NDAs, MSAs, compliance memos and regulatory filings (PDF, DOC, DOCX or TXT) can be reviewed for grammar, ambiguous wording, inconsistent terminology and clarity. Docsora is an editorial layer that strengthens the language of high-stakes documents - it complements legal and compliance review rather than replacing it.",
-  },
-  {
     question: "How does editorial AI proofreading work?",
     answer:
       "Docsora applies language-model analysis calibrated for professional writing. After upload, the system scans the whole document for grammar, spelling, punctuation, tone misalignment, terminology drift, ambiguous phrasing and structural clarity. Each suggestion is tagged with severity - low, medium, high - and surfaced beside its original sentence, so reviewers can accept individual edits, reject them, or apply every safe correction in one click.",
