@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, HelpCircle, BookOpen, GitCompare, Upload, FileText,
-  Layers as LayersIcon, Check,
+  Layers as LayersIcon, Check, Users,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -159,6 +159,57 @@ export function PDFToolSEO({ variant }: PDFToolSEOProps) {
                     </div>
                     <p className="text-[11px] text-muted-foreground/75 leading-relaxed">{c.description}</p>
                   </Link>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* AUDIENCES — Who uses this tool (optional) */}
+        {variant.audiences && variant.audiences.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-4">
+                <Users className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Who uses it</span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Who Uses Docsora {variant.category}</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">From legal teams to freelancers — every workflow runs on one premium browser-native platform.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {variant.audiences.map((a, i) => (
+                <motion.div key={a.title} {...stagger} transition={{ ...stagger.transition, delay: i * 0.03 }} className="rounded-2xl p-5 bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                  <h3 className="text-[13px] font-semibold text-foreground mb-1.5">{a.title}</h3>
+                  <p className="text-xs text-muted-foreground/80 leading-relaxed">{a.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* WORKFLOW CHAINS — Visual operational chains (optional) */}
+        {variant.workflowChains && variant.workflowChains.length > 0 && (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Connected Workflow Chains</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Every edit flows into the next operational step — one continuous document lifecycle.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-4xl mx-auto">
+              {variant.workflowChains.map((chain, i) => (
+                <motion.div key={chain.title} {...stagger} transition={{ ...stagger.transition, delay: i * 0.04 }} className="rounded-2xl p-5 bg-card/40 border border-border/30">
+                  <div className="text-[11px] uppercase tracking-[0.12em] font-medium text-muted-foreground/70 mb-4">{chain.title}</div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {chain.steps.map((step, idx) => (
+                      <div key={step.slug} className="flex items-center gap-2">
+                        <Link to={`/${step.slug}`} className="px-3 py-1.5 rounded-lg bg-primary/8 border border-primary/15 text-[12px] font-medium text-foreground/90 hover:bg-primary/15 hover:border-primary/30 hover:text-primary transition-all">
+                          {step.label}
+                        </Link>
+                        {idx < chain.steps.length - 1 && (
+                          <ArrowRight className="w-3 h-3 text-muted-foreground/50" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               ))}
             </div>
