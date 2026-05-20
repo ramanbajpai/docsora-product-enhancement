@@ -712,20 +712,6 @@ export function PriorityActions() {
                           </button>
                         )}
 
-                        {action.canAutopilot && !action.transferKind && (
-                          <button
-                            onClick={() => toggleAutopilot(action.id, action.title)}
-                            className={cn(
-                              "inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md transition-colors",
-                              isOnAutopilot
-                                ? "text-primary hover:bg-primary/10"
-                                : "text-muted-foreground hover:text-primary hover:bg-primary/5"
-                            )}
-                          >
-                            <Sparkles className="w-3 h-3" />
-                            {isOnAutopilot ? "Docsora is on it" : "Let Docsora handle this"}
-                          </button>
-                        )}
                         </div>
                       </div>
                     </div>
