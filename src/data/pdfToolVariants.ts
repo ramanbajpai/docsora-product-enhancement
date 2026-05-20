@@ -803,3 +803,119 @@ export const pdfToolVariantBySlug: Record<string, PDFToolVariant> =
 
 export const pdfToolVariantByToolId: Record<string, PDFToolVariant> =
   Object.fromEntries(pdfToolVariants.map((v) => [v.toolId, v]));
+
+// ---------------------------------------------------------------------------
+// /edit-pdf sub-workflow variants — share the same `edit` toolId so they
+// route into the same editor, but render unique SEO, H1, metadata and JSON-LD.
+// ---------------------------------------------------------------------------
+
+const editEcosystemBase = pdfToolVariants[0]; // edit-pdf
+
+function editVariant(overrides: Partial<PDFToolVariant> & Pick<PDFToolVariant, "slug" | "h1" | "title" | "metaDescription" | "hero" | "category" | "intents">): PDFToolVariant {
+  return {
+    ...editEcosystemBase,
+    uploadHeadline: overrides.h1,
+    uploadSubheadline: overrides.hero,
+    ctaLabel: overrides.h1,
+    ...overrides,
+  };
+}
+
+export const editPdfSubVariants: PDFToolVariant[] = [
+  editVariant({
+    slug: "edit-contract-pdf",
+    category: "Contract Editor",
+    h1: "Edit Contract PDFs Online",
+    hero: "Revise clauses, terms and pricing inline — then push straight into signing without ever leaving the browser.",
+    title: "Edit Contract PDFs Online — Browser-Native Contract Editor | Docsora",
+    metaDescription: "Edit contract PDFs in your browser. Revise clauses, update pricing, mark redlines and send straight to signing. No Adobe required.",
+    intents: ["edit contract pdf", "revise contract online", "contract pdf editor", "edit legal pdf", "redline contract"],
+  }),
+  editVariant({
+    slug: "edit-proposal-pdf",
+    category: "Proposal Editor",
+    h1: "Edit Client Proposal PDFs",
+    hero: "Update pricing, deliverables and branding on client proposals — preserve layout, push to approval in one workflow.",
+    title: "Edit Proposal PDFs Online — Client Proposal Editor | Docsora",
+    metaDescription: "Edit client proposal PDFs in your browser. Update pricing, branding and scope without breaking layout. Browser-native proposal editing.",
+    intents: ["edit proposal pdf", "client proposal editor", "update proposal pricing", "revise client proposal"],
+  }),
+  editVariant({
+    slug: "annotate-pdf",
+    category: "PDF Annotation",
+    h1: "Annotate PDFs Online",
+    hero: "Highlight, comment, shape and mark up PDFs collaboratively — built for client reviews, legal redlines and exec markup.",
+    title: "Annotate PDF Online — Browser-Native PDF Annotation | Docsora",
+    metaDescription: "Annotate PDFs in your browser. Highlight, comment, shape and markup documents collaboratively. No installs, premium document workflows.",
+    intents: ["annotate pdf online", "pdf annotation tool", "highlight pdf", "comment on pdf", "markup pdf"],
+  }),
+  editVariant({
+    slug: "add-signature-to-pdf",
+    category: "Signature Insertion",
+    h1: "Add a Signature to Any PDF",
+    hero: "Place signatures, initials and approval marks onto any PDF in seconds — or push the document into a recipient signing flow.",
+    title: "Add Signature to PDF — Insert Signatures Online | Docsora",
+    metaDescription: "Add signatures to PDF documents in your browser. Insert signatures, initials and approval marks — or hand off to recipient signing flows.",
+    intents: ["add signature to pdf", "insert signature pdf", "sign pdf online", "signature on pdf"],
+  }),
+  editVariant({
+    slug: "redact-pdf",
+    category: "PDF Redaction",
+    h1: "Redact Sensitive Information in PDFs",
+    hero: "Permanently mask names, numbers and confidential clauses before sharing externally — built for legal, finance and compliance teams.",
+    title: "Redact PDF Online — Browser-Native PDF Redaction | Docsora",
+    metaDescription: "Redact sensitive information in PDFs. Permanently mask names, numbers and confidential content before external sharing.",
+    intents: ["redact pdf", "remove sensitive info pdf", "black out pdf", "pdf redaction tool"],
+  }),
+  editVariant({
+    slug: "edit-scanned-pdf",
+    category: "Scanned PDF Editor",
+    h1: "Edit Scanned PDFs Online",
+    hero: "Overlay annotations, signatures and comments onto scanned PDFs — directly in your browser, no desktop scanner software.",
+    title: "Edit Scanned PDFs Online — Scanned Document Editor | Docsora",
+    metaDescription: "Edit scanned PDFs in your browser. Overlay annotations, signatures and comments onto scanned documents without desktop software.",
+    intents: ["edit scanned pdf", "scanned pdf editor", "annotate scanned document", "sign scanned pdf"],
+  }),
+  editVariant({
+    slug: "add-image-to-pdf",
+    category: "Image Insertion",
+    h1: "Add Images & Logos to PDFs",
+    hero: "Drop logos, stamps, photos and brand assets onto any PDF — preserved layout, pixel-clean output.",
+    title: "Add Image to PDF — Insert Logos & Photos | Docsora",
+    metaDescription: "Add images and logos to PDFs in your browser. Insert brand assets, stamps and photos without breaking layout.",
+    intents: ["add image to pdf", "insert logo pdf", "add photo to pdf", "insert image pdf"],
+  }),
+  editVariant({
+    slug: "markup-pdf-online",
+    category: "PDF Markup",
+    h1: "Markup PDFs Online",
+    hero: "Premium browser-native markup — highlights, comments, freehand, shapes — for legal review, client revisions and exec markup cycles.",
+    title: "Markup PDF Online — Browser-Native PDF Markup Tool | Docsora",
+    metaDescription: "Markup PDFs in your browser. Highlights, comments, freehand and shapes for review and approval workflows. No installs.",
+    intents: ["markup pdf online", "pdf markup tool", "review pdf online", "comment on pdf"],
+  }),
+  editVariant({
+    slug: "browser-pdf-editor",
+    category: "Browser PDF Editor",
+    h1: "The Modern Browser PDF Editor",
+    hero: "A premium browser-native PDF editor built for modern document teams — no Acrobat, no installs, full workflow integration.",
+    title: "Browser PDF Editor — Modern Online PDF Editing | Docsora",
+    metaDescription: "The modern browser PDF editor. Edit text, annotate, sign and redact PDFs without installs. Built for professional document workflows.",
+    intents: ["browser pdf editor", "online pdf editor", "web based pdf editor", "pdf editor no install"],
+  }),
+  editVariant({
+    slug: "edit-pdf-without-adobe",
+    category: "Acrobat Alternative",
+    h1: "Edit PDFs Without Adobe Acrobat",
+    hero: "A complete browser-native alternative to Adobe Acrobat — edit text, annotate, sign and redact PDFs without a single install.",
+    title: "Edit PDF Without Adobe — Acrobat Alternative | Docsora",
+    metaDescription: "Edit PDFs without Adobe Acrobat. A modern browser-native Acrobat alternative — text editing, annotation, signing and redaction.",
+    intents: ["edit pdf without adobe", "adobe acrobat alternative", "pdf editor without adobe", "free adobe alternative"],
+  }),
+];
+
+// Register sub-variants in the slug lookup (kept out of `pdfToolVariants`
+// so the tool grid and "Explore More" section stay focused on root tools).
+for (const v of editPdfSubVariants) {
+  pdfToolVariantBySlug[v.slug] = v;
+}
