@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TransferLanding } from "@/components/transfer/TransferLanding";
 import { TransferSEO } from "@/components/transfer/TransferSEO";
@@ -86,13 +87,26 @@ export default function Transfer({ variant }: TransferProps = {}) {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>{variant?.title ?? "Docsora Transfer — Send Large Files Securely"}</title>
+        <meta
+          name="description"
+          content={
+            variant?.metaDescription ??
+            "Browser-native large file transfer with tracking, branding and encrypted delivery for modern teams."
+          }
+        />
+        <link rel="canonical" href={variant ? `/${variant.slug}` : "/transfer"} />
+      </Helmet>
       {isLoading ? (
         <div className="h-screen flex flex-col overflow-hidden">
           {renderUploadingState()}
         </div>
       ) : (
-        <div className="relative min-h-screen flex flex-col">
-          <TransferLanding />
+        <div className="relative flex flex-col">
+          <div className="h-screen flex flex-col">
+            <TransferLanding variant={variant} />
+          </div>
           <TransferSEO variant={variant} />
         </div>
       )}

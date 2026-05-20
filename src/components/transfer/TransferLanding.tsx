@@ -9,6 +9,7 @@ import { TransferSuccess } from "./TransferSuccess";
 import { TransferConfigure } from "./TransferConfigure";
 import { TransferFile, TransferSettings as TransferSettingsType } from "@/pages/Transfer";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { TransferVariantConfig } from "@/data/transferVariants";
 
 interface QueuedFile {
   id: string;
@@ -52,7 +53,11 @@ const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-export function TransferLanding() {
+interface TransferLandingProps {
+  variant?: TransferVariantConfig;
+}
+
+export function TransferLanding({ variant }: TransferLandingProps = {}) {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -602,10 +607,10 @@ export function TransferLanding() {
 
                     {/* Title & Subtitle */}
                     <motion.h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-3 text-center">
-                      Send anything
+                      {variant?.uploadHeadline ?? "Send anything"}
                     </motion.h2>
                     <motion.p className="text-base text-muted-foreground mb-10 text-center max-w-sm">
-                      Files of any size, delivered securely
+                      {variant?.uploadSubheadline ?? "Files of any size, delivered securely"}
                     </motion.p>
 
                     {/* Action Buttons */}

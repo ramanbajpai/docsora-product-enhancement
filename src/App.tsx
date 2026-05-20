@@ -29,6 +29,7 @@ import TranslateVariant from "./pages/TranslateVariant";
 import TranslateGuide from "./pages/TranslateGuide";
 import TranslateCompareLanding from "./pages/TranslateCompareLanding";
 import Transfer from "./pages/Transfer";
+import TransferVariant from "./pages/TransferVariant";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
 import Sign from "./pages/Sign";
@@ -230,6 +231,25 @@ const App = () => (
             <Route path="/compare/docsora-vs-smallpdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/compare/docsora-vs-ilovepdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/transfer" element={<Transfer />} />
+            <Route path="/send-large-files" element={<TransferVariant />} />
+            <Route path="/large-file-transfer" element={<TransferVariant />} />
+            <Route path="/wetransfer-alternative" element={<TransferVariant />} />
+            <Route path="/secure-file-transfer" element={<TransferVariant />} />
+            <Route path="/send-large-videos" element={<TransferVariant />} />
+            <Route path="/send-large-files-online" element={<TransferVariant />} />
+            <Route path="/share-large-files" element={<TransferVariant />} />
+            <Route path="/large-media-transfer" element={<TransferVariant />} />
+            <Route path="/send-large-pdf-files" element={<TransferVariant />} />
+            <Route path="/send-large-powerpoint-files" element={<TransferVariant />} />
+            <Route path="/send-large-design-files" element={<TransferVariant />} />
+            <Route path="/agency-file-sharing" element={<TransferVariant />} />
+            <Route path="/client-file-delivery" element={<TransferVariant />} />
+            <Route path="/browser-file-transfer" element={<TransferVariant />} />
+            <Route path="/email-large-files" element={<TransferVariant />} />
+            <Route path="/encrypted-file-transfer" element={<TransferVariant />} />
+            <Route path="/send-files-online" element={<TransferVariant />} />
+            <Route path="/large-file-sharing" element={<TransferVariant />} />
+            <Route path="/transfer-large-files-online" element={<TransferVariant />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
             <Route path="/sign" element={<Sign />} />
