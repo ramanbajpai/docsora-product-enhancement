@@ -66,7 +66,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
       <div className="flex items-center justify-between gap-3 mb-7">
         <SignModeSwitcher value="templates" onChange={(v) => v === "agreements" && onBack()} />
         <Button onClick={onCreateNew} size="sm" className="h-9 px-3.5 gap-1.5 rounded-lg">
-          <Plus className="w-3.5 h-3.5" /> New agreement
+          <Plus className="w-3.5 h-3.5" /> New template
         </Button>
       </div>
 
@@ -80,7 +80,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         <div className="flex items-center gap-1.5 mb-2">
           <Sparkles className="w-3 h-3 text-primary" />
           <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-            Reusable agreements
+            Reusable templates
           </span>
         </div>
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">Launch in seconds</h1>
@@ -117,7 +117,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search agreements"
+            placeholder="Search templates"
             className="pl-9 h-9 bg-transparent border-border/40 hover:border-border/70 focus-visible:border-border focus-visible:ring-0 rounded-lg text-[13px] placeholder:text-muted-foreground/60"
           />
         </div>
@@ -141,7 +141,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
       )}
 
       <Section
-        title="All agreements"
+        title="All templates"
         meta={`${filtered.length} total`}
       >
         {others.length > 0 ? (
@@ -162,7 +162,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
             onClick={onCreateNew}
             className="w-full rounded-2xl border border-dashed border-border/60 bg-card/30 hover:bg-card/60 transition-colors px-6 py-14 text-center"
           >
-            <p className="text-sm text-foreground/80">No agreements match your search</p>
+            <p className="text-sm text-foreground/80">No templates match your search</p>
             <p className="text-[12px] text-muted-foreground mt-1">
               Save one once. Send it forever.
             </p>
@@ -313,7 +313,7 @@ function TemplateCard({
           }}
           className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md text-[12px] font-medium text-foreground/70 group-hover:text-primary transition-colors"
         >
-          Use agreement
+          Use template
           <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </button>
       </div>
