@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { Upload, ChevronDown, X, Plus, FileText, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TrustFooter from "@/components/shared/TrustFooter";
+import type { ConvertVariantConfig } from "@/data/convertVariants";
 
 interface FileData {
   name: string;
@@ -21,6 +22,7 @@ interface ConvertUploadProps {
   onFilesUploaded: (files: FileData[]) => void;
   onStartConvert?: (files: FileData[]) => void;
   files: FileData[];
+  variant?: ConvertVariantConfig;
 }
 
 const supportedFormats = ['PDF', 'DOCX', 'DOC', 'PPTX', 'PPT', 'XLSX', 'XLS', 'HTML', 'TXT', 'XML', 'JPG', 'PNG', 'CSV', 'ODT'];
@@ -37,7 +39,23 @@ const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUploadProps) => {
+const ConvertUpload = ({ onFilesUploaded, onStartConvert, files, variant }: ConvertUploadProps) => {
+  const uploadTitle =
+    variant?.uploadTitle ??
+    (variant?.inputFormat && variant?.outputFormat
+      ? `Convert ${variant.inputFormat} to ${variant.outputFormat}`
+      : variant?.cardLabel
+        ? `Convert ${variant.cardLabel}`
+        : "Convert with confidence");
+  const uploadDescription =
+    variant?.uploadDescription ??
+    variant?.uploadSubheadline ??
+    variant?.intro ??
+    "Transform documents into the formats you need — fast, accurate, and secure.";
+  const ctaLabel = variant?.ctaLabel ?? "Choose Files";
+  const acceptAttr =
+    variant?.uploadAccept ??
+    ".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml";
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -407,10 +425,10 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Convert with confidence'}
+                        {isDragging ? 'Release to upload' : uploadTitle}
                       </h1>
-                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-xs mx-auto leading-relaxed">
-                        Transform documents into the formats you need — fast, accurate, and secure.
+                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-md mx-auto leading-relaxed">
+                        {uploadDescription}
                       </p>
                     </motion.div>
                   )}
@@ -523,7 +541,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                       
                       <span className="relative flex items-center gap-2 text-primary-foreground font-medium">
                         <Upload className="w-4 h-4" />
-                        Choose Files
+                        {ctaLabel}
                       </span>
                     </motion.button>
                   </motion.div>
@@ -552,7 +570,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml"
+                accept={acceptAttr}
               />
               <input
                 ref={addMoreInputRef}
@@ -560,7 +578,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                 multiple
                 className="hidden"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.odt,.html,.htm,.txt,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.tif,.tiff,.webp,.eml"
+                accept={acceptAttr}
               />
 
               {/* Supported Formats Toggle - Hides when files queued */}
@@ -596,7 +614,10 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files }: ConvertUpload
                           className="overflow-hidden"
                         >
                           <div className="flex flex-wrap justify-center gap-2 pt-5">
-                            {supportedFormats.map((format, i) => (
+                            {(variant?.acceptedFormats
+                              ? variant.acceptedFormats.split(/[·,]/).map((s) => s.trim()).filter(Boolean)
+                              : supportedFormats
+                            ).map((format, i) => (
                               <motion.span
                                 key={format}
                                 initial={{ opacity: 0, y: 8, scale: 0.95 }}

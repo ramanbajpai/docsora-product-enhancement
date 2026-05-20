@@ -197,7 +197,7 @@ const Convert = ({ variant }: ConvertProps = {}) => {
                 className="flex-1 min-h-0 flex flex-col"
               >
                 {stage === "uploading" ? renderUploadingState() : (
-                  <ConvertUpload onFilesUploaded={handleFilesUploaded} onStartConvert={handleStartConvert} files={files} />
+                  <ConvertUpload onFilesUploaded={handleFilesUploaded} onStartConvert={handleStartConvert} files={files} variant={variant} />
                 )}
               </motion.div>
             )}
