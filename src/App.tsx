@@ -32,6 +32,7 @@ import Transfer from "./pages/Transfer";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
 import Sign from "./pages/Sign";
+import SignVariant from "./pages/SignVariant";
 import DocumentViewer from "./pages/DocumentViewer";
 import SignedDocumentViewerPage from "./pages/SignedDocumentViewerPage";
 import NotFound from "./pages/NotFound";
