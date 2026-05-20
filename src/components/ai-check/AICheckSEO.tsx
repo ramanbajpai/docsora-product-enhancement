@@ -274,12 +274,10 @@ const popularToolSlugs = [
 // Real-world workflow intent (long-tail authority)
 const workflowIntents = [
   { icon: FileSearch, title: "Review board reports before circulation", description: "Editorial pass on board packs, exec summaries and quarterly memos." },
-  { icon: Scale, title: "Audit compliance documentation", description: "Surface ambiguity and inconsistent terminology across regulatory filings." },
   { icon: Briefcase, title: "Proofread investor communications", description: "Tighten shareholder letters, fundraising updates and partner memos." },
   { icon: Presentation, title: "Polish sales proposals and RFPs", description: "Final-pass review on proposals, SOWs and pitch responses before they go out." },
   { icon: HeartHandshake, title: "Improve onboarding documents", description: "Sharpen HR handbooks, training material and policy guides for clarity." },
   { icon: Edit3, title: "Refine consulting deliverables", description: "Review client-facing reports, strategy memos and engagement summaries." },
-  { icon: FileText, title: "Audit financial summaries", description: "Run an editorial pass on board financials and operating reviews." },
   { icon: BookOpenCheck, title: "Standardise operational handbooks", description: "Improve readability across SOPs, playbooks and runbooks." },
 ];
 
