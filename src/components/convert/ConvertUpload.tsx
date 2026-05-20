@@ -614,7 +614,10 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files, variant }: Conv
                           className="overflow-hidden"
                         >
                           <div className="flex flex-wrap justify-center gap-2 pt-5">
-                            {supportedFormats.map((format, i) => (
+                            {(variant?.acceptedFormats
+                              ? variant.acceptedFormats.split(/[·,]/).map((s) => s.trim()).filter(Boolean)
+                              : supportedFormats
+                            ).map((format, i) => (
                               <motion.span
                                 key={format}
                                 initial={{ opacity: 0, y: 8, scale: 0.95 }}
