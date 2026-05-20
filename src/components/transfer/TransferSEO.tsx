@@ -64,40 +64,40 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Operational visibility", description: "Track opens, downloads and recipient activity in real time." },
-  { icon: Workflow, title: "Workflow-native delivery", description: "Move files through approvals, signatures and collaborative workflows." },
-  { icon: Palette, title: "Branded delivery experience", description: "Professional branded transfer pages for agencies and operational teams." },
-  { icon: Layers, title: "Massive file support", description: "Transfer oversized videos, RAW assets and operational packages without inbox limits." },
-  { icon: Zap, title: "Integrated workflows", description: "Transfer, approve, sign and collaborate in one operational ecosystem." },
-  { icon: Globe2, title: "Browser-native infrastructure", description: "No sync clients, desktop apps or fragmented workflows." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
+  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
+  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
+  { icon: Globe2, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
 ];
 
 const operationalWorkflows = [
-  { title: "Creative agencies", description: "Deliver campaign assets, videos and creative exports professionally." },
-  { title: "Video production", description: "Transfer RAW footage and exports without compression or fragmented storage." },
-  { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
-  { title: "Consulting firms", description: "Send proposals, board packs and operational reports instantly." },
-  { title: "Finance teams", description: "Transfer audit exports, spreadsheets and sensitive operational files securely." },
-  { title: "Legal operations", description: "Deliver contracts, evidence files and legal documentation with tracking." },
-  { title: "HR & onboarding", description: "Send onboarding packets and training documentation across teams." },
+  { title: "Creators", description: "Send 8K videos, RAW photography and creative exports without compression." },
   { title: "Freelancers", description: "Deliver client work professionally without cloud-drive friction." },
-  { title: "Startups", description: "Share operational files instantly without enterprise-heavy systems." },
+  { title: "Creative agencies", description: "Branded delivery pages for campaigns, videos and creative work." },
+  { title: "Video production", description: "Move RAW footage, ProRes and BRAW masters at full source quality." },
+  { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
+  { title: "Consulting teams", description: "Send proposals, board packs and business reports instantly." },
+  { title: "Finance teams", description: "Transfer audit exports and sensitive spreadsheets securely." },
+  { title: "Legal teams", description: "Deliver contracts, evidence files and legal documentation with tracking." },
+  { title: "HR & onboarding", description: "Send onboarding packets and training documentation across teams." },
   { title: "Developers", description: "Transfer builds, exports and project packages securely across environments." },
 ];
 
 const features = [
-  { icon: Send, title: "Instant sharing links", description: "Generate delivery links immediately after upload begins." },
-  { icon: Eye, title: "Live transfer tracking", description: "Track opens, downloads and recipient activity in real time." },
-  { icon: Palette, title: "Branded delivery", description: "Professional transfer pages for agencies and operational teams." },
-  { icon: Layers, title: "Large file infrastructure", description: "Move oversized files without inbox limits." },
-  { icon: Lock, title: "Encrypted sessions", description: "TLS-secured browser-native delivery, encrypted at rest." },
-  { icon: MonitorSmartphone, title: "Cross-platform", description: "macOS, Windows, Linux, iOS and Android — same browser experience." },
-  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire operational packages into one transfer workflow." },
-  { icon: Workflow, title: "Workflow integration", description: "Route delivered files into approvals, signatures and operational workflows." },
+  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
+  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
+  { icon: MonitorSmartphone, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
+  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
+  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
 ];
 
 const aiQuestions = [
-  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — same browser-native simplicity, with branded delivery pages, real-time tracking, encrypted sessions and direct workflow integration into signing and approvals." },
+  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — browser-native simplicity with branded delivery pages, real-time tracking, encrypted sessions and direct integration into signing and approvals." },
   { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment — no inbox limits." },
   { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation — recipients can begin downloading the moment upload starts." },
   { q: "How do agencies send large client deliverables?", a: "Through branded delivery platforms like Docsora — recipients see a branded recipient page, agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
@@ -105,7 +105,7 @@ const aiQuestions = [
   { q: "What is the best platform for sending large videos?", a: "Browser-native platforms that preserve source quality — Docsora moves RAW, ProRes, BRAW and master exports byte-for-byte with no transcoding." },
   { q: "How do I share large files professionally?", a: "Use a branded delivery platform with tracking. Docsora's recipient pages reflect your brand and show exactly when each recipient opened and downloaded." },
   { q: "Can I transfer files directly from my browser?", a: "Yes — Docsora is 100% browser-native. No installs, no sync clients, no plugins." },
-  { q: "What transfer platform supports operational workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
+  { q: "What transfer platform supports collaborative workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
   { q: "How do I track large file downloads?", a: "Docsora records every open and download event with timestamps, surfaced on the transfer dashboard in real time." },
 ];
 
@@ -117,8 +117,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const activeFaqs = variant?.faq ?? [
     { question: "How do I send large files online?", answer: "Drop your files into the transfer card, choose link or email delivery, set an expiry and password, and Docsora generates a secure delivery link in seconds." },
-    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora replicates WeTransfer's drag-and-drop flow and adds operational infrastructure — tracking, branding, encryption and workflow integration." },
-    { question: "What's the max file size?", answer: "Docsora supports oversized operational files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
+    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, branding, encryption and workflow integration for modern teams." },
+    { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
     { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
   ];
 
@@ -130,10 +130,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">WeTransfer evolved</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Modern Teams Move to Docsora</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Operational delivery infrastructure for teams that ship work daily — not a generic upload utility.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files Without Limits</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Move videos, presentations, creative assets and business files securely from any browser. No failed uploads. No inbox limits.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {whyLeaveWeTransfer.map((item, i) => (
@@ -151,8 +151,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">One Workflow For Every Operational File Type</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From contracts to RAW video — one browser-native transfer layer for every file your team actually ships.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">One Workflow For Every File Type</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">From contracts to 8K video and RAW photography — one browser-native transfer layer for everything you actually send.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fileTypeGroups.map((g, i) => (
@@ -174,7 +174,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular Transfer Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Dedicated workspaces for the operational delivery workflows teams reach for most.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Dedicated landing pages for the file delivery workflows creators, freelancers and teams reach for most.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {transferVariants.slice(0, 12).map((tool, i) => (
@@ -198,8 +198,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Operational workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Modern Operational Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From creative agencies to finance teams — operational delivery for every team that ships work.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Built for Real File Sharing Workflows</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">From creators and freelancers to creative agencies and finance teams — modern file delivery for every workflow.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {operationalWorkflows.map((w, i) => (
@@ -215,8 +215,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Features */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Operational Transfer Features</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for operational reliability, recipient experience and workflow integration.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Professional File Delivery Features</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for reliability, recipient experience and collaborative workflows.</p>
           </motion.div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {features.map((f, i) => (
@@ -305,7 +305,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <BookOpen className="w-3 h-3 text-primary/80" />
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer guides</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Operational Transfer Knowledge</h2>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer Guides</h2>
               <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples — no generic AI filler.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -338,11 +338,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
               <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
-                Move operational work instantly.
+                Send Large Files Instantly.
                 <br className="hidden sm:block" />
-                <span className="text-foreground/70"> Across every file type, every team, every workflow.</span>
+                <span className="text-foreground/70"> Professional file delivery starts here.</span>
               </h2>
-              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Browser-native delivery. Tracked. Branded. Encrypted. Connected to signing and approvals.</p>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Branded. Built for modern file sharing — for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 <Upload className="w-4 h-4" />
