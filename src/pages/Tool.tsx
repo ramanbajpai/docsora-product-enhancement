@@ -22,6 +22,8 @@ import { RepairEditor, RepairProcessing, RepairSuccess } from "@/components/tool
 import { MetadataEditor, MetadataUpdateSuccess, MetadataRemoveSuccess } from "@/components/tools/metadata";
 import { OnePageEditor, OnePageProcessing, OnePageSuccess } from "@/components/tools/one-page";
 import { getToolConfig } from "@/components/tools/toolConfig";
+import { PDFToolSEO } from "@/components/tools/PDFToolSEO";
+import type { PDFToolVariant } from "@/data/pdfToolVariants";
 
 type ToolStep = "upload" | "uploading" | "complete" | "action" | "editor" | "processing" | "success";
 
@@ -67,8 +69,14 @@ const TOOL_SUCCESS_CONFIG: Record<string, {
   flatten: { title: "Your document is ready", subtitle: "Converted to one page", downloadLabel: "Download document", resetLabel: "Convert another file", proFeatures: "Custom layouts & sizing" },
 };
 
-export default function Tool() {
-  const { toolId } = useParams<{ toolId: string }>();
+interface ToolProps {
+  toolIdOverride?: string;
+  seoVariant?: PDFToolVariant;
+}
+
+export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
+  const params = useParams<{ toolId: string }>();
+  const toolId = toolIdOverride ?? params.toolId;
   const navigate = useNavigate();
   const location = useLocation();
   const [step, setStep] = useState<ToolStep>("upload");
@@ -718,6 +726,9 @@ export default function Tool() {
           )}
         </AnimatePresence>
       </div>
+      {seoVariant && step === "upload" && !incomingFileLoading && (
+        <PDFToolSEO variant={seoVariant} />
+      )}
     </AppLayout>
   );
 }
