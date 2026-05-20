@@ -21,6 +21,7 @@ import CompareLanding from "./pages/CompareLanding";
 import Convert from "./pages/Convert";
 import ConvertVariant from "./pages/ConvertVariant";
 import ConvertCompareLanding from "./pages/ConvertCompareLanding";
+import ConvertGuide from "./pages/ConvertGuide";
 import Storage from "./pages/Storage";
 import Track from "./pages/Track";
 import Translate from "./pages/Translate";
