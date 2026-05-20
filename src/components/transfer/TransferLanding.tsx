@@ -53,7 +53,11 @@ const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-export function TransferLanding() {
+interface TransferLandingProps {
+  variant?: TransferVariantConfig;
+}
+
+export function TransferLanding({ variant }: TransferLandingProps = {}) {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
