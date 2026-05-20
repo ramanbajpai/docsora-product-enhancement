@@ -1160,11 +1160,12 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                 </span>
               </div>
               <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-                Answers for AI Search & LLM Retrieval
+                Compression Questions Answered
               </h2>
               <p className="text-sm text-muted-foreground/80 leading-relaxed">
-                Direct, retrieval-friendly answers to the questions users ask
-                ChatGPT, Perplexity, Gemini, and Claude about file compression.
+                Direct answers to common questions about reducing file sizes,
+                compressing documents, and optimizing files for sharing,
+                storage, and web delivery.
               </p>
             </motion.div>
             <motion.div
@@ -1180,10 +1181,15 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                   transition={{ ...staggerItem.transition, delay: i * 0.05 }}
                   className="rounded-2xl p-6 bg-card/40 border border-border/30"
                 >
-                  <h3 className="text-[13px] font-semibold text-foreground mb-2 leading-snug">
-                    {p.question}
-                  </h3>
-                  <p className="text-[13px] text-muted-foreground/80 leading-relaxed">
+                  <div className="flex items-start gap-3 mb-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-primary/8 border border-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <HelpCircle className="w-3.5 h-3.5 text-primary/70" />
+                    </div>
+                    <h3 className="text-[13px] font-semibold text-foreground leading-snug pt-1">
+                      {p.question}
+                    </h3>
+                  </div>
+                  <p className="text-[13px] text-muted-foreground/80 leading-relaxed pl-10">
                     {p.answer}
                   </p>
                 </motion.div>
@@ -1206,7 +1212,9 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                 Compression Guides
               </h2>
               <p className="text-sm text-muted-foreground/80 leading-relaxed">
-                In-depth walkthroughs for the workflows teams hit every week.
+                In-depth walkthroughs covering the compression workflows teams
+                handle every week - from email-ready attachments to
+                web-optimized assets.
               </p>
             </motion.div>
             <motion.div
@@ -1229,7 +1237,16 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                       "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
                     )}
                   >
-                    <h3 className="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+                        <g.icon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] font-medium text-muted-foreground/60">
+                        <Clock3 className="w-3 h-3" />
+                        <span>{g.readTime}</span>
+                      </div>
+                    </div>
+                    <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">
                       {g.title}
                     </h3>
                     <p className="text-[13px] text-muted-foreground/80 leading-relaxed">
