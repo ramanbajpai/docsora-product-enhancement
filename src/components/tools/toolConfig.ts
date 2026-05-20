@@ -33,7 +33,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Rotate pages to any orientation",
     icon: RotateCw,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   split: {
@@ -45,7 +45,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Break into precise parts",
     icon: Scissors,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   merge: {
@@ -57,7 +57,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Combine into one document",
     icon: Layers,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
     minFiles: 2,
     minFilesMessage: "Upload at least 2 documents to merge.",
@@ -71,7 +71,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Remove unwanted pages",
     icon: Trash2,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   compare: {
@@ -84,7 +84,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     hint: "Upload two files to compare",
     icon: GitCompare,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
     minFiles: 2,
     maxFiles: 2,
@@ -99,7 +99,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Encrypt with password",
     icon: Lock,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   extract: {
@@ -111,7 +111,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Pull specific pages",
     icon: FileOutput,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   flatten: {
@@ -135,7 +135,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Add custom watermarks",
     icon: Droplets,
     acceptMultiple: false,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'single',
   },
   organize: {
@@ -147,7 +147,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Reorder pages freely",
     icon: ArrowUpDown,
     acceptMultiple: true,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'multi',
   },
   metadata: {
@@ -159,7 +159,7 @@ export const toolConfigs: Record<string, ToolConfig> = {
     description: "Edit or remove metadata",
     icon: FileText,
     acceptMultiple: false,
-    supportedFormats: ['PDF'],
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
     uploadMode: 'single',
   },
   repair: {
