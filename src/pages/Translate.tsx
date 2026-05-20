@@ -139,6 +139,27 @@ const Translate = ({ variant }: TranslateProps = {}) => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={variant ? `/${variant.slug}` : "/translate"} />
+        {!variant && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+              { "@type": "ListItem", position: 2, name: "Translate", item: "/translate" },
+            ],
+          })}</script>
+        )}
+        {!variant && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Docsora Translate",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Any",
+            description: "Whole-document translation in 75+ languages with formatting, layouts, tables, and slide structure preserved.",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          })}</script>
+        )}
       </Helmet>
       <div className="p-6 lg:p-8 min-h-screen">
         <motion.div
