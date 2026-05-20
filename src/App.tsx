@@ -233,6 +233,16 @@ const App = () => (
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
             <Route path="/sign" element={<Sign />} />
+            <Route path="/sign-pdf-online" element={<SignVariant />} />
+            <Route path="/request-signatures" element={<SignVariant />} />
+            <Route path="/sign-contracts-online" element={<SignVariant />} />
+            <Route path="/electronic-signatures" element={<SignVariant />} />
+            <Route path="/proposal-approval-workflows" element={<SignVariant />} />
+            <Route path="/nda-signing" element={<SignVariant />} />
+            <Route path="/online-document-approval" element={<SignVariant />} />
+            <Route path="/reusable-signature-templates" element={<SignVariant />} />
+            <Route path="/client-approval-software" element={<SignVariant />} />
+            <Route path="/document-signing-platform" element={<SignVariant />} />
             <Route path="/document-viewer" element={<DocumentViewer />} />
             <Route path="/signed-document-viewer" element={<SignedDocumentViewerPage />} />
             <Route path="/sign/received/:requestId/setup" element={<SignerSetup />} />
