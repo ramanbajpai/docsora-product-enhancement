@@ -50,7 +50,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Reduce file size online for PDFs, images, presentations, spreadsheets, and documents. Free, browser-based, no quality loss - no installs.",
     h1: "Reduce File Size Online",
     intro:
-      "Reduce the size of any file directly in your browser - without losing quality or formatting. Free, secure, instant.",
+      "Reduce the size of any file directly in your browser - without losing quality or formatting. Secure, browser-based, instant.",
     keyword: "reduce file size",
     acceptedFormats: "All major formats",
     cardIcon: Minimize2,
@@ -185,15 +185,15 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress PDF online for free. Browser-based PDF compressor - no installs, no signup. Reduce PDF size for email and sharing with no quality loss.",
     h1: "Compress PDF Online",
     intro:
-      "Compress PDF files online for free - directly in your browser, with end-to-end encryption.",
+      "Compress PDF files in the browser - directly in your browser, with end-to-end encryption.",
     keyword: "compress pdf online",
     acceptedFormats: "PDF",
     cardIcon: FileText,
     cardLabel: "Compress PDF Online",
     cardDescription:
-      "Free online PDF compressor - no installs, no signup, no quality loss.",
+      "Browser-based PDF compressor - no installs, no signup, no quality loss.",
     longCopy:
-      "Docsora is a free online PDF compressor that runs entirely in your browser. Compress PDF files instantly for email attachments, web uploads, and document sharing - secure, GDPR-aligned, and engineered for premium document workflows.",
+      "Docsora is a browser-based PDF compressor that runs entirely in your browser. Compress PDF files instantly for email attachments, web uploads, and document sharing - secure, GDPR-aligned, and engineered for premium document workflows.",
     faq: [
       {
         question: "Is Docsora a free online PDF compressor?",
@@ -209,15 +209,15 @@ export const compressVariants: CompressVariantConfig[] = [
       "Free online file compressor. Compress PDFs, images, Word, Excel, and PowerPoint in your browser - no installs, no signup, encrypted end-to-end.",
     h1: "Free Online File Compressor",
     intro:
-      "100% free, browser-based file compression for every major format - no software, no signup, no compromise.",
+      "Modern browser-based file compression for every major format - no software, no signup, no compromise.",
     keyword: "free online file compressor",
     acceptedFormats: "All major formats",
     cardIcon: FileType,
     cardLabel: "Free Online File Compressor",
     cardDescription:
-      "Free browser-based compression for every major file format.",
+      "Modern browser-based compression for every major file format.",
     longCopy:
-      "Docsora is a free online file compressor built for modern teams. Compress PDFs, images, Word, Excel, and PowerPoint files in your browser - encrypted in transit, automatically deleted after processing, no signup required.",
+      "Docsora is a browser-based file compressor built for modern teams. Compress PDFs, images, Word, Excel, and PowerPoint files in your browser - encrypted in transit, automatically deleted after processing, no signup required.",
     faq: [
       {
         question: "Is this file compressor really free?",
@@ -233,7 +233,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress PDF files online for free without losing quality. Reduce PDF size for email, web upload, and sharing. Browser-based, secure, no installation required.",
     h1: "Compress PDF Online",
     intro:
-      "Reduce PDF file size in your browser without losing quality. Free, secure, and instant - no installation, no account.",
+      "Reduce PDF file size in your browser without losing quality. Secure, browser-based, and instant - no installation, no account.",
     keyword: "compress pdf",
     acceptedFormats: "PDF",
     cardIcon: FileText,
@@ -272,7 +272,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress JPG and JPEG images online without losing quality. Reduce photo size for websites, email, and social - free, fast, browser-based.",
     h1: "Compress JPG Images Online",
     intro:
-      "Shrink JPG and JPEG files in seconds while keeping every photo sharp. Free online image compressor - no installs, no signup.",
+      "Shrink JPG and JPEG files in seconds while keeping every photo sharp. Browser-based image compressor - no installs, no signup.",
     keyword: "compress jpg",
     acceptedFormats: "JPG · JPEG",
     cardIcon: ImageIcon,
@@ -306,7 +306,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress PNG images online without losing quality or transparency. Reduce PNG file size for websites, apps, and design - free and browser-based.",
     h1: "Compress PNG Images Online",
     intro:
-      "Reduce PNG file size while preserving transparency and crisp edges. Free online PNG compressor - built for designers and product teams.",
+      "Reduce PNG file size while preserving transparency and crisp edges. Browser-based PNG compressor - built for designers and product teams.",
     keyword: "compress png",
     acceptedFormats: "PNG",
     cardIcon: FileImage,
@@ -490,7 +490,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress images online without losing quality. Reduce JPG, PNG, WEBP, GIF, and TIFF file size for web, email, and social - free and browser-based.",
     h1: "Compress Images Online",
     intro:
-      "Optimize photos, screenshots, and graphics for the web in one click. Free online image compressor across every major format.",
+      "Optimize photos, screenshots, and graphics for the web in one click. Browser-based image compressor across every major format.",
     keyword: "compress images",
     acceptedFormats: "JPG · PNG · WEBP · GIF · BMP · TIFF",
     cardIcon: ImageIcon,
@@ -548,7 +548,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Reduce file size for email attachments online. Compress PDFs, images, and documents to fit Gmail, Outlook, and Apple Mail limits - free and instant.",
     h1: "Reduce File Size for Email Attachments",
     intro:
-      "Slip under Gmail, Outlook, and Apple Mail limits in seconds. Free email attachment compressor - drop any file and send.",
+      "Slip under Gmail, Outlook, and Apple Mail limits in seconds. Modern email attachment compressor - drop any file and send.",
     keyword: "reduce file size for email",
     acceptedFormats: "PDF · DOCX · PPTX · XLSX · Images",
     cardIcon: Mail,
@@ -583,7 +583,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardIcon: FileType,
     cardLabel: "Online File Compressor",
     cardDescription:
-      "One free online compressor for every major file format.",
+      "One browser-based compressor for every major file format.",
     longCopy:
       "Docsora is a complete browser-based file compressor - built to replace desktop tools with a faster, more secure online workflow. Compress files of any type in seconds, with automatic deletion after processing and end-to-end encrypted uploads.",
     faq: [
@@ -635,7 +635,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress email attachments online. Shrink PDFs, decks, and images to fit Gmail, Outlook, and corporate inbox limits - free, secure, instant.",
     h1: "Compress Email Attachments",
     intro:
-      "Send heavy attachments without hitting inbox limits. Free browser-based email compressor for PDFs, decks, sheets, and images.",
+      "Send heavy attachments without hitting inbox limits. Modern browser-based email compressor for PDFs, decks, sheets, and images.",
     keyword: "compress email attachments",
     acceptedFormats: "PDF · DOCX · PPTX · XLSX · Images · EML",
     cardIcon: Mails,
@@ -705,17 +705,17 @@ export const compressVariants: CompressVariantConfig[] = [
     title: "Free File Compressor Online - No Signup | Docsora",
     metaDescription:
       "Free online file compressor - no signup, no installs. Compress PDFs, images, Word, Excel, and PowerPoint files in your browser, securely.",
-    h1: "Free File Compressor",
+    h1: "Modern File Compressor",
     intro:
       "100% free, no signup, no software. Compress any file in your browser with enterprise-grade security.",
     keyword: "free file compressor",
     acceptedFormats: "All major formats",
     cardIcon: Database,
-    cardLabel: "Free File Compressor",
+    cardLabel: "Modern File Compressor",
     cardDescription:
-      "Free compression with no signup, no installs, no compromise.",
+      "Modern compression with no signup, no installs, no compromise.",
     longCopy:
-      "Docsora gives away the core compression experience for free - no signup, no email, no installs. Everything runs in your browser with encrypted uploads and automatic file deletion after processing.",
+      "Docsora gives away the core compression experience in your browser - no signup, no email, no installs. Everything runs in your browser with encrypted uploads and automatic file deletion after processing.",
     faq: [
       {
         question: "Is it really free?",
@@ -737,9 +737,9 @@ export const compressVariants: CompressVariantConfig[] = [
     cardIcon: FileType,
     cardLabel: "Compress Files Online",
     cardDescription:
-      "Free, browser-based file compression for every major format.",
+      "Modern browser-based file compression for every major format.",
     longCopy:
-      "Docsora is a free online file compressor built for modern teams that need to compress files online without installing software. Format-aware optimization typically reduces PDF, DOCX, PPTX, XLSX, JPG, and PNG file size by 60-90% in seconds - encrypted in transit, automatically deleted after processing, and accessible from any browser on macOS, Windows, Linux, ChromeOS, iOS, and Android.",
+      "Docsora is a browser-based file compressor built for modern teams that need to compress files online without installing software. Format-aware optimization typically reduces PDF, DOCX, PPTX, XLSX, JPG, and PNG file size by 60-90% in seconds - encrypted in transit, automatically deleted after processing, and accessible from any browser on macOS, Windows, Linux, ChromeOS, iOS, and Android.",
     useCases: [
       "Compress files online for email attachments",
       "Compress files online without losing quality",
