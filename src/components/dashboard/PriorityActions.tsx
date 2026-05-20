@@ -701,17 +701,6 @@ export function PriorityActions() {
                           <CtaIcon className="w-3.5 h-3.5" />
                         </motion.button>
 
-                        {/* Secondary "Extend Expiry" — only before reminder is sent */}
-                        {action.transferKind === "email" && !isReminded && (
-                          <button
-                            onClick={() => handleExtendExpiry(action.id, "email")}
-                            className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-                          >
-                            <CalendarClock className="w-3 h-3" />
-                            Extend Expiry
-                          </button>
-                        )}
-
                         </div>
                       </div>
                     </div>
