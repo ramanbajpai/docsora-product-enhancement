@@ -716,3 +716,6 @@ export const pdfToolVariants: PDFToolVariant[] = [
 
 export const pdfToolVariantBySlug: Record<string, PDFToolVariant> =
   Object.fromEntries(pdfToolVariants.map((v) => [v.slug, v]));
+
+export const pdfToolVariantByToolId: Record<string, PDFToolVariant> =
+  Object.fromEntries(pdfToolVariants.map((v) => [v.toolId, v]));

@@ -23,7 +23,7 @@ import { MetadataEditor, MetadataUpdateSuccess, MetadataRemoveSuccess } from "@/
 import { OnePageEditor, OnePageProcessing, OnePageSuccess } from "@/components/tools/one-page";
 import { getToolConfig } from "@/components/tools/toolConfig";
 import { PDFToolSEO } from "@/components/tools/PDFToolSEO";
-import type { PDFToolVariant } from "@/data/pdfToolVariants";
+import { type PDFToolVariant, pdfToolVariantByToolId } from "@/data/pdfToolVariants";
 
 type ToolStep = "upload" | "uploading" | "complete" | "action" | "editor" | "processing" | "success";
 
@@ -77,6 +77,7 @@ interface ToolProps {
 export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
   const params = useParams<{ toolId: string }>();
   const toolId = toolIdOverride ?? params.toolId;
+  const effectiveSeoVariant = seoVariant ?? (toolId ? pdfToolVariantByToolId[toolId] : undefined);
   const navigate = useNavigate();
   const location = useLocation();
   const [step, setStep] = useState<ToolStep>("upload");
@@ -726,8 +727,8 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
           )}
         </AnimatePresence>
       </div>
-      {seoVariant && step === "upload" && !incomingFileLoading && (
-        <PDFToolSEO variant={seoVariant} />
+      {effectiveSeoVariant && step === "upload" && !incomingFileLoading && (
+        <PDFToolSEO variant={effectiveSeoVariant} />
       )}
     </AppLayout>
   );
