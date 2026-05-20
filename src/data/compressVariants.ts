@@ -705,13 +705,13 @@ export const compressVariants: CompressVariantConfig[] = [
     title: "Free File Compressor Online - No Signup | Docsora",
     metaDescription:
       "Free online file compressor - no signup, no installs. Compress PDFs, images, Word, Excel, and PowerPoint files in your browser, securely.",
-    h1: "Free File Compressor",
+    h1: "Modern File Compressor",
     intro:
       "100% free, no signup, no software. Compress any file in your browser with enterprise-grade security.",
     keyword: "free file compressor",
     acceptedFormats: "All major formats",
     cardIcon: Database,
-    cardLabel: "Free File Compressor",
+    cardLabel: "Modern File Compressor",
     cardDescription:
       "Free compression with no signup, no installs, no compromise.",
     longCopy:
