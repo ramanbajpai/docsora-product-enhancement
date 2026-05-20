@@ -286,7 +286,7 @@ const searchCategories: { heading: string; items: { slug: string; label: string 
       { slug: "reduce-image-size", label: "Reduce image size" },
       { slug: "reduce-powerpoint-file-size", label: "Reduce PowerPoint file size" },
       { slug: "reduce-excel-file-size", label: "Reduce Excel file size" },
-      { slug: "reduce-spreadsheet-file-size", label: "Reduce spreadsheet file size" },
+      { slug: "guides/reduce-spreadsheet-file-size", label: "Reduce spreadsheet file size" },
     ],
   },
   {
@@ -305,7 +305,7 @@ const searchCategories: { heading: string; items: { slug: string; label: string 
       { slug: "reduce-file-size-for-email", label: "Reduce email attachment size" },
       { slug: "compress-email-attachments", label: "Compress files for Gmail" },
       { slug: "compress-email-attachments", label: "Compress Outlook attachments" },
-      { slug: "compress-pitch-decks-for-email", label: "Compress pitch decks for email" },
+      { slug: "guides/compress-pitch-decks-for-email", label: "Compress pitch decks for email" },
     ],
   },
   {
@@ -314,7 +314,7 @@ const searchCategories: { heading: string; items: { slug: string; label: string 
       { slug: "compress-jpg", label: "Compress JPG" },
       { slug: "compress-png", label: "Compress PNG" },
       { slug: "compress-images", label: "Compress WEBP images" },
-      { slug: "compress-images-for-websites", label: "Compress images for websites" },
+      { slug: "guides/compress-images-for-websites", label: "Compress images for websites" },
     ],
   },
 ];
