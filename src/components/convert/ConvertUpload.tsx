@@ -541,7 +541,7 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files, variant }: Conv
                       
                       <span className="relative flex items-center gap-2 text-primary-foreground font-medium">
                         <Upload className="w-4 h-4" />
-                        Choose Files
+                        {ctaLabel}
                       </span>
                     </motion.button>
                   </motion.div>
