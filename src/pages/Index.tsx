@@ -153,12 +153,6 @@ export default function Index() {
         open={isGated} 
         onClose={() => setShowAuthGate(false)} 
       />
-
-      <StartProjectModal
-        open={startProjectOpen}
-        onOpenChange={setStartProjectOpen}
-        initialTemplateId={startProjectInitial}
-      />
     </AppLayout>
   );
 }
