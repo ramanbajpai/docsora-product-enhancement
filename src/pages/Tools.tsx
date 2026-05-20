@@ -362,7 +362,8 @@ export default function Tools() {
       navigate("/templates");
       return;
     }
-    navigate(`/tools/${tool.id}`);
+    const slug = pdfToolVariantByToolId[tool.id]?.slug;
+    navigate(slug ? `/${slug}` : `/tools/${tool.id}`);
   };
 
   return (
