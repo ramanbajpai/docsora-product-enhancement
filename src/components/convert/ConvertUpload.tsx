@@ -425,10 +425,10 @@ const ConvertUpload = ({ onFilesUploaded, onStartConvert, files, variant }: Conv
                         className="text-[1.65rem] md:text-[2rem] font-semibold text-foreground mb-4 tracking-[-0.02em]"
                         style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}
                       >
-                        {isDragging ? 'Release to upload' : 'Convert with confidence'}
+                        {isDragging ? 'Release to upload' : uploadTitle}
                       </h1>
-                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-xs mx-auto leading-relaxed">
-                        Transform documents into the formats you need — fast, accurate, and secure.
+                      <p className="text-muted-foreground/80 text-[0.95rem] max-w-md mx-auto leading-relaxed">
+                        {uploadDescription}
                       </p>
                     </motion.div>
                   )}
