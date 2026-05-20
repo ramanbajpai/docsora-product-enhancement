@@ -1083,7 +1083,7 @@ export function CompressSEO({ variant }: CompressSEOProps = {}) {
                 >
                   <div className="flex items-center gap-2.5 mb-4">
                     <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
-                      <Scale className="w-3.5 h-3.5 text-primary/80" />
+                      <GitCompare className="w-3.5 h-3.5 text-primary/80" />
                     </div>
                     <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
                       Comparison
