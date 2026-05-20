@@ -254,6 +254,17 @@ const App = () => (
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
             <Route path="/edit-pdf" element={<PDFToolLanding />} />
+            {/* Edit PDF — workflow sub-slugs (share the edit editor, render unique SEO) */}
+            <Route path="/edit-contract-pdf" element={<PDFToolLanding />} />
+            <Route path="/edit-proposal-pdf" element={<PDFToolLanding />} />
+            <Route path="/annotate-pdf" element={<PDFToolLanding />} />
+            <Route path="/add-signature-to-pdf" element={<PDFToolLanding />} />
+            <Route path="/redact-pdf" element={<PDFToolLanding />} />
+            <Route path="/edit-scanned-pdf" element={<PDFToolLanding />} />
+            <Route path="/add-image-to-pdf" element={<PDFToolLanding />} />
+            <Route path="/markup-pdf-online" element={<PDFToolLanding />} />
+            <Route path="/browser-pdf-editor" element={<PDFToolLanding />} />
+            <Route path="/edit-pdf-without-adobe" element={<PDFToolLanding />} />
             <Route path="/merge-pdf" element={<PDFToolLanding />} />
             <Route path="/split-pdf" element={<PDFToolLanding />} />
             <Route path="/rotate-pdf" element={<PDFToolLanding />} />
