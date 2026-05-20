@@ -10,6 +10,8 @@ export interface PDFToolUseCase { title: string; description: string }
 export interface PDFToolFeature { title: string; description: string }
 export interface PDFToolWorkflowLink { slug: string; title: string; description: string }
 export interface PDFToolCrossLink { slug: string; title: string; description: string }
+export interface PDFToolAudience { title: string; description: string }
+export interface PDFToolWorkflowChain { title: string; steps: { label: string; slug: string }[] }
 
 export interface PDFToolVariant {
   slug: string;
@@ -36,6 +38,8 @@ export interface PDFToolVariant {
   supportedDocTypes?: string[];
   workflowLinks?: PDFToolWorkflowLink[];
   crossLinks?: PDFToolCrossLink[];
+  audiences?: PDFToolAudience[];
+  workflowChains?: PDFToolWorkflowChain[];
 }
 
 const universalFormats = ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'];
