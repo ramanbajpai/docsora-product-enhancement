@@ -27,6 +27,7 @@ import {
   BookOpenCheck,
   HeartHandshake,
 } from "lucide-react";
+import { GitCompare } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
