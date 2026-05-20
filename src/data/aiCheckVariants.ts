@@ -158,39 +158,39 @@ export const aiCheckVariants: AICheckVariantConfig[] = [
     ],
   },
   {
-    slug: "check-contract-language",
-    title: "AI Contract Language Checker | Professional Document Review | Docsora",
+    slug: "sentence-enhancements",
+    title: "AI Sentence Enhancements | Rewrite Sentences for Clarity | Docsora",
     metaDescription:
-      "Review contract wording, grammar and clarity online with AI-powered document analysis built for legal and business workflows.",
-    h1: "AI Contract Language Checker",
+      "Sharpen every sentence with AI-powered enhancements for clarity, tone and concision across documents, decks and long-form writing.",
+    h1: "AI Sentence Enhancements",
     intro:
-      "Review contracts, NDAs and legal drafts for grammar, ambiguity and clarity issues before signature or external review.",
-    keyword: "ai contract review",
+      "Tighten wordy sentences, smooth awkward phrasing and lift tone across any document with sentence-level AI rewrites.",
+    keyword: "ai sentence enhancement",
     acceptedFormats: "PDF · DOC · DOCX · TXT",
-    cardIcon: Scale,
-    cardLabel: "Check Contract Language",
+    cardIcon: Sparkles,
+    cardLabel: "Sentence Enhancements",
     cardDescription:
-      "AI-powered review of contract language, grammar and clarity for legal workflows.",
+      "Sentence-level AI rewrites for clarity, tone and concision across any document.",
     longCopy:
-      "Docsora's AI contract language checker reviews contracts, NDAs, MSAs and legal drafts for grammar, ambiguity, inconsistent terminology and clarity issues. It's an editorial layer for legal teams - it flags wording risks and suggests cleaner phrasing without replacing legal judgement.",
+      "Docsora's sentence enhancement layer rewrites individual sentences for clarity, concision and tone without changing meaning. It flags wordy constructions, passive voice, ambiguous phrasing and inconsistent register, then suggests cleaner alternatives inline - so every paragraph reads with the precision of a senior editor.",
     useCases: [
-      "Pre-review NDAs before sending",
-      "Audit MSAs for ambiguous wording",
-      "Check vendor contracts for clarity",
-      "Review employment agreements",
-      "Polish partnership terms",
-      "Tighten SLA language",
+      "Tighten wordy paragraphs",
+      "Rewrite passive voice into active",
+      "Smooth awkward transitions",
+      "Align tone across long documents",
+      "Sharpen executive summaries",
+      "Polish customer-facing copy",
     ],
     faq: [
       {
-        question: "Can I check contracts for grammar mistakes online?",
+        question: "How do sentence enhancements differ from grammar checks?",
         answer:
-          "Yes. Upload a contract in PDF, DOC, DOCX or TXT and Docsora AI Check returns grammar, clarity and consistency suggestions inline - secure, browser-based, with files deleted after processing.",
+          "Grammar checks catch mechanical errors. Sentence enhancements go further - rewriting phrasing for clarity, concision and tone while preserving the original meaning, so the document reads more professionally end to end.",
       },
       {
-        question: "Does Docsora replace a legal review?",
+        question: "Will the rewrites change the meaning of my writing?",
         answer:
-          "No. Docsora is an editorial layer that strengthens contract language and clarity. It does not provide legal advice or replace counsel - it complements human legal review.",
+          "No. Docsora's sentence enhancements preserve intent and factual content. Suggestions focus on structure, word choice and flow - you stay in control and accept or reject each change inline.",
       },
     ],
   },

@@ -229,8 +229,8 @@ export const aiCheckGuides: AICheckGuide[] = [
     readTime: "6 min guide",
     category: "Contract review",
     icon: Scale,
-    primaryToolSlug: "check-contract-language",
-    primaryToolLabel: "Check Contract Language",
+    primaryToolSlug: "sentence-enhancements",
+    primaryToolLabel: "Sentence Enhancements",
     sections: [
       {
         heading: "Where contract language quietly fails",
@@ -290,7 +290,7 @@ export const aiCheckGuides: AICheckGuide[] = [
       },
     ],
     relatedTools: [
-      { slug: "check-contract-language", label: "Check Contract Language" },
+      { slug: "sentence-enhancements", label: "Sentence Enhancements" },
       { slug: "review-contracts-online", label: "Review Contracts Online" },
       { slug: "document-proofreader", label: "Document Proofreader" },
       { slug: "professional-writing-checker", label: "Professional Writing Checker" },
