@@ -15,6 +15,7 @@ import {
   Activity,
   ArrowRight,
   Layers,
+  Eye,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -32,17 +33,19 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
   const { templates, toggleFavorite, remove } = useSignTemplates();
   const [query, setQuery] = useState("");
   const [launchTpl, setLaunchTpl] = useState<SignTemplate | null>(null);
+  const [previewEmpty, setPreviewEmpty] = useState(false);
 
+  const sourceTemplates = previewEmpty ? [] : templates;
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return templates.filter((t) => {
+    return sourceTemplates.filter((t) => {
       return (
         !q ||
         t.name.toLowerCase().includes(q) ||
         (t.description ?? "").toLowerCase().includes(q)
       );
     });
-  }, [templates, query]);
+  }, [sourceTemplates, query]);
 
   const recent = [...filtered]
     .filter((t) => t.lastUsedAt)
@@ -75,16 +78,29 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
           Configured once. Send forever. Just add a name and email.
         </p>
 
-        <Link
-          to="/track"
-          className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-medium text-primary hover:text-primary/80 transition-colors"
-        >
-          <Activity className="w-3.5 h-3.5" />
-          View live activity
-          <ArrowRight className="w-3 h-3" />
-        </Link>
+        <div className="mt-4 flex items-center gap-4">
+          <Link
+            to="/track"
+            className="inline-flex items-center gap-1.5 text-[12px] font-medium text-primary hover:text-primary/80 transition-colors"
+          >
+            <Activity className="w-3.5 h-3.5" />
+            View live activity
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+          <button
+            onClick={() => setPreviewEmpty((v) => !v)}
+            className="inline-flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Eye className="w-3.5 h-3.5" />
+            {previewEmpty ? "Show my templates" : "Preview empty state"}
+          </button>
+        </div>
       </motion.div>
 
+      {previewEmpty ? (
+        <EmptyState onCreateNew={onCreateNew} />
+      ) : (
+        <>
       {/* Search — secondary */}
       <div className="mb-7">
         <div className="relative">
@@ -152,6 +168,8 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         open={!!launchTpl}
         onOpenChange={(o) => !o && setLaunchTpl(null)}
       />
+        </>
+      )}
     </div>
   );
 }
