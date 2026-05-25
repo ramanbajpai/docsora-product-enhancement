@@ -361,7 +361,7 @@ function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
         </div>
 
         <h2 className="text-2xl md:text-[28px] font-semibold tracking-tight">
-          Save a workflow once. Send it forever.
+          Save a template once. Send it forever.
         </h2>
         <p className="mt-2 text-[13px] md:text-sm text-muted-foreground max-w-md mx-auto">
           Templates turn your repeat agreements into one-click sends. Configure roles, fields, and delivery — then launch in seconds.
