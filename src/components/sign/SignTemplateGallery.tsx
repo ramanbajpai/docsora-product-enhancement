@@ -20,6 +20,16 @@ import {
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { SignTemplate, getTemplateDocuments, useSignTemplates } from "@/hooks/useSignTemplates";
 import SignTemplateLaunchModal from "./SignTemplateLaunchModal";
 import SignModeSwitcher from "./SignModeSwitcher";
@@ -33,6 +43,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
   const { templates, toggleFavorite, remove } = useSignTemplates();
   const [query, setQuery] = useState("");
   const [launchTpl, setLaunchTpl] = useState<SignTemplate | null>(null);
+  const [deleteTpl, setDeleteTpl] = useState<SignTemplate | null>(null);
   const [previewEmpty, setPreviewEmpty] = useState(false);
 
   const sourceTemplates = previewEmpty ? [] : templates;
@@ -124,7 +135,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 index={i}
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
-                onDelete={() => remove(t.id)}
+                onDelete={() => setDeleteTpl(t)}
               />
             ))}
           </Grid>
@@ -144,7 +155,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 index={i}
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
-                onDelete={() => remove(t.id)}
+                onDelete={() => setDeleteTpl(t)}
               />
             ))}
           </Grid>
@@ -168,6 +179,43 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
         open={!!launchTpl}
         onOpenChange={(o) => !o && setLaunchTpl(null)}
       />
+
+      <AlertDialog open={!!deleteTpl} onOpenChange={(o) => !o && setDeleteTpl(null)}>
+        <AlertDialogContent className="overflow-hidden border-border/60 bg-card/95 backdrop-blur-2xl shadow-[0_30px_80px_-30px_hsl(var(--destructive)/0.45)] sm:max-w-[440px]">
+          <div className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-56 w-56 rounded-full bg-destructive/15 blur-3xl" />
+            <div className="absolute -bottom-24 right-0 h-48 w-48 rounded-full bg-red-500/10 blur-3xl" />
+          </div>
+          <div className="mx-auto mb-1 inline-flex items-center justify-center h-12 w-12 rounded-2xl border border-destructive/30 bg-destructive/10 text-destructive">
+            <Trash2 className="w-5 h-5" />
+          </div>
+          <AlertDialogHeader className="text-center sm:text-center">
+            <AlertDialogTitle className="text-[18px] font-semibold tracking-tight">
+              Delete this template?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[13px] text-muted-foreground leading-relaxed">
+              <span className="block text-foreground/80 font-medium mb-1">
+                {deleteTpl?.name}
+              </span>
+              This is permanent and can't be undone. Past sends won't be affected, but you'll need to rebuild it from scratch to launch it again.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-2 mt-2">
+            <AlertDialogCancel className="h-10 rounded-xl px-5 mt-0">
+              Keep template
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (deleteTpl) remove(deleteTpl.id);
+                setDeleteTpl(null);
+              }}
+              className="h-10 rounded-xl px-5 bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_10px_30px_-8px_hsl(var(--destructive)/0.6)]"
+            >
+              Delete permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
         </>
       )}
     </div>
