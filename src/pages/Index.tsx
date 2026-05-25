@@ -44,13 +44,8 @@ export default function Index() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
-        {/* Global header row: greeting + Focus toggle */}
-        <div className="flex items-start justify-between gap-4">
-          <WelcomeBanner userName="Alex" />
-          <div className="pt-1">
-            <FocusToggle />
-          </div>
-        </div>
+        {/* Global header: greeting card with Focus toggle */}
+        <WelcomeBanner userName="Alex" rightSlot={<FocusToggle />} />
 
         <AnimatePresence mode="wait">
           {isFocusMode ? (
