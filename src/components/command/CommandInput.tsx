@@ -21,22 +21,16 @@ interface CommandInputProps {
 }
 
 const LIVING_PLACEHOLDERS = [
-  "What's the status of the Docsora contract?",
-  "Send the Acme MSA to Sarah for signature…",
-  "Summarize the Helios deck in 5 bullets",
-  "Remind everyone with pending signatures",
-  "Who's blocking the Northwind agreement?",
-  "Automate reminders on expiring contracts",
-  "Draft an NDA for TechCorp and send it",
-  "Find the latest version of the Globex SOW",
-  "Show me every contract expiring this quarter",
-  "Countersign the Initech agreement and send it back",
-  "Track all signatures waiting on legal",
-  "Compare v2 and v3 of the Wayne Enterprises MSA",
-  "Email the signed Pied Piper NDA to the team",
-  "Which deals are stuck in review?",
-  "Pull key terms from the Stark Industries contract",
-  "Translate the Soylent agreement to French",
+  "What needs attention?",
+  "Coordinate work…",
+  "Ask Docsora to take action…",
+  "Find blocked operations…",
+  "Keep operations moving…",
+  "Remind pending signers",
+  "Open stalled workflows",
+  "Extend expiring transfers",
+  "Show delayed approvals",
+  "What's blocking onboarding?",
 ];
 
 export function CommandInput({
