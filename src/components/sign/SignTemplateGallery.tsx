@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Layers,
   Eye,
+  LayoutTemplate,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -341,11 +342,6 @@ function IconBtn({
 /* ──────────────────────────── empty state ──────────────────────────── */
 
 function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
-  const ideas = [
-    { icon: FileText, title: "NDA", desc: "Mutual confidentiality, 1 signer" },
-    { icon: Users, title: "Client agreement", desc: "Scope + payment, 2 signers" },
-    { icon: Sparkles, title: "Offer letter", desc: "Role, salary, start date" },
-  ];
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -362,7 +358,7 @@ function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
         </div>
 
         <div className="mx-auto mb-5 inline-flex items-center justify-center h-14 w-14 rounded-2xl border border-border/60 bg-background/60 backdrop-blur-xl shadow-inner">
-          <Sparkles className="w-6 h-6 text-primary" />
+          <LayoutTemplate className="w-6 h-6 text-primary" />
         </div>
 
         <h2 className="text-2xl md:text-[28px] font-semibold tracking-tight">
@@ -372,42 +368,18 @@ function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
           Templates turn your repeat agreements into one-click sends. Configure roles, fields, and delivery — then launch in seconds.
         </p>
 
-        <div className="mt-7 flex items-center justify-center gap-2">
-          <Button onClick={onCreateNew} size="sm" className="h-10 px-5 gap-1.5 rounded-xl">
-            <Plus className="w-4 h-4" /> Create your first template
-          </Button>
-          <Link
-            to="/track"
-            className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl text-[12.5px] font-medium text-foreground/70 hover:text-foreground hover:bg-muted/50 transition-colors"
+        <div className="mt-8 flex items-center justify-center">
+          <motion.button
+            onClick={onCreateNew}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 0 }}
+            className="group relative inline-flex items-center gap-2 h-12 px-7 rounded-2xl text-sm font-medium text-primary-foreground bg-gradient-to-b from-primary to-primary/85 shadow-[0_10px_30px_-8px_hsl(var(--primary)/0.6),inset_0_1px_0_0_hsl(0_0%_100%/0.25)] ring-1 ring-primary/40 hover:shadow-[0_18px_40px_-10px_hsl(var(--primary)/0.7),inset_0_1px_0_0_hsl(0_0%_100%/0.3)] transition-shadow overflow-hidden"
           >
-            View live activity
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
-          {ideas.map((i, idx) => (
-            <motion.button
-              key={i.title}
-              onClick={onCreateNew}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 + idx * 0.05 }}
-              whileHover={{ y: -2 }}
-              className="group relative rounded-2xl border border-border/50 bg-background/40 hover:bg-background/70 hover:border-primary/30 backdrop-blur-md p-4 transition-all"
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 text-primary">
-                  <i.icon className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[13px] font-medium tracking-tight">{i.title}</p>
-                  <p className="text-[11.5px] text-muted-foreground truncate">{i.desc}</p>
-                </div>
-                <ArrowUpRight className="ml-auto w-3.5 h-3.5 text-muted-foreground group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
-              </div>
-            </motion.button>
-          ))}
+            <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <Plus className="w-4 h-4" />
+            <span>Create your first template</span>
+            <ArrowRight className="w-4 h-4 opacity-80 group-hover:translate-x-0.5 transition-transform" />
+          </motion.button>
         </div>
 
         <p className="mt-8 text-[11px] text-muted-foreground/80">
