@@ -571,13 +571,50 @@ export function PriorityActions() {
                     : "hover:shadow-sm"
                 )}
               >
-                {/* Left accent — primary at 30%, brighter when on autopilot */}
+                {/* Left accent — living gradient that flows vertically */}
                 <div
                   className={cn(
-                    "absolute left-0 top-0 bottom-0 w-[2px] rounded-l-lg transition-colors",
-                    isOnAutopilot ? "bg-primary" : "bg-primary/30"
+                    "absolute left-0 top-0 bottom-0 w-[3px] rounded-l-lg overflow-hidden",
+                    isOnAutopilot ? "opacity-100" : "opacity-80"
                   )}
-                />
+                >
+                  {/* Base gradient column */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.9) 30%, hsl(var(--primary) / 0.6) 60%, hsl(var(--primary) / 0.15) 100%)",
+                      backgroundSize: "100% 200%",
+                    }}
+                  />
+                  {/* Moving shimmer */}
+                  <motion.div
+                    aria-hidden
+                    className="absolute inset-x-0 h-1/2"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.95) 50%, transparent 100%)",
+                      filter: "blur(2px)",
+                    }}
+                    animate={{ top: ["-50%", "100%"] }}
+                    transition={{
+                      duration: isOnAutopilot ? 2.2 : 3.6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.25,
+                    }}
+                  />
+                  {/* Soft outer glow */}
+                  <div
+                    aria-hidden
+                    className="absolute -inset-y-2 -right-1 w-2"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, hsl(var(--primary) / 0.35), transparent)",
+                      filter: "blur(4px)",
+                    }}
+                  />
+                </div>
 
                 {/* Dismiss — top-right corner */}
                 <button
