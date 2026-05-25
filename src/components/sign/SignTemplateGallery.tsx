@@ -16,7 +16,6 @@ import {
   ArrowRight,
   Layers,
   Eye,
-  LayoutTemplate,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -358,7 +357,7 @@ function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
         </div>
 
         <div className="mx-auto mb-5 inline-flex items-center justify-center h-14 w-14 rounded-2xl border border-border/60 bg-background/60 backdrop-blur-xl shadow-inner">
-          <LayoutTemplate className="w-6 h-6 text-primary" />
+          <Layers className="w-6 h-6 text-primary" />
         </div>
 
         <h2 className="text-2xl md:text-[28px] font-semibold tracking-tight">
