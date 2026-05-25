@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Layers,
   Eye,
+  LayoutTemplate,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
