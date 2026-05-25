@@ -337,3 +337,83 @@ function IconBtn({
     </button>
   );
 }
+
+/* ──────────────────────────── empty state ──────────────────────────── */
+
+function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
+  const ideas = [
+    { icon: FileText, title: "NDA", desc: "Mutual confidentiality, 1 signer" },
+    { icon: Users, title: "Client agreement", desc: "Scope + payment, 2 signers" },
+    { icon: Sparkles, title: "Offer letter", desc: "Role, salary, start date" },
+  ];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="relative"
+    >
+      <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 backdrop-blur-xl px-8 md:px-12 py-14 md:py-16 text-center shadow-[0_30px_80px_-40px_hsl(var(--primary)/0.45)]">
+        {/* ambient glow */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-blue-500/15 blur-3xl" />
+          <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-red-500/10 blur-3xl" />
+        </div>
+
+        <div className="mx-auto mb-5 inline-flex items-center justify-center h-14 w-14 rounded-2xl border border-border/60 bg-background/60 backdrop-blur-xl shadow-inner">
+          <Sparkles className="w-6 h-6 text-primary" />
+        </div>
+
+        <h2 className="text-2xl md:text-[28px] font-semibold tracking-tight">
+          Save a workflow once. Send it forever.
+        </h2>
+        <p className="mt-2 text-[13px] md:text-sm text-muted-foreground max-w-md mx-auto">
+          Templates turn your repeat agreements into one-click sends. Configure roles, fields, and delivery — then launch in seconds.
+        </p>
+
+        <div className="mt-7 flex items-center justify-center gap-2">
+          <Button onClick={onCreateNew} size="sm" className="h-10 px-5 gap-1.5 rounded-xl">
+            <Plus className="w-4 h-4" /> Create your first template
+          </Button>
+          <Link
+            to="/track"
+            className="inline-flex items-center gap-1.5 h-10 px-4 rounded-xl text-[12.5px] font-medium text-foreground/70 hover:text-foreground hover:bg-muted/50 transition-colors"
+          >
+            View live activity
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+          {ideas.map((i, idx) => (
+            <motion.button
+              key={i.title}
+              onClick={onCreateNew}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 + idx * 0.05 }}
+              whileHover={{ y: -2 }}
+              className="group relative rounded-2xl border border-border/50 bg-background/40 hover:bg-background/70 hover:border-primary/30 backdrop-blur-md p-4 transition-all"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 text-primary">
+                  <i.icon className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-medium tracking-tight">{i.title}</p>
+                  <p className="text-[11.5px] text-muted-foreground truncate">{i.desc}</p>
+                </div>
+                <ArrowUpRight className="ml-auto w-3.5 h-3.5 text-muted-foreground group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+              </div>
+            </motion.button>
+          ))}
+        </div>
+
+        <p className="mt-8 text-[11px] text-muted-foreground/80">
+          Takes about 2 minutes. Reuse forever.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
