@@ -1901,9 +1901,6 @@ function SubStepPeople({
   onNext: () => void;
   canContinue: boolean;
 }) {
-  const usedLabels = new Set(roles.map((r) => r.label.toLowerCase()));
-  const remainingPresets = PERSON_PRESETS.filter((p) => !usedLabels.has(p.toLowerCase()));
-
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-border/50 bg-card/30 divide-y divide-border/40">
@@ -1952,33 +1949,9 @@ function SubStepPeople({
           >
             <Plus className="w-3.5 h-3.5" /> Add another person
           </button>
-
-          {remainingPresets.length > 0 && (
-            <>
-              <span className="text-[11px] text-muted-foreground ml-1">Quick add:</span>
-              {remainingPresets.slice(0, 6).map((preset) => (
-                <button
-                  key={preset}
-                  onClick={() => {
-                    if (roles.length >= MAX_ROLES) return;
-                    addRole();
-                    // Patch the newly added role label on next tick
-                    setTimeout(() => {
-                      // last role
-                    }, 0);
-                    // The simpler path: update the last role after adding
-                    // We rely on React's state batching; use a microtask:
-                    queueMicrotask(() => {
-                      // No-op safety; actual rename happens via direct list lookup below
-                    });
-                  }}
-                  className="inline-flex items-center gap-1 h-7 px-2.5 rounded-full bg-muted/60 hover:bg-muted text-[11px] font-medium text-foreground/80 hover:text-foreground transition"
-                >
-                  + {preset}
-                </button>
-              ))}
-            </>
-          )}
+          <span className="text-[11px] text-muted-foreground ml-1">
+            Examples: {PERSON_PRESETS.join(" · ")}
+          </span>
         </div>
       </div>
 
