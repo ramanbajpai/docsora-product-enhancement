@@ -1467,30 +1467,45 @@ function DownloadNameBuilder({
   filenamePattern: string;
   setFilenamePattern: (s: string) => void;
 }) {
+  const isMulti = documents.length > 1;
+
   // Parse current pattern → simple chip state
   const hasDate = /\{\{\s*DATE\s*\}\}/.test(filenamePattern);
   const hasCompany = /\{\{\s*COMPANY_NAME\s*\}\}/.test(filenamePattern);
-  const isMulti = documents.length > 1;
 
-  const buildPattern = (opts: { date: boolean; company: boolean }) => {
+  // Ensure {{DOCUMENT_NAME}} stays in the pattern when multiple docs are uploaded
+  // (each file gets its own name appended). Drop it when only one doc is left.
+  useEffect(() => {
+    const hasDoc = /\{\{\s*DOCUMENT_NAME\s*\}\}/.test(filenamePattern);
+    if (isMulti && !hasDoc) {
+      setFilenamePattern(buildPattern({ date: hasDate, company: hasCompany, multi: true }));
+    } else if (!isMulti && hasDoc) {
+      setFilenamePattern(buildPattern({ date: hasDate, company: hasCompany, multi: false }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMulti]);
+
+  function buildPattern(opts: { date: boolean; company: boolean; multi: boolean }) {
     const parts: string[] = ["{{TEMPLATE_NAME}}"];
+    if (opts.multi) parts.push("{{DOCUMENT_NAME}}");
     if (opts.company) parts.push("{{COMPANY_NAME}}");
     if (opts.date) parts.push("{{DATE}}");
-    const suffix = isMulti ? "Completed Package.pdf" : "Signed.pdf";
-    return `${parts.join(" - ")} - ${suffix}`;
-  };
+    return `${parts.join(" - ")} - Signed.pdf`;
+  }
 
   const toggle = (key: "date" | "company") => {
     setFilenamePattern(
       buildPattern({
         date: key === "date" ? !hasDate : hasDate,
         company: key === "company" ? !hasCompany : hasCompany,
+        multi: isMulti,
       }),
     );
   };
 
   const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-  const previewName = (() => {
+
+  const renderName = (docDisplayName?: string) => {
     const parts = parseFilenamePattern(filenamePattern);
     return parts
       .map((p) => {
@@ -1498,10 +1513,17 @@ function DownloadNameBuilder({
         if (p.value === "TEMPLATE_NAME") return name.trim() || "Employee Onboarding Agreement";
         if (p.value === "DATE") return today;
         if (p.value === "COMPANY_NAME") return "Acme Studio";
+        if (p.value === "DOCUMENT_NAME") return docDisplayName ?? "Document";
         return `[${p.value.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}]`;
       })
       .join("");
-  })();
+  };
+
+  const stripExt = (n: string) => n.replace(/\.(pdf|docx?|odt)$/i, "");
+  const previewDocs = isMulti
+    ? documents.slice(0, 2).map((d) => stripExt(d.name))
+    : [stripExt(documents[0]?.name || "")];
+  const remaining = isMulti ? Math.max(0, documents.length - 2) : 0;
 
   const [advanced, setAdvanced] = useState(false);
 
