@@ -181,12 +181,12 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
       />
 
       <AlertDialog open={!!deleteTpl} onOpenChange={(o) => !o && setDeleteTpl(null)}>
-        <AlertDialogContent className="overflow-hidden border-border/60 bg-card/95 backdrop-blur-2xl shadow-[0_30px_80px_-30px_hsl(var(--destructive)/0.45)] sm:max-w-[440px]">
+        <AlertDialogContent className="overflow-hidden border-border/60 bg-card/95 backdrop-blur-2xl shadow-[0_30px_80px_-30px_hsl(var(--foreground)/0.25)] sm:max-w-[440px]">
           <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-56 w-56 rounded-full bg-destructive/15 blur-3xl" />
-            <div className="absolute -bottom-24 right-0 h-48 w-48 rounded-full bg-red-500/10 blur-3xl" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-56 w-56 rounded-full bg-muted-foreground/10 blur-3xl" />
+            <div className="absolute -bottom-24 right-0 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
           </div>
-          <div className="mx-auto mb-1 inline-flex items-center justify-center h-12 w-12 rounded-2xl border border-destructive/30 bg-destructive/10 text-destructive">
+          <div className="mx-auto mb-1 inline-flex items-center justify-center h-12 w-12 rounded-2xl border border-border/60 bg-muted/60 text-foreground/80">
             <Trash2 className="w-5 h-5" />
           </div>
           <AlertDialogHeader className="text-center sm:text-center">
@@ -209,7 +209,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 if (deleteTpl) remove(deleteTpl.id);
                 setDeleteTpl(null);
               }}
-              className="h-10 rounded-xl px-5 bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_10px_30px_-8px_hsl(var(--destructive)/0.6)]"
+              className="h-10 rounded-xl px-5 bg-foreground text-background hover:bg-foreground/90 shadow-[0_10px_30px_-8px_hsl(var(--foreground)/0.35)]"
             >
               Delete permanently
             </AlertDialogAction>
