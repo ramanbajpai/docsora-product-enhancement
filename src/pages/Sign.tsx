@@ -18,6 +18,7 @@ import SignVerifyEmail from "@/components/sign/SignVerifyEmail";
 import SignVerifyCode from "@/components/sign/SignVerifyCode";
 import SignTemplateGallery from "@/components/sign/SignTemplateGallery";
 import SignTemplateBuilder from "@/components/sign/SignTemplateBuilder";
+import type { SignTemplate } from "@/hooks/useSignTemplates";
 import { SignSEO } from "@/components/sign/SignSEO";
 import type { SignVariantConfig } from "@/data/signVariants";
 
@@ -67,6 +68,7 @@ interface SignProps {
 const Sign = ({ variant }: SignProps = {}) => {
   const location = useLocation();
   const [step, setStep] = useState<SigningStep>("start");
+  const [editingTemplate, setEditingTemplate] = useState<SignTemplate | undefined>(undefined);
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [signatureData, setSignatureData] = useState<SignatureData>({
@@ -326,7 +328,8 @@ const Sign = ({ variant }: SignProps = {}) => {
               >
                 <SignTemplateGallery
                   onBack={() => setStep("start")}
-                  onCreateNew={() => setStep("template-builder")}
+                  onCreateNew={() => { setEditingTemplate(undefined); setStep("template-builder"); }}
+                  onEdit={(t) => { setEditingTemplate(t); setStep("template-builder"); }}
                 />
               </motion.div>
             )}
@@ -341,8 +344,9 @@ const Sign = ({ variant }: SignProps = {}) => {
                 className="flex-1 min-h-0 overflow-y-auto"
               >
                 <SignTemplateBuilder
-                  onBack={() => setStep("templates")}
-                  onSaved={() => setStep("templates")}
+                  editingTemplate={editingTemplate}
+                  onBack={() => { setEditingTemplate(undefined); setStep("templates"); }}
+                  onSaved={() => { setEditingTemplate(undefined); setStep("templates"); }}
                 />
               </motion.div>
             )}
