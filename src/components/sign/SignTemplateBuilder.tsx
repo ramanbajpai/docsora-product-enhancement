@@ -3194,3 +3194,494 @@ function SummaryStat({
     </div>
   );
 }
+
+/* ──────────────────────────────────────────────────────────
+ * STEP 4 — LAUNCH EXPERIENCE
+ * "How should this template behave when launched?"
+ * ────────────────────────────────────────────────────────── */
+
+function StepLaunchExperience({
+  name,
+  setName,
+  description,
+  setDescription,
+  category,
+  setCategory,
+  documents,
+  roles,
+  variables,
+  addVariable,
+  updateVariable,
+  removeVariable,
+  fields,
+  delivery,
+  setDelivery,
+  automation,
+  setAutomation,
+  filenamePattern,
+  setFilenamePattern,
+  signingMode,
+}: {
+  name: string;
+  setName: (s: string) => void;
+  description: string;
+  setDescription: (s: string) => void;
+  category: string;
+  setCategory: (s: string) => void;
+  documents: BuilderDoc[];
+  roles: SignTemplateRole[];
+  variables: SignTemplateVariable[];
+  addVariable: () => void;
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+  removeVariable: (name: string) => void;
+  fields: SignTemplateField[];
+  delivery: SignTemplateDelivery;
+  setDelivery: React.Dispatch<React.SetStateAction<SignTemplateDelivery>>;
+  automation: SignTemplateAutomation;
+  setAutomation: React.Dispatch<React.SetStateAction<SignTemplateAutomation>>;
+  filenamePattern: string;
+  setFilenamePattern: (s: string) => void;
+  signingMode: "sequential" | "parallel";
+}) {
+  const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
+  useEffect(() => {
+    if (!documents.find((d) => d.id === activeDocId) && documents[0]) {
+      setActiveDocId(documents[0].id);
+    }
+  }, [documents, activeDocId]);
+
+  // Per-document variable usage count (based on placeholders in doc name)
+  const docUsage = useMemo(() => {
+    const map = new Map<string, Set<string>>();
+    documents.forEach((d) => {
+      const used = new Set<string>();
+      const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(d.name)) !== null) used.add(m[1]);
+      // Also count tag-suggested vars as "used" so users see them
+      (TAG_VARIABLE_SUGGESTIONS[d.tag ?? "other"] ?? []).forEach((s) => used.add(s.name));
+      map.set(d.id, used);
+    });
+    return map;
+  }, [documents]);
+
+  const activeDocVars = useMemo(() => {
+    const used = docUsage.get(activeDocId) ?? new Set<string>();
+    return variables.filter((v) => used.has(v.name));
+  }, [variables, docUsage, activeDocId]);
+
+  const otherVars = useMemo(() => {
+    const all = new Set<string>();
+    docUsage.forEach((s) => s.forEach((v) => all.add(v)));
+    return variables.filter((v) => !all.has(v.name));
+  }, [variables, docUsage]);
+
+  const sample = useMemo(() => {
+    const obj: Record<string, string> = { TEMPLATE_NAME: name || "Template" };
+    variables.forEach((v) => {
+      obj[v.name] = v.defaultValue || `[${v.label}]`;
+    });
+    return obj;
+  }, [variables, name]);
+
+  const previewSubject = applyTemplateVariables(delivery.emailSubject ?? "", sample);
+  const previewFilename = applyTemplateVariables(filenamePattern, sample);
+
+  const requiredVars = variables.filter((v) => v.required);
+  const signerCount = roles.filter((r) => (r.type ?? "signer") === "signer").length;
+
+  return (
+    <div className="space-y-10">
+      <SectionTitle
+        title="Launch Experience"
+        sub="How this template behaves when launched — the questions it asks, the email it sends, and what recipients see."
+      />
+
+      {/* ────────── Section 1: Personalization Variables ────────── */}
+      <section className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-[15px] font-semibold tracking-tight inline-flex items-center gap-2">
+              <Braces className="w-3.5 h-3.5 text-primary" /> Launch questions
+            </h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5 max-w-xl">
+              These are the questions Docsora asks you each time you launch this template. We
+              auto-detected them from your documents — edit, remove or add more.
+            </p>
+          </div>
+          <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
+            <Sparkles className="w-3 h-3" /> Auto-detected
+          </div>
+        </div>
+
+        {/* Document tabs */}
+        {documents.length > 1 && (
+          <div className="flex items-center gap-1 overflow-x-auto pb-1 -mx-1 px-1">
+            {documents.map((d) => {
+              const active = d.id === activeDocId;
+              const count = docUsage.get(d.id)?.size ?? 0;
+              return (
+                <button
+                  key={d.id}
+                  onClick={() => setActiveDocId(d.id)}
+                  className={cn(
+                    "shrink-0 inline-flex items-center gap-2 h-8 px-3 rounded-full border text-[12px] transition-all",
+                    active
+                      ? "border-primary/50 bg-primary/10 text-foreground"
+                      : "border-border/50 bg-card/30 text-muted-foreground hover:text-foreground hover:bg-card/50",
+                  )}
+                >
+                  <FileText className="w-3 h-3" />
+                  <span className="font-medium truncate max-w-[180px]">{d.name}</span>
+                  <span
+                    className={cn(
+                      "tabular-nums text-[10.5px] px-1.5 rounded-full",
+                      active ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        <VariableCardList
+          title={
+            documents.length > 1
+              ? `Used in ${documents.find((d) => d.id === activeDocId)?.name ?? "this document"}`
+              : "Questions"
+          }
+          vars={activeDocVars}
+          updateVariable={updateVariable}
+          removeVariable={removeVariable}
+        />
+
+        {otherVars.length > 0 && (
+          <VariableCardList
+            title="Other variables"
+            vars={otherVars}
+            updateVariable={updateVariable}
+            removeVariable={removeVariable}
+          />
+        )}
+
+        <button
+          onClick={addVariable}
+          className="w-full rounded-2xl border border-dashed border-border/60 px-4 py-3 text-[12.5px] text-muted-foreground hover:text-foreground hover:border-border transition-colors inline-flex items-center justify-center gap-1.5"
+        >
+          <Plus className="w-3.5 h-3.5" /> Add another question
+        </button>
+      </section>
+
+      <div className="border-t border-border/40" />
+
+      {/* ────────── Section 2: Delivery ────────── */}
+      <StepDelivery
+        delivery={delivery}
+        setDelivery={setDelivery}
+        automation={automation}
+        setAutomation={setAutomation}
+      />
+
+      <div className="border-t border-border/40" />
+
+      {/* ────────── Section 3: Recipient Experience Preview ────────── */}
+      <section className="space-y-4">
+        <div>
+          <h3 className="text-[15px] font-semibold tracking-tight inline-flex items-center gap-2">
+            <Eye className="w-3.5 h-3.5 text-primary" /> Recipient experience
+          </h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5 max-w-xl">
+            What your recipients will see when this template is launched.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border/50 bg-gradient-to-br from-card/60 to-card/20 p-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <RecipientStep
+              n={1}
+              title="Email arrives"
+              body={previewSubject || "Please sign your document"}
+              icon={Mail}
+            />
+            <RecipientStep
+              n={2}
+              title={signingMode === "sequential" ? "Sign in order" : "Open & review"}
+              body={
+                roles.length > 0
+                  ? roles
+                      .slice(0, 3)
+                      .map((r) => r.label)
+                      .join(signingMode === "sequential" ? " → " : ", ")
+                  : "Signers reviewed"
+              }
+              icon={UserIcon}
+            />
+            <RecipientStep
+              n={3}
+              title="Signed copy delivered"
+              body={previewFilename || "Document.pdf"}
+              icon={Check}
+            />
+          </div>
+          <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <SummaryStat label="Documents" value={documents.length} icon={FileStack} />
+            <SummaryStat label="Signers" value={signerCount} icon={PenTool} />
+            <SummaryStat label="Fields" value={fields.length} icon={Type} />
+            <SummaryStat label="Expires in" value={delivery.expiryDays ?? 14} icon={Clock} />
+          </div>
+        </div>
+      </section>
+
+      <div className="border-t border-border/40" />
+
+      {/* ────────── Section 4: Launch Experience Preview ────────── */}
+      <section className="space-y-4">
+        <div>
+          <h3 className="text-[15px] font-semibold tracking-tight inline-flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5 text-primary" /> When you click "Use template"
+          </h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5 max-w-xl">
+            Docsora will ask only the questions below, then launch the workflow instantly.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border/50 bg-card/30 overflow-hidden">
+          <div className="px-5 py-3 border-b border-border/40 bg-muted/20">
+            <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Launch {name || "your template"}
+            </div>
+            <div className="text-[13px] font-medium mt-0.5">Please complete:</div>
+          </div>
+          <div className="p-5 space-y-2.5">
+            {requiredVars.length === 0 && variables.length === 0 ? (
+              <p className="text-[12.5px] text-muted-foreground italic">
+                No questions — this template launches immediately.
+              </p>
+            ) : (
+              (requiredVars.length > 0 ? requiredVars : variables).map((v) => (
+                <div
+                  key={v.name}
+                  className="rounded-xl border border-border/40 bg-background/60 px-3.5 py-2.5 flex items-center justify-between gap-3"
+                >
+                  <div className="min-w-0">
+                    <div className="text-[12.5px] font-medium truncate">
+                      {v.label}
+                      {v.required && <span className="text-destructive ml-1">*</span>}
+                    </div>
+                    <div className="text-[10.5px] text-muted-foreground capitalize">
+                      {v.type} {v.defaultValue ? `· e.g. ${v.defaultValue}` : ""}
+                    </div>
+                  </div>
+                  <div className="text-[10.5px] font-mono text-muted-foreground/70 shrink-0">
+                    {v.pattern}
+                  </div>
+                </div>
+              ))
+            )}
+            <div className="pt-2 flex items-center justify-end">
+              <div className="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-primary text-primary-foreground text-[12.5px] font-medium opacity-80">
+                <Send className="w-3.5 h-3.5" /> Launch workflow
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="border-t border-border/40" />
+
+      {/* ────────── Section 5: Saving details ────────── */}
+      <section className="space-y-4">
+        <div>
+          <h3 className="text-[15px] font-semibold tracking-tight">Saving details</h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5">
+            How this template appears in your library and the filename of signed PDFs.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FieldLabel text="Template name">
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Agency Client Agreement"
+              className="h-10 bg-background/60"
+            />
+          </FieldLabel>
+          <FieldLabel text="Category">
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger className="h-10 bg-background/60">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FieldLabel>
+        </div>
+        <FieldLabel text="Description (optional)">
+          <Textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="What this template is for, who uses it."
+            className="bg-background/60 text-[13px] min-h-[60px]"
+          />
+        </FieldLabel>
+        <FieldLabel text="Output filename">
+          <Input
+            value={filenamePattern}
+            onChange={(e) => setFilenamePattern(e.target.value)}
+            placeholder="{{COMPANY_NAME}} - NDA - Signed.pdf"
+            className="h-10 bg-background/60 font-mono text-[12.5px]"
+          />
+        </FieldLabel>
+        {variables.length > 0 && (
+          <div className="rounded-xl border border-border/50 bg-card/30 px-3 py-2.5">
+            <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
+              Insert into filename
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {variables.map((v) => (
+                <button
+                  key={v.name}
+                  onClick={() => setFilenamePattern(`${filenamePattern} ${v.pattern}`.trim())}
+                  className="text-[10.5px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                >
+                  {v.pattern}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function VariableCardList({
+  title,
+  vars,
+  updateVariable,
+  removeVariable,
+}: {
+  title: string;
+  vars: SignTemplateVariable[];
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+  removeVariable: (name: string) => void;
+}) {
+  if (vars.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-border/60 bg-card/20 px-5 py-8 text-center">
+        <p className="text-[12.5px] text-muted-foreground">
+          No questions for this document yet.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      <MicroLabel text={title} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {vars.map((v) => {
+          const meta = variableTypeMeta(v.type);
+          const Icon = meta.icon;
+          return (
+            <div
+              key={v.name}
+              className="group rounded-2xl border border-border/50 bg-card/40 hover:bg-card/60 transition-colors p-3.5 space-y-2.5"
+            >
+              <div className="flex items-start gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <Input
+                    value={v.label}
+                    onChange={(e) => updateVariable(v.name, { label: e.target.value })}
+                    placeholder="Label"
+                    className="h-8 bg-background/60 text-[13px] font-medium border-transparent hover:border-border focus:border-border px-2"
+                  />
+                  <div className="text-[10px] font-mono text-muted-foreground/70 mt-0.5 px-2 truncate">
+                    {v.pattern}
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeVariable(v.name)}
+                  className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Select
+                  value={v.type}
+                  onValueChange={(t) => updateVariable(v.name, { type: t as SignVariableType })}
+                >
+                  <SelectTrigger className="h-8 flex-1 bg-background/60 text-[12px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {VARIABLE_TYPES.map((t) => {
+                      const I = t.icon;
+                      return (
+                        <SelectItem key={t.value} value={t.value}>
+                          <span className="inline-flex items-center gap-2">
+                            <I className="w-3.5 h-3.5" />
+                            {t.label}
+                          </span>
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <label className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground select-none cursor-pointer shrink-0">
+                  <Switch
+                    checked={!!v.required}
+                    onCheckedChange={(c) => updateVariable(v.name, { required: c })}
+                  />
+                  Required
+                </label>
+              </div>
+              <Input
+                value={v.defaultValue ?? ""}
+                onChange={(e) => updateVariable(v.name, { defaultValue: e.target.value })}
+                placeholder="Example value (e.g. Acme Inc)"
+                className="h-8 bg-background/60 text-[12.5px]"
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function RecipientStep({
+  n,
+  title,
+  body,
+  icon: Icon,
+}: {
+  n: number;
+  title: string;
+  body: string;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <div className="rounded-xl border border-border/40 bg-background/60 p-3.5 space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10.5px] font-semibold tabular-nums">
+          {n}
+        </div>
+        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
+      </div>
+      <div>
+        <div className="text-[12.5px] font-semibold tracking-tight">{title}</div>
+        <div className="text-[11.5px] text-muted-foreground mt-0.5 line-clamp-2">{body}</div>
+      </div>
+    </div>
+  );
+}
