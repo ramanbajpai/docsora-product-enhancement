@@ -2328,7 +2328,7 @@ function StepRolesFields({
   setSelectedFieldId: (id: string | null) => void;
   pageRef: React.RefObject<HTMLDivElement>;
 }) {
-  const [subStep, setSubStep] = useState<"people" | "actions" | "place">("people");
+  const [subStep, setSubStep] = useState<"setup" | "place">("setup");
 
   const activeRole = roles.find((r) => r.key === activeRoleKey) ?? roles[0];
   const activeMeta = getRoleTypeMeta(activeRole?.type);
@@ -2346,24 +2346,14 @@ function StepRolesFields({
 
   const allRolesNamed = roles.every((r) => r.label.trim().length > 0);
 
-  const SUB_STEPS: { key: "people" | "actions" | "place"; label: string }[] = [
-    { key: "people", label: "Add people" },
-    { key: "actions", label: "Choose actions" },
-    { key: "place", label: "Place fields" },
-  ];
-
   const titles: Record<typeof subStep, { title: string; sub: string }> = {
-    people: {
-      title: "Who needs to complete this?",
-      sub: "Add the people who will sign, approve, view or complete fields. Use role names — templates are reusable.",
-    },
-    actions: {
-      title: "What should each person do?",
-      sub: "Pick one action per person. We'll set up sensible permissions automatically.",
+    setup: {
+      title: "Participants",
+      sub: "Choose who takes part in this process and what each person needs to do.",
     },
     place: {
-      title: "Place fields for each person",
-      sub: "Pick a person, then click where they need to sign or fill information.",
+      title: "Place fields for each participant",
+      sub: "Pick a participant, then click where they need to sign or fill information.",
     },
   };
 
@@ -2371,40 +2361,8 @@ function StepRolesFields({
     <div className="space-y-6">
       <SectionTitle title={titles[subStep].title} sub={titles[subStep].sub} />
 
-      {/* Sub-stepper */}
-      <div className="flex items-center gap-2">
-        {SUB_STEPS.map((s, i) => {
-          const active = s.key === subStep;
-          const done = SUB_STEPS.findIndex((x) => x.key === subStep) > i;
-          return (
-            <button
-              key={s.key}
-              onClick={() => setSubStep(s.key)}
-              className={cn(
-                "inline-flex items-center gap-2 h-8 px-3 rounded-full text-[12px] font-medium border transition-all",
-                active
-                  ? "bg-primary text-primary-foreground border-primary shadow-[0_4px_16px_-6px_hsl(var(--primary)/0.5)]"
-                  : done
-                    ? "bg-primary/10 text-primary border-primary/20"
-                    : "bg-card/40 text-muted-foreground border-border/60 hover:text-foreground",
-              )}
-            >
-              <span
-                className={cn(
-                  "w-4 h-4 rounded-full inline-flex items-center justify-center text-[10px] font-semibold",
-                  active ? "bg-primary-foreground/20" : done ? "bg-primary/20" : "bg-muted",
-                )}
-              >
-                {done ? <Check className="w-2.5 h-2.5" /> : String.fromCharCode(65 + i)}
-              </span>
-              {s.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {subStep === "people" && (
-        <SubStepPeople
+      {subStep === "setup" && (
+        <ParticipantsSetup
           roles={roles}
           addRole={addRole}
           updateRole={updateRole}
@@ -2414,18 +2372,8 @@ function StepRolesFields({
           toggleSignSelf={toggleSignSelf}
           signingMode={signingMode}
           setSigningMode={setSigningMode}
-          onNext={() => allRolesNamed && setSubStep("actions")}
+          onNext={() => allRolesNamed && setSubStep("place")}
           canContinue={allRolesNamed && roles.length > 0}
-        />
-      )}
-
-      {subStep === "actions" && (
-        <SubStepActions
-          roles={roles}
-          updateRole={updateRole}
-          togglePermission={togglePermission}
-          onBack={() => setSubStep("people")}
-          onNext={() => setSubStep("place")}
         />
       )}
 
