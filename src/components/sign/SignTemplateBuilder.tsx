@@ -1014,7 +1014,314 @@ function StepUpload({
 }
 
 /* ──────────────────────────────────────────────────────────
- * STEP 2 — ROLES
+ * STEP 2 — CONFIGURE (template name + documents + signing order)
+ * ────────────────────────────────────────────────────────── */
+
+function StepConfigure({
+  name,
+  setName,
+  nameIsUnique,
+  documents,
+  updateDocument,
+  removeDocument,
+  moveDocument,
+  addDocuments,
+  signingMode,
+  setSigningMode,
+  variables,
+  roles,
+}: {
+  name: string;
+  setName: (s: string) => void;
+  nameIsUnique: boolean;
+  documents: BuilderDoc[];
+  updateDocument: (id: string, p: Partial<BuilderDoc>) => void;
+  removeDocument: (id: string) => void;
+  moveDocument: (id: string, dir: -1 | 1) => void;
+  addDocuments: (files: File[]) => void;
+  signingMode: "sequential" | "parallel";
+  setSigningMode: (m: "sequential" | "parallel") => void;
+  variables: SignTemplateVariable[];
+  roles: SignTemplateRole[];
+}) {
+  const addInputRef = useRef<HTMLInputElement>(null);
+  const [openVarFor, setOpenVarFor] = useState<string | null>(null);
+
+  // Tokens available: built-ins + role names + custom variables
+  const availableTokens = useMemo(() => {
+    const base = [
+      { name: "SIGNER_NAME", label: "Signer name" },
+      { name: "COMPANY_NAME", label: "Company name" },
+      { name: "DATE", label: "Date" },
+    ];
+    const roleTokens = roles.map((r) => ({
+      name: r.label.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, ""),
+      label: `${r.label} (role)`,
+    }));
+    const customTokens = variables.map((v) => ({ name: v.name, label: v.label }));
+    const map = new Map<string, { name: string; label: string }>();
+    [...base, ...roleTokens, ...customTokens].forEach((t) => {
+      if (t.name && !map.has(t.name)) map.set(t.name, t);
+    });
+    return Array.from(map.values());
+  }, [variables, roles]);
+
+  const insertToken = (docId: string, currentValue: string, token: string) => {
+    updateDocument(docId, { name: `${currentValue} {{${token}}}`.trim() });
+    setOpenVarFor(null);
+  };
+
+  const requestDelete = (d: BuilderDoc) => {
+    if (documents.length <= 1) {
+      toast.error("At least one document is required.");
+      return;
+    }
+    if (window.confirm(`Are you sure you want to remove ${d.name} from this template?`)) {
+      removeDocument(d.id);
+    }
+  };
+
+  const nameTooLong = name.length > 100;
+  const showUniqueError = name.trim().length > 0 && !nameIsUnique;
+
+  return (
+    <div className="space-y-8">
+      <SectionTitle
+        title="Configure your template"
+        sub="Name it, manage documents and decide how recipients sign."
+      />
+
+      {/* Template name */}
+      <section className="space-y-2">
+        <FieldLabel text="Template name *">
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value.slice(0, 100))}
+            placeholder="e.g. Agency Client Agreement"
+            className={cn(
+              "h-11 bg-background/60 text-[14px]",
+              (showUniqueError || nameTooLong) && "border-destructive/60 focus-visible:ring-destructive/40",
+            )}
+            maxLength={100}
+          />
+        </FieldLabel>
+        <div className="flex items-center justify-between text-[11px]">
+          <span
+            className={cn(
+              "text-muted-foreground",
+              showUniqueError && "text-destructive",
+            )}
+          >
+            {showUniqueError
+              ? "A template with this name already exists. Please choose a different name."
+              : "Unique within your template library. Max 100 characters."}
+          </span>
+          <span className="text-muted-foreground tabular-nums">{name.length}/100</span>
+        </div>
+      </section>
+
+      {/* Documents */}
+      <section className="space-y-3">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <h3 className="text-[14px] font-semibold tracking-tight">Documents</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">
+              Rename, reorder or add more. Use {"{{variables}}"} in filenames — they resolve at send time.
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => addInputRef.current?.click()}
+            className="h-9 gap-1.5 rounded-lg"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add document
+          </Button>
+          <input
+            ref={addInputRef}
+            type="file"
+            multiple
+            accept=".pdf,.doc,.docx,.odt"
+            className="hidden"
+            onChange={(e) => {
+              const fs = Array.from(e.target.files ?? []);
+              if (fs.length) addDocuments(fs);
+              e.target.value = "";
+            }}
+          />
+        </div>
+
+        <div className="space-y-2.5">
+          <AnimatePresence initial={false}>
+            {documents.map((d, i) => {
+              const isLast = documents.length <= 1;
+              const hasVar = /\{\{[A-Z0-9_]+\}\}/.test(d.name);
+              return (
+                <motion.div
+                  key={d.id}
+                  layout
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  className="group rounded-xl border border-border/50 bg-card/40 hover:bg-card/60 transition-all p-3 flex items-center gap-3"
+                >
+                  <div className="w-10 h-12 rounded-md bg-gradient-to-b from-background to-muted/40 border border-border/40 shrink-0 flex flex-col items-center justify-center text-[8px] font-semibold text-muted-foreground">
+                    <FileText className="w-4 h-4 text-primary/70 mb-0.5" />
+                    {d.name.split(".").pop()?.toUpperCase().slice(0, 4)}
+                  </div>
+
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={d.name}
+                        onChange={(e) =>
+                          updateDocument(d.id, { name: e.target.value.slice(0, 100) })
+                        }
+                        maxLength={100}
+                        placeholder="Document name"
+                        className="h-9 px-2.5 bg-background/60 text-[13px] font-medium"
+                      />
+                      <Popover
+                        open={openVarFor === d.id}
+                        onOpenChange={(o) => setOpenVarFor(o ? d.id : null)}
+                      >
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            className="inline-flex items-center gap-1 h-9 px-2.5 rounded-md border border-border/50 bg-background/60 text-[11.5px] font-medium text-foreground/80 hover:text-foreground hover:border-primary/40 transition-colors shrink-0"
+                            title="Insert variable"
+                          >
+                            <Braces className="w-3.5 h-3.5 text-primary" /> Variable
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent align="end" className="w-64 p-1.5">
+                          <div className="px-2 py-1.5 text-[10.5px] uppercase tracking-[0.12em] text-muted-foreground font-semibold">
+                            Insert variable
+                          </div>
+                          <div className="max-h-64 overflow-y-auto">
+                            {availableTokens.map((t) => (
+                              <button
+                                key={t.name}
+                                onClick={() => insertToken(d.id, d.name, t.name)}
+                                className="w-full text-left px-2 py-1.5 rounded-md hover:bg-muted/60 transition-colors flex items-center justify-between gap-2"
+                              >
+                                <span className="text-[12.5px] font-medium truncate">{t.label}</span>
+                                <code className="text-[10.5px] text-muted-foreground font-mono shrink-0">
+                                  {`{{${t.name}}}`}
+                                </code>
+                              </button>
+                            ))}
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="flex items-center gap-2 text-[10.5px] text-muted-foreground">
+                      <span className="tabular-nums">{d.pageCount} pages</span>
+                      {hasVar && (
+                        <>
+                          <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/40" />
+                          <span className="inline-flex items-center gap-1 text-primary font-medium">
+                            <Braces className="w-2.5 h-2.5" /> Resolves at send time
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-0.5 shrink-0">
+                    <button
+                      onClick={() => moveDocument(d.id, -1)}
+                      disabled={i === 0}
+                      className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                      title="Move up"
+                    >
+                      <ChevronDown className="w-3 h-3 rotate-180" />
+                    </button>
+                    <button
+                      onClick={() => moveDocument(d.id, 1)}
+                      disabled={i === documents.length - 1}
+                      className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                      title="Move down"
+                    >
+                      <ChevronDown className="w-3 h-3" />
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => requestDelete(d)}
+                    disabled={isLast}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                    title={isLast ? "At least one document is required" : "Remove"}
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Signing order */}
+      <section className="space-y-2">
+        <FieldLabel text="Signing order">
+          <div className="grid grid-cols-2 gap-2.5">
+            {([
+              {
+                value: "parallel" as const,
+                title: "Parallel",
+                sub: "Everyone signs at the same time.",
+              },
+              {
+                value: "sequential" as const,
+                title: "Sequential",
+                sub: "Recipients sign one after another.",
+              },
+            ]).map((opt) => {
+              const active = signingMode === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setSigningMode(opt.value)}
+                  className={cn(
+                    "text-left rounded-xl border p-3.5 transition-all",
+                    active
+                      ? "border-primary/50 bg-primary/5 shadow-[0_8px_24px_-14px_hsl(var(--primary)/0.45)]"
+                      : "border-border/50 bg-card/30 hover:bg-card/50 hover:border-border",
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[13px] font-semibold">{opt.title}</span>
+                    <span
+                      className={cn(
+                        "w-4 h-4 rounded-full border flex items-center justify-center",
+                        active ? "border-primary bg-primary" : "border-border",
+                      )}
+                    >
+                      {active && <Check className="w-2.5 h-2.5 text-primary-foreground" />}
+                    </span>
+                  </div>
+                  <p className="text-[11.5px] text-muted-foreground mt-1 leading-snug">
+                    {opt.sub}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </FieldLabel>
+        <p className="text-[11px] text-muted-foreground">
+          {signingMode === "sequential"
+            ? "Step controls will appear on each role in the next step."
+            : "All recipients receive the request at the same time."}
+        </p>
+      </section>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────
+ * STEP 3 — ROLES
  * ────────────────────────────────────────────────────────── */
 
 function StepRoles({
