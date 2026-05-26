@@ -1146,6 +1146,13 @@ function StepUpload({
   updateDocument,
   fileInputRef,
   addMoreInputRef,
+  name,
+  setName,
+  nameIsUnique,
+  description,
+  setDescription,
+  filenamePattern,
+  setFilenamePattern,
 }: {
   documents: BuilderDoc[];
   addDocuments: (files: File[]) => void;
@@ -1154,6 +1161,13 @@ function StepUpload({
   updateDocument: (id: string, p: Partial<BuilderDoc>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
   addMoreInputRef: React.RefObject<HTMLInputElement>;
+  name: string;
+  setName: (s: string) => void;
+  nameIsUnique: boolean;
+  description: string;
+  setDescription: (s: string) => void;
+  filenamePattern: string;
+  setFilenamePattern: (s: string) => void;
 }) {
   const handlePicked = (e: React.ChangeEvent<HTMLInputElement>, ref: React.RefObject<HTMLInputElement>) => {
     const fs = Array.from(e.target.files ?? []);
@@ -1161,12 +1175,103 @@ function StepUpload({
     e.target.value = "";
   };
 
+  // Step-1 filename tokens — only what's safe before roles exist.
+  const STEP1_TOKENS: { token: string; label: string }[] = [
+    { token: "TEMPLATE_NAME", label: "Template Name" },
+    { token: "DATE", label: "Date" },
+  ];
+  const tokenLabel = (t: string) =>
+    STEP1_TOKENS.find((x) => x.token === t)?.label ?? t.replace(/_/g, " ");
+  const filenameParts = parseFilenamePattern(filenamePattern);
+  const insertToken = (token: string) => {
+    const trimmed = filenamePattern.trimEnd();
+    const sep = trimmed && !trimmed.endsWith("-") && !trimmed.endsWith(" ") ? " " : "";
+    // Insert before trailing ".pdf" if present
+    const m = trimmed.match(/^(.*?)(\s*\.pdf)?$/i);
+    const base = m?.[1] ?? trimmed;
+    const ext = m?.[2] ?? "";
+    setFilenamePattern(`${base}${sep}{{${token}}}${ext || ".pdf"}`);
+  };
+  const removePart = (idx: number) => {
+    const next = filenameParts
+      .filter((_, i) => i !== idx)
+      .map((p) => (p.type === "token" ? `{{${p.value}}}` : p.value))
+      .join("")
+      .replace(/\s{2,}/g, " ")
+      .replace(/\s+-\s*$/, "")
+      .trim();
+    setFilenamePattern(next || "{{TEMPLATE_NAME}}.pdf");
+  };
+  const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  const previewFilename = applyTemplateVariables(filenamePattern, {
+    TEMPLATE_NAME: name.trim() || "Employee Onboarding Agreement",
+    DATE: today,
+  });
+
   return (
-    <div className="space-y-6">
-      <SectionTitle
-        title="Upload your files"
-        sub="PDF, DOCX, DOC, ODT. Drop multiple files — they'll be sent together as one signing session."
-      />
+    <div className="space-y-8">
+      {/* Greeting / intro */}
+      <div className="space-y-2">
+        <div className="inline-flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-medium">
+          <Sparkles className="w-3 h-3 text-primary" />
+          New template
+        </div>
+        <h2 className="text-[24px] md:text-[26px] font-semibold tracking-tight leading-tight">
+          Create a reusable template
+        </h2>
+        <p className="text-[13px] text-muted-foreground max-w-xl leading-relaxed">
+          Configure it once, then launch it anytime. Start by giving it a name and adding the documents that belong to it.
+        </p>
+      </div>
+
+      {/* Template name */}
+      <div className="space-y-5 rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 p-5 md:p-6 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_10px_30px_-18px_hsl(var(--foreground)/0.18)]">
+        <div className="space-y-2">
+          <label className="block text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+            Template name
+          </label>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Employee onboarding agreement"
+            className="h-12 text-[16px] font-medium border-border/60 bg-background/60 focus:border-primary/50 focus:ring-2 focus:ring-primary/15 rounded-xl"
+            maxLength={100}
+          />
+          {name.trim() && !nameIsUnique && (
+            <p className="text-[11.5px] text-amber-600 dark:text-amber-400">
+              A template with this name already exists. Try another.
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+            What is this used for? <span className="normal-case tracking-normal text-muted-foreground/60 font-normal">— optional</span>
+          </label>
+          <Textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Used to onboard new employees and collect signatures."
+            rows={2}
+            className="text-[13.5px] border-border/60 bg-background/60 focus:border-primary/50 rounded-xl resize-none"
+            maxLength={240}
+          />
+        </div>
+      </div>
+
+      {/* Upload card */}
+      <div className="space-y-3">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h3 className="text-[15px] font-semibold tracking-tight">Add documents</h3>
+            <p className="text-[12.5px] text-muted-foreground mt-0.5">
+              Upload one or more documents that will be reused in this template.
+            </p>
+          </div>
+          <span className="text-[10.5px] text-muted-foreground/70 hidden sm:inline">
+            PDF · DOCX · DOC · ODT
+          </span>
+        </div>
 
       <input
         ref={fileInputRef}
@@ -1194,22 +1299,19 @@ function StepUpload({
             const fs = Array.from(e.dataTransfer.files ?? []);
             if (fs.length) addDocuments(fs);
           }}
-          className="group relative rounded-2xl border border-dashed border-border/60 bg-gradient-to-b from-card/40 to-card/20 hover:from-card/60 hover:to-card/30 hover:border-primary/40 transition-all cursor-pointer px-6 py-20 text-center overflow-hidden"
+          className="group relative rounded-2xl border border-dashed border-border/60 bg-gradient-to-b from-card/40 to-card/20 hover:from-card/60 hover:to-card/30 hover:border-primary/40 transition-all cursor-pointer px-6 py-16 text-center overflow-hidden"
         >
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08),transparent_60%)]" />
           <div className="relative w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-4 ring-1 ring-primary/15 shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.4)]">
             <UploadIcon className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
-          <p className="relative text-[14px] font-medium">Drag &amp; drop your files, or click to browse</p>
+          <p className="relative text-[14px] font-medium">Choose files</p>
           <p className="relative text-[12px] text-muted-foreground mt-1">
-            Supports PDF, DOCX, DOC, ODT · up to 20MB per file
+            or drag and drop here · up to 20MB per file
           </p>
-          <Button size="sm" className="relative mt-5 h-9 rounded-lg" type="button">
-            Choose files
-          </Button>
         </div>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-4">
           {/* Operational summary bar */}
           <div className="flex items-center justify-between rounded-xl border border-border/50 bg-card/40 backdrop-blur-sm px-4 py-2.5">
             <div className="flex items-center gap-3">
@@ -1217,11 +1319,11 @@ function StepUpload({
                 <FileStack className="w-3.5 h-3.5 text-primary" />
               </div>
               <div>
-                <div className="text-[12.5px] font-semibold tabular-nums leading-tight">
-                  {documents.length} file{documents.length === 1 ? "" : "s"} ready
+                <div className="text-[12.5px] font-semibold leading-tight">
+                  Template package
                 </div>
                 <div className="text-[10.5px] text-muted-foreground leading-tight mt-0.5">
-                  Grouped into one signing flow
+                  <span className="tabular-nums">{documents.length}</span> file{documents.length === 1 ? "" : "s"} ready · grouped into one signing session
                 </div>
               </div>
             </div>
@@ -1316,12 +1418,88 @@ function StepUpload({
                 <Plus className="w-4 h-4 text-primary" />
               </div>
               <div className="relative flex-1 min-w-0">
-                <div className="text-[12.5px] font-semibold text-foreground/90">Add another file</div>
+                <div className="text-[12.5px] font-semibold text-foreground/90">Add another document</div>
                 <div className="text-[10.5px] text-muted-foreground mt-0.5">
-                  Drop here or click to browse
+                  Drop another file here or browse
                 </div>
               </div>
             </button>
+          </div>
+        </div>
+      )}
+      </div>
+
+      {/* Completed document name */}
+      {documents.length > 0 && (
+        <div className="space-y-3 rounded-2xl border border-border/50 bg-gradient-to-b from-card/50 to-card/20 p-5 md:p-6">
+          <div>
+            <h3 className="text-[15px] font-semibold tracking-tight">Completed document name</h3>
+            <p className="text-[12.5px] text-muted-foreground mt-0.5">
+              Choose what the final signed document will be called when downloaded.
+            </p>
+          </div>
+
+          {/* Visual pill builder */}
+          <div className="flex flex-wrap items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-xl border border-border/60 bg-background/60">
+            {filenameParts.length === 0 && (
+              <span className="text-[12px] text-muted-foreground/60">Add a name or token below…</span>
+            )}
+            {filenameParts.map((p, i) =>
+              p.type === "token" ? (
+                <span
+                  key={i}
+                  className="group inline-flex items-center gap-1 rounded-md bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 text-[12px] font-medium"
+                >
+                  {tokenLabel(p.value)}
+                  <button
+                    onClick={() => removePart(i)}
+                    className="opacity-50 hover:opacity-100 transition"
+                    title="Remove"
+                  >
+                    <X className="w-2.5 h-2.5" />
+                  </button>
+                </span>
+              ) : (
+                <span key={i} className="text-[13px] text-foreground/80 whitespace-pre">
+                  {p.value}
+                </span>
+              ),
+            )}
+          </div>
+
+          {/* Token insert buttons */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
+              Insert
+            </span>
+            {STEP1_TOKENS.map((t) => (
+              <button
+                key={t.token}
+                onClick={() => insertToken(t.token)}
+                className="inline-flex items-center gap-1 rounded-md border border-border/60 hover:border-primary/40 hover:bg-primary/5 px-2 py-1 text-[11.5px] font-medium text-foreground/80 transition"
+              >
+                <Plus className="w-3 h-3" />
+                {t.label}
+              </button>
+            ))}
+            <span className="text-[10.5px] text-muted-foreground/70 ml-1">
+              More tokens (like Client Name) unlock after you add people.
+            </span>
+          </div>
+
+          {/* Live preview */}
+          <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-background/40 px-3.5 py-3">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <FileText className="w-4 h-4 text-primary" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
+                Example downloaded file
+              </div>
+              <div className="text-[13px] font-medium text-foreground/90 truncate mt-0.5">
+                {previewFilename}
+              </div>
+            </div>
           </div>
         </div>
       )}
