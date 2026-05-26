@@ -733,31 +733,49 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
         </motion.div>
       </AnimatePresence>
 
-      {/* Footer nav */}
-      <div className="mt-8 flex items-center justify-between border-t border-border/40 pt-5">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => (currentIdx === 0 ? onBack() : goBack())}
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
-          {currentIdx === 0 ? "Cancel" : "Back"}
-        </Button>
+      {/* Footer nav — sticky glass bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 pointer-events-none">
+        <div className="pointer-events-auto border-t border-border/50 bg-background/75 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+          <div className="max-w-6xl mx-auto px-6 md:px-10 py-3.5 flex items-center justify-between gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => (currentIdx === 0 ? onBack() : goBack())}
+              className="h-9"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+              {currentIdx === 0 ? "Cancel" : "Back"}
+            </Button>
 
-        <div className="text-[11px] text-muted-foreground tabular-nums">
-          Step {currentIdx + 1} of {STEPS.length}
+            <div className="hidden md:flex flex-col items-center text-center">
+              <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-medium">
+                Step {currentIdx + 1} of {STEPS.length}
+              </div>
+              <div className="text-[12px] text-foreground/80 tabular-nums mt-0.5">
+                {nextHint[step]}
+              </div>
+            </div>
+
+            {step === "review" ? (
+              <Button
+                onClick={handleSave}
+                disabled={!canSave}
+                className="h-10 px-5 gap-1.5 rounded-xl shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.7)] hover:-translate-y-px transition-all"
+              >
+                <Check className="w-3.5 h-3.5" />
+                Save template
+              </Button>
+            ) : (
+              <Button
+                onClick={goNext}
+                disabled={!stepValid[step]}
+                className="h-10 px-5 gap-1.5 rounded-xl shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.75)] hover:-translate-y-px transition-all"
+              >
+                Continue <ArrowRight className="w-3.5 h-3.5" />
+              </Button>
+            )}
+          </div>
         </div>
-
-        {step === "review" ? (
-          <Button size="sm" onClick={handleSave} disabled={!canSave} className="gap-1.5">
-            <Check className="w-3.5 h-3.5" />
-            Save template
-          </Button>
-        ) : (
-          <Button size="sm" onClick={goNext} className="gap-1.5" disabled={!stepValid[step]}>
-            Continue <ArrowRight className="w-3.5 h-3.5" />
-          </Button>
-        )}
       </div>
     </div>
   );
