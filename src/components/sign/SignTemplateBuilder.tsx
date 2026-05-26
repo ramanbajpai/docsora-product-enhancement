@@ -193,7 +193,7 @@ const tagFromFilename = (n: string): SignDocumentTag =>
   : "agreement";
 
 export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBuilderProps) {
-  const { save } = useSignTemplates();
+  const { save, templates: existingTemplates } = useSignTemplates();
   const [step, setStep] = useState<StepKey>("upload");
 
   // Files & meta
@@ -205,7 +205,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const [packageTitle, setPackageTitle] = useState<string>("");
 
   // Roles
-  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("sequential");
+  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("parallel");
   const [roles, setRoles] = useState<SignTemplateRole[]>([
     {
       key: "client",
