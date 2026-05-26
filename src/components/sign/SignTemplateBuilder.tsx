@@ -2411,7 +2411,325 @@ function StepRolesFields({
   );
 }
 
-/* ── Sub-step A: Add People ───────────────────────────────── */
+/* ── Participants setup — unified people + actions + flow ─── */
+function ParticipantsSetup({
+  roles,
+  addRole,
+  updateRole,
+  removeRole,
+  moveRole,
+  signSelf,
+  toggleSignSelf,
+  signingMode,
+  setSigningMode,
+  onNext,
+  canContinue,
+}: {
+  roles: SignTemplateRole[];
+  addRole: (label?: string) => void;
+  updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
+  removeRole: (key: string) => void;
+  moveRole: (key: string, dir: -1 | 1) => void;
+  signSelf: boolean;
+  toggleSignSelf: (on: boolean) => void;
+  signingMode: "sequential" | "parallel";
+  setSigningMode: (m: "sequential" | "parallel") => void;
+  onNext: () => void;
+  canContinue: boolean;
+}) {
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const usedLabels = new Set(roles.map((r) => r.label.trim().toLowerCase()));
+  const availablePresets = PERSON_PRESETS.filter(
+    (p) => !usedLabels.has(p.toLowerCase()),
+  );
+
+  const handleAdd = (label?: string) => {
+    addRole(label);
+    setShowSuggestions(false);
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* ── Section 1: Who is involved ─────────────────────────── */}
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <h3 className="text-[15px] font-semibold tracking-tight">Who needs to participate?</h3>
+          <p className="text-[12.5px] text-muted-foreground leading-relaxed">
+            Add roles, not names. Templates stay reusable for every client or workflow.
+          </p>
+        </div>
+
+        <div className="space-y-2.5">
+          <AnimatePresence initial={false}>
+            {roles.map((r, i) => {
+              const locked = isMyself(r.key);
+              const noActions = !r.type;
+              return (
+                <motion.div
+                  key={r.key}
+                  layout
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 hover:border-border transition-all p-4 md:p-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-18px_hsl(var(--foreground)/0.18)]"
+                >
+                  <div className="flex items-start gap-3.5">
+                    <span
+                      className="w-2.5 h-2.5 rounded-full mt-3 shrink-0 ring-2 ring-background"
+                      style={{ background: r.color, boxShadow: `0 0 0 1px ${r.color}40` }}
+                    />
+                    <div className="flex-1 min-w-0 space-y-3">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <Input
+                            value={r.label}
+                            disabled={locked}
+                            onChange={(e) =>
+                              updateRole(r.key, { label: e.target.value.slice(0, MAX_ROLE_NAME) })
+                            }
+                            placeholder="e.g. Employee, Client, Manager"
+                            className="h-10 text-[15px] font-semibold tracking-tight border-border/50 bg-background/60 focus:border-primary/50 focus:ring-2 focus:ring-primary/15 rounded-lg"
+                          />
+                        </div>
+                        {signingMode === "sequential" && !locked && (
+                          <div className="flex flex-col items-center gap-0.5 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => moveRole(r.key, -1)}
+                              disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
+                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              title="Move up"
+                            >
+                              <ChevronDown className="w-3 h-3 rotate-180" />
+                            </button>
+                            <button
+                              onClick={() => moveRole(r.key, 1)}
+                              disabled={i === roles.length - 1}
+                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              title="Move down"
+                            >
+                              <ChevronDown className="w-3 h-3" />
+                            </button>
+                          </div>
+                        )}
+                        {!locked && roles.length > 1 && (
+                          <button
+                            onClick={() => removeRole(r.key)}
+                            className="p-2 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition shrink-0 opacity-0 group-hover:opacity-100"
+                            title="Remove participant"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Action chips */}
+                      <div>
+                        <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">
+                          What will this person do?
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {ACTION_OPTIONS.map((opt) => {
+                            const Icon = opt.icon;
+                            const selected = (r.type ?? "signer") === opt.value;
+                            return (
+                              <button
+                                key={opt.value}
+                                onClick={() => updateRole(r.key, { type: opt.value })}
+                                className={cn(
+                                  "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium border transition-all",
+                                  selected
+                                    ? "bg-primary/10 text-primary border-primary/25 shadow-[0_4px_12px_-6px_hsl(var(--primary)/0.4)]"
+                                    : "bg-background/60 text-foreground/70 border-border/60 hover:border-primary/30 hover:text-foreground",
+                                )}
+                              >
+                                <Icon className="w-3 h-3" />
+                                {opt.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {noActions && (
+                          <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-1.5">
+                            This participant has no assigned actions yet.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+
+          {/* Add participant — opens intelligent suggestions */}
+          <div className="rounded-2xl border border-dashed border-border/60 bg-card/20 p-3">
+            {!showSuggestions ? (
+              <button
+                onClick={() => setShowSuggestions(true)}
+                disabled={roles.length >= MAX_ROLES}
+                className="w-full inline-flex items-center justify-center gap-1.5 h-10 rounded-lg text-[13px] font-medium text-foreground/80 hover:text-primary hover:bg-primary/5 transition disabled:opacity-40"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add participant
+              </button>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
+                    Popular roles
+                  </div>
+                  <button
+                    onClick={() => setShowSuggestions(false)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {availablePresets.map((preset) => (
+                    <button
+                      key={preset}
+                      onClick={() => handleAdd(preset)}
+                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium bg-background/70 border border-border/60 text-foreground/80 hover:border-primary/30 hover:text-primary hover:bg-primary/5 transition"
+                    >
+                      <Plus className="w-3 h-3" />
+                      {preset}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => handleAdd()}
+                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium border border-dashed border-border/60 text-muted-foreground hover:text-foreground hover:border-border transition"
+                  >
+                    Custom role…
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Add me as participant */}
+          {!signSelf && (
+            <button
+              onClick={() => toggleSignSelf(true)}
+              className="w-full text-left inline-flex items-center gap-2.5 rounded-xl border border-border/40 bg-background/40 hover:bg-card/40 hover:border-border/60 px-4 py-2.5 transition"
+            >
+              <span className="w-7 h-7 rounded-full bg-primary/10 inline-flex items-center justify-center">
+                <Plus className="w-3.5 h-3.5 text-primary" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[12.5px] font-semibold text-foreground/90">Add me as participant</div>
+                <div className="text-[11px] text-muted-foreground">
+                  You'll be inserted as the first signer.
+                </div>
+              </div>
+            </button>
+          )}
+
+          {roles.length === 1 && (
+            <p className="text-[11px] text-muted-foreground/80 px-1">
+              You'll usually need at least one recipient.
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* ── Section 2: How should this flow move? ──────────────── */}
+      <section className="space-y-3">
+        <div className="space-y-1">
+          <h3 className="text-[15px] font-semibold tracking-tight">How should this flow move?</h3>
+          <p className="text-[12.5px] text-muted-foreground leading-relaxed">
+            Choose how participants receive their requests.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {([
+            {
+              value: "parallel" as const,
+              title: "Simultaneous",
+              sub: "Everyone receives requests at the same time.",
+              hint: "Best for agreements and onboarding.",
+            },
+            {
+              value: "sequential" as const,
+              title: "Step-by-step",
+              sub: "Each person receives the next step only after the previous one completes.",
+              hint: "Best for approvals and legal review.",
+            },
+          ]).map((opt) => {
+            const active = signingMode === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setSigningMode(opt.value)}
+                className={cn(
+                  "group relative text-left rounded-2xl border p-4 transition-all overflow-hidden",
+                  active
+                    ? "border-primary/50 bg-primary/5 shadow-[0_10px_30px_-14px_hsl(var(--primary)/0.5)]"
+                    : "border-border/50 bg-card/30 hover:bg-card/50 hover:border-border",
+                )}
+              >
+                {/* Visual diagram */}
+                <div className="mb-3 h-14 flex items-center">
+                  {opt.value === "parallel" ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-primary/15 ring-1 ring-primary/30" />
+                      <div className="flex flex-col gap-1">
+                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
+                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
+                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[14px] font-semibold tracking-tight">{opt.title}</span>
+                  <span
+                    className={cn(
+                      "w-4 h-4 rounded-full border flex items-center justify-center shrink-0",
+                      active ? "border-primary bg-primary" : "border-border",
+                    )}
+                  >
+                    {active && <Check className="w-2.5 h-2.5 text-primary-foreground" />}
+                  </span>
+                </div>
+                <p className="text-[12px] text-foreground/70 mt-1 leading-snug">{opt.sub}</p>
+                <p className="text-[11px] text-muted-foreground mt-1.5">{opt.hint}</p>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Continue */}
+      <div className="flex justify-end pt-2">
+        <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
+          Continue to fields <ArrowRight className="w-3.5 h-3.5" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Sub-step A: Add People (legacy, unused) ──────────────── */
 function SubStepPeople({
   roles,
   addRole,
