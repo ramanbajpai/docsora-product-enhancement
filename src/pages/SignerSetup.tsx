@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ArrowRight, RotateCcw, Upload, PenTool, Trash2, Check, Clock } from "lucide-react";
+import { ChevronLeft, ArrowRight, RotateCcw, Upload, PenTool, Trash2, Check, Clock, ChevronDown, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -40,6 +40,7 @@ export default function SignerSetup() {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
   const [locationValue, setLocationValue] = useState("");
+  const [optionalOpen, setOptionalOpen] = useState(false);
   
   // Signature state
   const [activeTab, setActiveTab] = useState<SignatureTab>("style");
@@ -454,44 +455,67 @@ export default function SignerSetup() {
               />
             </div>
 
-            {/* Optional Fields - with subtle divider */}
-            <div className="pt-5 space-y-4">
-              <div className="flex items-center gap-3">
+            {/* Optional Fields - collapsible */}
+            <div className="pt-5">
+              <button
+                type="button"
+                onClick={() => setOptionalOpen((v) => !v)}
+                className="group w-full flex items-center gap-3 text-left"
+                aria-expanded={optionalOpen || !!(title || company || locationValue)}
+              >
                 <div className="h-px flex-1 bg-border/40" />
-                <p className="text-xs uppercase tracking-widest text-muted-foreground/50 font-medium">Optional</p>
+                <span className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">
+                  <Plus className={`w-3 h-3 transition-transform duration-300 ${optionalOpen || (title || company || locationValue) ? "rotate-45" : ""}`} />
+                  Add optional details
+                </span>
                 <div className="h-px flex-1 bg-border/40" />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 pt-1">
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Title</label>
-                  <Input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="CEO"
-                    className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Company</label>
-                  <Input
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Acme Inc"
-                    className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                  />
-                </div>
-              </div>
+              </button>
 
-              <div className="space-y-2 w-1/2">
-                <label className="text-xs text-muted-foreground uppercase tracking-wider">Location</label>
-                <Input
-                  value={locationValue}
-                  onChange={(e) => setLocationValue(e.target.value)}
-                  placeholder="San Francisco"
-                  className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                />
-              </div>
+              <AnimatePresence initial={false}>
+                {(optionalOpen || !!(title || company || locationValue)) && (
+                  <motion.div
+                    key="optional-fields"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-5 space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-xs text-muted-foreground uppercase tracking-wider">Title</label>
+                          <Input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="CEO"
+                            className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs text-muted-foreground uppercase tracking-wider">Company</label>
+                          <Input
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                            placeholder="Acme Inc"
+                            className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 w-1/2">
+                        <label className="text-xs text-muted-foreground uppercase tracking-wider">Location</label>
+                        <Input
+                          value={locationValue}
+                          onChange={(e) => setLocationValue(e.target.value)}
+                          placeholder="San Francisco"
+                          className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
 

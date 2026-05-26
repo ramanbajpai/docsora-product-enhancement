@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ArrowRight, RotateCcw, Upload, PenTool, Lightbulb, Clock, X, Trash2, Check } from "lucide-react";
+import { ChevronLeft, ArrowRight, RotateCcw, Upload, PenTool, Lightbulb, Clock, X, Trash2, Check, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SignatureData } from "@/pages/Sign";
@@ -25,6 +25,7 @@ const SignIdentity = ({ initialData, onComplete, onBack }: SignIdentityProps) =>
   const [formData, setFormData] = useState<SignatureData>(initialData);
   const [activeTab, setActiveTab] = useState<TabType>("style");
   const [selectedFontIndex, setSelectedFontIndex] = useState(0);
+  const [optionalOpen, setOptionalOpen] = useState(false);
   
   // Draw tab state
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -388,44 +389,67 @@ const SignIdentity = ({ initialData, onComplete, onBack }: SignIdentityProps) =>
               />
             </div>
 
-            {/* Optional Fields - with subtle divider */}
-            <div className="pt-5 space-y-4">
-              <div className="flex items-center gap-3">
+            {/* Optional Fields - collapsible */}
+            <div className="pt-5">
+              <button
+                type="button"
+                onClick={() => setOptionalOpen((v) => !v)}
+                className="group w-full flex items-center gap-3 text-left"
+                aria-expanded={optionalOpen || !!(formData.jobTitle || formData.company || formData.location)}
+              >
                 <div className="h-px flex-1 bg-border/40" />
-                <p className="text-xs uppercase tracking-widest text-muted-foreground/50 font-medium">Optional</p>
+                <span className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">
+                  <Plus className={`w-3 h-3 transition-transform duration-300 ${optionalOpen || (formData.jobTitle || formData.company || formData.location) ? "rotate-45" : ""}`} />
+                  Add optional details
+                </span>
                 <div className="h-px flex-1 bg-border/40" />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 pt-1">
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Title</label>
-                  <Input
-                    value={formData.jobTitle || ""}
-                    onChange={(e) => handleInputChange("jobTitle", e.target.value)}
-                    placeholder="CEO"
-                    className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Company</label>
-                  <Input
-                    value={formData.company || ""}
-                    onChange={(e) => handleInputChange("company", e.target.value)}
-                    placeholder="Acme Inc"
-                    className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                  />
-                </div>
-              </div>
+              </button>
 
-              <div className="space-y-2 w-1/2">
-                <label className="text-xs text-muted-foreground uppercase tracking-wider">Location</label>
-                <Input
-                  value={formData.location || ""}
-                  onChange={(e) => handleInputChange("location", e.target.value)}
-                  placeholder="San Francisco"
-                  className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
-                />
-              </div>
+              <AnimatePresence initial={false}>
+                {(optionalOpen || !!(formData.jobTitle || formData.company || formData.location)) && (
+                  <motion.div
+                    key="optional-fields"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-5 space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-xs text-muted-foreground uppercase tracking-wider">Title</label>
+                          <Input
+                            value={formData.jobTitle || ""}
+                            onChange={(e) => handleInputChange("jobTitle", e.target.value)}
+                            placeholder="CEO"
+                            className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs text-muted-foreground uppercase tracking-wider">Company</label>
+                          <Input
+                            value={formData.company || ""}
+                            onChange={(e) => handleInputChange("company", e.target.value)}
+                            placeholder="Acme Inc"
+                            className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 w-1/2">
+                        <label className="text-xs text-muted-foreground uppercase tracking-wider">Location</label>
+                        <Input
+                          value={formData.location || ""}
+                          onChange={(e) => handleInputChange("location", e.target.value)}
+                          placeholder="San Francisco"
+                          className="h-10 bg-background border border-border rounded-lg px-3 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary text-sm transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
 
