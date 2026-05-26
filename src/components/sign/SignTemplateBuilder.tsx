@@ -2611,22 +2611,31 @@ function ParticipantsSetup({
             )}
           </div>
 
-          {/* Add me as participant */}
+          {/* Add me as participant — elevated so it can't be missed */}
           {!signSelf && (
-            <button
+            <motion.button
+              layout
               onClick={() => toggleSignSelf(true)}
-              className="w-full text-left inline-flex items-center gap-2.5 rounded-xl border border-border/40 bg-background/40 hover:bg-card/40 hover:border-border/60 px-4 py-2.5 transition"
+              whileHover={{ y: -1 }}
+              className="w-full text-left group relative inline-flex items-center gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/8 via-primary/[0.04] to-transparent hover:from-primary/12 hover:via-primary/8 hover:border-primary/40 px-4 py-3.5 transition-all shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-16px_hsl(var(--primary)/0.45)] hover:shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_14px_32px_-16px_hsl(var(--primary)/0.55)]"
             >
-              <span className="w-7 h-7 rounded-full bg-primary/10 inline-flex items-center justify-center">
-                <Plus className="w-3.5 h-3.5 text-primary" />
+              <span className="relative w-9 h-9 rounded-full bg-primary/15 ring-1 ring-primary/30 inline-flex items-center justify-center shrink-0">
+                <UserPlus className="w-4 h-4 text-primary" />
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-primary ring-2 ring-background" />
               </span>
               <div className="flex-1 min-w-0">
-                <div className="text-[12.5px] font-semibold text-foreground/90">Add me as participant</div>
-                <div className="text-[11px] text-muted-foreground">
-                  You'll be inserted as the first signer.
+                <div className="flex items-center gap-2">
+                  <span className="text-[13.5px] font-semibold text-foreground">Do you also need to sign?</span>
+                  <span className="text-[10px] uppercase tracking-wider font-semibold text-primary bg-primary/12 border border-primary/20 rounded-full px-1.5 py-0.5">
+                    Add me
+                  </span>
+                </div>
+                <div className="text-[11.5px] text-muted-foreground mt-0.5">
+                  Insert yourself into this workflow as the first signer.
                 </div>
               </div>
-            </button>
+              <ArrowRight className="w-4 h-4 text-primary/70 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </motion.button>
           )}
 
           {roles.length === 1 && (
