@@ -866,25 +866,46 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
     <div className="px-6 md:px-10 py-8 pb-32 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <button
-          onClick={() => {
-            const hasProgress =
-              documents.length > 0 || name.trim().length > 0 || fields.length > 0;
-            if (
-              !hasProgress ||
-              window.confirm(
-                "Discard this template? Your progress will be lost.",
-              )
-            ) {
-              onBack();
-            }
-          }}
-          className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-5"
-        >
-          <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
-        </button>
+        <div className="flex items-center justify-between mb-5">
+          <button
+            onClick={() => {
+              if (isEditing) { onBack(); return; }
+              const hasProgress =
+                documents.length > 0 || name.trim().length > 0 || fields.length > 0;
+              if (
+                !hasProgress ||
+                window.confirm("Discard this template? Your progress will be lost.")
+              ) {
+                onBack();
+              }
+            }}
+            className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
+          </button>
+          {isEditing && (
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 text-[11px] font-medium tabular-nums transition-colors",
+                autosaveState === "saving" && "text-muted-foreground",
+                autosaveState === "saved" && "text-emerald-500",
+                autosaveState === "idle" && "text-muted-foreground/70",
+              )}
+            >
+              <span
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full",
+                  autosaveState === "saving" && "bg-muted-foreground animate-pulse",
+                  autosaveState === "saved" && "bg-emerald-500",
+                  autosaveState === "idle" && "bg-muted-foreground/50",
+                )}
+              />
+              {autosaveState === "saving" ? "Saving…" : autosaveState === "saved" ? "Saved" : "Auto-save on"}
+            </span>
+          )}
+        </div>
         <h1 className="text-2xl md:text-[32px] leading-[1.1] font-semibold tracking-tight">
-          Configure once. Launch infinitely.
+          {isEditing ? "Edit your template." : "Configure once. Launch infinitely."}
         </h1>
 
         {/* Stepper — premium operational */}
