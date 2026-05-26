@@ -4675,27 +4675,6 @@ function RecipientExperience({
 }
 
 function EmailPreviewCard({
-  // placeholder anchor — see TemplateDetailsBlock above
-  senderName,
-  subject,
-  body,
-  buttonLabel,
-  variables,
-  sample,
-  compact,
-}: {
-  senderName: string;
-  subject: string;
-  body: string;
-  buttonLabel: string;
-  variables: SignTemplateVariable[];
-  sample: Record<string, string>;
-  compact?: boolean;
-}) {
-  // unreachable — replaced via separate patch
-  return null as any;
-}
-
 const CATEGORY_OPTIONS: { value: string; label: string; icon: any }[] = [
   { value: "Client", label: "Client onboarding", icon: UserCheck },
   { value: "HR", label: "HR", icon: Users },
