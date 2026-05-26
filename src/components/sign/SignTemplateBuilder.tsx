@@ -240,6 +240,103 @@ const TAG_VARIABLE_SUGGESTIONS: Record<SignDocumentTag, { name: string; label: s
   other: [],
 };
 
+/* ──────────────────────────────────────────────────────────
+ * Synthetic document bodies for the visual customize step.
+ * Tokens in {{TOKEN}} get rendered as clickable highlights.
+ * ────────────────────────────────────────────────────────── */
+const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: string[] }> = {
+  agreement: {
+    title: "Service Agreement",
+    paragraphs: [
+      "This Agreement is entered into between {{COMPANY_NAME}} and {{CLIENT_NAME}}, effective as of {{START_DATE}}.",
+      "The total contract value is {{DEAL_VALUE}}, payable according to the schedule outlined below.",
+      "Both parties acknowledge and agree to the terms set forth in this document by signing below.",
+    ],
+  },
+  nda: {
+    title: "Mutual Non-Disclosure Agreement",
+    paragraphs: [
+      "This Non-Disclosure Agreement is made between {{DISCLOSING_PARTY}} and {{RECEIVING_PARTY}}, effective {{EFFECTIVE_DATE}}.",
+      "Each party agrees to keep all shared information strictly confidential for a period of three years.",
+      "The parties confirm their understanding of these terms with their signatures below.",
+    ],
+  },
+  pricing: {
+    title: "Pricing Proposal",
+    paragraphs: [
+      "Prepared for review, the total proposed amount is {{TOTAL_AMOUNT}}, valid until {{VALID_UNTIL}}.",
+      "This proposal includes the full scope of work as detailed in the attached schedule of services.",
+      "Please sign below to accept the pricing and authorize the start of work.",
+    ],
+  },
+  scope: {
+    title: "Statement of Work",
+    paragraphs: [
+      "This Statement of Work covers {{PROJECT_NAME}}, beginning {{START_DATE}} and ending {{END_DATE}}.",
+      "Deliverables, milestones and acceptance criteria are described in the sections that follow.",
+      "Authorization to proceed is granted upon signature of both parties.",
+    ],
+  },
+  annexure: {
+    title: "Annexure",
+    paragraphs: [
+      "This annexure is filed under reference {{REFERENCE_NUMBER}} and forms part of the parent agreement.",
+      "All terms remain governed by the parent agreement unless explicitly amended here.",
+    ],
+  },
+  onboarding: {
+    title: "Employee Onboarding Agreement",
+    paragraphs: [
+      "Welcome {{EMPLOYEE_NAME}}. We are pleased to confirm your role in the {{DEPARTMENT}} team, starting {{START_DATE}}.",
+      "Your annual salary will be {{SALARY}}, paid monthly. Communications will be sent to {{EMPLOYEE_EMAIL}}.",
+      "Please sign below to confirm acceptance of the terms of your employment.",
+    ],
+  },
+  other: {
+    title: "Document",
+    paragraphs: [
+      "This document is shared with you for review and signature.",
+      "Please review the contents carefully before adding your signature.",
+    ],
+  },
+};
+
+const HUMAN_TYPE_LABELS: Record<SignVariableType, string> = {
+  text: "Text",
+  currency: "Amount",
+  date: "Date",
+  email: "Email",
+  phone: "Phone",
+  number: "Number",
+  company: "Company",
+  address: "Address",
+};
+
+const humanTypeLabel = (t: SignVariableType) => HUMAN_TYPE_LABELS[t] ?? "Text";
+
+const HUMAN_TYPES: { value: SignVariableType; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { value: "text", label: "Name or text", icon: Type },
+  { value: "company", label: "Company", icon: FileText },
+  { value: "date", label: "Date", icon: Calendar },
+  { value: "currency", label: "Amount", icon: DollarSign },
+  { value: "email", label: "Email", icon: AtSign },
+  { value: "phone", label: "Phone", icon: Phone },
+  { value: "number", label: "Number", icon: Hash },
+  { value: "address", label: "Address", icon: FileText },
+];
+
+const launchQuestionFor = (v: SignTemplateVariable): string => {
+  const l = v.label;
+  switch (v.type) {
+    case "company": return `What's the company name?`;
+    case "date": return `When does ${l.toLowerCase()}?`;
+    case "currency": return `What is the ${l.toLowerCase()}?`;
+    case "email": return `What's the email address?`;
+    case "phone": return `What's the phone number?`;
+    default: return `What is the ${l.toLowerCase()}?`;
+  }
+};
+
 export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBuilderProps) {
   const { save, templates: existingTemplates } = useSignTemplates();
   const [step, setStep] = useState<StepKey>("upload");
