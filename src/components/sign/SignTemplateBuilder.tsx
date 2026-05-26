@@ -747,9 +747,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       nameIsUnique &&
       documents.length >= 1 &&
       documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
-    rolesfields:
+    participants:
       roles.length >= 1 && rolesAllNamed && !rolesHaveDuplicates,
-    review: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
+    customize: true,
+    fields: true,
+    automation: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
   };
 
   const goNext = () => {
@@ -761,13 +763,15 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           : !nameIsUnique
             ? "A template with this name already exists."
             : "Add at least one document to continue.",
-        rolesfields:
+        participants:
           rolesHaveDuplicates
             ? "Two roles share the same name. Please make each role name unique."
             : !rolesAllNamed
               ? "Each role needs a name (max 20 characters)."
-              : "Please add at least one role before continuing.",
-        review: "Name the template and filename pattern.",
+              : "Please add at least one participant before continuing.",
+        customize: "",
+        fields: "",
+        automation: "Name the template and filename pattern.",
       };
       toast.error(m[step]);
       return;
@@ -861,9 +865,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
   const nextHint: Record<StepKey, string> = {
-    upload: "Next: people & fields",
-    rolesfields: "Next: customize before sending",
-    review: "Save template",
+    upload: "Next: participants",
+    participants: "Next: customize the document",
+    customize: "Next: place recipient fields",
+    fields: "Next: automation & review",
+    automation: "Save template",
   };
 
   return (
