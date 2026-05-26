@@ -4410,14 +4410,20 @@ function StepLaunchExperience({
                 <FileText className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                 <div className="text-[12px] font-medium truncate">{activeDoc?.name ?? "Document"}</div>
               </div>
-              <label className="inline-flex items-center gap-2 text-[11px] text-muted-foreground cursor-pointer select-none">
-                <Switch
-                  checked={previewMode}
-                  onCheckedChange={setPreviewMode}
-                  disabled={variables.length === 0}
+              <div className="flex items-center gap-3">
+                <AddFieldPopover
+                  addVariableWith={addVariableWith}
+                  updateVariable={updateVariable}
                 />
-                Preview with sample data
-              </label>
+                <label className="inline-flex items-center gap-2 text-[11px] text-muted-foreground cursor-pointer select-none">
+                  <Switch
+                    checked={previewMode}
+                    onCheckedChange={setPreviewMode}
+                    disabled={variables.length === 0}
+                  />
+                  Preview with sample data
+                </label>
+              </div>
             </div>
 
             {previewMode ? (
