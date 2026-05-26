@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -1990,6 +1990,12 @@ const SUGGESTED_BY_TYPE: Record<SignRoleType, SignFieldType[]> = {
 
 const PERSON_PRESETS = ["Employee", "Client", "Vendor", "Manager", "HR", "Finance", "Legal"];
 
+function ordinalLabel(n: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 const ACTION_OPTIONS: {
   value: SignRoleType;
   label: string;
@@ -2473,13 +2479,25 @@ function ParticipantsSetup({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 hover:border-border transition-all p-4 md:p-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-18px_hsl(var(--foreground)/0.18)]"
                 >
                   <div className="flex items-start gap-3.5">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full mt-3 shrink-0 ring-2 ring-background"
-                      style={{ background: r.color, boxShadow: `0 0 0 1px ${r.color}40` }}
-                    />
+                    {signingMode === "sequential" ? (
+                      <div
+                        className="flex flex-col items-center shrink-0 pt-1"
+                        title={`Signs ${ordinalLabel(i + 1)}`}
+                      >
+                        <span
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold text-primary bg-primary/10 ring-1 ring-primary/25 shadow-[0_4px_12px_-6px_hsl(var(--primary)/0.4)]"
+                        >
+                          {i + 1}
+                        </span>
+                      </div>
+                    ) : (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full mt-3 shrink-0 ring-2 ring-background"
+                        style={{ background: r.color, boxShadow: `0 0 0 1px ${r.color}40` }}
+                      />
+                    )}
                     <div className="flex-1 min-w-0 space-y-3">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
@@ -2494,11 +2512,11 @@ function ParticipantsSetup({
                           />
                         </div>
                         {signingMode === "sequential" && !locked && (
-                          <div className="flex flex-col items-center gap-0.5 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+                          <div className="flex flex-col items-center gap-0.5 shrink-0 rounded-lg border border-border/50 bg-background/60">
                             <button
                               onClick={() => moveRole(r.key, -1)}
                               disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
-                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              className="p-1.5 rounded-t-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:hover:bg-transparent"
                               title="Move up"
                             >
                               <ChevronDown className="w-3 h-3 rotate-180" />
@@ -2506,7 +2524,7 @@ function ParticipantsSetup({
                             <button
                               onClick={() => moveRole(r.key, 1)}
                               disabled={i === roles.length - 1}
-                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              className="p-1.5 rounded-b-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:hover:bg-transparent"
                               title="Move down"
                             >
                               <ChevronDown className="w-3 h-3" />
@@ -2660,14 +2678,14 @@ function ParticipantsSetup({
           {([
             {
               value: "parallel" as const,
-              title: "Simultaneous",
-              sub: "Everyone receives requests at the same time.",
+              title: "Parallel",
+              sub: "Everyone receives the request at the same time.",
               hint: "Best for agreements and onboarding.",
             },
             {
               value: "sequential" as const,
-              title: "Step-by-step",
-              sub: "Each person receives the next step only after the previous one completes.",
+              title: "Sequential",
+              sub: "Each person signs in order — one after another.",
               hint: "Best for approvals and legal review.",
             },
           ]).map((opt) => {
@@ -2687,26 +2705,29 @@ function ParticipantsSetup({
                 {/* Visual diagram */}
                 <div className="mb-3 h-14 flex items-center">
                   {opt.value === "parallel" ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-primary/15 ring-1 ring-primary/30" />
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-6 h-6 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center text-[10px] font-semibold text-primary">@</div>
                       <div className="flex flex-col gap-1">
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
-                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
-                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
+                    <div className="flex items-center gap-1.5">
+                      {[1, 2, 3].map((n, idx) => (
+                        <React.Fragment key={n}>
+                          <div className="w-6 h-6 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center text-[10px] font-semibold text-primary">
+                            {n}
+                          </div>
+                          {idx < 2 && <ArrowRight className="w-3 h-3 text-muted-foreground/70" />}
+                        </React.Fragment>
+                      ))}
                     </div>
                   )}
                 </div>
