@@ -218,6 +218,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
   // Roles
   const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("parallel");
+  const [signSelf, setSignSelf] = useState(false);
   const [roles, setRoles] = useState<SignTemplateRole[]>([
     {
       key: "client",
@@ -323,7 +324,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
   /* ─────────── roles ─────────── */
   const addRole = () => {
-    if (roles.length >= 6) return;
+    if (roles.length >= MAX_ROLES) return;
     const idx = roles.length;
     const key = `role-${uid()}`;
     const type: SignRoleType = "signer";
@@ -332,14 +333,21 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       {
         key,
         label: `Signer ${idx + 1}`,
-        color: ROLE_COLORS[idx % ROLE_COLORS.length],
+        color: nextRoleColor(r.map((x) => x.color)),
         signingOrder: idx + 1,
         type,
         permissions: getRoleTypeMeta(type).defaultPermissions,
       },
     ]);
   };
-  const updateRole = (key: string, patch: Partial<SignTemplateRole>) =>
+  const updateRole = (key: string, patch: Partial<SignTemplateRole>) => {
+    if (isMyself(key)) {
+      // Myself is locked except for color (cannot rename / change type / reorder)
+      const allowed: Partial<SignTemplateRole> = {};
+      if (patch.color) allowed.color = patch.color;
+      if (Object.keys(allowed).length === 0) return;
+      patch = allowed;
+    }
     setRoles((rs) =>
       rs.map((r) => {
         if (r.key !== key) return r;
@@ -351,7 +359,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
         return next;
       }),
     );
+  };
   const togglePermission = (key: string, perm: SignRolePermission) => {
+    if (isMyself(key)) return;
     setRoles((rs) =>
       rs.map((r) => {
         if (r.key !== key) return r;
@@ -363,20 +373,65 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     );
   };
   const removeRole = (key: string) => {
-    if (roles.length <= 1) return;
+    if (isMyself(key)) return;
+    if (roles.length <= 1) {
+      toast.error("At least one role is required to proceed.");
+      return;
+    }
+    const hasFields = fields.some((f) => f.roleKey === key);
+    if (hasFields) {
+      const ok = window.confirm(
+        "Deleting this role will also remove all fields assigned to it. This cannot be undone. Continue?",
+      );
+      if (!ok) return;
+    }
     setRoles((rs) => rs.filter((r) => r.key !== key));
     setFields((fs) => fs.filter((f) => f.roleKey !== key));
     if (activeRoleKey === key) setActiveRoleKey(roles.find((r) => r.key !== key)!.key);
   };
   const moveRole = (key: string, dir: -1 | 1) => {
+    if (isMyself(key)) return;
     setRoles((rs) => {
       const i = rs.findIndex((r) => r.key === key);
       const j = i + dir;
+      // Cannot swap into the Myself slot (index 0 when present)
       if (i < 0 || j < 0 || j >= rs.length) return rs;
+      if (isMyself(rs[j].key)) return rs;
       const next = rs.slice();
       [next[i], next[j]] = [next[j], next[i]];
       return next.map((r, idx) => ({ ...r, signingOrder: idx + 1 }));
     });
+  };
+
+  const toggleSignSelf = (on: boolean) => {
+    if (on) {
+      if (roles.some((r) => isMyself(r.key))) return;
+      const myself: SignTemplateRole = {
+        key: MYSELF_KEY,
+        label: "Myself",
+        color: MYSELF_COLOR,
+        signingOrder: 1,
+        type: "signer",
+        permissions: getRoleTypeMeta("signer").defaultPermissions,
+      };
+      setRoles((rs) => [myself, ...rs.filter((r) => !isMyself(r.key))].map((r, i) => ({ ...r, signingOrder: i + 1 })));
+      setSignSelf(true);
+    } else {
+      const hasFields = fields.some((f) => f.roleKey === MYSELF_KEY);
+      if (hasFields) {
+        const ok = window.confirm(
+          "Turning this off will remove all fields you've placed for yourself. Continue?",
+        );
+        if (!ok) return;
+      }
+      setRoles((rs) => rs.filter((r) => !isMyself(r.key)).map((r, i) => ({ ...r, signingOrder: i + 1 })));
+      setFields((fs) => fs.filter((f) => f.roleKey !== MYSELF_KEY));
+      if (activeRoleKey === MYSELF_KEY) {
+        const fallback = roles.find((r) => !isMyself(r.key));
+        if (fallback) setActiveRoleKey(fallback.key);
+      }
+      setSignSelf(false);
+    }
   };
 
   /* ─────────── variables ─────────── */
