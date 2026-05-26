@@ -2446,6 +2446,7 @@ function ParticipantsSetup({
   setSigningMode,
   onNext,
   canContinue,
+  hideNext,
 }: {
   roles: SignTemplateRole[];
   addRole: (label?: string) => void;
@@ -2458,6 +2459,7 @@ function ParticipantsSetup({
   setSigningMode: (m: "sequential" | "parallel") => void;
   onNext: () => void;
   canContinue: boolean;
+  hideNext?: boolean;
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const usedLabels = new Set(roles.map((r) => r.label.trim().toLowerCase()));
@@ -2765,12 +2767,14 @@ function ParticipantsSetup({
         </div>
       </section>
 
-      {/* Continue */}
-      <div className="flex justify-end pt-2">
-        <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
-          Continue to fields <ArrowRight className="w-3.5 h-3.5" />
-        </Button>
-      </div>
+      {/* Continue (hidden when outer step nav is shown) */}
+      {!hideNext && (
+        <div className="flex justify-end pt-2">
+          <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
+            Continue to fields <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
