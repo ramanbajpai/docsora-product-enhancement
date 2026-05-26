@@ -1825,8 +1825,8 @@ function StepFields({
   return (
     <div className="space-y-3">
       <SectionTitle
-        title="Place signing fields"
-        sub="Pick a role, pick a field, then click on the document to drop it. Selected field deletes with backspace."
+        title="Drop fields on the document"
+        sub="Pick a role, choose a field, then click anywhere on the page. Backspace removes the selected field."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4 min-h-[560px]">
