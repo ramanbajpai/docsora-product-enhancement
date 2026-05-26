@@ -82,6 +82,17 @@ const STEPS: { key: StepKey; label: string; sub: string }[] = [
 ];
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
+const MYSELF_KEY = "_myself";
+const MYSELF_COLOR = "#0ea5e9";
+const MAX_ROLES = 6;
+const MAX_ROLE_NAME = 20;
+
+const isMyself = (key: string) => key === MYSELF_KEY;
+
+const nextRoleColor = (taken: string[]) => {
+  const remaining = ROLE_COLORS.filter((c) => !taken.includes(c));
+  return remaining[0] ?? ROLE_COLORS[taken.length % ROLE_COLORS.length];
+};
 
 const ROLE_TYPES: {
   value: SignRoleType;
