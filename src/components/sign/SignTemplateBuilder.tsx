@@ -641,34 +641,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     return token;
   };
 
-  /* Auto-detect variables when entering Launch Experience step */
-  const hasAutoSeededRef = useRef(false);
-  useEffect(() => {
-    if (step !== "review") return;
-    if (hasAutoSeededRef.current) return;
-    if (documents.length === 0) return;
-    hasAutoSeededRef.current = true;
-    const detected: SignTemplateVariable[] = [];
-    documents.forEach((d) => {
-      detectTemplateVariables(d.name).forEach((v) => detected.push(v));
-      (TAG_VARIABLE_SUGGESTIONS[d.tag ?? "other"] ?? []).forEach((s) => {
-        detected.push({
-          name: s.name,
-          label: s.label,
-          type: s.type,
-          required: true,
-          pattern: `{{${s.name}}}`,
-        });
-      });
-    });
-    setVariables((prev) => {
-      const map = new Map<string, SignTemplateVariable>();
-      [...prev, ...detected].forEach((v) => {
-        if (!map.has(v.name)) map.set(v.name, v);
-      });
-      return Array.from(map.values());
-    });
-  }, [step, documents]);
+  // No auto-detection. Users manually mark editable fields in the document.
 
   /* ─────────── fields ─────────── */
   const placeField = (e: React.MouseEvent<HTMLDivElement>) => {
