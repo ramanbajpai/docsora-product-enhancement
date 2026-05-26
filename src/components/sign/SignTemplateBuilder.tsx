@@ -2288,6 +2288,7 @@ function RolesFieldsSidebar({
 }
 
 function StepRolesFields({
+  lockedSubStep,
   documents,
   activeDocId,
   setActiveDocId,
@@ -2317,6 +2318,7 @@ function StepRolesFields({
   setSelectedFieldId,
   pageRef,
 }: {
+  lockedSubStep?: "setup" | "place";
   documents: BuilderDoc[];
   activeDocId: string;
   setActiveDocId: (id: string) => void;
@@ -2346,7 +2348,8 @@ function StepRolesFields({
   setSelectedFieldId: (id: string | null) => void;
   pageRef: React.RefObject<HTMLDivElement>;
 }) {
-  const [subStep, setSubStep] = useState<"setup" | "place">("setup");
+  const [internalSubStep, setSubStep] = useState<"setup" | "place">("setup");
+  const subStep: "setup" | "place" = lockedSubStep ?? internalSubStep;
 
   const activeRole = roles.find((r) => r.key === activeRoleKey) ?? roles[0];
   const activeMeta = getRoleTypeMeta(activeRole?.type);
@@ -2364,14 +2367,14 @@ function StepRolesFields({
 
   const allRolesNamed = roles.every((r) => r.label.trim().length > 0);
 
-  const titles: Record<typeof subStep, { title: string; sub: string }> = {
+  const titles: Record<"setup" | "place", { title: string; sub: string }> = {
     setup: {
       title: "Participants",
-      sub: "Choose who takes part in this process and what each person needs to do.",
+      sub: "Who is involved in this process — and what each person does.",
     },
     place: {
-      title: "Place fields for each participant",
-      sub: "Pick a participant, then click where they need to sign or fill information.",
+      title: "Recipient fields",
+      sub: "Fields participants complete during the process — signatures, uploads, approvals, and form inputs.",
     },
   };
 
@@ -2392,6 +2395,7 @@ function StepRolesFields({
           setSigningMode={setSigningMode}
           onNext={() => allRolesNamed && setSubStep("place")}
           canContinue={allRolesNamed && roles.length > 0}
+          hideNext={!!lockedSubStep}
         />
       )}
 
