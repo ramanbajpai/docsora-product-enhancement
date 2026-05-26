@@ -2284,8 +2284,11 @@ function SubStepPeople({
   addRole,
   updateRole,
   removeRole,
+  moveRole,
   signSelf,
   toggleSignSelf,
+  signingMode,
+  setSigningMode,
   onNext,
   canContinue,
 }: {
@@ -2293,8 +2296,11 @@ function SubStepPeople({
   addRole: () => void;
   updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
   removeRole: (key: string) => void;
+  moveRole: (key: string, dir: -1 | 1) => void;
   signSelf: boolean;
   toggleSignSelf: (on: boolean) => void;
+  signingMode: "sequential" | "parallel";
+  setSigningMode: (m: "sequential" | "parallel") => void;
   onNext: () => void;
   canContinue: boolean;
 }) {
@@ -2325,6 +2331,26 @@ function SubStepPeople({
                   Use a role name, not a person's name — templates can be reused for anyone.
                 </p>
               </div>
+              {signingMode === "sequential" && !locked && (
+                <div className="flex flex-col items-center gap-0.5 shrink-0">
+                  <button
+                    onClick={() => moveRole(r.key, -1)}
+                    disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
+                    className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move up"
+                  >
+                    <ChevronDown className="w-3 h-3 rotate-180" />
+                  </button>
+                  <button
+                    onClick={() => moveRole(r.key, 1)}
+                    disabled={i === roles.length - 1}
+                    className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move down"
+                  >
+                    <ChevronDown className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
               {!locked && roles.length > 1 && (
                 <button
                   onClick={() => removeRole(r.key)}
@@ -2349,6 +2375,47 @@ function SubStepPeople({
           <span className="text-[11px] text-muted-foreground ml-1">
             Examples: {PERSON_PRESETS.join(" · ")}
           </span>
+        </div>
+      </div>
+
+      {/* Signing order */}
+      <div className="space-y-2">
+        <div className="px-1 text-[10.5px] uppercase tracking-[0.14em] font-semibold text-muted-foreground">
+          Signing order
+        </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          {([
+            { value: "parallel" as const, title: "Parallel", sub: "Everyone signs at the same time." },
+            { value: "sequential" as const, title: "Sequential", sub: "Recipients sign one after another, in the order above." },
+          ]).map((opt) => {
+            const active = signingMode === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setSigningMode(opt.value)}
+                className={cn(
+                  "text-left rounded-xl border p-3.5 transition-all",
+                  active
+                    ? "border-primary/50 bg-primary/5 shadow-[0_8px_24px_-14px_hsl(var(--primary)/0.45)]"
+                    : "border-border/50 bg-card/30 hover:bg-card/50 hover:border-border",
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] font-semibold">{opt.title}</span>
+                  <span
+                    className={cn(
+                      "w-4 h-4 rounded-full border flex items-center justify-center",
+                      active ? "border-primary bg-primary" : "border-border",
+                    )}
+                  >
+                    {active && <Check className="w-2.5 h-2.5 text-primary-foreground" />}
+                  </span>
+                </div>
+                <p className="text-[11.5px] text-muted-foreground mt-1 leading-snug">{opt.sub}</p>
+              </button>
+            );
+          })}
         </div>
       </div>
 
