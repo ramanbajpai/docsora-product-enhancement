@@ -664,21 +664,20 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
           )}
 
           {step === "configure" && (
-            <div className="space-y-12">
-              <StepVariables
-                variables={variables}
-                addVariable={addVariable}
-                updateVariable={updateVariable}
-                removeVariable={removeVariable}
-              />
-              <div className="border-t border-border/40" />
-              <StepDelivery
-                delivery={delivery}
-                setDelivery={setDelivery}
-                automation={automation}
-                setAutomation={setAutomation}
-              />
-            </div>
+            <StepConfigure
+              name={name}
+              setName={setName}
+              nameIsUnique={nameIsUnique}
+              documents={documents}
+              updateDocument={updateDocument}
+              removeDocument={removeDocument}
+              moveDocument={moveDocument}
+              addDocuments={addDocuments}
+              signingMode={signingMode}
+              setSigningMode={setSigningMode}
+              variables={variables}
+              roles={roles}
+            />
           )}
 
           {step === "rolesfields" && (
@@ -722,7 +721,22 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
           )}
 
           {step === "review" && (
-            <StepReview
+            <div className="space-y-12">
+              <StepVariables
+                variables={variables}
+                addVariable={addVariable}
+                updateVariable={updateVariable}
+                removeVariable={removeVariable}
+              />
+              <div className="border-t border-border/40" />
+              <StepDelivery
+                delivery={delivery}
+                setDelivery={setDelivery}
+                automation={automation}
+                setAutomation={setAutomation}
+              />
+              <div className="border-t border-border/40" />
+              <StepReview
               name={name}
               setName={setName}
               description={description}
@@ -739,7 +753,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
               setFilenamePattern={setFilenamePattern}
               previewMode={previewMode}
               setPreviewMode={setPreviewMode}
-            />
+              />
+            </div>
           )}
         </motion.div>
       </AnimatePresence>
