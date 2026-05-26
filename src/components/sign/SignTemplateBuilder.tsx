@@ -34,6 +34,7 @@ import {
   Upload as UploadIcon,
 } from "lucide-react";
 import { Wand2, Settings2, Inbox, X } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { Users, Briefcase, Scale, UserCheck, ShoppingCart, Building2, Banknote, Folder } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
