@@ -2230,7 +2230,7 @@ function RolesFieldsSidebar({
           })}
 
           <button
-            onClick={addRole}
+            onClick={() => addRole()}
             disabled={roles.length >= MAX_ROLES}
             className="w-full mt-1 rounded-xl border border-dashed border-border/60 px-2 py-1.5 text-[11.5px] text-muted-foreground hover:text-foreground hover:border-border transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
           >
