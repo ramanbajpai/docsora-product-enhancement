@@ -4526,7 +4526,7 @@ function RecipientExperience({
               <div>
                 <div className="text-[13px] font-semibold">Advanced settings</div>
                 <div className="text-[11.5px] text-muted-foreground">
-                  Expiry, reminders, CC, redirect & permissions
+                  Expiry, reminders & CC
                 </div>
               </div>
             </div>
@@ -4535,7 +4535,7 @@ function RecipientExperience({
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 space-y-4">
           <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FieldLabel text="Expires after">
                 <div className="relative">
                   <Input
@@ -4568,14 +4568,6 @@ function RecipientExperience({
                     days
                   </span>
                 </div>
-              </FieldLabel>
-              <FieldLabel text="Redirect after signing">
-                <Input
-                  value={delivery.redirectUrl ?? ""}
-                  onChange={(e) => setDelivery((d) => ({ ...d, redirectUrl: e.target.value }))}
-                  placeholder="https://acme.com/thanks"
-                  className="h-9 bg-background/60 text-[13px]"
-                />
               </FieldLabel>
             </div>
 
@@ -4625,30 +4617,6 @@ function RecipientExperience({
                 />
               </div>
             </FieldLabel>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!delivery.allowDownload}
-                  onCheckedChange={(c) => setDelivery((d) => ({ ...d, allowDownload: c }))}
-                />
-                Allow downloads
-              </label>
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!automation.notifyOnOpen}
-                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnOpen: c }))}
-                />
-                Notify me when opened
-              </label>
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!automation.notifyOnComplete}
-                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnComplete: c }))}
-                />
-                Notify me when completed
-              </label>
-            </div>
           </div>
         </CollapsibleContent>
       </Collapsible>
