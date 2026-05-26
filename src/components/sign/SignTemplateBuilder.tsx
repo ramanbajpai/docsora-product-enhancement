@@ -56,6 +56,7 @@ import {
   SignTemplateAutomation,
   SIGN_DOC_TAGS,
   applyTemplateVariables,
+  detectTemplateVariables,
   useSignTemplates,
 } from "@/hooks/useSignTemplates";
 import {
@@ -79,7 +80,7 @@ const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Upload", sub: "Files" },
   { key: "configure", label: "Configure", sub: "Variables & delivery" },
   { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
-  { key: "review", label: "Review", sub: "Save" },
+  { key: "review", label: "Launch Experience", sub: "How it launches" },
 ];
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
@@ -639,8 +640,8 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const nextHint: Record<StepKey, string> = {
     upload: "Next: configure variables & delivery",
     configure: "Next: roles & signing fields",
-    rolesfields: "Next: review & save",
-    review: "Save & launch",
+    rolesfields: "Next: launch experience",
+    review: "Save template",
   };
 
   return (
