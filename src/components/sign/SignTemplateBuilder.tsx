@@ -571,7 +571,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       if (roles.some((r) => isMyself(r.key))) return;
       const myself: SignTemplateRole = {
         key: MYSELF_KEY,
-        label: "Myself",
+        label: "You",
         color: MYSELF_COLOR,
         signingOrder: 1,
         type: "signer",
