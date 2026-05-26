@@ -1544,23 +1544,40 @@ function DownloadNameBuilder({
 
       {/* Hero preview */}
       <motion.div
-        key={previewName}
+        key={filenamePattern + (documents[0]?.id ?? "")}
         initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-center gap-4 rounded-2xl border border-border/50 bg-gradient-to-b from-background/80 to-background/40 px-5 py-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_18px_44px_-24px_hsl(var(--foreground)/0.25)]"
+        className="rounded-2xl border border-border/50 bg-gradient-to-b from-background/80 to-background/40 px-5 py-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_18px_44px_-24px_hsl(var(--foreground)/0.25)]"
       >
-        <div className="w-12 h-14 rounded-lg bg-gradient-to-b from-background to-muted/60 border border-border/60 shrink-0 flex flex-col items-center justify-center shadow-inner">
-          <FileText className="w-5 h-5 text-primary/80" />
-          <span className="text-[8px] font-semibold text-muted-foreground mt-1">PDF</span>
+        <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold mb-3">
+          {isMulti ? `Recipients will download ${documents.length} files` : "Recipients will download"}
         </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold">
-            Recipients will download
-          </div>
-          <div className="text-[15px] font-semibold tracking-tight text-foreground truncate mt-1">
-            {previewName}
-          </div>
+        <div className="space-y-2">
+          {previewDocs.map((docName, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="flex items-center gap-3"
+            >
+              <div className="w-10 h-12 rounded-lg bg-gradient-to-b from-background to-muted/60 border border-border/60 shrink-0 flex flex-col items-center justify-center shadow-inner">
+                <FileText className="w-4 h-4 text-primary/80" />
+                <span className="text-[7.5px] font-semibold text-muted-foreground mt-0.5">PDF</span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[14px] font-semibold tracking-tight text-foreground truncate">
+                  {renderName(docName)}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+          {remaining > 0 && (
+            <div className="pl-[52px] text-[11.5px] text-muted-foreground">
+              + {remaining} more file{remaining === 1 ? "" : "s"} named the same way
+            </div>
+          )}
         </div>
       </motion.div>
 
