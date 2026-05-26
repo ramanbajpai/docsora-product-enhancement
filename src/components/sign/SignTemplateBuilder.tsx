@@ -423,7 +423,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
 
   // Review
   const [filenamePattern, setFilenamePattern] = useState<string>(
-    editingTemplate?.filenamePattern ?? "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
+    editingTemplate?.filenamePattern ?? "{{TEMPLATE_NAME}} - Signed.pdf",
   );
   const [previewMode, setPreviewMode] = useState<"sender" | "recipient" | "email" | "filename">("sender");
 
@@ -901,7 +901,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           )}
         </div>
         <h1 className="text-2xl md:text-[32px] leading-[1.1] font-semibold tracking-tight">
-          {isEditing ? "Edit your template." : "Crafting reusable templates"}
+          {isEditing ? "Edit your template." : "Build a reusable process"}
         </h1>
 
         {/* Stepper — premium operational */}
@@ -1174,38 +1174,59 @@ function StepUpload({
     setFilenamePattern(next || "{{TEMPLATE_NAME}}.pdf");
   };
   const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-  const previewFilename = applyTemplateVariables(filenamePattern, {
-    TEMPLATE_NAME: name.trim() || "Employee Onboarding Agreement",
-    DATE: today,
-  });
+  // Resolve known tokens; render unknown ones as friendly [Label] placeholders
+  // so the preview never shows raw {{TOKEN}} syntax.
+  const previewFilename = filenameParts
+    .map((p) => {
+      if (p.type !== "token") return p.value;
+      if (p.value === "TEMPLATE_NAME") return name.trim() || "Employee Onboarding Agreement";
+      if (p.value === "DATE") return today;
+      const friendly = p.value
+        .toLowerCase()
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      return `[${friendly}]`;
+    })
+    .join("");
+
+  // Rotating placeholder examples — subtly teaches the product
+  const NAME_PLACEHOLDERS = [
+    "Employee onboarding",
+    "Client onboarding",
+    "NDA workflow",
+    "Vendor approval",
+    "Project delivery",
+  ];
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  useEffect(() => {
+    if (name.trim()) return;
+    const t = setInterval(() => setPlaceholderIdx((i) => (i + 1) % NAME_PLACEHOLDERS.length), 2600);
+    return () => clearInterval(t);
+  }, [name]);
 
   return (
     <div className="space-y-8">
       {/* Greeting / intro */}
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-medium">
-          <Sparkles className="w-3 h-3 text-primary" />
-          New template
-        </div>
-        <h2 className="text-[24px] md:text-[26px] font-semibold tracking-tight leading-tight">
-          Create a reusable template
+      <div className="space-y-2.5">
+        <h2 className="text-[26px] md:text-[30px] font-semibold tracking-tight leading-[1.15]">
+          Configure it once. Launch it anytime.
         </h2>
-        <p className="text-[13px] text-muted-foreground max-w-xl leading-relaxed">
-          Configure it once, then launch it anytime. Start by giving it a name and adding the documents that belong to it.
+        <p className="text-[14px] text-muted-foreground max-w-xl leading-relaxed">
+          Upload the documents, define the participants, and Docsora turns it into a reusable operational workflow.
         </p>
       </div>
 
       {/* Template name */}
-      <div className="space-y-5 rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 p-5 md:p-6 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_10px_30px_-18px_hsl(var(--foreground)/0.18)]">
-        <div className="space-y-2">
+      <div className="space-y-6 rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 p-6 md:p-7 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_10px_30px_-18px_hsl(var(--foreground)/0.18)]">
+        <div className="space-y-2.5">
           <label className="block text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
             Template name
           </label>
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Employee onboarding agreement"
-            className="h-12 text-[16px] font-medium border-border/60 bg-background/60 focus:border-primary/50 focus:ring-2 focus:ring-primary/15 rounded-xl"
+            placeholder={`e.g. ${NAME_PLACEHOLDERS[placeholderIdx]}`}
+            className="h-14 text-[18px] font-semibold tracking-tight border-border/60 bg-background/60 focus:border-primary/50 focus:ring-2 focus:ring-primary/15 rounded-xl"
             maxLength={100}
           />
           {name.trim() && !nameIsUnique && (
@@ -1221,10 +1242,15 @@ function StepUpload({
           </label>
           <Textarea
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              const el = e.currentTarget;
+              el.style.height = "auto";
+              el.style.height = Math.min(el.scrollHeight, 140) + "px";
+            }}
             placeholder="Used to onboard new employees and collect signatures."
-            rows={2}
-            className="text-[13.5px] border-border/60 bg-background/60 focus:border-primary/50 rounded-xl resize-none"
+            rows={1}
+            className="min-h-[42px] text-[13.5px] border-border/60 bg-background/60 focus:border-primary/50 rounded-xl resize-none leading-relaxed py-2.5"
             maxLength={240}
           />
         </div>
@@ -1262,7 +1288,9 @@ function StepUpload({
       />
 
       {documents.length === 0 ? (
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           onClick={() => fileInputRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
@@ -1270,19 +1298,34 @@ function StepUpload({
             const fs = Array.from(e.dataTransfer.files ?? []);
             if (fs.length) addDocuments(fs);
           }}
-          className="group relative rounded-2xl border border-dashed border-border/60 bg-gradient-to-b from-card/40 to-card/20 hover:from-card/60 hover:to-card/30 hover:border-primary/40 transition-all cursor-pointer px-6 py-16 text-center overflow-hidden"
+          className="group relative rounded-3xl border border-dashed border-border/60 bg-gradient-to-b from-card/40 to-card/10 hover:from-card/60 hover:to-card/20 hover:border-primary/40 transition-all cursor-pointer px-6 py-20 text-center overflow-hidden"
         >
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08),transparent_60%)]" />
-          <div className="relative w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-4 ring-1 ring-primary/15 shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.4)]">
-            <UploadIcon className="w-6 h-6 text-primary" strokeWidth={2} />
-          </div>
-          <p className="relative text-[14px] font-medium">Choose files</p>
-          <p className="relative text-[12px] text-muted-foreground mt-1">
-            or drag and drop here · up to 20MB per file
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.10),transparent_60%)]" />
+          <motion.div
+            whileHover={{ y: -3, scale: 1.04 }}
+            transition={{ type: "spring", stiffness: 240, damping: 18 }}
+            className="relative w-20 h-20 mx-auto rounded-3xl bg-gradient-to-b from-primary/15 to-primary/5 flex items-center justify-center mb-5 ring-1 ring-primary/20 shadow-[0_18px_40px_-14px_hsl(var(--primary)/0.45)]"
+          >
+            <UploadIcon className="w-8 h-8 text-primary" strokeWidth={1.75} />
+          </motion.div>
+          <p className="relative text-[18px] font-semibold tracking-tight">Drop documents here</p>
+          <p className="relative text-[12.5px] text-muted-foreground mt-1.5">
+            PDF, DOCX, DOC, ODT
           </p>
-        </div>
+          <div className="relative mt-5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3.5 py-1.5 text-[12px] font-medium text-foreground/80 group-hover:border-primary/40 group-hover:text-primary transition-colors">
+              Choose files
+            </span>
+          </div>
+        </motion.div>
       ) : (
-        <div className="space-y-4">
+        <motion.div
+          layout
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="space-y-4"
+        >
           {/* Operational summary bar */}
           <div className="flex items-center justify-between rounded-xl border border-border/50 bg-card/40 backdrop-blur-sm px-4 py-2.5">
             <div className="flex items-center gap-3">
@@ -1291,7 +1334,7 @@ function StepUpload({
               </div>
               <div>
                 <div className="text-[12.5px] font-semibold leading-tight">
-                  Template package
+                  Reusable package ready
                 </div>
                 <div className="text-[10.5px] text-muted-foreground leading-tight mt-0.5">
                   <span className="tabular-nums">{documents.length}</span> file{documents.length === 1 ? "" : "s"} ready · grouped into one signing session
@@ -1303,7 +1346,7 @@ function StepUpload({
                 <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/60 animate-ping" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
               </span>
-              Live package
+              Ready to reuse
             </div>
           </div>
 
@@ -1325,7 +1368,7 @@ function StepUpload({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 whileHover={{ y: -2 }}
-                className="group relative rounded-2xl border border-border/50 bg-gradient-to-b from-card/70 to-card/40 hover:border-primary/30 transition-all p-3.5 flex items-center gap-3 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-16px_hsl(var(--foreground)/0.18)] hover:shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_16px_36px_-18px_hsl(var(--foreground)/0.25)]"
+                className="group relative rounded-2xl border border-border/50 bg-gradient-to-b from-card/70 to-card/40 hover:border-primary/30 transition-all px-3 py-2.5 flex items-center gap-3 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-16px_hsl(var(--foreground)/0.18)] hover:shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_16px_36px_-18px_hsl(var(--foreground)/0.25)]"
               >
                 <button
                   className="opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
@@ -1333,17 +1376,17 @@ function StepUpload({
                 >
                   <GripVertical className="w-3.5 h-3.5 text-muted-foreground/60" />
                 </button>
-                <div className="w-11 h-13 rounded-lg bg-gradient-to-b from-background to-muted/50 border border-border/50 shrink-0 flex flex-col items-center justify-center text-[8.5px] font-semibold text-muted-foreground py-1.5 px-1 shadow-inner">
-                  <FileText className="w-4 h-4 text-primary/80 mb-1" />
+                <div className="w-10 h-11 rounded-lg bg-gradient-to-b from-background to-muted/50 border border-border/50 shrink-0 flex flex-col items-center justify-center text-[8px] font-semibold text-muted-foreground py-1 px-1 shadow-inner">
+                  <FileText className="w-3.5 h-3.5 text-primary/80 mb-0.5" />
                   {d.name.split(".").pop()?.toUpperCase().slice(0, 4)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <Input
                     value={d.name}
                     onChange={(e) => updateDocument(d.id, { name: e.target.value })}
-                    className="h-8 px-2 bg-background/60 text-[12.5px] font-medium border-border/50 focus:border-primary/40"
+                    className="h-7 px-2 bg-background/60 text-[12.5px] font-medium border-border/50 focus:border-primary/40"
                   />
-                  <div className="flex items-center gap-2 mt-1.5 text-[10.5px] text-muted-foreground">
+                  <div className="flex items-center gap-2 mt-1 text-[10.5px] text-muted-foreground">
                     <span className="tabular-nums">{d.pageCount} pages</span>
                     <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/40" />
                     <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
@@ -1382,21 +1425,21 @@ function StepUpload({
             {/* Integrated add-another tile */}
             <button
               onClick={() => addMoreInputRef.current?.click()}
-              className="group relative rounded-2xl border border-dashed border-border/60 hover:border-primary/40 bg-card/20 hover:bg-card/40 transition-all p-3.5 flex items-center gap-3 min-h-[76px] text-left overflow-hidden"
+              className="group relative rounded-2xl border border-dashed border-border/60 hover:border-primary/40 bg-card/20 hover:bg-card/40 transition-all px-3 py-2.5 flex items-center gap-3 min-h-[68px] text-left overflow-hidden"
             >
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.07),transparent_60%)]" />
-              <div className="relative w-11 h-13 rounded-lg bg-primary/8 border border-dashed border-primary/30 shrink-0 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
-                <Plus className="w-4 h-4 text-primary" />
+              <div className="relative w-10 h-11 rounded-lg bg-primary/8 border border-dashed border-primary/30 shrink-0 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+                <Plus className="w-3.5 h-3.5 text-primary" />
               </div>
               <div className="relative flex-1 min-w-0">
                 <div className="text-[12.5px] font-semibold text-foreground/90">Add another document</div>
                 <div className="text-[10.5px] text-muted-foreground mt-0.5">
-                  Drop another file here or browse
+                  Include agreements, appendices or supporting documents.
                 </div>
               </div>
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
       </div>
 
@@ -1453,10 +1496,10 @@ function StepUpload({
                 {t.label}
               </button>
             ))}
-            <span className="text-[10.5px] text-muted-foreground/70 ml-1">
-              More tokens (like Client Name) unlock after you add people.
-            </span>
           </div>
+          <p className="text-[11px] text-muted-foreground/80 leading-relaxed">
+            Participant-based naming options unlock after you add people in the next step.
+          </p>
 
           {/* Live preview */}
           <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-background/40 px-3.5 py-3">
@@ -1465,7 +1508,7 @@ function StepUpload({
             </div>
             <div className="min-w-0">
               <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
-                Example downloaded file
+                Recipients will download:
               </div>
               <div className="text-[13px] font-medium text-foreground/90 truncate mt-0.5">
                 {previewFilename}
