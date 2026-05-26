@@ -777,6 +777,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
                 togglePermission={togglePermission}
                 signingMode={signingMode}
                 setSigningMode={setSigningMode}
+                signSelf={signSelf}
+                toggleSignSelf={toggleSignSelf}
+                duplicateLabels={rolesHaveDuplicates}
               />
               <div className="border-t border-border/40" />
               <StepFields
