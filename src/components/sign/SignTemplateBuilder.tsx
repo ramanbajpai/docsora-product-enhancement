@@ -515,6 +515,35 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const removeVariable = (name: string) =>
     setVariables((prev) => prev.filter((v) => v.name !== name));
 
+  const addVariableWith = (
+    label: string,
+    type: SignVariableType = "text",
+    required = true,
+  ): string => {
+    let token = toToken(label);
+    const taken = new Set(variables.map((v) => v.name));
+    let n = 1;
+    while (taken.has(token)) {
+      n += 1;
+      token = `${toToken(label)}_${n}`;
+    }
+    setVariables((prev) => {
+      if (prev.some((v) => v.name === token)) return prev;
+      return [
+        ...prev,
+        {
+          name: token,
+          label,
+          type,
+          required,
+          pattern: `{{${token}}}`,
+          defaultValue: "",
+        },
+      ];
+    });
+    return token;
+  };
+
   /* Auto-detect variables when entering Launch Experience step */
   const hasAutoSeededRef = useRef(false);
   useEffect(() => {
