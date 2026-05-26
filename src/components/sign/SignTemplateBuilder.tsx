@@ -4145,7 +4145,6 @@ function StepLaunchExperience({
 }) {
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
   const [suggestionsDismissed, setSuggestionsDismissed] = useState(false);
   const [scanning, setScanning] = useState(false);
 
