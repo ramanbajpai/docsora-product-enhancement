@@ -2032,7 +2032,7 @@ function RolesFieldsSidebar({
   updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
   removeRole: (key: string) => void;
   moveRole: (key: string, dir: -1 | 1) => void;
-  addRole: () => void;
+  addRole: (label?: string) => void;
   signingMode: "sequential" | "parallel";
   setSigningMode: (m: "sequential" | "parallel") => void;
   signSelf: boolean;
