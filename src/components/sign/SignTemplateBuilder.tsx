@@ -4145,7 +4145,6 @@ function StepLaunchExperience({
 }) {
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
   const [suggestionsDismissed, setSuggestionsDismissed] = useState(false);
   const [scanning, setScanning] = useState(false);
 
@@ -4415,58 +4414,18 @@ function StepLaunchExperience({
                   addVariableWith={addVariableWith}
                   updateVariable={updateVariable}
                 />
-                <label className="inline-flex items-center gap-2 text-[11px] text-muted-foreground cursor-pointer select-none">
-                  <Switch
-                    checked={previewMode}
-                    onCheckedChange={setPreviewMode}
-                    disabled={variables.length === 0}
-                  />
-                  Preview with sample data
-                </label>
               </div>
             </div>
 
-            {previewMode ? (
-              <motion.article
-                key="preview"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="relative px-8 md:px-14 py-10 md:py-14 space-y-5"
-              >
-                <header className="space-y-1.5 pb-4 border-b border-border/30">
-                  <div className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                    {category || "Agreement"}
-                  </div>
-                  <h3 className="text-[22px] font-semibold tracking-tight">{activeBody.title}</h3>
-                </header>
-                {activeBody.paragraphs.map((p, i) => {
-                  let rendered = p;
-                  variables.forEach((v) => {
-                    if (v.defaultValue) {
-                      rendered = rendered.split(v.defaultValue).join(altSample[v.name] ?? v.defaultValue);
-                    }
-                  });
-                  return (
-                    <p key={i} className="text-[13.5px] leading-[1.75] text-foreground/85">
-                      {rendered}
-                    </p>
-                  );
-                })}
-                <div className="absolute top-3 right-4 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">
-                  <Eye className="w-3 h-3" /> Sample data
-                </div>
-              </motion.article>
-            ) : (
-              <DocumentCanvas
-                title={activeBody.title}
-                category={category}
-                paragraphs={activeBody.paragraphs}
-                variables={variables}
-                addVariableWith={addVariableWith}
-                updateVariable={updateVariable}
-                removeVariable={removeVariable}
-              />
-            )}
+            <DocumentCanvas
+              title={activeBody.title}
+              category={category}
+              paragraphs={activeBody.paragraphs}
+              variables={variables}
+              addVariableWith={addVariableWith}
+              updateVariable={updateVariable}
+              removeVariable={removeVariable}
+            />
           </div>
 
           <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
