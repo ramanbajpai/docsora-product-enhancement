@@ -539,6 +539,13 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const nameIsUnique = !existingTemplates.some(
     (t) => t.name.trim().toLowerCase() === nameTrimmed.toLowerCase(),
   );
+  const roleLabels = roles.map((r) => r.label.trim().toLowerCase());
+  const rolesHaveDuplicates = roleLabels.some(
+    (l, i) => l && roleLabels.indexOf(l) !== i,
+  );
+  const rolesAllNamed = roles.every(
+    (r) => r.label.trim().length > 0 && r.label.length <= MAX_ROLE_NAME,
+  );
   const stepValid: Record<StepKey, boolean> = {
     upload: documents.length >= 1,
     configure:
@@ -548,10 +555,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       documents.length >= 1 &&
       documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
     rolesfields:
-      roles.length >= 1 &&
-      roles.every((r) => r.label.trim().length > 0) &&
-      fields.length >= 1 &&
-      fields.some((f) => f.type === "signature"),
+      roles.length >= 1 && rolesAllNamed && !rolesHaveDuplicates,
     review: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
   };
 
@@ -566,7 +570,11 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
             ? "A template with this name already exists. Please choose a different name."
             : "Each document needs a name.",
         rolesfields:
-          "Add a role and place at least one signature field.",
+          rolesHaveDuplicates
+            ? "Two roles share the same name. Please make each role name unique."
+            : !rolesAllNamed
+              ? "Each role needs a name (max 20 characters)."
+              : "Please add at least one role before continuing.",
         review: "Name the template and filename pattern.",
       };
       toast.error(m[step]);
