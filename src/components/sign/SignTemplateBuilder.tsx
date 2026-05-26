@@ -1411,6 +1411,9 @@ function StepRoles({
   togglePermission,
   signingMode,
   setSigningMode,
+  signSelf,
+  toggleSignSelf,
+  duplicateLabels,
 }: {
   roles: SignTemplateRole[];
   addRole: () => void;
@@ -1420,12 +1423,20 @@ function StepRoles({
   togglePermission: (key: string, perm: SignRolePermission) => void;
   signingMode: "sequential" | "parallel";
   setSigningMode: (m: "sequential" | "parallel") => void;
+  signSelf: boolean;
+  toggleSignSelf: (on: boolean) => void;
+  duplicateLabels: boolean;
 }) {
+  const labelCounts = roles.reduce<Record<string, number>>((acc, r) => {
+    const k = r.label.trim().toLowerCase();
+    if (k) acc[k] = (acc[k] ?? 0) + 1;
+    return acc;
+  }, {});
   return (
     <div className="space-y-5">
       <SectionTitle
-        title="Who's involved?"
-        sub="Define recipient roles, their responsibility, and the order they'll receive the document. Personalization fields are separate — you'll set those next."
+        title="Who signs, and where."
+        sub="Define each recipient on the left, then drop their fields on the document. Colours keep everything legible at a glance."
       />
 
       {/* Signing mode */}
@@ -1455,31 +1466,59 @@ function StepRoles({
       <div className="space-y-2">
         {roles.map((r, i) => {
           const meta = getRoleTypeMeta(r.type);
+          const locked = isMyself(r.key);
+          const duplicate =
+            !locked && (labelCounts[r.label.trim().toLowerCase()] ?? 0) > 1;
+          const tooLong = r.label.length > MAX_ROLE_NAME;
           return (
             <div
               key={r.key}
-              className="rounded-2xl border border-border/50 bg-card/30 hover:bg-card/45 transition-colors p-3.5"
+              className={cn(
+                "rounded-2xl border bg-card/30 hover:bg-card/45 transition-colors p-3.5",
+                locked ? "border-primary/25 bg-primary/[0.04]" : "border-border/50",
+                (duplicate || tooLong) && "border-destructive/40",
+              )}
             >
               <div className="flex flex-wrap items-center gap-2">
-                <button
-                  onClick={() => {
-                    const next =
-                      ROLE_COLORS[(ROLE_COLORS.indexOf(r.color) + 1) % ROLE_COLORS.length];
-                    updateRole(r.key, { color: next });
-                  }}
-                  className="w-7 h-7 rounded-full border border-border/60 shrink-0 hover:scale-110 transition"
-                  style={{ background: r.color }}
-                  title="Change color"
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      className="w-7 h-7 rounded-full border border-border/60 shrink-0 hover:scale-110 transition ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      style={{ background: r.color }}
+                      title="Change colour"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className="w-auto p-2">
+                    <div className="grid grid-cols-6 gap-1.5">
+                      {ROLE_COLORS.concat(locked ? [MYSELF_COLOR] : []).map((c) => (
+                        <button
+                          key={c}
+                          onClick={() => updateRole(r.key, { color: c })}
+                          className={cn(
+                            "w-6 h-6 rounded-full border border-border/60 transition hover:scale-110",
+                            r.color === c && "ring-2 ring-offset-2 ring-foreground/70 ring-offset-background",
+                          )}
+                          style={{ background: c }}
+                          aria-label={`Use colour ${c}`}
+                        />
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
                 <Input
                   value={r.label}
-                  onChange={(e) => updateRole(r.key, { label: e.target.value })}
+                  onChange={(e) =>
+                    updateRole(r.key, { label: e.target.value.slice(0, MAX_ROLE_NAME) })
+                  }
+                  maxLength={MAX_ROLE_NAME}
+                  disabled={locked}
                   placeholder="Role name (e.g. Client, Legal, Counter-signer)"
                   className="h-9 bg-background/60 flex-1 min-w-[180px] text-[13px]"
                 />
                 <Select
                   value={r.type ?? "signer"}
                   onValueChange={(v) => updateRole(r.key, { type: v as SignRoleType })}
+                  disabled={locked}
                 >
                   <SelectTrigger className="h-9 w-[130px] bg-background/60 text-[12px]">
                     <SelectValue />
@@ -1498,13 +1537,13 @@ function StepRoles({
                     })}
                   </SelectContent>
                 </Select>
-                {signingMode === "sequential" && (
+                {signingMode === "sequential" && !locked && (
                   <div className="flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums">
                     <span>Order</span>
                     <div className="flex flex-col items-center gap-0">
                       <button
                         onClick={() => moveRole(r.key, -1)}
-                        disabled={i === 0}
+                        disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
                         className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
                       >
                         <ChevronDown className="w-3 h-3 rotate-180" />
@@ -1522,14 +1561,28 @@ function StepRoles({
                     </div>
                   </div>
                 )}
-                <button
-                  onClick={() => removeRole(r.key)}
-                  disabled={roles.length <= 1}
-                  className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 disabled:opacity-30"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+                {locked ? (
+                  <span className="px-2 h-6 inline-flex items-center rounded-full text-[10.5px] font-medium border border-primary/25 bg-primary/10 text-primary">
+                    Signs first
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => removeRole(r.key)}
+                    disabled={roles.length <= 1}
+                    className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60 disabled:opacity-30"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
+
+              {(duplicate || tooLong) && (
+                <p className="text-[11px] text-destructive mt-2 pl-9">
+                  {duplicate
+                    ? "This name is already in use. Please choose a unique name."
+                    : `Role names are limited to ${MAX_ROLE_NAME} characters.`}
+                </p>
+              )}
 
               {/* Permissions */}
               <div className="mt-3 flex flex-wrap items-center gap-1.5 pl-9">
@@ -1542,8 +1595,9 @@ function StepRoles({
                     <button
                       key={p.value}
                       onClick={() => togglePermission(r.key, p.value)}
+                      disabled={locked}
                       className={cn(
-                        "px-2 h-6 rounded-full text-[10.5px] font-medium border transition-colors",
+                        "px-2 h-6 rounded-full text-[10.5px] font-medium border transition-colors disabled:opacity-60 disabled:cursor-default",
                         on
                           ? "bg-primary/10 border-primary/30 text-primary"
                           : "bg-card/50 border-border/50 text-muted-foreground hover:text-foreground",
@@ -1556,7 +1610,7 @@ function StepRoles({
               </div>
 
               <p className="text-[11px] text-muted-foreground mt-2 pl-9">
-                {meta.description}
+                {locked ? "You'll sign this template first, before it's sent to anyone else." : meta.description}
               </p>
             </div>
           );
@@ -1565,11 +1619,29 @@ function StepRoles({
 
       <button
         onClick={addRole}
-        disabled={roles.length >= 6}
+        disabled={roles.length >= MAX_ROLES}
         className="w-full rounded-2xl border border-dashed border-border/60 px-4 py-3 text-[12.5px] text-muted-foreground hover:text-foreground hover:border-border transition-colors inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
       >
         <Plus className="w-3.5 h-3.5" /> Add role
+        <span className="text-[10.5px] text-muted-foreground/70 ml-1">
+          {roles.length}/{MAX_ROLES}
+        </span>
       </button>
+
+      {/* I will also sign */}
+      <label className="flex items-start gap-3 rounded-2xl border border-border/50 bg-card/30 hover:bg-card/45 transition-colors p-3.5 cursor-pointer select-none">
+        <Switch
+          checked={signSelf}
+          onCheckedChange={(c) => toggleSignSelf(!!c)}
+          className="mt-0.5"
+        />
+        <span className="flex-1">
+          <span className="block text-[13px] font-medium">I will also sign this template</span>
+          <span className="block text-[11.5px] text-muted-foreground mt-0.5">
+            Adds you as the first signer. You'll sign and (optionally) pre-fill fields before it's sent out.
+          </span>
+        </span>
+      </label>
     </div>
   );
 }
