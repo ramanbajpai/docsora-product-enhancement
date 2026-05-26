@@ -868,22 +868,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
           )}
 
           {step === "review" && (
-            <div className="space-y-12">
-              <StepVariables
-                variables={variables}
-                addVariable={addVariable}
-                updateVariable={updateVariable}
-                removeVariable={removeVariable}
-              />
-              <div className="border-t border-border/40" />
-              <StepDelivery
-                delivery={delivery}
-                setDelivery={setDelivery}
-                automation={automation}
-                setAutomation={setAutomation}
-              />
-              <div className="border-t border-border/40" />
-              <StepReview
+            <StepLaunchExperience
               name={name}
               setName={setName}
               description={description}
@@ -893,15 +878,18 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
               documents={documents}
               roles={roles}
               variables={variables}
+              addVariable={addVariable}
+              updateVariable={updateVariable}
+              removeVariable={removeVariable}
               fields={fields}
               delivery={delivery}
+              setDelivery={setDelivery}
               automation={automation}
+              setAutomation={setAutomation}
               filenamePattern={filenamePattern}
               setFilenamePattern={setFilenamePattern}
-              previewMode={previewMode}
-              setPreviewMode={setPreviewMode}
-              />
-            </div>
+              signingMode={signingMode}
+            />
           )}
         </motion.div>
       </AnimatePresence>
