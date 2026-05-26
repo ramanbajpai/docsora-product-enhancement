@@ -901,7 +901,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           )}
         </div>
         <h1 className="text-2xl md:text-[32px] leading-[1.1] font-semibold tracking-tight">
-          {isEditing ? "Edit your template." : "Crafting reusable templates"}
+          {isEditing ? "Edit your template." : "Build a reusable process"}
         </h1>
 
         {/* Stepper — premium operational */}
