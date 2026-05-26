@@ -4750,6 +4750,173 @@ function RecipientStep({
  * DocumentCanvas — renders the document and lets the user
  * select any text to mark it editable.
  * ────────────────────────────────────────────────────────── */
+function AddFieldPopover({
+  addVariableWith,
+  updateVariable,
+}: {
+  addVariableWith: (label: string, type?: SignVariableType, required?: boolean) => string;
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [label, setLabel] = useState("");
+  const [type, setType] = useState<SignVariableType>("text");
+  const [sample, setSample] = useState("");
+
+  const QUICK = [
+    { label: "Client name", type: "text" as SignVariableType, sample: "Acme Studio" },
+    { label: "Deal size", type: "currency" as SignVariableType, sample: "$24,000" },
+    { label: "Start date", type: "date" as SignVariableType, sample: "January 1, 2026" },
+    { label: "Email", type: "email" as SignVariableType, sample: "hello@acme.com" },
+  ];
+
+  const reset = () => {
+    setLabel("");
+    setType("text");
+    setSample("");
+  };
+
+  const submit = () => {
+    const trimmed = label.trim();
+    if (!trimmed) return;
+    const token = addVariableWith(trimmed, type, true);
+    if (sample.trim()) {
+      setTimeout(() => updateVariable(token, { defaultValue: sample.trim() }), 0);
+    }
+    toast.success(`Added "${trimmed}" as a reusable field`);
+    reset();
+    setOpen(false);
+  };
+
+  return (
+    <Popover
+      open={open}
+      onOpenChange={(v) => {
+        setOpen(v);
+        if (!v) reset();
+      }}
+    >
+      <PopoverTrigger asChild>
+        <button className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg bg-primary text-primary-foreground text-[11.5px] font-medium hover:bg-primary/90 transition shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.6)]">
+          <Plus className="w-3 h-3" /> Add field
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        sideOffset={8}
+        className="w-[320px] p-0 overflow-hidden rounded-2xl border-border/60"
+      >
+        <div className="p-4 space-y-3.5">
+          <div>
+            <div className="text-[13px] font-semibold tracking-tight">Add a reusable field</div>
+            <div className="text-[11px] text-muted-foreground mt-0.5">
+              You&rsquo;ll fill this in each time you launch.
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Field name
+            </label>
+            <Input
+              autoFocus
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && label.trim()) submit();
+              }}
+              placeholder="e.g. Deal size, Client name"
+              className="h-9 text-[13px]"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Type
+            </label>
+            <Select value={type} onValueChange={(t) => setType(t as SignVariableType)}>
+              <SelectTrigger className="h-9 text-[12.5px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {VARIABLE_TYPES.map((t) => {
+                  const I = t.icon;
+                  return (
+                    <SelectItem key={t.value} value={t.value}>
+                      <span className="inline-flex items-center gap-2">
+                        <I className="w-3.5 h-3.5" />
+                        {t.label}
+                      </span>
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Example value <span className="normal-case text-muted-foreground/70 font-normal">(optional)</span>
+            </label>
+            <Input
+              value={sample}
+              onChange={(e) => setSample(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && label.trim()) submit();
+              }}
+              placeholder="e.g. $24,000"
+              className="h-9 text-[12.5px]"
+            />
+            <p className="text-[10.5px] text-muted-foreground/80">
+              If this text appears in your document, it&rsquo;ll be highlighted automatically.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
+              Quick add
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {QUICK.map((q) => {
+                const I = variableTypeMeta(q.type).icon;
+                return (
+                  <button
+                    key={q.label}
+                    onClick={() => {
+                      setLabel(q.label);
+                      setType(q.type);
+                      setSample(q.sample);
+                    }}
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-muted/60 hover:bg-muted text-[11px] text-foreground/80 transition"
+                  >
+                    <I className="w-3 h-3 text-primary" />
+                    {q.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-1">
+            <button
+              onClick={() => setOpen(false)}
+              className="h-8 px-3 rounded-lg text-[12px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/40 transition"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={submit}
+              disabled={!label.trim()}
+              className="h-8 px-3.5 rounded-lg bg-primary text-primary-foreground text-[12px] font-medium hover:bg-primary/90 transition disabled:opacity-50"
+            >
+              Add field
+            </button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function DocumentCanvas({
   title,
   category,
