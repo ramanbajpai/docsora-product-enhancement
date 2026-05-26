@@ -37,6 +37,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -77,7 +78,7 @@ type StepKey = "upload" | "configure" | "rolesfields" | "review";
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Upload", sub: "Files" },
   { key: "configure", label: "Configure", sub: "Variables & delivery" },
-  { key: "rolesfields", label: "Roles & Fields", sub: "Who signs where" },
+  { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
   { key: "review", label: "Review", sub: "Save" },
 ];
 
@@ -1408,6 +1409,27 @@ const SUGGESTED_BY_TYPE: Record<SignRoleType, SignFieldType[]> = {
   cc: [],
 };
 
+const PERSON_PRESETS = ["Employee", "Client", "Vendor", "Manager", "HR", "Finance", "Legal"];
+
+const ACTION_OPTIONS: {
+  value: SignRoleType;
+  label: string;
+  helper: string;
+  icon: React.ComponentType<{ className?: string }>;
+}[] = [
+  { value: "signer",   label: "Sign & fill",  helper: "Signs and completes assigned fields.",      icon: PenLine },
+  { value: "approver", label: "Approve",      helper: "Reviews and approves before it's finalized.", icon: ShieldCheck },
+  { value: "viewer",   label: "View only",    helper: "Read-only access. No action required.",      icon: Eye },
+  { value: "cc",       label: "Receive copy", helper: "Gets a final copy when signing is complete.", icon: AtSign },
+];
+
+const ACTION_VERB: Record<SignRoleType, string> = {
+  signer: "Needs to sign",
+  approver: "Needs to approve",
+  viewer: "View only",
+  cc: "Receives a copy",
+};
+
 /* Premium left sidebar — “editing as”, participant list with role-type badges, and field tools. */
 function RolesFieldsSidebar({
   roles,
@@ -1728,12 +1750,13 @@ function StepRolesFields({
   setSelectedFieldId: (id: string | null) => void;
   pageRef: React.RefObject<HTMLDivElement>;
 }) {
+  const [subStep, setSubStep] = useState<"people" | "actions" | "place">("people");
+
   const activeRole = roles.find((r) => r.key === activeRoleKey) ?? roles[0];
   const activeMeta = getRoleTypeMeta(activeRole?.type);
   const activeDoc = documents.find((d) => d.id === activeDocId) || documents[0];
 
   const required = REQUIRED_BY_TYPE[activeRole?.type ?? "signer"];
-  const suggested = SUGGESTED_BY_TYPE[activeRole?.type ?? "signer"];
   const placedKinds = new Set(
     fields.filter((f) => f.roleKey === activeRole?.key).map((f) => f.type),
   );
@@ -1743,17 +1766,376 @@ function StepRolesFields({
   const idx = roles.findIndex((r) => r.key === activeRole?.key);
   const nextRole = roles[idx + 1];
 
+  const allRolesNamed = roles.every((r) => r.label.trim().length > 0);
+
+  const SUB_STEPS: { key: "people" | "actions" | "place"; label: string }[] = [
+    { key: "people", label: "Add people" },
+    { key: "actions", label: "Choose actions" },
+    { key: "place", label: "Place fields" },
+  ];
+
+  const titles: Record<typeof subStep, { title: string; sub: string }> = {
+    people: {
+      title: "Who needs to complete this?",
+      sub: "Add the people who will sign, approve, view or complete fields. Use role names — templates are reusable.",
+    },
+    actions: {
+      title: "What should each person do?",
+      sub: "Pick one action per person. We'll set up sensible permissions automatically.",
+    },
+    place: {
+      title: "Place fields for each person",
+      sub: "Pick a person, then click where they need to sign or fill information.",
+    },
+  };
+
+  return (
+    <div className="space-y-6">
+      <SectionTitle title={titles[subStep].title} sub={titles[subStep].sub} />
+
+      {/* Sub-stepper */}
+      <div className="flex items-center gap-2">
+        {SUB_STEPS.map((s, i) => {
+          const active = s.key === subStep;
+          const done = SUB_STEPS.findIndex((x) => x.key === subStep) > i;
+          return (
+            <button
+              key={s.key}
+              onClick={() => setSubStep(s.key)}
+              className={cn(
+                "inline-flex items-center gap-2 h-8 px-3 rounded-full text-[12px] font-medium border transition-all",
+                active
+                  ? "bg-primary text-primary-foreground border-primary shadow-[0_4px_16px_-6px_hsl(var(--primary)/0.5)]"
+                  : done
+                    ? "bg-primary/10 text-primary border-primary/20"
+                    : "bg-card/40 text-muted-foreground border-border/60 hover:text-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  "w-4 h-4 rounded-full inline-flex items-center justify-center text-[10px] font-semibold",
+                  active ? "bg-primary-foreground/20" : done ? "bg-primary/20" : "bg-muted",
+                )}
+              >
+                {done ? <Check className="w-2.5 h-2.5" /> : String.fromCharCode(65 + i)}
+              </span>
+              {s.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {subStep === "people" && (
+        <SubStepPeople
+          roles={roles}
+          addRole={addRole}
+          updateRole={updateRole}
+          removeRole={removeRole}
+          signSelf={signSelf}
+          toggleSignSelf={toggleSignSelf}
+          onNext={() => allRolesNamed && setSubStep("actions")}
+          canContinue={allRolesNamed && roles.length > 0}
+        />
+      )}
+
+      {subStep === "actions" && (
+        <SubStepActions
+          roles={roles}
+          updateRole={updateRole}
+          togglePermission={togglePermission}
+          onBack={() => setSubStep("people")}
+          onNext={() => setSubStep("place")}
+        />
+      )}
+
+      {subStep === "place" && (
+        <PlaceFieldsPanel
+          documents={documents}
+          activeDocId={activeDocId}
+          setActiveDocId={setActiveDocId}
+          page={page}
+          setPage={setPage}
+          pageCount={pageCount}
+          roles={roles}
+          fields={fields}
+          docFields={docFields}
+          pageFields={pageFields}
+          activeRoleKey={activeRoleKey}
+          setActiveRoleKey={setActiveRoleKey}
+          activeTool={activeTool}
+          setActiveTool={setActiveTool}
+          placeField={placeField}
+          removeField={removeField}
+          selectedFieldId={selectedFieldId}
+          setSelectedFieldId={setSelectedFieldId}
+          pageRef={pageRef}
+          activeRole={activeRole}
+          activeDoc={activeDoc}
+          required={required}
+          missing={missing}
+          roleComplete={roleComplete}
+          nextRole={nextRole}
+          activeMeta={activeMeta}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ── Sub-step A: Add People ───────────────────────────────── */
+function SubStepPeople({
+  roles,
+  addRole,
+  updateRole,
+  removeRole,
+  signSelf,
+  toggleSignSelf,
+  onNext,
+  canContinue,
+}: {
+  roles: SignTemplateRole[];
+  addRole: () => void;
+  updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
+  removeRole: (key: string) => void;
+  signSelf: boolean;
+  toggleSignSelf: (on: boolean) => void;
+  onNext: () => void;
+  canContinue: boolean;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="rounded-2xl border border-border/50 bg-card/30 divide-y divide-border/40">
+        {roles.map((r, i) => {
+          const locked = isMyself(r.key);
+          return (
+            <div key={r.key} className="flex items-center gap-3 p-4">
+              <span
+                className="w-9 h-9 rounded-full inline-flex items-center justify-center text-[13px] font-semibold text-white ring-1 ring-black/5 shrink-0"
+                style={{ background: r.color }}
+              >
+                {i + 1}
+              </span>
+              <div className="flex-1 min-w-0">
+                <Input
+                  value={r.label}
+                  disabled={locked}
+                  onChange={(e) =>
+                    updateRole(r.key, { label: e.target.value.slice(0, MAX_ROLE_NAME) })
+                  }
+                  placeholder="e.g. Employee, Client, Manager"
+                  className="h-10 text-[14px] font-medium border-border/60 bg-background/60"
+                />
+                <p className="text-[11px] text-muted-foreground mt-1.5">
+                  Use a role name, not a person's name — templates can be reused for anyone.
+                </p>
+              </div>
+              {!locked && roles.length > 1 && (
+                <button
+                  onClick={() => removeRole(r.key)}
+                  className="p-2 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition shrink-0"
+                  title="Remove person"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          );
+        })}
+
+        <div className="p-3 flex flex-wrap items-center gap-2">
+          <button
+            onClick={addRole}
+            disabled={roles.length >= MAX_ROLES}
+            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-dashed border-border/60 text-[12.5px] font-medium text-foreground hover:bg-muted/40 transition disabled:opacity-40"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add another person
+          </button>
+          <span className="text-[11px] text-muted-foreground ml-1">
+            Examples: {PERSON_PRESETS.join(" · ")}
+          </span>
+        </div>
+      </div>
+
+      <label className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/30 px-4 py-3 cursor-pointer">
+        <Switch checked={signSelf} onCheckedChange={(c) => toggleSignSelf(!!c)} />
+        <div className="flex-1">
+          <div className="text-[13px] font-medium">I also need to sign</div>
+          <div className="text-[11.5px] text-muted-foreground">
+            Adds you as the first signer on this template.
+          </div>
+        </div>
+      </label>
+
+      <div className="flex justify-end">
+        <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
+          Continue <ArrowRight className="w-3.5 h-3.5" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Sub-step B: Choose Actions ───────────────────────────── */
+function SubStepActions({
+  roles,
+  updateRole,
+  togglePermission,
+  onBack,
+  onNext,
+}: {
+  roles: SignTemplateRole[];
+  updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
+  togglePermission: (key: string, perm: SignRolePermission) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const [advancedOpen, setAdvancedOpen] = useState<Record<string, boolean>>({});
+
+  return (
+    <div className="space-y-4">
+      {roles.map((r) => {
+        const currentType = r.type ?? "signer";
+        const isAdvOpen = !!advancedOpen[r.key];
+        return (
+          <div
+            key={r.key}
+            className="rounded-2xl border border-border/50 bg-card/30 p-4 space-y-3"
+          >
+            <div className="flex items-center gap-3">
+              <span
+                className="w-8 h-8 rounded-full inline-flex items-center justify-center text-[12px] font-semibold text-white ring-1 ring-black/5 shrink-0"
+                style={{ background: r.color }}
+              >
+                {r.label.charAt(0).toUpperCase() || "?"}
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[14px] font-semibold truncate">{r.label || "Untitled"}</div>
+                <div className="text-[11.5px] text-muted-foreground">
+                  What should {r.label || "this person"} do?
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {ACTION_OPTIONS.map((opt) => {
+                const Icon = opt.icon;
+                const selected = currentType === opt.value;
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => updateRole(r.key, { type: opt.value })}
+                    className={cn(
+                      "text-left rounded-xl border p-3 transition-all",
+                      selected
+                        ? "border-primary/50 bg-primary/[0.06] shadow-[0_4px_16px_-6px_hsl(var(--primary)/0.3)]"
+                        : "border-border/50 bg-background/40 hover:bg-muted/40 hover:border-border",
+                    )}
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span
+                        className={cn(
+                          "w-6 h-6 rounded-md inline-flex items-center justify-center",
+                          selected ? "bg-primary/15 text-primary" : "bg-muted text-foreground/70",
+                        )}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="text-[12.5px] font-semibold">{opt.label}</span>
+                      {selected && <Check className="w-3.5 h-3.5 text-primary ml-auto" />}
+                    </div>
+                    <p className="text-[11px] text-muted-foreground leading-snug">{opt.helper}</p>
+                  </button>
+                );
+              })}
+            </div>
+
+            <Collapsible
+              open={isAdvOpen}
+              onOpenChange={(o) => setAdvancedOpen((s) => ({ ...s, [r.key]: o }))}
+            >
+              <CollapsibleTrigger className="inline-flex items-center gap-1 text-[11.5px] text-muted-foreground hover:text-foreground transition">
+                <ChevronDown
+                  className={cn("w-3 h-3 transition-transform", isAdvOpen && "rotate-180")}
+                />
+                Advanced permissions
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-2">
+                <div className="flex flex-wrap gap-1.5">
+                  {PERMISSION_LABELS.map((p) => {
+                    const has = (r.permissions ?? []).includes(p.value);
+                    return (
+                      <button
+                        key={p.value}
+                        onClick={() => togglePermission(r.key, p.value)}
+                        className={cn(
+                          "h-7 px-2.5 rounded-full text-[11px] font-medium border transition",
+                          has
+                            ? "bg-foreground text-background border-foreground"
+                            : "bg-background border-border/60 text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        {p.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+        );
+      })}
+
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" onClick={onBack} className="gap-1.5">
+          <ArrowLeft className="w-3.5 h-3.5" /> Back
+        </Button>
+        <Button onClick={onNext} className="gap-1.5">
+          Continue <ArrowRight className="w-3.5 h-3.5" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Sub-step C: Place Fields ─────────────────────────────── */
+function PlaceFieldsPanel({
+  documents,
+  activeDocId,
+  setActiveDocId,
+  page,
+  setPage,
+  pageCount,
+  roles,
+  fields,
+  docFields,
+  pageFields,
+  activeRoleKey,
+  setActiveRoleKey,
+  activeTool,
+  setActiveTool,
+  placeField,
+  removeField,
+  selectedFieldId,
+  setSelectedFieldId,
+  pageRef,
+  activeRole,
+  activeDoc,
+  required,
+  missing,
+  roleComplete,
+  nextRole,
+  activeMeta,
+}: any) {
+  const fieldLabelByKind = (k: SignFieldType) =>
+    FIELD_TOOLS.find((t) => t.kind === k)?.label ?? k;
+
   return (
     <div className="space-y-3">
-      <SectionTitle
-        title="Place fields on the document"
-        sub="Pick a participant, then drop their fields on the page. We'll guide you to the next person automatically."
-      />
-
+      {/* Now placing banner */}
       <div className="rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 backdrop-blur-xl px-4 py-3 flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground font-semibold">
-            Now placing for
+            Now placing fields for
           </span>
           <span
             className="inline-flex items-center gap-2 px-2.5 h-7 rounded-full border text-[12px] font-medium"
@@ -1765,9 +2147,15 @@ function StepRolesFields({
           >
             <span className="w-2 h-2 rounded-full" style={{ background: activeRole?.color }} />
             {activeRole?.label || "Untitled"}
-            <span className="opacity-70">·</span>
-            <span className="opacity-80">{activeMeta.label}</span>
           </span>
+          {required.length > 0 && (
+            <span className="text-[11.5px] text-muted-foreground hidden md:inline">
+              Required:{" "}
+              <span className="text-foreground font-medium">
+                {required.map(fieldLabelByKind).join(" · ")}
+              </span>
+            </span>
+          )}
         </div>
 
         <div className="ml-auto flex items-center gap-2">
@@ -1776,38 +2164,116 @@ function StepRolesFields({
               onClick={() => setActiveRoleKey(nextRole.key)}
               className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11.5px] font-medium bg-foreground text-background hover:opacity-90 transition"
             >
-              Next: {nextRole.label || "participant"} <ArrowRight className="w-3 h-3" />
+              Next: {nextRole.label || "person"} <ArrowRight className="w-3 h-3" />
             </button>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 min-h-[640px]">
-        <RolesFieldsSidebar
-          roles={roles}
-          activeRoleKey={activeRoleKey}
-          setActiveRoleKey={setActiveRoleKey}
-          updateRole={updateRole}
-          removeRole={removeRole}
-          moveRole={moveRole}
-          addRole={addRole}
-          signingMode={signingMode}
-          setSigningMode={setSigningMode}
-          signSelf={signSelf}
-          toggleSignSelf={toggleSignSelf}
-          activeTool={activeTool}
-          setActiveTool={setActiveTool}
-          activeRole={activeRole}
-          fields={fields}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 min-h-[640px]">
+        {/* Plain-language sidebar */}
+        <div className="space-y-4 lg:sticky lg:top-4 h-fit">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground px-1 mb-2">
+              People
+            </div>
+            <div className="rounded-2xl border border-border/50 bg-card/30 p-1.5 space-y-0.5">
+              {roles.map((r: SignTemplateRole) => {
+                const active = r.key === activeRoleKey;
+                const meta = getRoleTypeMeta(r.type);
+                const reqForRole = REQUIRED_BY_TYPE[r.type ?? "signer"];
+                const placed = new Set(
+                  fields.filter((f: SignTemplateField) => f.roleKey === r.key).map((f: SignTemplateField) => f.type),
+                );
+                const isMissing = reqForRole.some((k) => !placed.has(k));
+                const count = fields.filter((f: SignTemplateField) => f.roleKey === r.key).length;
+                return (
+                  <button
+                    key={r.key}
+                    onClick={() => setActiveRoleKey(r.key)}
+                    className={cn(
+                      "w-full text-left rounded-xl px-2.5 py-2 transition-all flex items-center gap-2.5",
+                      active ? "bg-background shadow-sm ring-1 ring-border/60" : "hover:bg-muted/40",
+                    )}
+                  >
+                    <span
+                      className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-semibold text-white ring-1 ring-black/5 shrink-0"
+                      style={{ background: r.color }}
+                    >
+                      {r.label.charAt(0).toUpperCase() || "?"}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[12.5px] font-medium truncate">{r.label || "Untitled"}</div>
+                      <div className="text-[10.5px] text-muted-foreground truncate">
+                        {ACTION_VERB[r.type ?? "signer"]}
+                      </div>
+                    </div>
+                    {reqForRole.length > 0 && isMissing ? (
+                      <span className="text-[9.5px] font-semibold text-amber-600 dark:text-amber-400">
+                        Needs field
+                      </span>
+                    ) : count > 0 ? (
+                      <span className="text-[10px] text-muted-foreground tabular-nums">{count}</span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground px-1 mb-2">
+              Fields
+            </div>
+            <div className="space-y-1">
+              {FIELD_TOOLS.map((t) => {
+                const Icon = t.icon;
+                const allowed = roleAllows(activeRole?.type, t.kind);
+                const active = activeTool.kind === t.kind;
+                return (
+                  <button
+                    key={t.kind}
+                    onClick={() => allowed && setActiveTool(t)}
+                    disabled={!allowed}
+                    className={cn(
+                      "w-full flex items-center gap-2.5 px-2.5 h-10 rounded-xl border transition-all text-left",
+                      active
+                        ? "border-primary/40 bg-primary/[0.08] text-primary"
+                        : "border-transparent hover:bg-muted/40 text-foreground",
+                      !allowed && "opacity-30 cursor-not-allowed hover:bg-transparent",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "w-7 h-7 rounded-lg flex items-center justify-center shrink-0",
+                        active ? "bg-primary/15" : "bg-muted/60",
+                      )}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="text-[12.5px] font-medium">{t.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {activeRole && (
+              <p className="text-[11px] text-muted-foreground mt-2 px-1 leading-snug">
+                Click on the document where{" "}
+                <span className="text-foreground font-medium">{activeRole.label}</span> should{" "}
+                {activeTool.kind === "signature" ? "sign" : `fill ${activeTool.label.toLowerCase()}`}.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Document canvas */}
         <div className="flex gap-3 min-w-0">
           {documents.length > 1 && (
             <div className="flex flex-col gap-1.5">
-              {documents.map((d, i) => {
+              {documents.map((d: BuilderDoc, i: number) => {
                 const active = d.id === activeDocId;
                 const count = fields.filter(
-                  (f) => (f.documentId ?? documents[0].id) === d.id,
+                  (f: SignTemplateField) => (f.documentId ?? documents[0].id) === d.id,
                 ).length;
                 return (
                   <button
@@ -1846,7 +2312,7 @@ function StepRolesFields({
               <div className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-card/40 backdrop-blur px-1.5 py-1">
                 <button
                   onClick={() =>
-                    setPage((p) => Math.max(1, (typeof p === "number" ? p : 1) - 1))
+                    setPage((p: number) => Math.max(1, (typeof p === "number" ? p : 1) - 1))
                   }
                   disabled={page === 1}
                   className="p-1 rounded-full hover:bg-muted/50 disabled:opacity-30"
@@ -1863,7 +2329,7 @@ function StepRolesFields({
                 </span>
                 <button
                   onClick={() =>
-                    setPage((p) =>
+                    setPage((p: number) =>
                       Math.min(pageCount, (typeof p === "number" ? p : 1) + 1),
                     )
                   }
@@ -1914,8 +2380,8 @@ function StepRolesFields({
                   </div>
                 )}
 
-                {pageFields.map((f) => {
-                  const role = roles.find((r) => r.key === f.roleKey);
+                {pageFields.map((f: SignTemplateField) => {
+                  const role = roles.find((r: SignTemplateRole) => r.key === f.roleKey);
                   const tool = FIELD_TOOLS.find((t) => t.kind === f.type) ?? FIELD_TOOLS[0];
                   const Icon = tool.icon;
                   const selected = selectedFieldId === f.id;
@@ -1969,8 +2435,8 @@ function StepRolesFields({
 
               {activeMeta.allowedFields !== "all" && activeMeta.allowedFields.length === 0 && (
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-border/60 bg-background/90 backdrop-blur px-4 py-2 text-[11.5px] text-muted-foreground shadow-lg">
-                  {activeMeta.label}s don't place fields — they
-                  {activeMeta.value === "viewer" ? " just review." : " just receive a copy."}
+                  {activeRole?.label} doesn't need any fields — they
+                  {activeMeta.value === "viewer" ? " just review the document." : " just receive a copy."}
                 </div>
               )}
             </div>
@@ -1979,19 +2445,20 @@ function StepRolesFields({
               <span>
                 {missing.length > 0 ? (
                   <>
-                    <span className="font-medium text-foreground">{missing.length}</span> required
-                    field{missing.length === 1 ? "" : "s"} remaining for{" "}
-                    <span className="font-medium text-foreground">{activeRole?.label}</span>
+                    <span className="font-medium text-amber-600 dark:text-amber-400">
+                      {activeRole?.label} is marked to sign but has no signature field.
+                    </span>{" "}
+                    Add one above.
                   </>
                 ) : (
                   <>
                     <Check className="w-3 h-3 inline mr-1 text-emerald-500" />
-                    {activeRole?.label} is ready.
+                    {activeRole?.label} fields complete.
                   </>
                 )}
               </span>
-              <span className="opacity-70">
-                Tip: click any field to select · Backspace to remove
+              <span className="opacity-70 hidden md:inline">
+                Click any field to select · Backspace to remove
               </span>
             </div>
           </div>
@@ -2000,6 +2467,7 @@ function StepRolesFields({
     </div>
   );
 }
+
 
 /* ──────────────────────────────────────────────────────────
  * STEP 5 — DELIVERY & AUTOMATION
