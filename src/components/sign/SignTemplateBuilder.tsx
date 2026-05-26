@@ -993,23 +993,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
             />
           )}
 
-          {step === "configure" && (
-            <StepConfigure
-              name={name}
-              setName={setName}
-              nameIsUnique={nameIsUnique}
-              documents={documents}
-              updateDocument={updateDocument}
-              removeDocument={removeDocument}
-              moveDocument={moveDocument}
-              addDocuments={addDocuments}
-              signingMode={signingMode}
-              setSigningMode={setSigningMode}
-              variables={variables}
-              roles={roles}
-            />
-          )}
-
           {step === "rolesfields" && (
             <StepRolesFields
               documents={documents}
