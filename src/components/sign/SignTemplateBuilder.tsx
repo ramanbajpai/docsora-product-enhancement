@@ -70,14 +70,12 @@ interface SignTemplateBuilderProps {
   onSaved: () => void;
 }
 
-type StepKey = "upload" | "roles" | "variables" | "fields" | "delivery" | "review";
+type StepKey = "upload" | "configure" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Upload", sub: "Files" },
-  { key: "roles", label: "Roles", sub: "Who's involved" },
-  { key: "variables", label: "Variables", sub: "Personalize" },
-  { key: "fields", label: "Fields", sub: "Where to sign" },
-  { key: "delivery", label: "Delivery", sub: "Email & reminders" },
+  { key: "configure", label: "Configure", sub: "Variables & delivery" },
+  { key: "rolesfields", label: "Roles & Fields", sub: "Who signs where" },
   { key: "review", label: "Review", sub: "Save" },
 ];
 
