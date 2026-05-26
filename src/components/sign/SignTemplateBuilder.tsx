@@ -2473,13 +2473,28 @@ function ParticipantsSetup({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative rounded-2xl border border-border/50 bg-gradient-to-b from-card/60 to-card/30 hover:border-border transition-all p-4 md:p-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_8px_24px_-18px_hsl(var(--foreground)/0.18)]"
                 >
                   <div className="flex items-start gap-3.5">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full mt-3 shrink-0 ring-2 ring-background"
-                      style={{ background: r.color, boxShadow: `0 0 0 1px ${r.color}40` }}
-                    />
+                    {signingMode === "sequential" ? (
+                      <div className="flex flex-col items-center gap-1 shrink-0 pt-1.5">
+                        <span
+                          className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-semibold text-primary bg-primary/10 ring-1 ring-primary/25"
+                          title={`Step ${i + 1}`}
+                        >
+                          {i + 1}
+                        </span>
+                        {!locked && roles.length > 1 && (
+                          <span className="text-[9.5px] uppercase tracking-wider font-medium text-muted-foreground/70">
+                            {ordinalLabel(i + 1)}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full mt-3 shrink-0 ring-2 ring-background"
+                        style={{ background: r.color, boxShadow: `0 0 0 1px ${r.color}40` }}
+                      />
+                    )}
                     <div className="flex-1 min-w-0 space-y-3">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
@@ -2494,11 +2509,11 @@ function ParticipantsSetup({
                           />
                         </div>
                         {signingMode === "sequential" && !locked && (
-                          <div className="flex flex-col items-center gap-0.5 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+                          <div className="flex flex-col items-center gap-0.5 shrink-0 rounded-lg border border-border/50 bg-background/60">
                             <button
                               onClick={() => moveRole(r.key, -1)}
                               disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
-                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              className="p-1.5 rounded-t-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:hover:bg-transparent"
                               title="Move up"
                             >
                               <ChevronDown className="w-3 h-3 rotate-180" />
@@ -2506,7 +2521,7 @@ function ParticipantsSetup({
                             <button
                               onClick={() => moveRole(r.key, 1)}
                               disabled={i === roles.length - 1}
-                              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30"
+                              className="p-1.5 rounded-b-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:hover:bg-transparent"
                               title="Move down"
                             >
                               <ChevronDown className="w-3 h-3" />
