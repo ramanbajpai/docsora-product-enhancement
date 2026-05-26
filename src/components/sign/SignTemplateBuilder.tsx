@@ -572,7 +572,18 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
       {/* Header */}
       <div className="mb-8">
         <button
-          onClick={onBack}
+          onClick={() => {
+            const hasProgress =
+              documents.length > 0 || name.trim().length > 0 || fields.length > 0;
+            if (
+              !hasProgress ||
+              window.confirm(
+                "Discard this template? Your progress will be lost.",
+              )
+            ) {
+              onBack();
+            }
+          }}
           className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-5"
         >
           <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
