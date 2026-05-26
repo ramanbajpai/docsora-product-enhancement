@@ -3562,79 +3562,23 @@ function StepLaunchExperience({
         </aside>
       </div>
 
-      {/* Collapsible: Saving + delivery details */}
-      <Collapsible open={openDetails} onOpenChange={setOpenDetails}>
-        <CollapsibleTrigger className="w-full group">
-          <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 px-5 py-3.5 hover:bg-card/50 transition-colors">
-            <div className="text-left">
-              <div className="text-[13px] font-semibold">Email, expiry & saving details</div>
-              <div className="text-[11.5px] text-muted-foreground">
-                Optional — adjust the email recipients see, expiry and how this template is saved.
-              </div>
-            </div>
-            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", openDetails && "rotate-180")} />
-          </div>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pt-5 space-y-8">
-          <StepDelivery
-            delivery={delivery}
-            setDelivery={setDelivery}
-            automation={automation}
-            setAutomation={setAutomation}
-          />
-
-          <div className="border-t border-border/40" />
-
-          <section className="space-y-4">
-            <div>
-              <h3 className="text-[15px] font-semibold tracking-tight">Saving details</h3>
-              <p className="text-[12px] text-muted-foreground mt-0.5">
-                How this template appears in your library and the filename of signed PDFs.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FieldLabel text="Template name">
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Agency Client Agreement"
-                  className="h-10 bg-background/60"
-                />
-              </FieldLabel>
-              <FieldLabel text="Category">
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="h-10 bg-background/60">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FieldLabel>
-            </div>
-            <FieldLabel text="Description (optional)">
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="What this template is for, who uses it."
-                className="bg-background/60 text-[13px] min-h-[60px]"
-              />
-            </FieldLabel>
-            <FieldLabel text="Output filename">
-              <Input
-                value={filenamePattern}
-                onChange={(e) => setFilenamePattern(e.target.value)}
-                placeholder="Client - Agreement - Signed.pdf"
-                className="h-10 bg-background/60 font-mono text-[12.5px]"
-              />
-            </FieldLabel>
-          </section>
-        </CollapsibleContent>
-      </Collapsible>
+      {/* Recipient Experience */}
+      <RecipientExperience
+        name={name}
+        setName={setName}
+        description={description}
+        setDescription={setDescription}
+        category={category}
+        setCategory={setCategory}
+        filenamePattern={filenamePattern}
+        setFilenamePattern={setFilenamePattern}
+        variables={variables}
+        delivery={delivery}
+        setDelivery={setDelivery}
+        automation={automation}
+        setAutomation={setAutomation}
+        sample={sample}
+      />
 
     </div>
   );
