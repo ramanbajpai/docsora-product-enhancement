@@ -1819,46 +1819,6 @@ function StepRolesFields({
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {required.map((k) => {
-            const tool = FIELD_TOOLS.find((t) => t.kind === k)!;
-            const done = placedKinds.has(k);
-            const Icon = tool.icon;
-            return (
-              <span
-                key={`req-${k}`}
-                className={cn(
-                  "inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10.5px] font-medium border",
-                  done
-                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500"
-                    : "bg-amber-500/10 border-amber-500/30 text-amber-500",
-                )}
-              >
-                {done ? <Check className="w-2.5 h-2.5" /> : <Icon className="w-2.5 h-2.5" />}
-                {tool.label}
-              </span>
-            );
-          })}
-          {suggested.length > 0 && (
-            <>
-              <span className="text-[10px] text-muted-foreground/60 mx-0.5">suggested</span>
-              {suggested.map((k) => {
-                const tool = FIELD_TOOLS.find((t) => t.kind === k)!;
-                const Icon = tool.icon;
-                return (
-                  <span
-                    key={`sug-${k}`}
-                    className="inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10.5px] font-medium border border-border/50 bg-muted/30 text-muted-foreground"
-                  >
-                    <Icon className="w-2.5 h-2.5" />
-                    {tool.label}
-                  </span>
-                );
-              })}
-            </>
-          )}
-        </div>
-
         <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() =>
