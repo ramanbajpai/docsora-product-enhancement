@@ -80,12 +80,19 @@ interface SignTemplateBuilderProps {
   editingTemplate?: SignTemplate;
 }
 
-type StepKey = "upload" | "rolesfields" | "review";
+type StepKey =
+  | "upload"
+  | "participants"
+  | "customize"
+  | "fields"
+  | "automation";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
-  { key: "rolesfields", label: "Participants", sub: "Who does what" },
-  { key: "review", label: "Customize", sub: "What changes each time" },
+  { key: "participants", label: "Participants", sub: "Who is involved" },
+  { key: "customize", label: "Customize Document", sub: "What changes each time" },
+  { key: "fields", label: "Recipient Fields", sub: "What participants complete" },
+  { key: "automation", label: "Automation & Review", sub: "Delivery & finish" },
 ];
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
