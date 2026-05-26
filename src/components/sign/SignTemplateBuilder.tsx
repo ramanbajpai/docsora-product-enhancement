@@ -248,15 +248,15 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   agreement: {
     title: "Service Agreement",
     paragraphs: [
-      "This Agreement is entered into between {{COMPANY_NAME}} and {{CLIENT_NAME}}, effective as of {{START_DATE}}.",
-      "The total contract value is {{DEAL_VALUE}}, payable according to the schedule outlined below.",
+      "This Agreement is entered into between Acme Studio and Northwind Co, effective as of January 1, 2026.",
+      "The total contract value is $24,000.00, payable according to the schedule outlined below.",
       "Both parties acknowledge and agree to the terms set forth in this document by signing below.",
     ],
   },
   nda: {
     title: "Mutual Non-Disclosure Agreement",
     paragraphs: [
-      "This Non-Disclosure Agreement is made between {{DISCLOSING_PARTY}} and {{RECEIVING_PARTY}}, effective {{EFFECTIVE_DATE}}.",
+      "This Non-Disclosure Agreement is made between Acme Studio and Northwind Co, effective January 1, 2026.",
       "Each party agrees to keep all shared information strictly confidential for a period of three years.",
       "The parties confirm their understanding of these terms with their signatures below.",
     ],
@@ -264,7 +264,7 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   pricing: {
     title: "Pricing Proposal",
     paragraphs: [
-      "Prepared for review, the total proposed amount is {{TOTAL_AMOUNT}}, valid until {{VALID_UNTIL}}.",
+      "Prepared for review, the total proposed amount is $24,000.00, valid until March 31, 2026.",
       "This proposal includes the full scope of work as detailed in the attached schedule of services.",
       "Please sign below to accept the pricing and authorize the start of work.",
     ],
@@ -272,7 +272,7 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   scope: {
     title: "Statement of Work",
     paragraphs: [
-      "This Statement of Work covers {{PROJECT_NAME}}, beginning {{START_DATE}} and ending {{END_DATE}}.",
+      "This Statement of Work covers Project Atlas, beginning January 1, 2026 and ending June 30, 2026.",
       "Deliverables, milestones and acceptance criteria are described in the sections that follow.",
       "Authorization to proceed is granted upon signature of both parties.",
     ],
@@ -280,15 +280,15 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   annexure: {
     title: "Annexure",
     paragraphs: [
-      "This annexure is filed under reference {{REFERENCE_NUMBER}} and forms part of the parent agreement.",
+      "This annexure is filed under reference REF-2026-001 and forms part of the parent agreement.",
       "All terms remain governed by the parent agreement unless explicitly amended here.",
     ],
   },
   onboarding: {
     title: "Employee Onboarding Agreement",
     paragraphs: [
-      "Welcome {{EMPLOYEE_NAME}}. We are pleased to confirm your role in the {{DEPARTMENT}} team, starting {{START_DATE}}.",
-      "Your annual salary will be {{SALARY}}, paid monthly. Communications will be sent to {{EMPLOYEE_EMAIL}}.",
+      "Welcome Alex Morgan. We are pleased to confirm your role in the Design team, starting January 1, 2026.",
+      "Your annual salary will be $96,000.00, paid monthly. Communications will be sent to alex@company.com.",
       "Please sign below to confirm acceptance of the terms of your employment.",
     ],
   },
@@ -641,34 +641,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     return token;
   };
 
-  /* Auto-detect variables when entering Launch Experience step */
-  const hasAutoSeededRef = useRef(false);
-  useEffect(() => {
-    if (step !== "review") return;
-    if (hasAutoSeededRef.current) return;
-    if (documents.length === 0) return;
-    hasAutoSeededRef.current = true;
-    const detected: SignTemplateVariable[] = [];
-    documents.forEach((d) => {
-      detectTemplateVariables(d.name).forEach((v) => detected.push(v));
-      (TAG_VARIABLE_SUGGESTIONS[d.tag ?? "other"] ?? []).forEach((s) => {
-        detected.push({
-          name: s.name,
-          label: s.label,
-          type: s.type,
-          required: true,
-          pattern: `{{${s.name}}}`,
-        });
-      });
-    });
-    setVariables((prev) => {
-      const map = new Map<string, SignTemplateVariable>();
-      [...prev, ...detected].forEach((v) => {
-        if (!map.has(v.name)) map.set(v.name, v);
-      });
-      return Array.from(map.values());
-    });
-  }, [step, documents]);
+  // No auto-detection. Users manually mark editable fields in the document.
 
   /* ─────────── fields ─────────── */
   const placeField = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -3385,21 +3358,11 @@ function StepLaunchExperience({
   const activeDoc = documents.find((d) => d.id === activeDocId) ?? documents[0];
   const activeBody = DOC_BODY_BY_TAG[activeDoc?.tag ?? "agreement"] ?? DOC_BODY_BY_TAG.agreement;
 
-  // Tokens referenced in the active document body
-  const docTokens = useMemo(() => {
-    const set = new Set<string>();
-    activeBody.paragraphs.forEach((p) => {
-      const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(p)) !== null) set.add(m[1]);
-    });
-    return set;
-  }, [activeBody]);
-
-  const activeDocVars = useMemo(
-    () => variables.filter((v) => docTokens.has(v.name)),
-    [variables, docTokens],
-  );
+  // A variable belongs to the active document if its example text appears in it.
+  const activeDocVars = useMemo(() => {
+    const joined = activeBody.paragraphs.join("\n");
+    return variables.filter((v) => v.defaultValue && joined.includes(v.defaultValue));
+  }, [variables, activeBody]);
 
   const sample = useMemo(() => {
     const obj: Record<string, string> = { TEMPLATE_NAME: name || "Template" };
@@ -3419,14 +3382,14 @@ function StepLaunchExperience({
       {/* Hero header */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> Auto-detected from your document
+          <Sparkles className="w-3 h-3" /> Customize before sending
         </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
-          Click anything that changes each time.
+          Select anything that changes each time.
         </h2>
         <p className="text-[13.5px] text-muted-foreground max-w-2xl">
-          We&rsquo;ve highlighted the parts of your document we think will change. Tap any
-          highlight to confirm what it is — like a name, date or amount.
+          Highlight text inside your document — like a name, date or amount — and mark it editable.
+          You&rsquo;ll fill it in each time you launch this template.
         </p>
       </div>
 
@@ -3436,9 +3399,10 @@ function StepLaunchExperience({
           {documents.map((d) => {
             const active = d.id === activeDocId;
             const body = DOC_BODY_BY_TAG[d.tag ?? "agreement"] ?? DOC_BODY_BY_TAG.agreement;
-            const docVarCount = body.paragraphs
-              .join(" ")
-              .match(/\{\{\s*[A-Z][A-Z0-9_]*\s*\}\}/g)?.length ?? 0;
+            const joined = body.paragraphs.join("\n");
+            const docVarCount = variables.filter(
+              (v) => v.defaultValue && joined.includes(v.defaultValue),
+            ).length;
             return (
               <button
                 key={d.id}
@@ -3460,7 +3424,7 @@ function StepLaunchExperience({
                 </div>
                 <div className="text-[13px] font-semibold truncate">{d.name}</div>
                 <div className="text-[11px] text-muted-foreground mt-0.5">
-                  {docVarCount} highlighted {docVarCount === 1 ? "spot" : "spots"}
+                  {docVarCount} editable {docVarCount === 1 ? "field" : "fields"}
                 </div>
               </button>
             );
@@ -3482,31 +3446,20 @@ function StepLaunchExperience({
               <div className="text-[10.5px] text-muted-foreground">Page 1</div>
             </div>
 
-            <article className="px-8 md:px-14 py-10 md:py-14 space-y-5">
-              <header className="space-y-1.5 pb-4 border-b border-border/30">
-                <div className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {category || "Agreement"}
-                </div>
-                <h3 className="text-[22px] font-semibold tracking-tight">
-                  {activeBody.title}
-                </h3>
-              </header>
-              {activeBody.paragraphs.map((p, i) => (
-                <p key={i} className="text-[13.5px] leading-[1.75] text-foreground/85">
-                  {renderDocLine(p, variables, updateVariable, removeVariable)}
-                </p>
-              ))}
-
-              {/* Add another */}
-              <div className="pt-4">
-                <AddHighlightInline addVariableWith={addVariableWith} />
-              </div>
-            </article>
+            <DocumentCanvas
+              title={activeBody.title}
+              category={category}
+              paragraphs={activeBody.paragraphs}
+              variables={variables}
+              addVariableWith={addVariableWith}
+              updateVariable={updateVariable}
+              removeVariable={removeVariable}
+            />
           </div>
 
           <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
             <span className="inline-block w-2 h-2 rounded-full bg-primary/60" />
-            Each highlight becomes a quick question when you launch this template.
+            Tip: highlight any text in the document above to make it editable.
           </div>
         </div>
 
@@ -3812,47 +3765,282 @@ function RecipientStep({
 }
 
 /* ──────────────────────────────────────────────────────────
- * Visual highlight rendering for the Customize step
+ * DocumentCanvas — renders the document and lets the user
+ * select any text to mark it editable.
  * ────────────────────────────────────────────────────────── */
-function renderDocLine(
-  line: string,
+function DocumentCanvas({
+  title,
+  category,
+  paragraphs,
+  variables,
+  addVariableWith,
+  updateVariable,
+  removeVariable,
+}: {
+  title: string;
+  category: string;
+  paragraphs: string[];
+  variables: SignTemplateVariable[];
+  addVariableWith: (label: string, type?: SignVariableType, required?: boolean) => string;
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+  removeVariable: (name: string) => void;
+}) {
+  const articleRef = useRef<HTMLElement>(null);
+  const [selection, setSelection] = useState<{
+    text: string;
+    rect: { top: number; left: number };
+  } | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+
+  const handleMouseUp = useCallback(() => {
+    // Defer so selection state is committed
+    setTimeout(() => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed) {
+        if (!pickerOpen) setSelection(null);
+        return;
+      }
+      const text = sel.toString().trim();
+      if (!text || text.length > 80) {
+        setSelection(null);
+        return;
+      }
+      const node = sel.anchorNode;
+      const article = articleRef.current;
+      if (!article || !node || !article.contains(node.parentElement)) {
+        setSelection(null);
+        return;
+      }
+      // Don't allow selections that overlap existing highlights
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const articleRect = article.getBoundingClientRect();
+      setSelection({
+        text,
+        rect: {
+          top: rect.top - articleRect.top - 8,
+          left: rect.left - articleRect.left + rect.width / 2,
+        },
+      });
+    }, 10);
+  }, [pickerOpen]);
+
+  const confirmHighlight = (label: string, type: SignVariableType) => {
+    if (!selection) return;
+    // Use selected text as the example value and the source text rendered in the doc.
+    addVariableWith(label, type, true);
+    // Update the just-added variable's defaultValue to the exact selected text
+    // so it gets wrapped in the document.
+    // addVariableWith already sets defaultValue=""; patch it below.
+    setTimeout(() => {
+      const token = toToken(label);
+      updateVariable(token, { defaultValue: selection.text });
+    }, 0);
+    window.getSelection()?.removeAllRanges();
+    setSelection(null);
+    setPickerOpen(false);
+  };
+
+  return (
+    <div className="relative">
+      <article
+        ref={articleRef}
+        onMouseUp={handleMouseUp}
+        className="relative px-8 md:px-14 py-10 md:py-14 space-y-5 selection:bg-primary/25 selection:text-foreground"
+      >
+        <header className="space-y-1.5 pb-4 border-b border-border/30">
+          <div className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+            {category || "Agreement"}
+          </div>
+          <h3 className="text-[22px] font-semibold tracking-tight">{title}</h3>
+        </header>
+        {paragraphs.map((p, i) => (
+          <p key={i} className="text-[13.5px] leading-[1.75] text-foreground/85">
+            {renderParagraph(p, variables, updateVariable, removeVariable)}
+          </p>
+        ))}
+
+        {/* Floating selection toolbar */}
+        {selection && (
+          <SelectionPopover
+            open={pickerOpen}
+            onOpenChange={setPickerOpen}
+            text={selection.text}
+            top={selection.rect.top}
+            left={selection.rect.left}
+            onConfirm={confirmHighlight}
+            onDismiss={() => {
+              setSelection(null);
+              setPickerOpen(false);
+              window.getSelection()?.removeAllRanges();
+            }}
+          />
+        )}
+      </article>
+    </div>
+  );
+}
+
+/* Render a paragraph, wrapping any occurrence of a variable's
+ * defaultValue with a HighlightSpan. Longest values matched first. */
+function renderParagraph(
+  text: string,
   variables: SignTemplateVariable[],
   updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void,
   removeVariable: (name: string) => void,
-) {
-  const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
-  const out: React.ReactNode[] = [];
-  let last = 0;
-  let m: RegExpExecArray | null;
-  let i = 0;
-  while ((m = re.exec(line)) !== null) {
-    if (m.index > last) out.push(<span key={`t${i}`}>{line.slice(last, m.index)}</span>);
-    const token = m[1];
-    const v = variables.find((x) => x.name === token);
-    if (v) {
-      out.push(
-        <HighlightSpan
-          key={`h${i}`}
-          variable={v}
-          updateVariable={updateVariable}
-          removeVariable={removeVariable}
-        />,
+): React.ReactNode {
+  const matches: { start: number; end: number; v: SignTemplateVariable }[] = [];
+  const candidates = variables
+    .filter((v) => v.defaultValue && v.defaultValue.length > 0)
+    .sort((a, b) => (b.defaultValue?.length ?? 0) - (a.defaultValue?.length ?? 0));
+
+  for (const v of candidates) {
+    const needle = v.defaultValue as string;
+    let from = 0;
+    while (true) {
+      const idx = text.indexOf(needle, from);
+      if (idx === -1) break;
+      const overlaps = matches.some(
+        (m) => !(idx + needle.length <= m.start || idx >= m.end),
       );
-    } else {
-      out.push(
-        <span
-          key={`h${i}`}
-          className="px-1 rounded bg-muted/60 text-muted-foreground text-[12.5px]"
-        >
-          {token.replace(/_/g, " ").toLowerCase()}
-        </span>,
-      );
+      if (!overlaps) matches.push({ start: idx, end: idx + needle.length, v });
+      from = idx + needle.length;
     }
-    last = m.index + m[0].length;
-    i++;
   }
-  if (last < line.length) out.push(<span key="rest">{line.slice(last)}</span>);
+  matches.sort((a, b) => a.start - b.start);
+
+  const out: React.ReactNode[] = [];
+  let cur = 0;
+  matches.forEach((m, i) => {
+    if (m.start > cur) out.push(<span key={`t${i}`}>{text.slice(cur, m.start)}</span>);
+    out.push(
+      <HighlightSpan
+        key={`h${i}`}
+        variable={m.v}
+        updateVariable={updateVariable}
+        removeVariable={removeVariable}
+      />,
+    );
+    cur = m.end;
+  });
+  if (cur < text.length) out.push(<span key="rest">{text.slice(cur)}</span>);
   return out;
+}
+
+function SelectionPopover({
+  open,
+  onOpenChange,
+  text,
+  top,
+  left,
+  onConfirm,
+  onDismiss,
+}: {
+  open: boolean;
+  onOpenChange: (b: boolean) => void;
+  text: string;
+  top: number;
+  left: number;
+  onConfirm: (label: string, type: SignVariableType) => void;
+  onDismiss: () => void;
+}) {
+  const [label, setLabel] = useState("");
+  const [type, setType] = useState<SignVariableType>("text");
+
+  useEffect(() => {
+    setLabel("");
+    setType("text");
+  }, [text]);
+
+  return (
+    <div
+      className="absolute z-20 -translate-x-1/2 -translate-y-full"
+      style={{ top, left }}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      <Popover open={open} onOpenChange={onOpenChange}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-foreground text-background text-[12px] font-medium shadow-[0_10px_30px_-8px_hsl(var(--foreground)/0.35)] hover:opacity-95 transition-opacity"
+          >
+            <Plus className="w-3.5 h-3.5" /> Make editable
+          </button>
+        </PopoverTrigger>
+        <PopoverContent
+          align="center"
+          side="top"
+          className="w-80 p-4 space-y-3"
+          onInteractOutside={onDismiss}
+        >
+          <div>
+            <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Selected
+            </div>
+            <div className="text-[13px] font-semibold mt-0.5 truncate" title={text}>
+              &ldquo;{text}&rdquo;
+            </div>
+          </div>
+          <FieldLabel text="Name this field">
+            <Input
+              autoFocus
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  if (!label.trim()) {
+                    toast.error("Give this field a name.");
+                    return;
+                  }
+                  onConfirm(label.trim(), type);
+                }
+              }}
+              placeholder="e.g. Client name"
+              className="h-9 bg-background/60 text-[13px]"
+            />
+          </FieldLabel>
+          <FieldLabel text="What kind of information is this?">
+            <Select value={type} onValueChange={(t) => setType(t as SignVariableType)}>
+              <SelectTrigger className="h-9 bg-background/60 text-[13px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {HUMAN_TYPES.map((t) => {
+                  const I = t.icon;
+                  return (
+                    <SelectItem key={t.value} value={t.value}>
+                      <span className="inline-flex items-center gap-2">
+                        <I className="w-3.5 h-3.5" />
+                        {t.label}
+                      </span>
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </FieldLabel>
+          <div className="flex justify-end gap-2">
+            <Button size="sm" variant="ghost" onClick={onDismiss} className="h-9">
+              Cancel
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => {
+                if (!label.trim()) {
+                  toast.error("Give this field a name.");
+                  return;
+                }
+                onConfirm(label.trim(), type);
+              }}
+              className="h-9"
+            >
+              Make editable
+            </Button>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
 }
 
 function HighlightSpan({
@@ -3944,78 +4132,4 @@ function HighlightSpan({
   );
 }
 
-function AddHighlightInline({
-  addVariableWith,
-}: {
-  addVariableWith: (label: string, type?: SignVariableType, required?: boolean) => string;
-}) {
-  const [open, setOpen] = useState(false);
-  const [label, setLabel] = useState("");
-  const [type, setType] = useState<SignVariableType>("text");
 
-  const submit = () => {
-    const l = label.trim();
-    if (!l) {
-      toast.error("Give this highlight a short name.");
-      return;
-    }
-    addVariableWith(l, type, true);
-    setLabel("");
-    setType("text");
-    setOpen(false);
-  };
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 text-[12px] text-primary hover:text-primary/80 font-medium"
-        >
-          <Plus className="w-3.5 h-3.5" /> Highlight something else
-        </button>
-      </PopoverTrigger>
-      <PopoverContent align="start" className="w-80 p-4 space-y-3">
-        <div>
-          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
-            Add a highlight
-          </div>
-          <div className="text-[13px] font-semibold mt-0.5">What else changes here?</div>
-        </div>
-        <FieldLabel text="Name this">
-          <Input
-            autoFocus
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submit()}
-            placeholder="e.g. Project name"
-            className="h-9 bg-background/60 text-[13px]"
-          />
-        </FieldLabel>
-        <FieldLabel text="What kind of information is this?">
-          <Select value={type} onValueChange={(t) => setType(t as SignVariableType)}>
-            <SelectTrigger className="h-9 bg-background/60 text-[13px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {HUMAN_TYPES.map((t) => {
-                const I = t.icon;
-                return (
-                  <SelectItem key={t.value} value={t.value}>
-                    <span className="inline-flex items-center gap-2">
-                      <I className="w-3.5 h-3.5" />
-                      {t.label}
-                    </span>
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </FieldLabel>
-        <div className="flex justify-end">
-          <Button size="sm" onClick={submit} className="h-9">Add highlight</Button>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-}
