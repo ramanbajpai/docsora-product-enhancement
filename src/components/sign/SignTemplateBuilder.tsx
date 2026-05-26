@@ -767,46 +767,39 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
           )}
 
           {step === "rolesfields" && (
-            <div className="space-y-12">
-              <StepRoles
-                roles={roles}
-                addRole={addRole}
-                updateRole={updateRole}
-                removeRole={removeRole}
-                moveRole={moveRole}
-                togglePermission={togglePermission}
-                signingMode={signingMode}
-                setSigningMode={setSigningMode}
-                signSelf={signSelf}
-                toggleSignSelf={toggleSignSelf}
-                duplicateLabels={rolesHaveDuplicates}
-              />
-              <div className="border-t border-border/40" />
-              <StepFields
-                documents={documents}
-                activeDocId={activeDocId}
-                setActiveDocId={(id) => {
-                  setActiveDocId(id);
-                  setPage(1);
-                }}
-                page={page}
-                setPage={setPage}
-                pageCount={pageCount}
-                roles={roles}
-                fields={fields}
-                docFields={docFields}
-                pageFields={pageFields}
-                activeRoleKey={activeRoleKey}
-                setActiveRoleKey={setActiveRoleKey}
-                activeTool={activeTool}
-                setActiveTool={setActiveTool}
-                placeField={placeField}
-                removeField={removeField}
-                selectedFieldId={selectedFieldId}
-                setSelectedFieldId={setSelectedFieldId}
-                pageRef={pageRef}
-              />
-            </div>
+            <StepRolesFields
+              documents={documents}
+              activeDocId={activeDocId}
+              setActiveDocId={(id) => {
+                setActiveDocId(id);
+                setPage(1);
+              }}
+              page={page}
+              setPage={setPage}
+              pageCount={pageCount}
+              roles={roles}
+              addRole={addRole}
+              updateRole={updateRole}
+              removeRole={removeRole}
+              moveRole={moveRole}
+              togglePermission={togglePermission}
+              signingMode={signingMode}
+              setSigningMode={setSigningMode}
+              signSelf={signSelf}
+              toggleSignSelf={toggleSignSelf}
+              fields={fields}
+              docFields={docFields}
+              pageFields={pageFields}
+              activeRoleKey={activeRoleKey}
+              setActiveRoleKey={setActiveRoleKey}
+              activeTool={activeTool}
+              setActiveTool={setActiveTool}
+              placeField={placeField}
+              removeField={removeField}
+              selectedFieldId={selectedFieldId}
+              setSelectedFieldId={setSelectedFieldId}
+              pageRef={pageRef}
+            />
           )}
 
           {step === "review" && (
