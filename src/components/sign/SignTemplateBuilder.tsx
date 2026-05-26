@@ -2482,18 +2482,15 @@ function ParticipantsSetup({
                 >
                   <div className="flex items-start gap-3.5">
                     {signingMode === "sequential" ? (
-                      <div className="flex flex-col items-center gap-1 shrink-0 pt-1.5">
+                      <div
+                        className="flex flex-col items-center shrink-0 pt-1"
+                        title={`Signs ${ordinalLabel(i + 1)}`}
+                      >
                         <span
-                          className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-semibold text-primary bg-primary/10 ring-1 ring-primary/25"
-                          title={`Step ${i + 1}`}
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold text-primary bg-primary/10 ring-1 ring-primary/25 shadow-[0_4px_12px_-6px_hsl(var(--primary)/0.4)]"
                         >
                           {i + 1}
                         </span>
-                        {!locked && roles.length > 1 && (
-                          <span className="text-[9.5px] uppercase tracking-wider font-medium text-muted-foreground/70">
-                            {ordinalLabel(i + 1)}
-                          </span>
-                        )}
                       </div>
                     ) : (
                       <span
