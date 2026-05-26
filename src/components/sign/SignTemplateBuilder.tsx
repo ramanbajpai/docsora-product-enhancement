@@ -2023,6 +2023,131 @@ function StepRolesFields({
  * STEP 5 — DELIVERY & AUTOMATION
  * ────────────────────────────────────────────────────────── */
 
+function StepVariables({
+  variables,
+  addVariable,
+  updateVariable,
+  removeVariable,
+}: {
+  variables: SignTemplateVariable[];
+  addVariable: () => void;
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+  removeVariable: (name: string) => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <SectionTitle
+        title="Personalization variables"
+        sub="Values you fill in before sending — like client name, deal value, or start date. These personalize the agreement automatically."
+      />
+
+      <div className="rounded-xl border border-primary/20 bg-primary/5 px-3.5 py-2.5 flex items-start gap-2.5">
+        <Braces className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+        <div className="text-[12px] text-foreground/80 leading-relaxed">
+          <span className="font-medium text-foreground">Sender-filled, not signer-filled.</span>{" "}
+          Variables personalize the document before it goes out. Signing fields are placed on the
+          document in the previous step.
+        </div>
+      </div>
+
+      {variables.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-border/60 bg-card/20 px-6 py-12 text-center">
+          <div className="w-12 h-12 mx-auto rounded-xl bg-muted/40 flex items-center justify-center mb-3">
+            <Braces className="w-5 h-5 text-muted-foreground" />
+          </div>
+          <p className="text-[13px] font-medium">No variables yet</p>
+          <p className="text-[11.5px] text-muted-foreground mt-1 max-w-sm mx-auto">
+            Add common values like client name, company, deal value, or start date.
+          </p>
+          <Button size="sm" onClick={addVariable} className="mt-4 h-9 rounded-lg gap-1.5">
+            <Plus className="w-3.5 h-3.5" /> Add variable
+          </Button>
+        </div>
+      ) : (
+        <>
+          <div className="space-y-2">
+            {variables.map((v) => {
+              const meta = variableTypeMeta(v.type);
+              const Icon = meta.icon;
+              return (
+                <div
+                  key={v.name}
+                  className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/50 transition-colors p-3"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <Input
+                      value={v.label}
+                      onChange={(e) => updateVariable(v.name, { label: e.target.value })}
+                      placeholder="Label (e.g. Client name)"
+                      className="h-9 bg-background/60 flex-1 min-w-[160px] text-[13px]"
+                    />
+                    <Select
+                      value={v.type}
+                      onValueChange={(t) =>
+                        updateVariable(v.name, { type: t as SignVariableType })
+                      }
+                    >
+                      <SelectTrigger className="h-9 w-[130px] bg-background/60 text-[12px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {VARIABLE_TYPES.map((t) => {
+                          const I = t.icon;
+                          return (
+                            <SelectItem key={t.value} value={t.value}>
+                              <span className="inline-flex items-center gap-2">
+                                <I className="w-3.5 h-3.5" />
+                                {t.label}
+                              </span>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      value={v.defaultValue ?? ""}
+                      onChange={(e) =>
+                        updateVariable(v.name, { defaultValue: e.target.value })
+                      }
+                      placeholder="Example value"
+                      className="h-9 bg-background/60 w-[160px] text-[12.5px]"
+                    />
+                    <label className="inline-flex items-center gap-1.5 text-[11.5px] text-muted-foreground select-none cursor-pointer">
+                      <Switch
+                        checked={!!v.required}
+                        onCheckedChange={(c) => updateVariable(v.name, { required: c })}
+                      />
+                      Required
+                    </label>
+                    <button
+                      onClick={() => removeVariable(v.name)}
+                      className="p-1.5 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted/60"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <div className="mt-2 pl-10 text-[10.5px] text-muted-foreground font-mono">
+                    {v.pattern}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button
+            onClick={addVariable}
+            className="w-full rounded-2xl border border-dashed border-border/60 px-4 py-3 text-[12.5px] text-muted-foreground hover:text-foreground hover:border-border transition-colors inline-flex items-center justify-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add another variable
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
 function StepDelivery({
   delivery,
   setDelivery,
