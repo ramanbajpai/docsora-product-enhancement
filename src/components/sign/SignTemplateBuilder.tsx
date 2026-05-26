@@ -2224,8 +2224,11 @@ function StepRolesFields({
           addRole={addRole}
           updateRole={updateRole}
           removeRole={removeRole}
+          moveRole={moveRole}
           signSelf={signSelf}
           toggleSignSelf={toggleSignSelf}
+          signingMode={signingMode}
+          setSigningMode={setSigningMode}
           onNext={() => allRolesNamed && setSubStep("actions")}
           canContinue={allRolesNamed && roles.length > 0}
         />
