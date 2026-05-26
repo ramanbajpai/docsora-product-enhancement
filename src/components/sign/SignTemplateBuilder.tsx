@@ -70,14 +70,12 @@ interface SignTemplateBuilderProps {
   onSaved: () => void;
 }
 
-type StepKey = "upload" | "roles" | "variables" | "fields" | "delivery" | "review";
+type StepKey = "upload" | "configure" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Upload", sub: "Files" },
-  { key: "roles", label: "Roles", sub: "Who's involved" },
-  { key: "variables", label: "Variables", sub: "Personalize" },
-  { key: "fields", label: "Fields", sub: "Where to sign" },
-  { key: "delivery", label: "Delivery", sub: "Email & reminders" },
+  { key: "configure", label: "Configure", sub: "Variables & delivery" },
+  { key: "rolesfields", label: "Roles & Fields", sub: "Who signs where" },
   { key: "review", label: "Review", sub: "Save" },
 ];
 
@@ -471,10 +469,14 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   /* ─────────── validation ─────────── */
   const stepValid: Record<StepKey, boolean> = {
     upload: documents.length >= 1,
-    roles: roles.length >= 1 && roles.every((r) => r.label.trim().length > 0),
-    variables: variables.every((v) => v.label.trim().length > 0),
-    fields: fields.length >= 1 && fields.some((f) => f.type === "signature"),
-    delivery: (delivery.expiryDays ?? 0) > 0,
+    configure:
+      variables.every((v) => v.label.trim().length > 0) &&
+      (delivery.expiryDays ?? 0) > 0,
+    rolesfields:
+      roles.length >= 1 &&
+      roles.every((r) => r.label.trim().length > 0) &&
+      fields.length >= 1 &&
+      fields.some((f) => f.type === "signature"),
     review: name.trim().length >= 2 && filenamePattern.trim().length > 0,
   };
 
@@ -483,10 +485,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     if (!stepValid[step]) {
       const m: Record<StepKey, string> = {
         upload: "Add at least one file.",
-        roles: "Each role needs a name.",
-        variables: "Each variable needs a name.",
-        fields: "Place at least one signature field.",
-        delivery: "Set an expiry duration.",
+        configure: "Complete variables and set an expiry duration.",
+        rolesfields:
+          "Add a role and place at least one signature field.",
         review: "Name the template and filename pattern.",
       };
       toast.error(m[step]);
@@ -645,62 +646,62 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
             />
           )}
 
-          {step === "roles" && (
-            <StepRoles
-              roles={roles}
-              addRole={addRole}
-              updateRole={updateRole}
-              removeRole={removeRole}
-              moveRole={moveRole}
-              togglePermission={togglePermission}
-              signingMode={signingMode}
-              setSigningMode={setSigningMode}
-            />
+          {step === "configure" && (
+            <div className="space-y-12">
+              <StepVariables
+                variables={variables}
+                addVariable={addVariable}
+                updateVariable={updateVariable}
+                removeVariable={removeVariable}
+              />
+              <div className="border-t border-border/40" />
+              <StepDelivery
+                delivery={delivery}
+                setDelivery={setDelivery}
+                automation={automation}
+                setAutomation={setAutomation}
+              />
+            </div>
           )}
 
-          {step === "variables" && (
-            <StepVariables
-              variables={variables}
-              addVariable={addVariable}
-              updateVariable={updateVariable}
-              removeVariable={removeVariable}
-            />
-          )}
-
-          {step === "fields" && (
-            <StepFields
-              documents={documents}
-              activeDocId={activeDocId}
-              setActiveDocId={(id) => {
-                setActiveDocId(id);
-                setPage(1);
-              }}
-              page={page}
-              setPage={setPage}
-              pageCount={pageCount}
-              roles={roles}
-              fields={fields}
-              docFields={docFields}
-              pageFields={pageFields}
-              activeRoleKey={activeRoleKey}
-              setActiveRoleKey={setActiveRoleKey}
-              activeTool={activeTool}
-              setActiveTool={setActiveTool}
-              placeField={placeField}
-              removeField={removeField}
-              selectedFieldId={selectedFieldId}
-              setSelectedFieldId={setSelectedFieldId}
-              pageRef={pageRef}
-            />
-          )}
-
-          {step === "delivery" && (
-            <StepDelivery
-              delivery={delivery}
-              setDelivery={setDelivery}
-              automation={automation}
-              setAutomation={setAutomation}
-            />
+          {step === "rolesfields" && (
+            <div className="space-y-12">
+              <StepRoles
+                roles={roles}
+                addRole={addRole}
+                updateRole={updateRole}
+                removeRole={removeRole}
+                moveRole={moveRole}
+                togglePermission={togglePermission}
+                signingMode={signingMode}
+                setSigningMode={setSigningMode}
+              />
+              <div className="border-t border-border/40" />
+              <StepFields
+                documents={documents}
+                activeDocId={activeDocId}
+                setActiveDocId={(id) => {
+                  setActiveDocId(id);
+                  setPage(1);
+                }}
+                page={page}
+                setPage={setPage}
+                pageCount={pageCount}
+                roles={roles}
+                fields={fields}
+                docFields={docFields}
+                pageFields={pageFields}
+                activeRoleKey={activeRoleKey}
+                setActiveRoleKey={setActiveRoleKey}
+                activeTool={activeTool}
+                setActiveTool={setActiveTool}
+                placeField={placeField}
+                removeField={removeField}
+                selectedFieldId={selectedFieldId}
+                setSelectedFieldId={setSelectedFieldId}
+                pageRef={pageRef}
+              />
+            </div>
           )}
 
           {step === "review" && (
