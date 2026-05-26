@@ -589,7 +589,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
         >
           <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
         </button>
-        <h1 className="text-3xl md:text-[42px] leading-[1.05] font-semibold tracking-tight">
+        <h1 className="text-2xl md:text-[32px] leading-[1.1] font-semibold tracking-tight">
           Configure once. Launch infinitely.
         </h1>
 
