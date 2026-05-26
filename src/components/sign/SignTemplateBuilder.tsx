@@ -995,6 +995,13 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
               updateDocument={updateDocument}
               fileInputRef={fileInputRef}
               addMoreInputRef={addMoreInputRef}
+              name={name}
+              setName={setName}
+              nameIsUnique={nameIsUnique}
+              description={description}
+              setDescription={setDescription}
+              filenamePattern={filenamePattern}
+              setFilenamePattern={setFilenamePattern}
             />
           )}
 
