@@ -1408,6 +1408,27 @@ const SUGGESTED_BY_TYPE: Record<SignRoleType, SignFieldType[]> = {
   cc: [],
 };
 
+const PERSON_PRESETS = ["Employee", "Client", "Vendor", "Manager", "HR", "Finance", "Legal"];
+
+const ACTION_OPTIONS: {
+  value: SignRoleType;
+  label: string;
+  helper: string;
+  icon: React.ComponentType<{ className?: string }>;
+}[] = [
+  { value: "signer",   label: "Sign & fill",  helper: "Signs and completes assigned fields.",      icon: PenLine },
+  { value: "approver", label: "Approve",      helper: "Reviews and approves before it's finalized.", icon: ShieldCheck },
+  { value: "viewer",   label: "View only",    helper: "Read-only access. No action required.",      icon: Eye },
+  { value: "cc",       label: "Receive copy", helper: "Gets a final copy when signing is complete.", icon: AtSign },
+];
+
+const ACTION_VERB: Record<SignRoleType, string> = {
+  signer: "Needs to sign",
+  approver: "Needs to approve",
+  viewer: "View only",
+  cc: "Receives a copy",
+};
+
 /* Premium left sidebar — “editing as”, participant list with role-type badges, and field tools. */
 function RolesFieldsSidebar({
   roles,
