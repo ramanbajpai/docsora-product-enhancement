@@ -777,14 +777,10 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   /* ─────────── save ─────────── */
   const canSave = STEPS.every((s) => stepValid[s.key]);
 
-  const handleSave = () => {
-    if (!canSave) {
-      toast.error("Complete every step before saving.");
-      return;
-    }
-    const tpl: SignTemplate = {
-      id: `tpl-${uid()}`,
-      name: name.trim(),
+  const buildTemplate = useCallback((): SignTemplate => {
+    return {
+      id: templateIdRef.current,
+      name: name.trim() || editingTemplate?.name || "Untitled template",
       description: description.trim() || undefined,
       category,
       documentName: documents[0]?.name || `${name}.pdf`,
@@ -811,13 +807,50 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
         remindersEveryDays: automation.remindEveryDays,
         ccEmails: delivery.ccEmails,
       },
-      createdAt: Date.now(),
-      useCount: 0,
+      createdAt: createdAtRef.current,
+      lastUsedAt: editingTemplate?.lastUsedAt,
+      useCount: editingTemplate?.useCount ?? 0,
+      favorite: editingTemplate?.favorite,
+      pinned: editingTemplate?.pinned,
     };
+  }, [
+    name, description, category, documents, roles, fields, signingMode,
+    variables, packageTitle, delivery, automation, filenamePattern, editingTemplate,
+  ]);
+
+  const handleSave = () => {
+    if (!canSave) {
+      toast.error("Complete every step before saving.");
+      return;
+    }
+    const tpl = buildTemplate();
     save(tpl);
-    toast.success("Template saved", { description: `${tpl.name} is ready to launch.` });
+    toast.success(isEditing ? "Template updated" : "Template saved", {
+      description: `${tpl.name} is ready to launch.`,
+    });
     onSaved();
   };
+
+  /* ─────────── autosave ─────────── */
+  const [autosaveState, setAutosaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const autosaveSkipFirst = useRef(true);
+  useEffect(() => {
+    // Only autosave when editing an existing template, and skip the first run
+    // (state hydration) to avoid an immediate re-save loop.
+    if (!isEditing) return;
+    if (autosaveSkipFirst.current) {
+      autosaveSkipFirst.current = false;
+      return;
+    }
+    setAutosaveState("saving");
+    const t = setTimeout(() => {
+      save(buildTemplate());
+      setAutosaveState("saved");
+      const r = setTimeout(() => setAutosaveState("idle"), 1500);
+      return () => clearTimeout(r);
+    }, 700);
+    return () => clearTimeout(t);
+  }, [isEditing, buildTemplate, save]);
 
   /* ─────────── render ─────────── */
   const currentIdx = STEPS.findIndex((s) => s.key === step);
