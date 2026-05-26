@@ -4279,9 +4279,6 @@ function StepLaunchExperience({
       <>
       {/* Hero header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> AI-assisted setup
-        </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
           What changes each time?
         </h2>
