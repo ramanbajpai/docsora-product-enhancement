@@ -1467,7 +1467,6 @@ function StepRolesFields({
   setSelectedFieldId: (id: string | null) => void;
   pageRef: React.RefObject<HTMLDivElement>;
 }) {
-  const [advancedOpen, setAdvancedOpen] = useState(false);
   const activeRole = roles.find((r) => r.key === activeRoleKey) ?? roles[0];
   const activeMeta = getRoleTypeMeta(activeRole?.type);
   const activeDoc = documents.find((d) => d.id === activeDocId) || documents[0];
