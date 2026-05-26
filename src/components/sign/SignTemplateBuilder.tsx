@@ -31,6 +31,7 @@ import {
   DollarSign,
   Phone,
   ChevronDown,
+  Upload as UploadIcon,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -797,9 +798,9 @@ function StepUpload({
           className="rounded-2xl border border-dashed border-border/60 bg-card/30 hover:bg-card/50 transition-colors cursor-pointer px-6 py-20 text-center"
         >
           <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-            <FileStack className="w-6 h-6 text-primary" />
+            <UploadIcon className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
-          <p className="text-[14px] font-medium">Drop files here, or click to browse</p>
+          <p className="text-[14px] font-medium">Drag &amp; drop your files, or click to browse</p>
           <p className="text-[12px] text-muted-foreground mt-1">
             Supports PDF, DOCX, DOC, ODT · up to 20MB per file
           </p>
