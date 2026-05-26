@@ -1007,8 +1007,9 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
             />
           )}
 
-          {step === "rolesfields" && (
+          {(step === "participants" || step === "fields") && (
             <StepRolesFields
+              lockedSubStep={step === "participants" ? "setup" : "place"}
               documents={documents}
               activeDocId={activeDocId}
               setActiveDocId={(id) => {
@@ -1043,8 +1044,9 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
             />
           )}
 
-          {step === "review" && (
+          {(step === "customize" || step === "automation") && (
             <StepLaunchExperience
+              section={step === "customize" ? "customize" : "automation"}
               name={name}
               setName={setName}
               description={description}
