@@ -910,6 +910,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
               addVariable={addVariable}
               updateVariable={updateVariable}
               removeVariable={removeVariable}
+              addVariableWith={addVariableWith}
               fields={fields}
               delivery={delivery}
               setDelivery={setDelivery}
