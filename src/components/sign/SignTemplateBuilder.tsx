@@ -4697,40 +4697,6 @@ function RecipientExperience({
         </CollapsibleContent>
       </Collapsible>
 
-      {/* Saving details */}
-      <Collapsible open={openSaving} onOpenChange={setOpenSaving}>
-        <CollapsibleTrigger className="w-full group">
-          <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 px-5 py-3.5 hover:bg-card/50 transition-colors">
-            <div className="text-left flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center">
-                <FileText className="w-4 h-4 text-muted-foreground" />
-              </div>
-              <div>
-                <div className="text-[13px] font-semibold">Template details</div>
-                <div className="text-[11.5px] text-muted-foreground">
-                  Name, category and how signed files are saved
-                </div>
-              </div>
-            </div>
-            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", openSaving && "rotate-180")} />
-          </div>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pt-4 space-y-4">
-          <TemplateDetailsBlock
-            name={name}
-            setName={setName}
-            description={description}
-            setDescription={setDescription}
-            category={category}
-            setCategory={setCategory}
-            filenamePattern={filenamePattern}
-            setFilenamePattern={setFilenamePattern}
-            variables={variables}
-            sample={sample}
-          />
-        </CollapsibleContent>
-      </Collapsible>
-
       {/* Recipient preview overlay */}
       <AnimatePresence>
         {openRecipient && (
