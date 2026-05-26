@@ -359,7 +359,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       }))
     : [];
 
-  const [step, setStep] = useState<StepKey>(isEditing ? "configure" : "upload");
+  const [step, setStep] = useState<StepKey>("upload");
 
   // Files & meta
   const [documents, setDocuments] = useState<BuilderDoc[]>(initialDocuments);
@@ -737,11 +737,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       nameTrimmed.length > 0 &&
       nameTrimmed.length <= 100 &&
       nameIsUnique &&
-      documents.length >= 1,
-    configure:
-      nameTrimmed.length > 0 &&
-      nameTrimmed.length <= 100 &&
-      nameIsUnique &&
       documents.length >= 1 &&
       documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
     rolesfields:
@@ -758,11 +753,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           : !nameIsUnique
             ? "A template with this name already exists."
             : "Add at least one document to continue.",
-        configure: !nameTrimmed
-          ? "Please enter a name for this template."
-          : !nameIsUnique
-            ? "A template with this name already exists. Please choose a different name."
-            : "Each document needs a name.",
         rolesfields:
           rolesHaveDuplicates
             ? "Two roles share the same name. Please make each role name unique."
@@ -863,8 +853,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
   const nextHint: Record<StepKey, string> = {
-    upload: "Next: documents & delivery",
-    configure: "Next: roles & signing fields",
+    upload: "Next: people & fields",
     rolesfields: "Next: customize before sending",
     review: "Save template",
   };
