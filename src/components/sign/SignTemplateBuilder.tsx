@@ -4640,48 +4640,18 @@ function RecipientExperience({
           </div>
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 space-y-4">
-          <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FieldLabel text="Template name">
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Agency Client Agreement"
-                  className="h-10 bg-background/60"
-                />
-              </FieldLabel>
-              <FieldLabel text="Category">
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="h-10 bg-background/60">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FieldLabel>
-            </div>
-            <FieldLabel text="Description (optional)">
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="What this template is for, who uses it."
-                className="bg-background/60 text-[13px] min-h-[60px]"
-              />
-            </FieldLabel>
-            <FieldLabel text="Output filename">
-              <Input
-                value={filenamePattern}
-                onChange={(e) => setFilenamePattern(e.target.value)}
-                placeholder="Client - Agreement - Signed.pdf"
-                className="h-10 bg-background/60 font-mono text-[12.5px]"
-              />
-            </FieldLabel>
-          </div>
+          <TemplateDetailsBlock
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
+            category={category}
+            setCategory={setCategory}
+            filenamePattern={filenamePattern}
+            setFilenamePattern={setFilenamePattern}
+            variables={variables}
+            sample={sample}
+          />
         </CollapsibleContent>
       </Collapsible>
 
