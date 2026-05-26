@@ -4674,7 +4674,6 @@ function RecipientExperience({
   );
 }
 
-function EmailPreviewCard({
 const CATEGORY_OPTIONS: { value: string; label: string; icon: any }[] = [
   { value: "Client", label: "Client onboarding", icon: UserCheck },
   { value: "HR", label: "HR", icon: Users },
