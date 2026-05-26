@@ -3092,14 +3092,6 @@ function PlaceFieldsPanel({
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          {roleComplete && nextRole && (
-            <button
-              onClick={() => setActiveRoleKey(nextRole.key)}
-              className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11.5px] font-medium bg-foreground text-background hover:opacity-90 transition"
-            >
-              Next: {nextRole.label || "person"} <ArrowRight className="w-3 h-3" />
-            </button>
-          )}
         </div>
       </div>
 
