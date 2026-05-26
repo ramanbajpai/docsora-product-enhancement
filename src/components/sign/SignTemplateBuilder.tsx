@@ -1438,77 +1438,12 @@ function StepUpload({
 
       {/* Completed document name */}
       {documents.length > 0 && (
-        <div className="space-y-3 rounded-2xl border border-border/50 bg-gradient-to-b from-card/50 to-card/20 p-5 md:p-6">
-          <div>
-            <h3 className="text-[15px] font-semibold tracking-tight">Completed document name</h3>
-            <p className="text-[12.5px] text-muted-foreground mt-0.5">
-              Choose what the final signed document will be called when downloaded.
-            </p>
-          </div>
-
-          {/* Visual pill builder */}
-          <div className="flex flex-wrap items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-xl border border-border/60 bg-background/60">
-            {filenameParts.length === 0 && (
-              <span className="text-[12px] text-muted-foreground/60">Add a name or token below…</span>
-            )}
-            {filenameParts.map((p, i) =>
-              p.type === "token" ? (
-                <span
-                  key={i}
-                  className="group inline-flex items-center gap-1 rounded-md bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 text-[12px] font-medium"
-                >
-                  {tokenLabel(p.value)}
-                  <button
-                    onClick={() => removePart(i)}
-                    className="opacity-50 hover:opacity-100 transition"
-                    title="Remove"
-                  >
-                    <X className="w-2.5 h-2.5" />
-                  </button>
-                </span>
-              ) : (
-                <span key={i} className="text-[13px] text-foreground/80 whitespace-pre">
-                  {p.value}
-                </span>
-              ),
-            )}
-          </div>
-
-          {/* Token insert buttons */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
-              Insert
-            </span>
-            {STEP1_TOKENS.map((t) => (
-              <button
-                key={t.token}
-                onClick={() => insertToken(t.token)}
-                className="inline-flex items-center gap-1 rounded-md border border-border/60 hover:border-primary/40 hover:bg-primary/5 px-2 py-1 text-[11.5px] font-medium text-foreground/80 transition"
-              >
-                <Plus className="w-3 h-3" />
-                {t.label}
-              </button>
-            ))}
-          </div>
-          <p className="text-[11px] text-muted-foreground/80 leading-relaxed">
-            Participant-based naming options unlock after you add people in the next step.
-          </p>
-
-          {/* Live preview */}
-          <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-background/40 px-3.5 py-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <FileText className="w-4 h-4 text-primary" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
-                Recipients will download:
-              </div>
-              <div className="text-[13px] font-medium text-foreground/90 truncate mt-0.5">
-                {previewFilename}
-              </div>
-            </div>
-          </div>
-        </div>
+        <DownloadNameBuilder
+          name={name}
+          documents={documents}
+          filenamePattern={filenamePattern}
+          setFilenamePattern={setFilenamePattern}
+        />
       )}
     </div>
   );
@@ -1517,6 +1452,181 @@ function StepUpload({
 /* ──────────────────────────────────────────────────────────
  * STEP 2 — CONFIGURE (template name + documents + signing order)
  * ────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────
+ * Download name builder — human, chip-based, outcome-driven
+ * ────────────────────────────────────────────────────────── */
+function DownloadNameBuilder({
+  name,
+  documents,
+  filenamePattern,
+  setFilenamePattern,
+}: {
+  name: string;
+  documents: BuilderDoc[];
+  filenamePattern: string;
+  setFilenamePattern: (s: string) => void;
+}) {
+  // Parse current pattern → simple chip state
+  const hasDate = /\{\{\s*DATE\s*\}\}/.test(filenamePattern);
+  const hasCompany = /\{\{\s*COMPANY_NAME\s*\}\}/.test(filenamePattern);
+  const isMulti = documents.length > 1;
+
+  const buildPattern = (opts: { date: boolean; company: boolean }) => {
+    const parts: string[] = ["{{TEMPLATE_NAME}}"];
+    if (opts.company) parts.push("{{COMPANY_NAME}}");
+    if (opts.date) parts.push("{{DATE}}");
+    const suffix = isMulti ? "Completed Package.pdf" : "Signed.pdf";
+    return `${parts.join(" - ")} - ${suffix}`;
+  };
+
+  const toggle = (key: "date" | "company") => {
+    setFilenamePattern(
+      buildPattern({
+        date: key === "date" ? !hasDate : hasDate,
+        company: key === "company" ? !hasCompany : hasCompany,
+      }),
+    );
+  };
+
+  const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  const previewName = (() => {
+    const parts = parseFilenamePattern(filenamePattern);
+    return parts
+      .map((p) => {
+        if (p.type !== "token") return p.value;
+        if (p.value === "TEMPLATE_NAME") return name.trim() || "Employee Onboarding Agreement";
+        if (p.value === "DATE") return today;
+        if (p.value === "COMPANY_NAME") return "Acme Studio";
+        return `[${p.value.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}]`;
+      })
+      .join("");
+  })();
+
+  const [advanced, setAdvanced] = useState(false);
+
+  const chips: { key: "template" | "company" | "date"; label: string; checked: boolean; disabled?: boolean; hint?: string }[] = [
+    { key: "template", label: "Template name", checked: true, disabled: true, hint: "Always included" },
+    { key: "company", label: "Client/company name", checked: hasCompany, disabled: true, hint: "Add recipients in the next step to unlock" },
+    { key: "date", label: "Date", checked: hasDate },
+  ];
+
+  return (
+    <div className="space-y-5 rounded-2xl border border-border/50 bg-gradient-to-b from-card/50 to-card/20 p-5 md:p-6">
+      <div>
+        <h3 className="text-[15px] font-semibold tracking-tight">What should recipients download?</h3>
+        <p className="text-[12.5px] text-muted-foreground mt-0.5">
+          Choose how the final signed file will appear when downloaded.
+        </p>
+      </div>
+
+      {/* Hero preview */}
+      <motion.div
+        key={previewName}
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        className="flex items-center gap-4 rounded-2xl border border-border/50 bg-gradient-to-b from-background/80 to-background/40 px-5 py-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_18px_44px_-24px_hsl(var(--foreground)/0.25)]"
+      >
+        <div className="w-12 h-14 rounded-lg bg-gradient-to-b from-background to-muted/60 border border-border/60 shrink-0 flex flex-col items-center justify-center shadow-inner">
+          <FileText className="w-5 h-5 text-primary/80" />
+          <span className="text-[8px] font-semibold text-muted-foreground mt-1">PDF</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold">
+            Recipients will download
+          </div>
+          <div className="text-[15px] font-semibold tracking-tight text-foreground truncate mt-1">
+            {previewName}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Chip toggles */}
+      <div className="space-y-2">
+        <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Include in file name
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {chips.map((chip) => {
+            const isCompany = chip.key === "company";
+            const interactive = !chip.disabled || chip.key === "date";
+            return (
+              <button
+                key={chip.key}
+                onClick={() => {
+                  if (chip.key === "date") toggle("date");
+                }}
+                disabled={!interactive}
+                title={chip.hint}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[12px] font-medium transition-all border",
+                  chip.checked
+                    ? "bg-primary/10 text-primary border-primary/25"
+                    : "bg-background/60 text-foreground/70 border-border/60 hover:border-primary/30 hover:bg-primary/5",
+                  !interactive && "opacity-55 cursor-not-allowed hover:bg-background/60 hover:border-border/60",
+                )}
+              >
+                <span
+                  className={cn(
+                    "w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors",
+                    chip.checked ? "bg-primary border-primary" : "border-border/70 bg-background",
+                  )}
+                >
+                  {chip.checked && <Check className="w-2.5 h-2.5 text-primary-foreground" />}
+                </span>
+                {chip.label}
+                {isCompany && (
+                  <span className="text-[10px] text-muted-foreground/70 font-normal">— locked</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[11px] text-muted-foreground/80 leading-relaxed pt-1">
+          Add recipients in the next step to unlock client-based naming.
+        </p>
+      </div>
+
+      {/* Advanced */}
+      <div className="pt-1">
+        <button
+          onClick={() => setAdvanced((v) => !v)}
+          className="text-[11.5px] font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+        >
+          <ChevronDown className={cn("w-3 h-3 transition-transform", advanced && "rotate-180")} />
+          Advanced customization
+        </button>
+        <AnimatePresence initial={false}>
+          {advanced && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.22 }}
+              className="overflow-hidden"
+            >
+              <div className="pt-3 space-y-1.5">
+                <label className="block text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
+                  Custom file name pattern
+                </label>
+                <Input
+                  value={filenamePattern}
+                  onChange={(e) => setFilenamePattern(e.target.value)}
+                  className="h-9 text-[12.5px] font-mono bg-background/60 border-border/60"
+                />
+                <p className="text-[10.5px] text-muted-foreground/80">
+                  Use {`{{TEMPLATE_NAME}}`}, {`{{DATE}}`}, {`{{COMPANY_NAME}}`}. Most users don't need this.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
 
 function StepConfigure({
   name,
