@@ -341,22 +341,40 @@ const launchQuestionFor = (v: SignTemplateVariable): string => {
   }
 };
 
-export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBuilderProps) {
+export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }: SignTemplateBuilderProps) {
   const { save, templates: existingTemplates } = useSignTemplates();
-  const [step, setStep] = useState<StepKey>("upload");
+  const isEditing = !!editingTemplate;
+
+  // Stable template id — keeps the same id across autosaves and edits.
+  const templateIdRef = useRef<string>(editingTemplate?.id ?? `tpl-${uid()}`);
+  const createdAtRef = useRef<number>(editingTemplate?.createdAt ?? Date.now());
+
+  const initialDocuments: BuilderDoc[] = editingTemplate
+    ? getTemplateDocuments(editingTemplate).map((d) => ({
+        id: d.id,
+        file: null,
+        name: d.name,
+        tag: d.tag,
+        pageCount: d.pageCount,
+      }))
+    : [];
+
+  const [step, setStep] = useState<StepKey>(isEditing ? "configure" : "upload");
 
   // Files & meta
-  const [documents, setDocuments] = useState<BuilderDoc[]>([]);
-  const [activeDocId, setActiveDocId] = useState<string>("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<string>("Client");
-  const [packageTitle, setPackageTitle] = useState<string>("");
+  const [documents, setDocuments] = useState<BuilderDoc[]>(initialDocuments);
+  const [activeDocId, setActiveDocId] = useState<string>(initialDocuments[0]?.id ?? "");
+  const [name, setName] = useState(editingTemplate?.name ?? "");
+  const [description, setDescription] = useState(editingTemplate?.description ?? "");
+  const [category, setCategory] = useState<string>(editingTemplate?.category ?? "Client");
+  const [packageTitle, setPackageTitle] = useState<string>(editingTemplate?.packageTitle ?? "");
 
   // Roles
-  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("parallel");
+  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">(
+    editingTemplate?.signingMode ?? "parallel",
+  );
   const [signSelf, setSignSelf] = useState(false);
-  const [roles, setRoles] = useState<SignTemplateRole[]>([
+  const [roles, setRoles] = useState<SignTemplateRole[]>(editingTemplate?.roles ?? [
     {
       key: "client",
       label: "Client",
@@ -376,17 +394,17 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   ]);
 
   // Variables
-  const [variables, setVariables] = useState<SignTemplateVariable[]>([]);
+  const [variables, setVariables] = useState<SignTemplateVariable[]>(editingTemplate?.variables ?? []);
 
   // Fields
-  const [fields, setFields] = useState<SignTemplateField[]>([]);
+  const [fields, setFields] = useState<SignTemplateField[]>(editingTemplate?.fields ?? []);
   const [page, setPage] = useState(1);
-  const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
+  const [activeRoleKey, setActiveRoleKey] = useState<string>(editingTemplate?.roles?.[0]?.key ?? "client");
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
 
   // Delivery & Automation
-  const [delivery, setDelivery] = useState<SignTemplateDelivery>({
+  const [delivery, setDelivery] = useState<SignTemplateDelivery>(editingTemplate?.delivery ?? {
     emailSubject: "Please sign: {{COMPANY_NAME}} agreement",
     emailMessage: "Hi {{CLIENT_NAME}},\n\nPlease review and sign the attached document at your convenience.\n\nThanks!",
     senderName: "",
@@ -395,7 +413,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     redirectUrl: "",
     allowDownload: true,
   });
-  const [automation, setAutomation] = useState<SignTemplateAutomation>({
+  const [automation, setAutomation] = useState<SignTemplateAutomation>(editingTemplate?.automation ?? {
     remindEveryDays: 3,
     expiryWarningDays: 2,
     escalateAfterDays: 7,
@@ -405,7 +423,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
   // Review
   const [filenamePattern, setFilenamePattern] = useState<string>(
-    "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
+    editingTemplate?.filenamePattern ?? "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
   );
   const [previewMode, setPreviewMode] = useState<"sender" | "recipient" | "email" | "filename">("sender");
 
