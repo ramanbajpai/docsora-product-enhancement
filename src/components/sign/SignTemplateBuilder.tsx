@@ -3348,6 +3348,8 @@ function StepLaunchExperience({
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
   const [openDetails, setOpenDetails] = useState(false);
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
+  const [openClientWorkspace, setOpenClientWorkspace] = useState(false);
+  const [workspaceStep, setWorkspaceStep] = useState(0);
 
   useEffect(() => {
     if (!documents.find((d) => d.id === activeDocId) && documents[0]) {
@@ -3514,6 +3516,20 @@ function StepLaunchExperience({
             <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", openLaunchPreview && "rotate-180")} />
           </button>
 
+          <button
+            onClick={() => {
+              setWorkspaceStep(0);
+              setOpenClientWorkspace(true);
+            }}
+            className="group w-full inline-flex items-center justify-between gap-2 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2.5 text-[12px] font-medium hover:from-primary/15 hover:via-primary/10 transition-colors"
+          >
+            <span className="inline-flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              Preview client workspace
+            </span>
+            <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
           <AnimatePresence initial={false}>
             {openLaunchPreview && (
               <motion.div
@@ -3635,6 +3651,19 @@ function StepLaunchExperience({
           </section>
         </CollapsibleContent>
       </Collapsible>
+
+      <ClientWorkspacePreview
+        open={openClientWorkspace}
+        onOpenChange={setOpenClientWorkspace}
+        step={workspaceStep}
+        setStep={setWorkspaceStep}
+        templateName={name || "Untitled template"}
+        documents={documents}
+        variables={variables}
+        roles={roles}
+        delivery={delivery}
+        sample={sample}
+      />
     </div>
   );
 }
