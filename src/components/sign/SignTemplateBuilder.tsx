@@ -377,7 +377,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   const [roles, setRoles] = useState<SignTemplateRole[]>(editingTemplate?.roles ?? [
     {
       key: "client",
-      label: "Client",
+      label: "",
       color: ROLE_COLORS[0],
       signingOrder: 1,
       type: "signer",
@@ -385,7 +385,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
     },
     {
       key: "sender",
-      label: "You",
+      label: "",
       color: ROLE_COLORS[1],
       signingOrder: 2,
       type: "signer",
