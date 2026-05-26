@@ -3651,6 +3651,19 @@ function StepLaunchExperience({
           </section>
         </CollapsibleContent>
       </Collapsible>
+
+      <ClientWorkspacePreview
+        open={openClientWorkspace}
+        onOpenChange={setOpenClientWorkspace}
+        step={workspaceStep}
+        setStep={setWorkspaceStep}
+        templateName={name || "Untitled template"}
+        documents={documents}
+        variables={variables}
+        roles={roles}
+        delivery={delivery}
+        sample={sample}
+      />
     </div>
   );
 }
