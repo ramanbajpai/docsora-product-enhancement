@@ -1757,36 +1757,10 @@ function StepRolesFields({
                 })}
               </div>
 
-              {activeMeta.allowedFields !== "all" && activeMeta.allowedFields.length === 0 ? (
+              {activeMeta.allowedFields !== "all" && activeMeta.allowedFields.length === 0 && (
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-border/60 bg-background/90 backdrop-blur px-4 py-2 text-[11.5px] text-muted-foreground shadow-lg">
                   {activeMeta.label}s don't place fields — they
                   {activeMeta.value === "viewer" ? " just review." : " just receive a copy."}
-                </div>
-              ) : (
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-2xl border border-border/60 bg-background/85 backdrop-blur-xl px-1.5 py-1.5 shadow-[0_12px_36px_-12px_rgba(0,0,0,0.35)]">
-                  {FIELD_TOOLS.map((t) => {
-                    const Icon = t.icon;
-                    const active = activeTool.kind === t.kind;
-                    const allowed = roleAllows(activeRole?.type, t.kind);
-                    return (
-                      <button
-                        key={t.label}
-                        onClick={() => allowed && setActiveTool(t)}
-                        disabled={!allowed}
-                        title={t.label}
-                        className={cn(
-                          "h-9 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-[11.5px] font-medium transition-all",
-                          active
-                            ? "bg-foreground text-background shadow-sm"
-                            : "text-foreground/75 hover:bg-muted/60",
-                          !allowed && "opacity-30 cursor-not-allowed hover:bg-transparent",
-                        )}
-                      >
-                        <Icon className="w-3.5 h-3.5" />
-                        <span className="hidden md:inline">{t.label}</span>
-                      </button>
-                    );
-                  })}
                 </div>
               )}
             </div>
