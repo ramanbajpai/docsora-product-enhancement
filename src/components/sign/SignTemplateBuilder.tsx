@@ -1572,226 +1572,24 @@ function StepRolesFields({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 min-h-[640px]">
-        <div className="space-y-3 lg:sticky lg:top-4 h-fit">
-          <div className="rounded-2xl border border-border/50 bg-card/30 p-1 grid grid-cols-2 gap-1">
-            {(["parallel", "sequential"] as const).map((m) => (
-              <button
-                key={m}
-                onClick={() => setSigningMode(m)}
-                className={cn(
-                  "h-8 rounded-xl text-[11.5px] font-medium capitalize transition-colors",
-                  signingMode === m
-                    ? "bg-foreground text-background shadow-sm"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {m}
-              </button>
-            ))}
-          </div>
-
-          <div className="rounded-2xl border border-border/50 bg-card/30 p-2.5">
-            <div className="flex items-center justify-between px-1.5 pb-2">
-              <span className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground">
-                Participants
-              </span>
-              <span className="text-[10px] text-muted-foreground tabular-nums">
-                {roles.length}/{MAX_ROLES}
-              </span>
-            </div>
-            <div className="space-y-1">
-              {roles.map((r, i) => {
-                const active = r.key === activeRoleKey;
-                const meta = getRoleTypeMeta(r.type);
-                const RoleIcon = meta.icon;
-                const count = fields.filter((f) => f.roleKey === r.key).length;
-                const locked = isMyself(r.key);
-                return (
-                  <div
-                    key={r.key}
-                    onClick={() => setActiveRoleKey(r.key)}
-                    className={cn(
-                      "group relative rounded-xl border px-2 py-2 cursor-pointer transition-all",
-                      active
-                        ? "border-border bg-background shadow-sm"
-                        : "border-transparent hover:bg-muted/30",
-                    )}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <button
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border/60 hover:scale-125 transition"
-                            style={{ background: r.color }}
-                            title="Change colour"
-                          />
-                        </PopoverTrigger>
-                        <PopoverContent align="start" className="w-auto p-2">
-                          <div className="grid grid-cols-6 gap-1.5">
-                            {ROLE_COLORS.concat(locked ? [MYSELF_COLOR] : []).map((c) => (
-                              <button
-                                key={c}
-                                onClick={() => updateRole(r.key, { color: c })}
-                                className={cn(
-                                  "w-6 h-6 rounded-full border border-border/60 transition hover:scale-110",
-                                  r.color === c &&
-                                    "ring-2 ring-offset-2 ring-foreground/70 ring-offset-background",
-                                )}
-                                style={{ background: c }}
-                              />
-                            ))}
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                      <Input
-                        value={r.label}
-                        onChange={(e) =>
-                          updateRole(r.key, { label: e.target.value.slice(0, MAX_ROLE_NAME) })
-                        }
-                        onClick={(e) => e.stopPropagation()}
-                        disabled={locked}
-                        placeholder="Name"
-                        className="h-7 px-1.5 bg-transparent border-0 shadow-none flex-1 min-w-0 text-[12.5px] font-medium focus-visible:ring-1"
-                      />
-                      <RoleIcon className="w-3 h-3 text-muted-foreground shrink-0" />
-                      {count > 0 && (
-                        <span className="text-[10px] text-muted-foreground tabular-nums">
-                          {count}
-                        </span>
-                      )}
-                      {!locked && roles.length > 1 && active && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeRole(r.key);
-                          }}
-                          className="p-0.5 rounded text-muted-foreground hover:text-destructive transition"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-
-                    {active && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-2 pl-5 flex items-center gap-1.5 flex-wrap">
-                          <Select
-                            value={r.type ?? "signer"}
-                            onValueChange={(v) =>
-                              updateRole(r.key, { type: v as SignRoleType })
-                            }
-                            disabled={locked}
-                          >
-                            <SelectTrigger className="h-7 w-[115px] bg-background/60 text-[11px]">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {ROLE_TYPES.map((rt) => {
-                                const Icon = rt.icon;
-                                return (
-                                  <SelectItem key={rt.value} value={rt.value}>
-                                    <span className="inline-flex items-center gap-2">
-                                      <Icon className="w-3.5 h-3.5" /> {rt.label}
-                                    </span>
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                          {signingMode === "sequential" && !locked && (
-                            <div className="inline-flex items-center rounded-md border border-border/50 bg-background/60">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  moveRole(r.key, -1);
-                                }}
-                                disabled={
-                                  i === 0 || (i === 1 && isMyself(roles[0].key))
-                                }
-                                className="px-1.5 h-7 text-muted-foreground hover:text-foreground disabled:opacity-30"
-                              >
-                                <ChevronDown className="w-3 h-3 rotate-180" />
-                              </button>
-                              <span className="text-[10.5px] font-semibold px-1 tabular-nums">
-                                {i + 1}
-                              </span>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  moveRole(r.key, 1);
-                                }}
-                                disabled={i === roles.length - 1}
-                                className="px-1.5 h-7 text-muted-foreground hover:text-foreground disabled:opacity-30"
-                              >
-                                <ChevronDown className="w-3 h-3" />
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={addRole}
-              disabled={roles.length >= MAX_ROLES}
-              className="w-full mt-1.5 rounded-xl border border-dashed border-border/60 px-2 py-1.5 text-[11.5px] text-muted-foreground hover:text-foreground hover:border-border transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
-            >
-              <Plus className="w-3 h-3" /> Add participant
-            </button>
-          </div>
-
-          <label className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-card/30 px-3 py-2.5 cursor-pointer select-none">
-            <Switch checked={signSelf} onCheckedChange={(c) => toggleSignSelf(!!c)} />
-            <span className="text-[12px] font-medium flex-1">I'll sign first</span>
-          </label>
-
-          <button
-            onClick={() => setAdvancedOpen((v) => !v)}
-            className="w-full text-left px-3 py-2 rounded-xl text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center justify-between transition"
-          >
-            <span className="uppercase tracking-[0.14em] font-semibold">Advanced</span>
-            <ChevronDown
-              className={cn("w-3 h-3 transition-transform", advancedOpen && "rotate-180")}
-            />
-          </button>
-          {advancedOpen && activeRole && (
-            <div className="rounded-xl border border-border/50 bg-card/30 p-3 space-y-2">
-              <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground">
-                Permissions · {activeRole.label}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {PERMISSION_LABELS.map((p) => {
-                  const on = activeRole.permissions?.includes(p.value);
-                  return (
-                    <button
-                      key={p.value}
-                      onClick={() => togglePermission(activeRole.key, p.value)}
-                      disabled={isMyself(activeRole.key)}
-                      className={cn(
-                        "px-2 h-6 rounded-full text-[10.5px] font-medium border transition-colors disabled:opacity-60",
-                        on
-                          ? "bg-primary/10 border-primary/30 text-primary"
-                          : "bg-card/50 border-border/50 text-muted-foreground hover:text-foreground",
-                      )}
-                    >
-                      {p.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 min-h-[640px]">
+        <RolesFieldsSidebar
+          roles={roles}
+          activeRoleKey={activeRoleKey}
+          setActiveRoleKey={setActiveRoleKey}
+          updateRole={updateRole}
+          removeRole={removeRole}
+          moveRole={moveRole}
+          addRole={addRole}
+          signingMode={signingMode}
+          setSigningMode={setSigningMode}
+          signSelf={signSelf}
+          toggleSignSelf={toggleSignSelf}
+          activeTool={activeTool}
+          setActiveTool={setActiveTool}
+          activeRole={activeRole}
+          fields={fields}
+        />
 
         <div className="flex gap-3 min-w-0">
           {documents.length > 1 && (
