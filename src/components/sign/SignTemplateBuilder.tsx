@@ -79,7 +79,7 @@ interface SignTemplateBuilderProps {
   editingTemplate?: SignTemplate;
 }
 
-type StepKey = "upload" | "configure" | "rolesfields" | "review";
+type StepKey = "upload" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
