@@ -2660,14 +2660,14 @@ function ParticipantsSetup({
           {([
             {
               value: "parallel" as const,
-              title: "Simultaneous",
-              sub: "Everyone receives requests at the same time.",
+              title: "Parallel",
+              sub: "Everyone receives the request at the same time.",
               hint: "Best for agreements and onboarding.",
             },
             {
               value: "sequential" as const,
-              title: "Step-by-step",
-              sub: "Each person receives the next step only after the previous one completes.",
+              title: "Sequential",
+              sub: "Each person signs in order — one after another.",
               hint: "Best for approvals and legal review.",
             },
           ]).map((opt) => {
