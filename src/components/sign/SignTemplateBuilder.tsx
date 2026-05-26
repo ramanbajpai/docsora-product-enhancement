@@ -646,62 +646,62 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
             />
           )}
 
-          {step === "roles" && (
-            <StepRoles
-              roles={roles}
-              addRole={addRole}
-              updateRole={updateRole}
-              removeRole={removeRole}
-              moveRole={moveRole}
-              togglePermission={togglePermission}
-              signingMode={signingMode}
-              setSigningMode={setSigningMode}
-            />
+          {step === "configure" && (
+            <div className="space-y-12">
+              <StepVariables
+                variables={variables}
+                addVariable={addVariable}
+                updateVariable={updateVariable}
+                removeVariable={removeVariable}
+              />
+              <div className="border-t border-border/40" />
+              <StepDelivery
+                delivery={delivery}
+                setDelivery={setDelivery}
+                automation={automation}
+                setAutomation={setAutomation}
+              />
+            </div>
           )}
 
-          {step === "variables" && (
-            <StepVariables
-              variables={variables}
-              addVariable={addVariable}
-              updateVariable={updateVariable}
-              removeVariable={removeVariable}
-            />
-          )}
-
-          {step === "fields" && (
-            <StepFields
-              documents={documents}
-              activeDocId={activeDocId}
-              setActiveDocId={(id) => {
-                setActiveDocId(id);
-                setPage(1);
-              }}
-              page={page}
-              setPage={setPage}
-              pageCount={pageCount}
-              roles={roles}
-              fields={fields}
-              docFields={docFields}
-              pageFields={pageFields}
-              activeRoleKey={activeRoleKey}
-              setActiveRoleKey={setActiveRoleKey}
-              activeTool={activeTool}
-              setActiveTool={setActiveTool}
-              placeField={placeField}
-              removeField={removeField}
-              selectedFieldId={selectedFieldId}
-              setSelectedFieldId={setSelectedFieldId}
-              pageRef={pageRef}
-            />
-          )}
-
-          {step === "delivery" && (
-            <StepDelivery
-              delivery={delivery}
-              setDelivery={setDelivery}
-              automation={automation}
-              setAutomation={setAutomation}
-            />
+          {step === "rolesfields" && (
+            <div className="space-y-12">
+              <StepRoles
+                roles={roles}
+                addRole={addRole}
+                updateRole={updateRole}
+                removeRole={removeRole}
+                moveRole={moveRole}
+                togglePermission={togglePermission}
+                signingMode={signingMode}
+                setSigningMode={setSigningMode}
+              />
+              <div className="border-t border-border/40" />
+              <StepFields
+                documents={documents}
+                activeDocId={activeDocId}
+                setActiveDocId={(id) => {
+                  setActiveDocId(id);
+                  setPage(1);
+                }}
+                page={page}
+                setPage={setPage}
+                pageCount={pageCount}
+                roles={roles}
+                fields={fields}
+                docFields={docFields}
+                pageFields={pageFields}
+                activeRoleKey={activeRoleKey}
+                setActiveRoleKey={setActiveRoleKey}
+                activeTool={activeTool}
+                setActiveTool={setActiveTool}
+                placeField={placeField}
+                removeField={removeField}
+                selectedFieldId={selectedFieldId}
+                setSelectedFieldId={setSelectedFieldId}
+                pageRef={pageRef}
+              />
+            </div>
           )}
 
           {step === "review" && (
