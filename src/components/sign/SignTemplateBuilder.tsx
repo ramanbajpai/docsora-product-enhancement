@@ -1438,77 +1438,12 @@ function StepUpload({
 
       {/* Completed document name */}
       {documents.length > 0 && (
-        <div className="space-y-3 rounded-2xl border border-border/50 bg-gradient-to-b from-card/50 to-card/20 p-5 md:p-6">
-          <div>
-            <h3 className="text-[15px] font-semibold tracking-tight">Completed document name</h3>
-            <p className="text-[12.5px] text-muted-foreground mt-0.5">
-              Choose what the final signed document will be called when downloaded.
-            </p>
-          </div>
-
-          {/* Visual pill builder */}
-          <div className="flex flex-wrap items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-xl border border-border/60 bg-background/60">
-            {filenameParts.length === 0 && (
-              <span className="text-[12px] text-muted-foreground/60">Add a name or token below…</span>
-            )}
-            {filenameParts.map((p, i) =>
-              p.type === "token" ? (
-                <span
-                  key={i}
-                  className="group inline-flex items-center gap-1 rounded-md bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 text-[12px] font-medium"
-                >
-                  {tokenLabel(p.value)}
-                  <button
-                    onClick={() => removePart(i)}
-                    className="opacity-50 hover:opacity-100 transition"
-                    title="Remove"
-                  >
-                    <X className="w-2.5 h-2.5" />
-                  </button>
-                </span>
-              ) : (
-                <span key={i} className="text-[13px] text-foreground/80 whitespace-pre">
-                  {p.value}
-                </span>
-              ),
-            )}
-          </div>
-
-          {/* Token insert buttons */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
-              Insert
-            </span>
-            {STEP1_TOKENS.map((t) => (
-              <button
-                key={t.token}
-                onClick={() => insertToken(t.token)}
-                className="inline-flex items-center gap-1 rounded-md border border-border/60 hover:border-primary/40 hover:bg-primary/5 px-2 py-1 text-[11.5px] font-medium text-foreground/80 transition"
-              >
-                <Plus className="w-3 h-3" />
-                {t.label}
-              </button>
-            ))}
-          </div>
-          <p className="text-[11px] text-muted-foreground/80 leading-relaxed">
-            Participant-based naming options unlock after you add people in the next step.
-          </p>
-
-          {/* Live preview */}
-          <div className="flex items-center gap-3 rounded-xl border border-border/40 bg-background/40 px-3.5 py-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <FileText className="w-4 h-4 text-primary" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground">
-                Recipients will download:
-              </div>
-              <div className="text-[13px] font-medium text-foreground/90 truncate mt-0.5">
-                {previewFilename}
-              </div>
-            </div>
-          </div>
-        </div>
+        <DownloadNameBuilder
+          name={name}
+          documents={documents}
+          filenamePattern={filenamePattern}
+          setFilenamePattern={setFilenamePattern}
+        />
       )}
     </div>
   );
