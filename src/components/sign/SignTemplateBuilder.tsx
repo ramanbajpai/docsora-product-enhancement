@@ -3668,7 +3668,6 @@ function StepLaunchExperience({
   );
 }
 
-function VariableCardList({
 function ClientWorkspacePreview({
   open,
   onOpenChange,
