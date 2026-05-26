@@ -468,17 +468,24 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const pageFields = useMemo(() => docFields.filter((f) => f.page === page), [docFields, page]);
 
   /* ─────────── validation ─────────── */
+  const nameTrimmed = name.trim();
+  const nameIsUnique = !existingTemplates.some(
+    (t) => t.name.trim().toLowerCase() === nameTrimmed.toLowerCase(),
+  );
   const stepValid: Record<StepKey, boolean> = {
     upload: documents.length >= 1,
     configure:
-      variables.every((v) => v.label.trim().length > 0) &&
-      (delivery.expiryDays ?? 0) > 0,
+      nameTrimmed.length > 0 &&
+      nameTrimmed.length <= 100 &&
+      nameIsUnique &&
+      documents.length >= 1 &&
+      documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
     rolesfields:
       roles.length >= 1 &&
       roles.every((r) => r.label.trim().length > 0) &&
       fields.length >= 1 &&
       fields.some((f) => f.type === "signature"),
-    review: name.trim().length >= 2 && filenamePattern.trim().length > 0,
+    review: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
   };
 
   const goNext = () => {
@@ -486,7 +493,11 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     if (!stepValid[step]) {
       const m: Record<StepKey, string> = {
         upload: "Add at least one file.",
-        configure: "Complete variables and set an expiry duration.",
+        configure: !nameTrimmed
+          ? "Please enter a name for this template."
+          : !nameIsUnique
+            ? "A template with this name already exists. Please choose a different name."
+            : "Each document needs a name.",
         rolesfields:
           "Add a role and place at least one signature field.",
         review: "Name the template and filename pattern.",
