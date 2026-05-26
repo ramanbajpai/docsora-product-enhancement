@@ -5203,7 +5203,7 @@ function HighlightSpan({
 }) {
   const meta = variableTypeMeta(variable.type);
   const Icon = meta.icon;
-  const preview = variable.defaultValue || `[${variable.label}]`;
+  const preview = variable.label || variable.defaultValue || "Field";
   return (
     <Popover>
       <PopoverTrigger asChild>
