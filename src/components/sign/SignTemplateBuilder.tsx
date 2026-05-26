@@ -4569,14 +4569,6 @@ function RecipientExperience({
                   </span>
                 </div>
               </FieldLabel>
-              <FieldLabel text="Redirect after signing">
-                <Input
-                  value={delivery.redirectUrl ?? ""}
-                  onChange={(e) => setDelivery((d) => ({ ...d, redirectUrl: e.target.value }))}
-                  placeholder="https://acme.com/thanks"
-                  className="h-9 bg-background/60 text-[13px]"
-                />
-              </FieldLabel>
             </div>
 
             <FieldLabel text="CC recipients">
