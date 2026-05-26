@@ -3089,14 +3089,6 @@ function PlaceFieldsPanel({
             <span className="w-2 h-2 rounded-full" style={{ background: activeRole?.color }} />
             {activeRole?.label || "Untitled"}
           </span>
-          {required.length > 0 && (
-            <span className="text-[11.5px] text-muted-foreground hidden md:inline">
-              Required:{" "}
-              <span className="text-foreground font-medium">
-                {required.map(fieldLabelByKind).join(" · ")}
-              </span>
-            </span>
-          )}
         </div>
 
         <div className="ml-auto flex items-center gap-2">
