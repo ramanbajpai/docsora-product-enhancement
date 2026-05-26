@@ -5467,12 +5467,6 @@ function RecipientExperience({
           >
             <Wand2 className="w-3.5 h-3.5 text-primary" /> Regenerate
           </button>
-          <button
-            onClick={() => setOpenRecipient(true)}
-            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl bg-primary text-primary-foreground text-[12.5px] font-medium hover:opacity-90 transition-opacity"
-          >
-            <Eye className="w-3.5 h-3.5" /> Preview recipient experience
-          </button>
         </div>
       </div>
 
