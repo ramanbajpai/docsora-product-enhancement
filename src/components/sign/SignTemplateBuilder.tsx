@@ -3399,9 +3399,10 @@ function StepLaunchExperience({
           {documents.map((d) => {
             const active = d.id === activeDocId;
             const body = DOC_BODY_BY_TAG[d.tag ?? "agreement"] ?? DOC_BODY_BY_TAG.agreement;
-            const docVarCount = body.paragraphs
-              .join(" ")
-              .match(/\{\{\s*[A-Z][A-Z0-9_]*\s*\}\}/g)?.length ?? 0;
+            const joined = body.paragraphs.join("\n");
+            const docVarCount = variables.filter(
+              (v) => v.defaultValue && joined.includes(v.defaultValue),
+            ).length;
             return (
               <button
                 key={d.id}
@@ -3423,7 +3424,7 @@ function StepLaunchExperience({
                 </div>
                 <div className="text-[13px] font-semibold truncate">{d.name}</div>
                 <div className="text-[11px] text-muted-foreground mt-0.5">
-                  {docVarCount} highlighted {docVarCount === 1 ? "spot" : "spots"}
+                  {docVarCount} editable {docVarCount === 1 ? "field" : "fields"}
                 </div>
               </button>
             );
@@ -3445,26 +3446,15 @@ function StepLaunchExperience({
               <div className="text-[10.5px] text-muted-foreground">Page 1</div>
             </div>
 
-            <article className="px-8 md:px-14 py-10 md:py-14 space-y-5">
-              <header className="space-y-1.5 pb-4 border-b border-border/30">
-                <div className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {category || "Agreement"}
-                </div>
-                <h3 className="text-[22px] font-semibold tracking-tight">
-                  {activeBody.title}
-                </h3>
-              </header>
-              {activeBody.paragraphs.map((p, i) => (
-                <p key={i} className="text-[13.5px] leading-[1.75] text-foreground/85">
-                  {renderDocLine(p, variables, updateVariable, removeVariable)}
-                </p>
-              ))}
-
-              {/* Add another */}
-              <div className="pt-4">
-                <AddHighlightInline addVariableWith={addVariableWith} />
-              </div>
-            </article>
+            <DocumentCanvas
+              title={activeBody.title}
+              category={category}
+              paragraphs={activeBody.paragraphs}
+              variables={variables}
+              addVariableWith={addVariableWith}
+              updateVariable={updateVariable}
+              removeVariable={removeVariable}
+            />
           </div>
 
           <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
