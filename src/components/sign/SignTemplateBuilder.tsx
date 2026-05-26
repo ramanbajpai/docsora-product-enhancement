@@ -4675,6 +4675,295 @@ function RecipientExperience({
 }
 
 function EmailPreviewCard({
+  // placeholder anchor — see TemplateDetailsBlock above
+  senderName,
+  subject,
+  body,
+  buttonLabel,
+  variables,
+  sample,
+  compact,
+}: {
+  senderName: string;
+  subject: string;
+  body: string;
+  buttonLabel: string;
+  variables: SignTemplateVariable[];
+  sample: Record<string, string>;
+  compact?: boolean;
+}) {
+  // unreachable — replaced via separate patch
+  return null as any;
+}
+
+const CATEGORY_OPTIONS: { value: string; label: string; icon: any }[] = [
+  { value: "Client", label: "Client onboarding", icon: UserCheck },
+  { value: "HR", label: "HR", icon: Users },
+  { value: "Sales", label: "Sales", icon: Briefcase },
+  { value: "Legal", label: "Legal", icon: Scale },
+  { value: "Procurement", label: "Procurement", icon: ShoppingCart },
+  { value: "Vendor", label: "Vendor management", icon: Building2 },
+  { value: "Finance", label: "Finance", icon: Banknote },
+  { value: "Other", label: "Other", icon: Folder },
+];
+
+const FILENAME_TOKENS: { name: string; label: string }[] = [
+  { name: "COMPANY_NAME", label: "Company name" },
+  { name: "CLIENT_NAME", label: "Client name" },
+  { name: "TEMPLATE_NAME", label: "Template name" },
+  { name: "DEAL_VALUE", label: "Deal value" },
+];
+
+const FILENAME_PRESETS: { label: string; pattern: string }[] = [
+  { label: "[Company] – Signed.pdf", pattern: "{{COMPANY_NAME}} - Signed.pdf" },
+  { label: "[Client] – Agreement.pdf", pattern: "{{CLIENT_NAME}} - Agreement.pdf" },
+  { label: "[Template] – Completed.pdf", pattern: "{{TEMPLATE_NAME}} - Completed.pdf" },
+  { label: "[Company] – [Template] – Signed.pdf", pattern: "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf" },
+];
+
+function tokenLabel(name: string, variables: SignTemplateVariable[]) {
+  const fromVar = variables.find((v) => v.name === name);
+  if (fromVar) return fromVar.label;
+  const fromList = FILENAME_TOKENS.find((t) => t.name === name);
+  if (fromList) return fromList.label;
+  return name
+    .toLowerCase()
+    .split("_")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(" ");
+}
+
+function parseFilenamePattern(
+  pattern: string,
+): { type: "text" | "token"; value: string }[] {
+  const re = /\{\{([A-Z0-9_]+)\}\}/g;
+  const out: { type: "text" | "token"; value: string }[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(pattern)) !== null) {
+    if (m.index > last) out.push({ type: "text", value: pattern.slice(last, m.index) });
+    out.push({ type: "token", value: m[1] });
+    last = m.index + m[0].length;
+  }
+  if (last < pattern.length) out.push({ type: "text", value: pattern.slice(last) });
+  return out;
+}
+
+function TemplateDetailsBlock({
+  name,
+  setName,
+  description,
+  setDescription,
+  category,
+  setCategory,
+  filenamePattern,
+  setFilenamePattern,
+  variables,
+  sample,
+}: {
+  name: string;
+  setName: (s: string) => void;
+  description: string;
+  setDescription: (s: string) => void;
+  category: string;
+  setCategory: (s: string) => void;
+  filenamePattern: string;
+  setFilenamePattern: (s: string) => void;
+  variables: SignTemplateVariable[];
+  sample: Record<string, string>;
+}) {
+  const parts = parseFilenamePattern(filenamePattern);
+  const previewFilename =
+    applyTemplateVariables(filenamePattern, {
+      ...sample,
+      COMPANY_NAME: sample.COMPANY_NAME || "Acme Studio",
+      CLIENT_NAME: sample.CLIENT_NAME || "Jordan Mills",
+      TEMPLATE_NAME: sample.TEMPLATE_NAME || name || "Agreement",
+      DEAL_VALUE: sample.DEAL_VALUE || "$12,000",
+    }) || "Untitled.pdf";
+
+  const insertToken = (token: string) => {
+    const sep = filenamePattern && !/[\s\-_]$/.test(filenamePattern) ? " - " : "";
+    setFilenamePattern(`${filenamePattern}${sep}{{${token}}}`);
+  };
+
+  const removePart = (index: number) => {
+    const next = parts.filter((_, i) => i !== index).map((p) => (p.type === "token" ? `{{${p.value}}}` : p.value)).join("");
+    setFilenamePattern(next.replace(/\s+-\s+-\s+/g, " - ").replace(/^\s*-\s*/, "").replace(/\s*-\s*$/, "").trim());
+  };
+
+  return (
+    <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-5">
+      {/* Template name */}
+      <FieldLabel text="Template name">
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g. Agency Client Agreement"
+          className="h-10 bg-background/60"
+        />
+      </FieldLabel>
+
+      {/* Category as visual chips */}
+      <div className="space-y-2">
+        <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+          Category
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORY_OPTIONS.map((c) => {
+            const Icon = c.icon;
+            const active = category === c.value;
+            return (
+              <button
+                key={c.value}
+                type="button"
+                onClick={() => setCategory(c.value)}
+                className={cn(
+                  "inline-flex items-center gap-1.5 h-8 pl-2.5 pr-3 rounded-full border text-[12px] font-medium transition-all",
+                  active
+                    ? "bg-foreground text-background border-foreground shadow-sm"
+                    : "bg-background/60 border-border/60 text-foreground/75 hover:bg-background hover:border-border hover:text-foreground",
+                )}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Description */}
+      <FieldLabel text="Description (optional)">
+        <Textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Example: Used to onboard new employees and collect signed agreements."
+          className="bg-background/60 text-[13px] min-h-[64px]"
+        />
+      </FieldLabel>
+
+      {/* Downloaded file name */}
+      <div className="space-y-3 pt-1">
+        <div>
+          <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+            Downloaded file name
+          </div>
+          <p className="text-[11.5px] text-muted-foreground mt-1 leading-relaxed">
+            When recipients complete and download this document, this is what the file will be called.
+          </p>
+        </div>
+
+        {/* Visual pill assembly */}
+        <div className="rounded-xl border border-border/60 bg-background/60 px-3 py-2.5 flex flex-wrap items-center gap-1.5 min-h-[46px]">
+          {parts.length === 0 && (
+            <span className="text-[12.5px] text-muted-foreground/70">
+              Start by inserting a token or choosing a suggestion below…
+            </span>
+          )}
+          {parts.map((p, i) =>
+            p.type === "token" ? (
+              <span
+                key={i}
+                className="inline-flex items-center gap-1 h-6 pl-2 pr-1 rounded-md bg-primary/10 text-primary text-[11.5px] font-medium border border-primary/15"
+              >
+                {tokenLabel(p.value, variables)}
+                <button
+                  type="button"
+                  onClick={() => removePart(i)}
+                  className="p-0.5 rounded hover:bg-primary/20"
+                  aria-label="Remove token"
+                >
+                  <X className="w-2.5 h-2.5" />
+                </button>
+              </span>
+            ) : (
+              <input
+                key={i}
+                value={p.value}
+                onChange={(e) => {
+                  const next = parts
+                    .map((q, j) => (j === i ? { ...q, value: e.target.value } : q))
+                    .map((q) => (q.type === "token" ? `{{${q.value}}}` : q.value))
+                    .join("");
+                  setFilenamePattern(next);
+                }}
+                className="bg-transparent outline-none text-[13px] text-foreground/85 py-0.5 min-w-[20px]"
+                style={{ width: `${Math.max(p.value.length, 1) * 7.5}px` }}
+              />
+            ),
+          )}
+          {filenamePattern && (
+            <button
+              type="button"
+              onClick={() => setFilenamePattern("")}
+              className="ml-auto text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+
+        {/* Insert tokens */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-muted-foreground mr-1">Insert:</span>
+          {FILENAME_TOKENS.map((t) => (
+            <button
+              key={t.name}
+              type="button"
+              onClick={() => insertToken(t.name)}
+              className="inline-flex items-center gap-1 h-7 px-2.5 rounded-md border border-dashed border-border/70 bg-background/50 hover:bg-background hover:border-primary/40 hover:text-primary text-[11.5px] text-foreground/75 transition-colors"
+            >
+              <Plus className="w-3 h-3" />
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Quick suggestions */}
+        <div>
+          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground mb-1.5">
+            Quick suggestions
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {FILENAME_PRESETS.map((p) => (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => setFilenamePattern(p.pattern)}
+                className={cn(
+                  "h-7 px-2.5 rounded-md text-[11.5px] border transition-colors",
+                  filenamePattern === p.pattern
+                    ? "bg-primary/10 border-primary/30 text-primary"
+                    : "bg-muted/40 border-border/50 text-foreground/70 hover:bg-muted hover:text-foreground",
+                )}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Live preview */}
+        <div className="rounded-xl bg-muted/40 border border-border/40 px-3.5 py-3">
+          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground">
+            Example downloaded file
+          </div>
+          <div className="mt-1 flex items-center gap-2">
+            <div className="w-7 h-8 rounded-md bg-background border border-border/60 flex items-center justify-center">
+              <FileText className="w-3.5 h-3.5 text-muted-foreground" />
+            </div>
+            <div className="text-[13px] font-medium text-foreground truncate">
+              {previewFilename}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EmailPreviewCard2_REMOVED({
   senderName,
   subject,
   body,
