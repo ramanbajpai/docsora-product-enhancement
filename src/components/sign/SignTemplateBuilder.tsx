@@ -4526,7 +4526,7 @@ function RecipientExperience({
               <div>
                 <div className="text-[13px] font-semibold">Advanced settings</div>
                 <div className="text-[11.5px] text-muted-foreground">
-                  Expiry, reminders, CC, redirect & permissions
+                  Expiry, reminders & CC
                 </div>
               </div>
             </div>
@@ -4535,7 +4535,7 @@ function RecipientExperience({
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 space-y-4">
           <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FieldLabel text="Expires after">
                 <div className="relative">
                   <Input
