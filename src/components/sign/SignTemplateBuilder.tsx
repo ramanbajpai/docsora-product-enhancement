@@ -4145,6 +4145,9 @@ function StepLaunchExperience({
 }) {
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
+  const [previewMode, setPreviewMode] = useState(false);
+  const [suggestionsDismissed, setSuggestionsDismissed] = useState(false);
+  const [scanning, setScanning] = useState(false);
 
   useEffect(() => {
     if (!documents.find((d) => d.id === activeDocId) && documents[0]) {
@@ -4160,6 +4163,103 @@ function StepLaunchExperience({
     const joined = activeBody.paragraphs.join("\n");
     return variables.filter((v) => v.defaultValue && joined.includes(v.defaultValue));
   }, [variables, activeBody]);
+
+  // ─── AI-style auto-detection ─────────────────────────────────────────
+  const detected = useMemo(() => {
+    const text = activeBody.paragraphs.join("\n");
+    const taken = new Set(
+      variables.filter((v) => v.defaultValue).map((v) => v.defaultValue!.toLowerCase()),
+    );
+    const out: { label: string; type: SignVariableType; value: string }[] = [];
+    const push = (label: string, type: SignVariableType, value: string) => {
+      const v = value.trim();
+      if (!v || taken.has(v.toLowerCase())) return;
+      if (out.some((o) => o.value.toLowerCase() === v.toLowerCase())) return;
+      out.push({ label, type, value: v });
+    };
+    // Dates: "January 1, 2026"
+    const dateRe =
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}\b/g;
+    let m: RegExpExecArray | null;
+    while ((m = dateRe.exec(text)) !== null) push("Start date", "date", m[0]);
+    // Currency
+    const moneyRe = /\$[\d,]+(?:\.\d+)?/g;
+    while ((m = moneyRe.exec(text)) !== null) push("Amount", "currency", m[0]);
+    // Emails
+    const emailRe = /[\w.+-]+@[\w-]+\.[\w.-]+/g;
+    while ((m = emailRe.exec(text)) !== null) push("Email", "email", m[0]);
+    // Proper-noun company/person names: two+ capitalised words in a row
+    const nameRe = /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b/g;
+    const stop = new Set([
+      "Master Services",
+      "Mutual Non",
+      "Pricing Appendix",
+      "Non Disclosure",
+      "Both",
+      "Client",
+      "Agency",
+      "Effective",
+    ]);
+    while ((m = nameRe.exec(text)) !== null) {
+      const v = m[1];
+      if (stop.has(v) || v.length < 5) continue;
+      const label = /Inc|LLC|Studio|Co|Logistics|Group|Labs/.test(v) ? "Company name" : "Name";
+      push(label, "text", v);
+      if (out.length >= 6) break;
+    }
+    return out.slice(0, 5);
+  }, [activeBody, variables]);
+
+  const showSuggestions =
+    section === "customize" &&
+    activeDocVars.length === 0 &&
+    detected.length > 0 &&
+    !suggestionsDismissed;
+
+  const acceptAllSuggestions = () => {
+    setScanning(true);
+    setTimeout(() => {
+      detected.forEach((d) => {
+        const token = addVariableWith(d.label, d.type, true);
+        updateVariable(token, { defaultValue: d.value });
+      });
+      setScanning(false);
+      setSuggestionsDismissed(true);
+    }, 450);
+  };
+
+  // Alt sample values for "Preview with sample data" — rotates examples.
+  const altSample = useMemo(() => {
+    const obj: Record<string, string> = { TEMPLATE_NAME: name || "Template" };
+    variables.forEach((v) => {
+      switch (v.type) {
+        case "date":
+          obj[v.name] = "February 15, 2026";
+          break;
+        case "currency":
+          obj[v.name] = "$48,500";
+          break;
+        case "email":
+          obj[v.name] = "ops@northwind.co";
+          break;
+        default:
+          obj[v.name] = v.label.toLowerCase().includes("company")
+            ? "Northwind Logistics"
+            : v.label.toLowerCase().includes("name")
+              ? "Avery Chen"
+              : v.defaultValue || `[${v.label}]`;
+      }
+    });
+    return obj;
+  }, [variables, name]);
+
+  const roleForVar = (v: SignTemplateVariable) => {
+    const l = v.label.toLowerCase();
+    if (l.includes("client") || l.includes("customer")) return roles.find((r) => /client|customer/i.test(r.label));
+    if (l.includes("employee") || l.includes("candidate")) return roles.find((r) => /candidate|employee|hr/i.test(r.label));
+    if (l.includes("company")) return roles.find((r) => /sender|you|company/i.test(r.label));
+    return roles[0];
+  };
 
   const sample = useMemo(() => {
     const obj: Record<string, string> = { TEMPLATE_NAME: name || "Template" };
@@ -4181,14 +4281,13 @@ function StepLaunchExperience({
       {/* Hero header */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> Customize Document
+          <Sparkles className="w-3 h-3" /> AI-assisted setup
         </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
-          Choose what changes each time this process is launched.
+          What changes each time?
         </h2>
         <p className="text-[13.5px] text-muted-foreground max-w-2xl">
-          Click any text inside your document — a name, date or amount — and assign it to a
-          participant. You&rsquo;ll fill these in before each launch.
+          Highlight names, dates, amounts or text that should update before each launch.
         </p>
       </div>
 
@@ -4231,8 +4330,77 @@ function StepLaunchExperience({
         </div>
       )}
 
+      {/* AI suggestion banner */}
+      <AnimatePresence>
+        {showSuggestions && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25 }}
+            className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-5"
+          >
+            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/15 blur-3xl pointer-events-none" />
+            <div className="relative flex items-start gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[13.5px] font-semibold tracking-tight">
+                  Docsora found {detected.length} reusable {detected.length === 1 ? "value" : "values"} in this document
+                </div>
+                <div className="text-[12px] text-muted-foreground mt-0.5">
+                  Accept what looks right, or click any text below to add your own.
+                </div>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {detected.map((d, i) => {
+                    const Icon = variableTypeMeta(d.type).icon;
+                    return (
+                      <motion.span
+                        key={d.value + i}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/80 border border-primary/20 text-[11.5px]"
+                      >
+                        <Icon className="w-3 h-3 text-primary" />
+                        <span className="font-medium">{d.value}</span>
+                        <span className="text-muted-foreground">· {d.label}</span>
+                      </motion.span>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-2 mt-4">
+                  <button
+                    onClick={acceptAllSuggestions}
+                    disabled={scanning}
+                    className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-lg bg-primary text-primary-foreground text-[12px] font-medium hover:bg-primary/90 transition disabled:opacity-60"
+                  >
+                    <Sparkles className={cn("w-3.5 h-3.5", scanning && "animate-pulse")} />
+                    {scanning ? "Adding…" : "Accept all"}
+                  </button>
+                  <button
+                    onClick={() => setSuggestionsDismissed(true)}
+                    className="inline-flex items-center h-8 px-3 rounded-lg text-[12px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/40 transition"
+                  >
+                    Review manually
+                  </button>
+                </div>
+              </div>
+              <button
+                onClick={() => setSuggestionsDismissed(true)}
+                className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 shrink-0"
+                aria-label="Dismiss"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Main split: document viewer + What changes summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,320px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,300px] gap-6">
         {/* Document paper */}
         <div className="rounded-3xl border border-border/50 bg-gradient-to-b from-card/40 to-card/10 p-4 md:p-6">
           <div className="rounded-2xl bg-background shadow-[0_30px_80px_-20px_hsl(var(--foreground)/0.12)] border border-border/40 overflow-hidden">
@@ -4242,23 +4410,62 @@ function StepLaunchExperience({
                 <FileText className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                 <div className="text-[12px] font-medium truncate">{activeDoc?.name ?? "Document"}</div>
               </div>
-              <div className="text-[10.5px] text-muted-foreground">Page 1</div>
+              <label className="inline-flex items-center gap-2 text-[11px] text-muted-foreground cursor-pointer select-none">
+                <Switch
+                  checked={previewMode}
+                  onCheckedChange={setPreviewMode}
+                  disabled={variables.length === 0}
+                />
+                Preview with sample data
+              </label>
             </div>
 
-            <DocumentCanvas
-              title={activeBody.title}
-              category={category}
-              paragraphs={activeBody.paragraphs}
-              variables={variables}
-              addVariableWith={addVariableWith}
-              updateVariable={updateVariable}
-              removeVariable={removeVariable}
-            />
+            {previewMode ? (
+              <motion.article
+                key="preview"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="relative px-8 md:px-14 py-10 md:py-14 space-y-5"
+              >
+                <header className="space-y-1.5 pb-4 border-b border-border/30">
+                  <div className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                    {category || "Agreement"}
+                  </div>
+                  <h3 className="text-[22px] font-semibold tracking-tight">{activeBody.title}</h3>
+                </header>
+                {activeBody.paragraphs.map((p, i) => {
+                  let rendered = p;
+                  variables.forEach((v) => {
+                    if (v.defaultValue) {
+                      rendered = rendered.split(v.defaultValue).join(altSample[v.name] ?? v.defaultValue);
+                    }
+                  });
+                  return (
+                    <p key={i} className="text-[13.5px] leading-[1.75] text-foreground/85">
+                      {rendered}
+                    </p>
+                  );
+                })}
+                <div className="absolute top-3 right-4 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">
+                  <Eye className="w-3 h-3" /> Sample data
+                </div>
+              </motion.article>
+            ) : (
+              <DocumentCanvas
+                title={activeBody.title}
+                category={category}
+                paragraphs={activeBody.paragraphs}
+                variables={variables}
+                addVariableWith={addVariableWith}
+                updateVariable={updateVariable}
+                removeVariable={removeVariable}
+              />
+            )}
           </div>
 
           <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-            <span className="inline-block w-2 h-2 rounded-full bg-primary/60" />
-            Tip: highlight any text in the document above to make it editable.
+            <Sparkles className="w-3 h-3 text-primary/70" />
+            Tip: most teams make names, dates and pricing reusable.
           </div>
         </div>
 
@@ -4266,51 +4473,89 @@ function StepLaunchExperience({
         <aside className="rounded-3xl border border-border/50 bg-card/30 p-5 h-fit lg:sticky lg:top-6 space-y-4">
           <div>
             <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
-              In this document
+              Reusable values
             </div>
-            <div className="text-[15px] font-semibold tracking-tight mt-0.5">
-              {activeDocVars.length} {activeDocVars.length === 1 ? "thing" : "things"} change each time
+            <div className="text-[12px] text-muted-foreground mt-0.5">
+              {activeDocVars.length === 0
+                ? "Updated before each launch"
+                : `${activeDocVars.length} value${activeDocVars.length === 1 ? "" : "s"} will be asked each launch`}
             </div>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {activeDocVars.length === 0 ? (
-              <p className="text-[12px] text-muted-foreground italic">
-                Nothing highlighted yet. Add a highlight from the document.
-              </p>
+              <div className="rounded-2xl border border-dashed border-border/50 bg-background/40 p-4 text-center space-y-3">
+                <div className="w-9 h-9 mx-auto rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <p className="text-[12px] text-muted-foreground leading-relaxed">
+                  Highlight text in the document to make it reusable — or let Docsora suggest values automatically.
+                </p>
+                <button
+                  onClick={() => {
+                    setSuggestionsDismissed(false);
+                    if (detected.length > 0) acceptAllSuggestions();
+                  }}
+                  disabled={scanning || detected.length === 0}
+                  className="w-full inline-flex items-center justify-center gap-1.5 h-8 rounded-lg bg-primary/10 text-primary text-[12px] font-medium hover:bg-primary/15 transition disabled:opacity-50"
+                >
+                  <Wand2 className={cn("w-3.5 h-3.5", scanning && "animate-pulse")} />
+                  {scanning ? "Scanning…" : "Scan document"}
+                </button>
+              </div>
             ) : (
-              activeDocVars.map((v) => {
-                const meta = variableTypeMeta(v.type);
-                const Icon = meta.icon;
-                return (
-                  <div
-                    key={v.name}
-                    className="flex items-center gap-2.5 rounded-xl border border-border/40 bg-background/60 px-3 py-2"
-                  >
-                    <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                      <Icon className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[12.5px] font-medium truncate">{v.label}</div>
-                      <div className="text-[10.5px] text-muted-foreground capitalize">
-                        {humanTypeLabel(v.type)}
-                        {v.required ? " · required" : ""}
+              <AnimatePresence initial={false}>
+                {activeDocVars.map((v) => {
+                  const meta = variableTypeMeta(v.type);
+                  const Icon = meta.icon;
+                  const role = roleForVar(v);
+                  return (
+                    <motion.div
+                      key={v.name}
+                      layout
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="rounded-xl border border-border/40 bg-background/60 hover:bg-background transition-colors px-3 py-2.5 space-y-1.5"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                          <Icon className="w-3 h-3" />
+                        </div>
+                        <div className="text-[12.5px] font-medium truncate flex-1">{v.label}</div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })
+                      <div className="flex items-center gap-1.5 text-[10.5px] text-muted-foreground pl-8">
+                        {role && (
+                          <span
+                            className="inline-block w-1.5 h-1.5 rounded-full"
+                            style={{ backgroundColor: role.color }}
+                          />
+                        )}
+                        <span>{role?.label ?? "Any participant"}</span>
+                        <span>→</span>
+                        <span className="capitalize">{humanTypeLabel(v.type)}</span>
+                      </div>
+                      {v.defaultValue && (
+                        <div className="pl-8 text-[11.5px] text-foreground/80 italic truncate">
+                          “{v.defaultValue}”
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             )}
           </div>
 
+          {/* Secondary: preview launch experience */}
           <button
             onClick={() => setOpenLaunchPreview((v) => !v)}
-            className="w-full inline-flex items-center justify-between gap-2 rounded-xl border border-border/50 bg-background/60 px-3 py-2.5 text-[12px] font-medium hover:bg-background transition-colors"
+            className="w-full inline-flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-[11.5px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors"
           >
-            <span className="inline-flex items-center gap-2">
-              <Eye className="w-3.5 h-3.5 text-primary" /> Preview the launch
+            <span className="inline-flex items-center gap-1.5">
+              <Eye className="w-3 h-3" /> Preview launch experience
             </span>
-            <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", openLaunchPreview && "rotate-180")} />
+            <ChevronDown className={cn("w-3 h-3 transition-transform", openLaunchPreview && "rotate-180")} />
           </button>
           <AnimatePresence initial={false}>
             {openLaunchPreview && (
@@ -4325,12 +4570,10 @@ function StepLaunchExperience({
                   <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
                     Before sending you&rsquo;ll be asked
                   </div>
-                  {(requiredVars.length > 0 ? requiredVars : variables).slice(0, 5).map((v) => (
+                  {(requiredVars.length > 0 ? requiredVars : variables).slice(0, 4).map((v) => (
                     <div key={v.name} className="space-y-1">
-                      <label className="text-[12px] font-medium">
-                        {launchQuestionFor(v)}
-                      </label>
-                      <div className="h-9 rounded-lg border border-dashed border-border/60 bg-muted/20 flex items-center px-3 text-[11.5px] text-muted-foreground">
+                      <label className="text-[12px] font-medium">{launchQuestionFor(v)}</label>
+                      <div className="h-8 rounded-lg border border-dashed border-border/60 bg-muted/20 flex items-center px-3 text-[11.5px] text-muted-foreground">
                         {v.defaultValue || `Enter ${v.label.toLowerCase()}`}
                       </div>
                     </div>
@@ -4340,23 +4583,10 @@ function StepLaunchExperience({
                       No questions — launches immediately.
                     </p>
                   )}
-                  <div className="pt-1 flex justify-end">
-                    <div className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-primary text-primary-foreground text-[12px] font-medium opacity-80">
-                      <Send className="w-3 h-3" /> Send
-                    </div>
-                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-2 pt-1">
-            <SummaryStat label="Documents" value={documents.length} icon={FileStack} />
-            <SummaryStat label="Signers" value={signerCount} icon={PenTool} />
-            <SummaryStat label="Fields" value={fields.length} icon={Type} />
-            <SummaryStat label="Expires" value={delivery.expiryDays ?? 14} icon={Clock} />
-          </div>
         </aside>
       </div>
       </>
