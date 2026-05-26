@@ -3347,7 +3347,6 @@ function StepLaunchExperience({
   signingMode: "sequential" | "parallel";
 }) {
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
-  const [openDetails, setOpenDetails] = useState(false);
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
 
   useEffect(() => {
