@@ -1820,16 +1820,6 @@ function StepRolesFields({
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <button
-            onClick={() =>
-              toast.message("AI field detection coming soon", {
-                description: "We'll scan the page and suggest placements.",
-              })
-            }
-            className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-medium border border-primary/30 bg-primary/[0.06] text-primary hover:bg-primary/10 transition"
-          >
-            <Sparkles className="w-3 h-3" /> AI suggest
-          </button>
           {roleComplete && nextRole && (
             <button
               onClick={() => setActiveRoleKey(nextRole.key)}
