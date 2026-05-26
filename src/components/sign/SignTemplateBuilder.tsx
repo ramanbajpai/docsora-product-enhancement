@@ -248,15 +248,15 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   agreement: {
     title: "Service Agreement",
     paragraphs: [
-      "This Agreement is entered into between {{COMPANY_NAME}} and {{CLIENT_NAME}}, effective as of {{START_DATE}}.",
-      "The total contract value is {{DEAL_VALUE}}, payable according to the schedule outlined below.",
+      "This Agreement is entered into between Acme Studio and Northwind Co, effective as of January 1, 2026.",
+      "The total contract value is $24,000.00, payable according to the schedule outlined below.",
       "Both parties acknowledge and agree to the terms set forth in this document by signing below.",
     ],
   },
   nda: {
     title: "Mutual Non-Disclosure Agreement",
     paragraphs: [
-      "This Non-Disclosure Agreement is made between {{DISCLOSING_PARTY}} and {{RECEIVING_PARTY}}, effective {{EFFECTIVE_DATE}}.",
+      "This Non-Disclosure Agreement is made between Acme Studio and Northwind Co, effective January 1, 2026.",
       "Each party agrees to keep all shared information strictly confidential for a period of three years.",
       "The parties confirm their understanding of these terms with their signatures below.",
     ],
@@ -264,7 +264,7 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   pricing: {
     title: "Pricing Proposal",
     paragraphs: [
-      "Prepared for review, the total proposed amount is {{TOTAL_AMOUNT}}, valid until {{VALID_UNTIL}}.",
+      "Prepared for review, the total proposed amount is $24,000.00, valid until March 31, 2026.",
       "This proposal includes the full scope of work as detailed in the attached schedule of services.",
       "Please sign below to accept the pricing and authorize the start of work.",
     ],
@@ -272,7 +272,7 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   scope: {
     title: "Statement of Work",
     paragraphs: [
-      "This Statement of Work covers {{PROJECT_NAME}}, beginning {{START_DATE}} and ending {{END_DATE}}.",
+      "This Statement of Work covers Project Atlas, beginning January 1, 2026 and ending June 30, 2026.",
       "Deliverables, milestones and acceptance criteria are described in the sections that follow.",
       "Authorization to proceed is granted upon signature of both parties.",
     ],
@@ -280,15 +280,15 @@ const DOC_BODY_BY_TAG: Record<SignDocumentTag, { title: string; paragraphs: stri
   annexure: {
     title: "Annexure",
     paragraphs: [
-      "This annexure is filed under reference {{REFERENCE_NUMBER}} and forms part of the parent agreement.",
+      "This annexure is filed under reference REF-2026-001 and forms part of the parent agreement.",
       "All terms remain governed by the parent agreement unless explicitly amended here.",
     ],
   },
   onboarding: {
     title: "Employee Onboarding Agreement",
     paragraphs: [
-      "Welcome {{EMPLOYEE_NAME}}. We are pleased to confirm your role in the {{DEPARTMENT}} team, starting {{START_DATE}}.",
-      "Your annual salary will be {{SALARY}}, paid monthly. Communications will be sent to {{EMPLOYEE_EMAIL}}.",
+      "Welcome Alex Morgan. We are pleased to confirm your role in the Design team, starting January 1, 2026.",
+      "Your annual salary will be $96,000.00, paid monthly. Communications will be sent to alex@company.com.",
       "Please sign below to confirm acceptance of the terms of your employment.",
     ],
   },
