@@ -206,6 +206,40 @@ const tagFromFilename = (n: string): SignDocumentTag =>
   : /onboard/i.test(n) ? "onboarding"
   : "agreement";
 
+const TAG_VARIABLE_SUGGESTIONS: Record<SignDocumentTag, { name: string; label: string; type: SignVariableType }[]> = {
+  agreement: [
+    { name: "CLIENT_NAME", label: "Client name", type: "text" },
+    { name: "COMPANY_NAME", label: "Company name", type: "company" },
+    { name: "START_DATE", label: "Start date", type: "date" },
+    { name: "DEAL_VALUE", label: "Deal value", type: "currency" },
+  ],
+  nda: [
+    { name: "DISCLOSING_PARTY", label: "Disclosing party", type: "company" },
+    { name: "RECEIVING_PARTY", label: "Receiving party", type: "company" },
+    { name: "EFFECTIVE_DATE", label: "Effective date", type: "date" },
+  ],
+  pricing: [
+    { name: "TOTAL_AMOUNT", label: "Total amount", type: "currency" },
+    { name: "VALID_UNTIL", label: "Valid until", type: "date" },
+  ],
+  scope: [
+    { name: "PROJECT_NAME", label: "Project name", type: "text" },
+    { name: "START_DATE", label: "Start date", type: "date" },
+    { name: "END_DATE", label: "End date", type: "date" },
+  ],
+  annexure: [
+    { name: "REFERENCE_NUMBER", label: "Reference number", type: "text" },
+  ],
+  onboarding: [
+    { name: "EMPLOYEE_NAME", label: "Employee name", type: "text" },
+    { name: "EMPLOYEE_EMAIL", label: "Employee email", type: "email" },
+    { name: "DEPARTMENT", label: "Department", type: "text" },
+    { name: "START_DATE", label: "Start date", type: "date" },
+    { name: "SALARY", label: "Salary", type: "currency" },
+  ],
+  other: [],
+};
+
 export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBuilderProps) {
   const { save, templates: existingTemplates } = useSignTemplates();
   const [step, setStep] = useState<StepKey>("upload");
