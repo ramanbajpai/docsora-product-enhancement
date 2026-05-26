@@ -1058,6 +1058,46 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
         </motion.div>
       </AnimatePresence>
 
+      {/* Inline flow nav — sits in the document, not pinned */}
+      <div className="mt-10 pt-6 border-t border-border/40 flex items-center justify-between gap-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => (currentIdx === 0 ? onBack() : goBack())}
+          className="h-9"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+          {currentIdx === 0 ? "Cancel" : "Back"}
+        </Button>
+
+        <div className="hidden md:flex flex-col items-center text-center">
+          <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-medium">
+            Step {currentIdx + 1} of {STEPS.length}
+          </div>
+          <div className="text-[12px] text-foreground/80 tabular-nums mt-0.5">
+            {nextHint[step]}
+          </div>
+        </div>
+
+        {step === "review" ? (
+          <Button
+            onClick={handleSave}
+            disabled={!canSave}
+            className="h-10 px-5 gap-1.5 rounded-xl shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.7)] hover:-translate-y-px transition-all"
+          >
+            <Check className="w-3.5 h-3.5" />
+            Save template
+          </Button>
+        ) : (
+          <Button
+            onClick={goNext}
+            disabled={!stepValid[step]}
+            className="h-10 px-5 gap-1.5 rounded-xl shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.75)] hover:-translate-y-px transition-all"
+          >
+            Continue <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
