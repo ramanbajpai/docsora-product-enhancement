@@ -4097,6 +4097,7 @@ function SummaryStat({
  * ────────────────────────────────────────────────────────── */
 
 function StepLaunchExperience({
+  section = "customize",
   name,
   setName,
   description,
@@ -4119,6 +4120,7 @@ function StepLaunchExperience({
   setFilenamePattern,
   signingMode,
 }: {
+  section?: "customize" | "automation";
   name: string;
   setName: (s: string) => void;
   description: string;
