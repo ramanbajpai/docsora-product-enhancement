@@ -1341,13 +1341,6 @@ function StepUpload({
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.12em] text-emerald-600 dark:text-emerald-400 font-semibold">
-              <span className="relative flex w-1.5 h-1.5">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/60 animate-ping" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-              </span>
-              Ready to reuse
-            </div>
           </div>
 
           {/* File grid + integrated add tile */}
