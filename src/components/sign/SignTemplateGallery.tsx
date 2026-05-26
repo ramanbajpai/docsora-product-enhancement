@@ -401,7 +401,7 @@ function EmptyState({ onCreateNew }: { onCreateNew: () => void }) {
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
           <div className="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-blue-500/15 blur-3xl" />
-          <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-red-500/10 blur-3xl" />
+          <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-primary/15 blur-3xl" />
         </div>
 
         <div className="mx-auto mb-5 inline-flex items-center justify-center h-14 w-14 rounded-2xl border border-border/60 bg-background/60 backdrop-blur-xl shadow-inner">
