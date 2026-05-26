@@ -469,10 +469,14 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   /* ─────────── validation ─────────── */
   const stepValid: Record<StepKey, boolean> = {
     upload: documents.length >= 1,
-    roles: roles.length >= 1 && roles.every((r) => r.label.trim().length > 0),
-    variables: variables.every((v) => v.label.trim().length > 0),
-    fields: fields.length >= 1 && fields.some((f) => f.type === "signature"),
-    delivery: (delivery.expiryDays ?? 0) > 0,
+    configure:
+      variables.every((v) => v.label.trim().length > 0) &&
+      (delivery.expiryDays ?? 0) > 0,
+    rolesfields:
+      roles.length >= 1 &&
+      roles.every((r) => r.label.trim().length > 0) &&
+      fields.length >= 1 &&
+      fields.some((f) => f.type === "signature"),
     review: name.trim().length >= 2 && filenamePattern.trim().length > 0,
   };
 
@@ -481,10 +485,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     if (!stepValid[step]) {
       const m: Record<StepKey, string> = {
         upload: "Add at least one file.",
-        roles: "Each role needs a name.",
-        variables: "Each variable needs a name.",
-        fields: "Place at least one signature field.",
-        delivery: "Set an expiry duration.",
+        configure: "Complete variables and set an expiry duration.",
+        rolesfields:
+          "Add a role and place at least one signature field.",
         review: "Name the template and filename pattern.",
       };
       toast.error(m[step]);
