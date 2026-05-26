@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Layers,
   Eye,
+  Pencil,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -37,9 +38,10 @@ import SignModeSwitcher from "./SignModeSwitcher";
 interface SignTemplateGalleryProps {
   onBack: () => void;
   onCreateNew: () => void;
+  onEdit?: (t: SignTemplate) => void;
 }
 
-export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplateGalleryProps) {
+export default function SignTemplateGallery({ onBack, onCreateNew, onEdit }: SignTemplateGalleryProps) {
   const { templates, toggleFavorite, remove } = useSignTemplates();
   const [query, setQuery] = useState("");
   const [launchTpl, setLaunchTpl] = useState<SignTemplate | null>(null);
@@ -136,6 +138,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
                 onDelete={() => setDeleteTpl(t)}
+                onEdit={onEdit ? () => onEdit(t) : undefined}
               />
             ))}
           </Grid>
@@ -156,6 +159,7 @@ export default function SignTemplateGallery({ onBack, onCreateNew }: SignTemplat
                 onLaunch={() => setLaunchTpl(t)}
                 onFavorite={() => toggleFavorite(t.id)}
                 onDelete={() => setDeleteTpl(t)}
+                onEdit={onEdit ? () => onEdit(t) : undefined}
               />
             ))}
           </Grid>
@@ -259,12 +263,14 @@ function TemplateCard({
   onLaunch,
   onFavorite,
   onDelete,
+  onEdit,
 }: {
   t: SignTemplate;
   index: number;
   onLaunch: () => void;
   onFavorite: () => void;
   onDelete: () => void;
+  onEdit?: () => void;
 }) {
   const signerCount = t.roles.filter((r) => r.key !== "cc").length;
   const docs = getTemplateDocuments(t);
@@ -306,6 +312,17 @@ function TemplateCard({
             </p>
           </div>
           <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity -mr-1.5 -mt-1.5">
+            {onEdit && (
+              <IconBtn
+                label="Edit template"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </IconBtn>
+            )}
             <IconBtn
               label={t.favorite ? "Unfavorite" : "Favorite"}
               onClick={(e) => {
@@ -347,6 +364,18 @@ function TemplateCard({
       </button>
 
       <div className="relative px-4 pb-3 -mt-1 flex items-center justify-end">
+        {onEdit && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            className="inline-flex items-center gap-1 h-7 px-2.5 mr-1 rounded-md text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Pencil className="w-3 h-3" />
+            Edit
+          </button>
+        )}
         <button
           onClick={(e) => {
             e.stopPropagation();

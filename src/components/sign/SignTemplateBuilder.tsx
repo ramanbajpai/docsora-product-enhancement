@@ -60,6 +60,7 @@ import {
   applyTemplateVariables,
   detectTemplateVariables,
   useSignTemplates,
+  getTemplateDocuments,
 } from "@/hooks/useSignTemplates";
 import {
   Select,
@@ -74,6 +75,8 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 interface SignTemplateBuilderProps {
   onBack: () => void;
   onSaved: () => void;
+  /** When provided, the builder opens in edit mode pre-populated with this template's data. */
+  editingTemplate?: SignTemplate;
 }
 
 type StepKey = "upload" | "configure" | "rolesfields" | "review";
@@ -339,22 +342,40 @@ const launchQuestionFor = (v: SignTemplateVariable): string => {
   }
 };
 
-export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBuilderProps) {
+export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }: SignTemplateBuilderProps) {
   const { save, templates: existingTemplates } = useSignTemplates();
-  const [step, setStep] = useState<StepKey>("upload");
+  const isEditing = !!editingTemplate;
+
+  // Stable template id — keeps the same id across autosaves and edits.
+  const templateIdRef = useRef<string>(editingTemplate?.id ?? `tpl-${uid()}`);
+  const createdAtRef = useRef<number>(editingTemplate?.createdAt ?? Date.now());
+
+  const initialDocuments: BuilderDoc[] = editingTemplate
+    ? getTemplateDocuments(editingTemplate).map((d) => ({
+        id: d.id,
+        file: null,
+        name: d.name,
+        tag: d.tag,
+        pageCount: d.pageCount,
+      }))
+    : [];
+
+  const [step, setStep] = useState<StepKey>(isEditing ? "configure" : "upload");
 
   // Files & meta
-  const [documents, setDocuments] = useState<BuilderDoc[]>([]);
-  const [activeDocId, setActiveDocId] = useState<string>("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<string>("Client");
-  const [packageTitle, setPackageTitle] = useState<string>("");
+  const [documents, setDocuments] = useState<BuilderDoc[]>(initialDocuments);
+  const [activeDocId, setActiveDocId] = useState<string>(initialDocuments[0]?.id ?? "");
+  const [name, setName] = useState(editingTemplate?.name ?? "");
+  const [description, setDescription] = useState(editingTemplate?.description ?? "");
+  const [category, setCategory] = useState<string>(editingTemplate?.category ?? "Client");
+  const [packageTitle, setPackageTitle] = useState<string>(editingTemplate?.packageTitle ?? "");
 
   // Roles
-  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">("parallel");
+  const [signingMode, setSigningMode] = useState<"sequential" | "parallel">(
+    editingTemplate?.signingMode ?? "parallel",
+  );
   const [signSelf, setSignSelf] = useState(false);
-  const [roles, setRoles] = useState<SignTemplateRole[]>([
+  const [roles, setRoles] = useState<SignTemplateRole[]>(editingTemplate?.roles ?? [
     {
       key: "client",
       label: "Client",
@@ -374,17 +395,17 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   ]);
 
   // Variables
-  const [variables, setVariables] = useState<SignTemplateVariable[]>([]);
+  const [variables, setVariables] = useState<SignTemplateVariable[]>(editingTemplate?.variables ?? []);
 
   // Fields
-  const [fields, setFields] = useState<SignTemplateField[]>([]);
+  const [fields, setFields] = useState<SignTemplateField[]>(editingTemplate?.fields ?? []);
   const [page, setPage] = useState(1);
-  const [activeRoleKey, setActiveRoleKey] = useState<string>("client");
+  const [activeRoleKey, setActiveRoleKey] = useState<string>(editingTemplate?.roles?.[0]?.key ?? "client");
   const [activeTool, setActiveTool] = useState(FIELD_TOOLS[0]);
   const pageRef = useRef<HTMLDivElement>(null);
 
   // Delivery & Automation
-  const [delivery, setDelivery] = useState<SignTemplateDelivery>({
+  const [delivery, setDelivery] = useState<SignTemplateDelivery>(editingTemplate?.delivery ?? {
     emailSubject: "Please sign: {{COMPANY_NAME}} agreement",
     emailMessage: "Hi {{CLIENT_NAME}},\n\nPlease review and sign the attached document at your convenience.\n\nThanks!",
     senderName: "",
@@ -393,7 +414,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     redirectUrl: "",
     allowDownload: true,
   });
-  const [automation, setAutomation] = useState<SignTemplateAutomation>({
+  const [automation, setAutomation] = useState<SignTemplateAutomation>(editingTemplate?.automation ?? {
     remindEveryDays: 3,
     expiryWarningDays: 2,
     escalateAfterDays: 7,
@@ -403,7 +424,7 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
 
   // Review
   const [filenamePattern, setFilenamePattern] = useState<string>(
-    "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
+    editingTemplate?.filenamePattern ?? "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
   );
   const [previewMode, setPreviewMode] = useState<"sender" | "recipient" | "email" | "filename">("sender");
 
@@ -756,14 +777,10 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   /* ─────────── save ─────────── */
   const canSave = STEPS.every((s) => stepValid[s.key]);
 
-  const handleSave = () => {
-    if (!canSave) {
-      toast.error("Complete every step before saving.");
-      return;
-    }
-    const tpl: SignTemplate = {
-      id: `tpl-${uid()}`,
-      name: name.trim(),
+  const buildTemplate = useCallback((): SignTemplate => {
+    return {
+      id: templateIdRef.current,
+      name: name.trim() || editingTemplate?.name || "Untitled template",
       description: description.trim() || undefined,
       category,
       documentName: documents[0]?.name || `${name}.pdf`,
@@ -790,13 +807,50 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
         remindersEveryDays: automation.remindEveryDays,
         ccEmails: delivery.ccEmails,
       },
-      createdAt: Date.now(),
-      useCount: 0,
+      createdAt: createdAtRef.current,
+      lastUsedAt: editingTemplate?.lastUsedAt,
+      useCount: editingTemplate?.useCount ?? 0,
+      favorite: editingTemplate?.favorite,
+      pinned: editingTemplate?.pinned,
     };
+  }, [
+    name, description, category, documents, roles, fields, signingMode,
+    variables, packageTitle, delivery, automation, filenamePattern, editingTemplate,
+  ]);
+
+  const handleSave = () => {
+    if (!canSave) {
+      toast.error("Complete every step before saving.");
+      return;
+    }
+    const tpl = buildTemplate();
     save(tpl);
-    toast.success("Template saved", { description: `${tpl.name} is ready to launch.` });
+    toast.success(isEditing ? "Template updated" : "Template saved", {
+      description: `${tpl.name} is ready to launch.`,
+    });
     onSaved();
   };
+
+  /* ─────────── autosave ─────────── */
+  const [autosaveState, setAutosaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const autosaveSkipFirst = useRef(true);
+  useEffect(() => {
+    // Only autosave when editing an existing template, and skip the first run
+    // (state hydration) to avoid an immediate re-save loop.
+    if (!isEditing) return;
+    if (autosaveSkipFirst.current) {
+      autosaveSkipFirst.current = false;
+      return;
+    }
+    setAutosaveState("saving");
+    const t = setTimeout(() => {
+      save(buildTemplate());
+      setAutosaveState("saved");
+      const r = setTimeout(() => setAutosaveState("idle"), 1500);
+      return () => clearTimeout(r);
+    }, 700);
+    return () => clearTimeout(t);
+  }, [isEditing, buildTemplate, save]);
 
   /* ─────────── render ─────────── */
   const currentIdx = STEPS.findIndex((s) => s.key === step);
@@ -812,25 +866,46 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
     <div className="px-6 md:px-10 py-8 pb-32 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <button
-          onClick={() => {
-            const hasProgress =
-              documents.length > 0 || name.trim().length > 0 || fields.length > 0;
-            if (
-              !hasProgress ||
-              window.confirm(
-                "Discard this template? Your progress will be lost.",
-              )
-            ) {
-              onBack();
-            }
-          }}
-          className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-5"
-        >
-          <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
-        </button>
+        <div className="flex items-center justify-between mb-5">
+          <button
+            onClick={() => {
+              if (isEditing) { onBack(); return; }
+              const hasProgress =
+                documents.length > 0 || name.trim().length > 0 || fields.length > 0;
+              if (
+                !hasProgress ||
+                window.confirm("Discard this template? Your progress will be lost.")
+              ) {
+                onBack();
+              }
+            }}
+            className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
+          </button>
+          {isEditing && (
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 text-[11px] font-medium tabular-nums transition-colors",
+                autosaveState === "saving" && "text-muted-foreground",
+                autosaveState === "saved" && "text-emerald-500",
+                autosaveState === "idle" && "text-muted-foreground/70",
+              )}
+            >
+              <span
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full",
+                  autosaveState === "saving" && "bg-muted-foreground animate-pulse",
+                  autosaveState === "saved" && "bg-emerald-500",
+                  autosaveState === "idle" && "bg-muted-foreground/50",
+                )}
+              />
+              {autosaveState === "saving" ? "Saving…" : autosaveState === "saved" ? "Saved" : "Auto-save on"}
+            </span>
+          )}
+        </div>
         <h1 className="text-2xl md:text-[32px] leading-[1.1] font-semibold tracking-tight">
-          Configure once. Launch infinitely.
+          {isEditing ? "Edit your template." : "Configure once. Launch infinitely."}
         </h1>
 
         {/* Stepper — premium operational */}
