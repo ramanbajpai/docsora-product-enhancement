@@ -1,97 +1,66 @@
 
-# Redesign: Create Template — Premium Workflow Builder
+# Template Creation — 5-Step Restructure
 
-Transform the current single-screen template setup into a guided 6-step experience that cleanly separates **personalization variables** (sender-filled, pre-send) from **signing fields** (recipient-filled). The end-state feeling: *"Configure once. Launch infinitely."*
+Rebuild the setup flow inside `src/components/sign/SignTemplateBuilder.tsx` so document customization happens **before** recipient field placement, and replace the technical "variables" concept with a visual, click-to-customize document experience.
 
-## Scope
-
-Rebuild the template creation route (currently `src/pages/TemplateBuilder.tsx` + `src/components/sign/SignTemplateBuilder.tsx`) as a stepper-driven flow. Extend `useCustomTemplates` types to support the new concepts. Keep the existing field-placement engine and reuse it inside Step 4. Update the launch modal to consume personalization variables.
-
-## The 6 Steps
+## New step order
 
 ```text
-┌──────────┬──────────┬──────────────┬──────────┬───────────┬──────────┐
-│ 1 Upload │ 2 Roles  │ 3 Variables  │ 4 Fields │ 5 Deliver │ 6 Review │
-└──────────┴──────────┴──────────────┴──────────┴───────────┴──────────┘
+1. Name & Upload     → name + drop documents
+2. Participants      → who is involved + what they do (Sign / Approve / Upload / Fill / Review)
+3. Customize Document→ click highlighted text inside the doc to mark what changes per launch
+4. Recipient Fields  → place signatures, initials, dates, uploads, approvals
+5. Automation & Review → delivery, reminders, filename, final review + Save
 ```
 
-**1. Upload** — Multi-file drop zone, reorderable file cards with thumbnail, remove, "N files ready" → Continue. No auto-advance.
+The existing first two steps stay close to current behavior. Steps 3–5 are new or moved.
 
-**2. Roles** — Define recipient roles (name, color, signing order, permission set: sign / approve / view / upload / edit-fields). Drag-to-reorder for sequential signing. Default seeded role: "Client".
+## Step 3 — Customize Document (the key new experience)
 
-**3. Personalization Variables** — Side panel + live list. Add variable: key, label, type (text / currency / date / email / phone / number / dropdown / multi-select), required toggle, example value, options (for dropdown). Clear "filled by sender before send" framing. Visually distinct from Step 4.
+- Header copy: **"Customize Document"** with sub: *"Choose what changes each time this process is launched."*
+- The document preview renders with **auto-detected highlight chips** over candidate phrases. Seeded examples per template type: Company name, Employee name, Start date, Salary, Address, Deal value, Email.
+- Clicking a highlight (or click-dragging over text) opens a **popover**:
+  - **Field label** (e.g. "Company Name")
+  - **Value source** = participant from Step 2 (pill dropdown: `Client`, `Employee`, …)
+  - **Field type**: Text · Date · Currency · Email · Number
+  - Save → highlight becomes a solid role-colored chip showing `Client → Company Name`
+- A right-hand summary list shows all customizations grouped by participant. Each item is removable / editable.
+- **No `{{...}}` syntax anywhere.** Internally we still store a `token` but display is always `Participant → Label`.
 
-**4. Signing Fields** — Reuse the existing placement canvas from `SignTemplateBuilder`. Each placed field is assigned to a **role** (color-coded from Step 2). Toolbar: signature / initials / date / text / checkbox / dropdown. Keyboard delete, undo/redo, zoom, page nav, multi-doc tabs.
+## Step 4 — Recipient Fields
 
-**5. Delivery & Automation** — Two grouped cards:
-- *Delivery*: email subject, message, sender name, expiry days.
-- *Automation*: reminder cadence, escalation, expiry warning, post-open & post-complete notifications, redirect URL, CC recipients, allow attachment download.
+- Top label: **"Recipient fields"** with sub: *"Fields participants complete during the process — signatures, uploads, approvals, and form inputs."*
+- Reuses existing placement canvas (signature / initials / date / text / checkbox / upload) currently inside the merged "rolesfields" step. Lift the fields-only part out.
+- Each field is assigned to a participant (color-coded from Step 2).
 
-**6. Preview & Save** — Tabs: Sender preview · Recipient preview · Email preview · Final PDF preview. Filename pattern field with variable autocomplete (e.g. `{{company_name}} - NDA.pdf`). Save → returns to template gallery.
+## Step 5 — Automation & Review
 
-## Stepper Shell
+Consolidates current delivery + automation + review screens into one final step with two stacked cards plus a compact review summary and **Save template** button.
 
-- Top progress bar with step labels, completed/active/upcoming states, click-to-jump for completed steps.
-- Persistent footer: Back · step counter · Continue (disabled until step valid).
-- Auto-save draft to localStorage between steps.
-- Smooth slide+fade transitions between steps (framer-motion).
-- Sticky right-side summary on wider viewports showing files / roles / variables / fields counts.
+## File changes
 
-## Data Model Changes (`useCustomTemplates.ts`)
+**Edit only** `src/components/sign/SignTemplateBuilder.tsx`:
 
-Extend `CustomTemplate`:
-```ts
-files: TemplateFile[]              // multi-file support
-roles: CustomRole[] (extended)     // + order, permissions[]
-variables: PersonalizationVariable[]   // NEW — sender-filled
-fields: PlacedField[] (extended)   // + assigned roleKey already exists
-delivery: DeliveryConfig           // NEW
-automation: AutomationConfig       // NEW
-filenamePattern: string            // NEW
-```
+- Update `StepKey` and `STEPS` to the 5-step array above.
+- Split the existing combined "rolesfields" step into two: **Participants** (roles only) and **Recipient Fields** (placement only).
+- Insert new **Customize Document** step (`customize`) between them. New component within the file: highlights overlay + popover editor + summary rail. Auto-seed 4–6 highlight candidates from a small heuristic on the document name / generic placeholders.
+- Repurpose the existing variables data model (`SignTemplateVariable` in `useSignTemplates.ts`) as the storage for customizations — no schema change needed; only the UI/labeling changes ("variables" → "customizations", token hidden from UI, `roleKey` required).
+- Move delivery + automation + review into a single **Automation & Review** step.
+- Keep the inline Back / Step X of Y / Continue nav row already present.
+- Remove the old "Customize" step (sub: "What changes each time") since it is replaced by the richer in-document experience.
 
-New types: `PersonalizationVariable`, `VariableType`, `RolePermission`, `DeliveryConfig`, `AutomationConfig`, `TemplateFile`. Keep backward compatibility with existing stored templates by defaulting missing fields.
+**No changes** to `useSignTemplates.ts` schema, routes, or other components in this pass. Backward compatible with saved templates.
 
-## File Plan
+## UX details
 
-**New files**
-- `src/components/templates/builder/TemplateBuilderShell.tsx` — stepper layout, nav, summary rail.
-- `src/components/templates/builder/StepUpload.tsx`
-- `src/components/templates/builder/StepRoles.tsx`
-- `src/components/templates/builder/StepVariables.tsx`
-- `src/components/templates/builder/StepFields.tsx` (wraps existing placement canvas)
-- `src/components/templates/builder/StepDelivery.tsx`
-- `src/components/templates/builder/StepReview.tsx`
-- `src/components/templates/builder/useTemplateDraft.ts` — single source of truth + autosave.
-- `src/components/templates/builder/types.ts`
+- Step transitions: existing framer-motion slide/fade kept.
+- Highlight chips use the assigned participant's color at 12% bg + 60% border; unassigned candidates use a dashed neutral outline that pulses gently on hover.
+- Popover styled like existing role popover (rounded-xl, soft shadow, no heavy borders).
+- Continue on Step 3 is enabled even with zero customizations (optional), but shows a subtle "0 values customized — recommended to add at least one" helper.
+- Continue on Step 4 still requires ≥1 signature field (existing rule).
 
-**Updated**
-- `src/pages/TemplateBuilder.tsx` — render the new shell instead of the legacy builder.
-- `src/hooks/useCustomTemplates.ts` — extend types, migration defaults.
-- `src/components/sign/SignTemplateLaunchModal.tsx` — surface personalization variables as the first step of launch, then recipients.
-- `src/components/sign/SignTemplateGallery.tsx` — minor: show variable count on cards.
+## Out of scope
 
-**Reused as-is**
-- Existing field placement primitives (`FieldPlacementModal` logic, drag handlers, page render) lifted into `StepFields`.
-
-## Visual Direction
-
-- Generous whitespace, soft surfaces, no heavy borders.
-- One accent color per role, used consistently across roles list, variable assignment, field chips, preview.
-- Motion: 200ms ease-out step transitions; field placement uses spring; success ticks for completed steps.
-- Empty states with one-line helper + single CTA — no illustrations.
-- Sticky CTAs; never modal-on-modal.
-
-## Out of Scope (this pass)
-
-- Version history & archive UI (data model supports it; UI later).
-- Server-side persistence (continues to use localStorage via `useCustomTemplates`).
-- Actual email rendering pipeline (preview is a faithful mockup).
-
-## Validation Per Step
-
-1. ≥1 file. 2. ≥1 role with name. 3. Variables optional but each must have key+type. 4. ≥1 signature field assigned to a role. 5. Defaults provided, all editable. 6. Filename pattern non-empty.
-
----
-
-Approve to build, or tell me which steps to trim/expand first.
+- Real PDF text extraction / OCR. The highlight candidates are seeded mock phrases over the existing skeleton document — same approach as current preview.
+- Backend persistence changes.
+- Launch modal updates (existing modal already consumes variables; the rename is UI-only).

@@ -80,12 +80,19 @@ interface SignTemplateBuilderProps {
   editingTemplate?: SignTemplate;
 }
 
-type StepKey = "upload" | "rolesfields" | "review";
+type StepKey =
+  | "upload"
+  | "participants"
+  | "customize"
+  | "fields"
+  | "automation";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
-  { key: "rolesfields", label: "Participants", sub: "Who does what" },
-  { key: "review", label: "Customize", sub: "What changes each time" },
+  { key: "participants", label: "Participants", sub: "Who is involved" },
+  { key: "customize", label: "Customize Document", sub: "What changes each time" },
+  { key: "fields", label: "Recipient Fields", sub: "What participants complete" },
+  { key: "automation", label: "Automation & Review", sub: "Delivery & finish" },
 ];
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
@@ -740,9 +747,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       nameIsUnique &&
       documents.length >= 1 &&
       documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
-    rolesfields:
+    participants:
       roles.length >= 1 && rolesAllNamed && !rolesHaveDuplicates,
-    review: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
+    customize: true,
+    fields: true,
+    automation: nameTrimmed.length > 0 && filenamePattern.trim().length > 0,
   };
 
   const goNext = () => {
@@ -754,13 +763,15 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           : !nameIsUnique
             ? "A template with this name already exists."
             : "Add at least one document to continue.",
-        rolesfields:
+        participants:
           rolesHaveDuplicates
             ? "Two roles share the same name. Please make each role name unique."
             : !rolesAllNamed
               ? "Each role needs a name (max 20 characters)."
-              : "Please add at least one role before continuing.",
-        review: "Name the template and filename pattern.",
+              : "Please add at least one participant before continuing.",
+        customize: "",
+        fields: "",
+        automation: "Name the template and filename pattern.",
       };
       toast.error(m[step]);
       return;
@@ -854,9 +865,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
   const nextHint: Record<StepKey, string> = {
-    upload: "Next: people & fields",
-    rolesfields: "Next: customize before sending",
-    review: "Save template",
+    upload: "Next: participants",
+    participants: "Next: customize the document",
+    customize: "Next: place recipient fields",
+    fields: "Next: automation & review",
+    automation: "Save template",
   };
 
   return (
@@ -994,8 +1007,9 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
             />
           )}
 
-          {step === "rolesfields" && (
+          {(step === "participants" || step === "fields") && (
             <StepRolesFields
+              lockedSubStep={step === "participants" ? "setup" : "place"}
               documents={documents}
               activeDocId={activeDocId}
               setActiveDocId={(id) => {
@@ -1030,8 +1044,9 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
             />
           )}
 
-          {step === "review" && (
+          {(step === "customize" || step === "automation") && (
             <StepLaunchExperience
+              section={step === "customize" ? "customize" : "automation"}
               name={name}
               setName={setName}
               description={description}
@@ -1079,7 +1094,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           </div>
         </div>
 
-        {step === "review" ? (
+        {step === "automation" ? (
           <Button
             onClick={handleSave}
             disabled={!canSave}
@@ -2273,6 +2288,7 @@ function RolesFieldsSidebar({
 }
 
 function StepRolesFields({
+  lockedSubStep,
   documents,
   activeDocId,
   setActiveDocId,
@@ -2302,6 +2318,7 @@ function StepRolesFields({
   setSelectedFieldId,
   pageRef,
 }: {
+  lockedSubStep?: "setup" | "place";
   documents: BuilderDoc[];
   activeDocId: string;
   setActiveDocId: (id: string) => void;
@@ -2331,7 +2348,8 @@ function StepRolesFields({
   setSelectedFieldId: (id: string | null) => void;
   pageRef: React.RefObject<HTMLDivElement>;
 }) {
-  const [subStep, setSubStep] = useState<"setup" | "place">("setup");
+  const [internalSubStep, setSubStep] = useState<"setup" | "place">("setup");
+  const subStep: "setup" | "place" = lockedSubStep ?? internalSubStep;
 
   const activeRole = roles.find((r) => r.key === activeRoleKey) ?? roles[0];
   const activeMeta = getRoleTypeMeta(activeRole?.type);
@@ -2349,14 +2367,14 @@ function StepRolesFields({
 
   const allRolesNamed = roles.every((r) => r.label.trim().length > 0);
 
-  const titles: Record<typeof subStep, { title: string; sub: string }> = {
+  const titles: Record<"setup" | "place", { title: string; sub: string }> = {
     setup: {
       title: "Participants",
-      sub: "Choose who takes part in this process and what each person needs to do.",
+      sub: "Who is involved in this process — and what each person does.",
     },
     place: {
-      title: "Place fields for each participant",
-      sub: "Pick a participant, then click where they need to sign or fill information.",
+      title: "Recipient fields",
+      sub: "Fields participants complete during the process — signatures, uploads, approvals, and form inputs.",
     },
   };
 
@@ -2377,6 +2395,7 @@ function StepRolesFields({
           setSigningMode={setSigningMode}
           onNext={() => allRolesNamed && setSubStep("place")}
           canContinue={allRolesNamed && roles.length > 0}
+          hideNext={!!lockedSubStep}
         />
       )}
 
@@ -2427,6 +2446,7 @@ function ParticipantsSetup({
   setSigningMode,
   onNext,
   canContinue,
+  hideNext,
 }: {
   roles: SignTemplateRole[];
   addRole: (label?: string) => void;
@@ -2439,6 +2459,7 @@ function ParticipantsSetup({
   setSigningMode: (m: "sequential" | "parallel") => void;
   onNext: () => void;
   canContinue: boolean;
+  hideNext?: boolean;
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const usedLabels = new Set(roles.map((r) => r.label.trim().toLowerCase()));
@@ -2746,12 +2767,14 @@ function ParticipantsSetup({
         </div>
       </section>
 
-      {/* Continue */}
-      <div className="flex justify-end pt-2">
-        <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
-          Continue to fields <ArrowRight className="w-3.5 h-3.5" />
-        </Button>
-      </div>
+      {/* Continue (hidden when outer step nav is shown) */}
+      {!hideNext && (
+        <div className="flex justify-end pt-2">
+          <Button onClick={onNext} disabled={!canContinue} className="gap-1.5">
+            Continue to fields <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
@@ -4074,6 +4097,7 @@ function SummaryStat({
  * ────────────────────────────────────────────────────────── */
 
 function StepLaunchExperience({
+  section = "customize",
   name,
   setName,
   description,
@@ -4096,6 +4120,7 @@ function StepLaunchExperience({
   setFilenamePattern,
   signingMode,
 }: {
+  section?: "customize" | "automation";
   name: string;
   setName: (s: string) => void;
   description: string;
@@ -4151,17 +4176,19 @@ function StepLaunchExperience({
 
   return (
     <div className="space-y-8">
+      {section === "customize" && (
+      <>
       {/* Hero header */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> Customize before sending
+          <Sparkles className="w-3 h-3" /> Customize Document
         </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
-          Select anything that changes each time.
+          Choose what changes each time this process is launched.
         </h2>
         <p className="text-[13.5px] text-muted-foreground max-w-2xl">
-          Highlight text inside your document — like a name, date or amount — and mark it editable.
-          You&rsquo;ll fill it in each time you launch this template.
+          Click any text inside your document — a name, date or amount — and assign it to a
+          participant. You&rsquo;ll fill these in before each launch.
         </p>
       </div>
 
@@ -4332,8 +4359,10 @@ function StepLaunchExperience({
           </div>
         </aside>
       </div>
+      </>
+      )}
 
-      {/* Recipient Experience */}
+      {section === "automation" && (
       <RecipientExperience
         name={name}
         setName={setName}
@@ -4350,6 +4379,7 @@ function StepLaunchExperience({
         setAutomation={setAutomation}
         sample={sample}
       />
+      )}
 
     </div>
   );
