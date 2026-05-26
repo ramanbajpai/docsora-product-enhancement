@@ -2687,26 +2687,29 @@ function ParticipantsSetup({
                 {/* Visual diagram */}
                 <div className="mb-3 h-14 flex items-center">
                   {opt.value === "parallel" ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-primary/15 ring-1 ring-primary/30" />
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-6 h-6 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center text-[10px] font-semibold text-primary">@</div>
                       <div className="flex flex-col gap-1">
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
-                        <div className="h-1.5 w-12 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
+                        <div className="h-1.5 w-10 rounded-full bg-primary/25" />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
-                        <div className="w-5 h-5 rounded-full bg-foreground/15" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
+                        <div className="w-5 h-5 rounded-full bg-foreground/10 ring-1 ring-foreground/10" />
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
-                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
-                      <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                      <div className="w-5 h-5 rounded-full bg-primary/20 ring-1 ring-primary/30" />
+                    <div className="flex items-center gap-1.5">
+                      {[1, 2, 3].map((n, idx) => (
+                        <React.Fragment key={n}>
+                          <div className="w-6 h-6 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center text-[10px] font-semibold text-primary">
+                            {n}
+                          </div>
+                          {idx < 2 && <ArrowRight className="w-3 h-3 text-muted-foreground/70" />}
+                        </React.Fragment>
+                      ))}
                     </div>
                   )}
                 </div>
