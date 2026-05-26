@@ -4625,30 +4625,6 @@ function RecipientExperience({
                 />
               </div>
             </FieldLabel>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!delivery.allowDownload}
-                  onCheckedChange={(c) => setDelivery((d) => ({ ...d, allowDownload: c }))}
-                />
-                Allow downloads
-              </label>
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!automation.notifyOnOpen}
-                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnOpen: c }))}
-                />
-                Notify me when opened
-              </label>
-              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
-                <Switch
-                  checked={!!automation.notifyOnComplete}
-                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnComplete: c }))}
-                />
-                Notify me when completed
-              </label>
-            </div>
           </div>
         </CollapsibleContent>
       </Collapsible>
