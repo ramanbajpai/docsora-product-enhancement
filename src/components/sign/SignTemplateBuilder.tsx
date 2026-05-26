@@ -423,7 +423,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
 
   // Review
   const [filenamePattern, setFilenamePattern] = useState<string>(
-    editingTemplate?.filenamePattern ?? "{{COMPANY_NAME}} - {{TEMPLATE_NAME}} - Signed.pdf",
+    editingTemplate?.filenamePattern ?? "{{TEMPLATE_NAME}} - Signed.pdf",
   );
   const [previewMode, setPreviewMode] = useState<"sender" | "recipient" | "email" | "filename">("sender");
 
