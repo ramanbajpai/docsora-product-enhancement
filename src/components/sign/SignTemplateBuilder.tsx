@@ -860,7 +860,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   };
 
   return (
-    <div className="px-6 md:px-10 py-8 pb-32 max-w-6xl mx-auto">
+    <div className="px-6 md:px-10 py-8 pb-16 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-5">
