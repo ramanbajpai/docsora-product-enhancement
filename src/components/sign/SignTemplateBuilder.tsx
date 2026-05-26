@@ -2369,8 +2369,8 @@ function StepRolesFields({
 
   const titles: Record<"setup" | "place", { title: string; sub: string }> = {
     setup: {
-      title: "Participants",
-      sub: "Who is involved in this process — and what each person does.",
+      title: "Who's involved?",
+      sub: "Add the people involved in this process and choose what they need to do.",
     },
     place: {
       title: "Recipient fields",
