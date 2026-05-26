@@ -74,6 +74,8 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 interface SignTemplateBuilderProps {
   onBack: () => void;
   onSaved: () => void;
+  /** When provided, the builder opens in edit mode pre-populated with this template's data. */
+  editingTemplate?: SignTemplate;
 }
 
 type StepKey = "upload" | "configure" | "rolesfields" | "review";
