@@ -734,7 +734,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
     (r) => r.label.trim().length > 0 && r.label.length <= MAX_ROLE_NAME,
   );
   const stepValid: Record<StepKey, boolean> = {
-    upload: documents.length >= 1,
+    upload:
+      nameTrimmed.length > 0 &&
+      nameTrimmed.length <= 100 &&
+      nameIsUnique &&
+      documents.length >= 1,
     configure:
       nameTrimmed.length > 0 &&
       nameTrimmed.length <= 100 &&
@@ -750,7 +754,11 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
     const idx = STEPS.findIndex((s) => s.key === step);
     if (!stepValid[step]) {
       const m: Record<StepKey, string> = {
-        upload: "Add at least one file.",
+        upload: !nameTrimmed
+          ? "Name your template to continue."
+          : !nameIsUnique
+            ? "A template with this name already exists."
+            : "Add at least one document to continue.",
         configure: !nameTrimmed
           ? "Please enter a name for this template."
           : !nameIsUnique
