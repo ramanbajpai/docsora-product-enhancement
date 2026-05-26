@@ -4415,14 +4415,6 @@ function StepLaunchExperience({
                   addVariableWith={addVariableWith}
                   updateVariable={updateVariable}
                 />
-                <label className="inline-flex items-center gap-2 text-[11px] text-muted-foreground cursor-pointer select-none">
-                  <Switch
-                    checked={previewMode}
-                    onCheckedChange={setPreviewMode}
-                    disabled={variables.length === 0}
-                  />
-                  Preview with sample data
-                </label>
               </div>
             </div>
 
