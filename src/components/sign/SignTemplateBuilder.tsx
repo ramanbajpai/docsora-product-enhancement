@@ -478,7 +478,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   };
 
   /* ─────────── roles ─────────── */
-  const addRole = () => {
+  const addRole = (initialLabel?: string) => {
     if (roles.length >= MAX_ROLES) return;
     const idx = roles.length;
     const key = `role-${uid()}`;
@@ -487,7 +487,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       ...r,
       {
         key,
-        label: "",
+        label: initialLabel ?? "",
         color: nextRoleColor(r.map((x) => x.color)),
         signingOrder: idx + 1,
         type,
