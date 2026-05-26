@@ -3810,3 +3810,212 @@ function RecipientStep({
     </div>
   );
 }
+
+/* ──────────────────────────────────────────────────────────
+ * Visual highlight rendering for the Customize step
+ * ────────────────────────────────────────────────────────── */
+function renderDocLine(
+  line: string,
+  variables: SignTemplateVariable[],
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void,
+  removeVariable: (name: string) => void,
+) {
+  const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(line)) !== null) {
+    if (m.index > last) out.push(<span key={`t${i}`}>{line.slice(last, m.index)}</span>);
+    const token = m[1];
+    const v = variables.find((x) => x.name === token);
+    if (v) {
+      out.push(
+        <HighlightSpan
+          key={`h${i}`}
+          variable={v}
+          updateVariable={updateVariable}
+          removeVariable={removeVariable}
+        />,
+      );
+    } else {
+      out.push(
+        <span
+          key={`h${i}`}
+          className="px-1 rounded bg-muted/60 text-muted-foreground text-[12.5px]"
+        >
+          {token.replace(/_/g, " ").toLowerCase()}
+        </span>,
+      );
+    }
+    last = m.index + m[0].length;
+    i++;
+  }
+  if (last < line.length) out.push(<span key="rest">{line.slice(last)}</span>);
+  return out;
+}
+
+function HighlightSpan({
+  variable,
+  updateVariable,
+  removeVariable,
+}: {
+  variable: SignTemplateVariable;
+  updateVariable: (name: string, patch: Partial<SignTemplateVariable>) => void;
+  removeVariable: (name: string) => void;
+}) {
+  const meta = variableTypeMeta(variable.type);
+  const Icon = meta.icon;
+  const preview = variable.defaultValue || `[${variable.label}]`;
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="group relative inline-flex items-center gap-1 align-baseline px-1.5 mx-0.5 rounded-md border border-primary/30 bg-primary/10 text-foreground hover:bg-primary/15 hover:border-primary/50 transition-colors text-[13px] font-medium leading-snug"
+        >
+          <Icon className="w-3 h-3 text-primary opacity-80" />
+          <span>{preview}</span>
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-80 p-4 space-y-3">
+        <div>
+          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+            What changes here?
+          </div>
+          <div className="text-[13px] font-semibold mt-0.5">Describe this highlight</div>
+        </div>
+        <FieldLabel text="Name this">
+          <Input
+            value={variable.label}
+            onChange={(e) => updateVariable(variable.name, { label: e.target.value })}
+            placeholder="e.g. Client name"
+            className="h-9 bg-background/60 text-[13px]"
+          />
+        </FieldLabel>
+        <FieldLabel text="What kind of information is this?">
+          <Select
+            value={variable.type}
+            onValueChange={(t) => updateVariable(variable.name, { type: t as SignVariableType })}
+          >
+            <SelectTrigger className="h-9 bg-background/60 text-[13px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {HUMAN_TYPES.map((t) => {
+                const I = t.icon;
+                return (
+                  <SelectItem key={t.value} value={t.value}>
+                    <span className="inline-flex items-center gap-2">
+                      <I className="w-3.5 h-3.5" />
+                      {t.label}
+                    </span>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </FieldLabel>
+        <FieldLabel text="Example">
+          <Input
+            value={variable.defaultValue ?? ""}
+            onChange={(e) => updateVariable(variable.name, { defaultValue: e.target.value })}
+            placeholder="e.g. Acme Inc"
+            className="h-9 bg-background/60 text-[13px]"
+          />
+        </FieldLabel>
+        <div className="flex items-center justify-between pt-1">
+          <label className="inline-flex items-center gap-2 text-[12px] text-muted-foreground select-none cursor-pointer">
+            <Switch
+              checked={!!variable.required}
+              onCheckedChange={(c) => updateVariable(variable.name, { required: c })}
+            />
+            Always ask for this
+          </label>
+          <button
+            onClick={() => removeVariable(variable.name)}
+            className="text-[11.5px] text-muted-foreground hover:text-destructive inline-flex items-center gap-1"
+          >
+            <Trash2 className="w-3 h-3" /> Remove
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function AddHighlightInline({
+  addVariableWith,
+}: {
+  addVariableWith: (label: string, type?: SignVariableType, required?: boolean) => string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [label, setLabel] = useState("");
+  const [type, setType] = useState<SignVariableType>("text");
+
+  const submit = () => {
+    const l = label.trim();
+    if (!l) {
+      toast.error("Give this highlight a short name.");
+      return;
+    }
+    addVariableWith(l, type, true);
+    setLabel("");
+    setType("text");
+    setOpen(false);
+  };
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 text-[12px] text-primary hover:text-primary/80 font-medium"
+        >
+          <Plus className="w-3.5 h-3.5" /> Highlight something else
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-80 p-4 space-y-3">
+        <div>
+          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+            Add a highlight
+          </div>
+          <div className="text-[13px] font-semibold mt-0.5">What else changes here?</div>
+        </div>
+        <FieldLabel text="Name this">
+          <Input
+            autoFocus
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            placeholder="e.g. Project name"
+            className="h-9 bg-background/60 text-[13px]"
+          />
+        </FieldLabel>
+        <FieldLabel text="What kind of information is this?">
+          <Select value={type} onValueChange={(t) => setType(t as SignVariableType)}>
+            <SelectTrigger className="h-9 bg-background/60 text-[13px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {HUMAN_TYPES.map((t) => {
+                const I = t.icon;
+                return (
+                  <SelectItem key={t.value} value={t.value}>
+                    <span className="inline-flex items-center gap-2">
+                      <I className="w-3.5 h-3.5" />
+                      {t.label}
+                    </span>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </FieldLabel>
+        <div className="flex justify-end">
+          <Button size="sm" onClick={submit} className="h-9">Add highlight</Button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
