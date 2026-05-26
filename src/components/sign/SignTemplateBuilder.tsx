@@ -3358,21 +3358,11 @@ function StepLaunchExperience({
   const activeDoc = documents.find((d) => d.id === activeDocId) ?? documents[0];
   const activeBody = DOC_BODY_BY_TAG[activeDoc?.tag ?? "agreement"] ?? DOC_BODY_BY_TAG.agreement;
 
-  // Tokens referenced in the active document body
-  const docTokens = useMemo(() => {
-    const set = new Set<string>();
-    activeBody.paragraphs.forEach((p) => {
-      const re = /\{\{\s*([A-Z][A-Z0-9_]*)\s*\}\}/g;
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(p)) !== null) set.add(m[1]);
-    });
-    return set;
-  }, [activeBody]);
-
-  const activeDocVars = useMemo(
-    () => variables.filter((v) => docTokens.has(v.name)),
-    [variables, docTokens],
-  );
+  // A variable belongs to the active document if its example text appears in it.
+  const activeDocVars = useMemo(() => {
+    const joined = activeBody.paragraphs.join("\n");
+    return variables.filter((v) => v.defaultValue && joined.includes(v.defaultValue));
+  }, [variables, activeBody]);
 
   const sample = useMemo(() => {
     const obj: Record<string, string> = { TEMPLATE_NAME: name || "Template" };
@@ -3392,14 +3382,14 @@ function StepLaunchExperience({
       {/* Hero header */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> Auto-detected from your document
+          <Sparkles className="w-3 h-3" /> Customize before sending
         </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
-          Click anything that changes each time.
+          Select anything that changes each time.
         </h2>
         <p className="text-[13.5px] text-muted-foreground max-w-2xl">
-          We&rsquo;ve highlighted the parts of your document we think will change. Tap any
-          highlight to confirm what it is — like a name, date or amount.
+          Highlight text inside your document — like a name, date or amount — and mark it editable.
+          You&rsquo;ll fill it in each time you launch this template.
         </p>
       </div>
 
