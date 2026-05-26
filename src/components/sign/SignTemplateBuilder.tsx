@@ -79,11 +79,10 @@ interface SignTemplateBuilderProps {
   editingTemplate?: SignTemplate;
 }
 
-type StepKey = "upload" | "configure" | "rolesfields" | "review";
+type StepKey = "upload" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
-  { key: "configure", label: "Configure", sub: "Documents & delivery" },
   { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
   { key: "review", label: "Customize", sub: "What changes each time" },
 ];
@@ -360,7 +359,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       }))
     : [];
 
-  const [step, setStep] = useState<StepKey>(isEditing ? "configure" : "upload");
+  const [step, setStep] = useState<StepKey>("upload");
 
   // Files & meta
   const [documents, setDocuments] = useState<BuilderDoc[]>(initialDocuments);
@@ -738,11 +737,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       nameTrimmed.length > 0 &&
       nameTrimmed.length <= 100 &&
       nameIsUnique &&
-      documents.length >= 1,
-    configure:
-      nameTrimmed.length > 0 &&
-      nameTrimmed.length <= 100 &&
-      nameIsUnique &&
       documents.length >= 1 &&
       documents.every((d) => d.name.trim().length > 0 && d.name.length <= 100),
     rolesfields:
@@ -759,11 +753,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           : !nameIsUnique
             ? "A template with this name already exists."
             : "Add at least one document to continue.",
-        configure: !nameTrimmed
-          ? "Please enter a name for this template."
-          : !nameIsUnique
-            ? "A template with this name already exists. Please choose a different name."
-            : "Each document needs a name.",
         rolesfields:
           rolesHaveDuplicates
             ? "Two roles share the same name. Please make each role name unique."
@@ -864,8 +853,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
   const nextHint: Record<StepKey, string> = {
-    upload: "Next: documents & delivery",
-    configure: "Next: roles & signing fields",
+    upload: "Next: people & fields",
     rolesfields: "Next: customize before sending",
     review: "Save template",
   };
@@ -1002,23 +990,6 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
               setDescription={setDescription}
               filenamePattern={filenamePattern}
               setFilenamePattern={setFilenamePattern}
-            />
-          )}
-
-          {step === "configure" && (
-            <StepConfigure
-              name={name}
-              setName={setName}
-              nameIsUnique={nameIsUnique}
-              documents={documents}
-              updateDocument={updateDocument}
-              removeDocument={removeDocument}
-              moveDocument={moveDocument}
-              addDocuments={addDocuments}
-              signingMode={signingMode}
-              setSigningMode={setSigningMode}
-              variables={variables}
-              roles={roles}
             />
           )}
 
@@ -2253,8 +2224,11 @@ function StepRolesFields({
           addRole={addRole}
           updateRole={updateRole}
           removeRole={removeRole}
+          moveRole={moveRole}
           signSelf={signSelf}
           toggleSignSelf={toggleSignSelf}
+          signingMode={signingMode}
+          setSigningMode={setSigningMode}
           onNext={() => allRolesNamed && setSubStep("actions")}
           canContinue={allRolesNamed && roles.length > 0}
         />
@@ -2310,8 +2284,11 @@ function SubStepPeople({
   addRole,
   updateRole,
   removeRole,
+  moveRole,
   signSelf,
   toggleSignSelf,
+  signingMode,
+  setSigningMode,
   onNext,
   canContinue,
 }: {
@@ -2319,8 +2296,11 @@ function SubStepPeople({
   addRole: () => void;
   updateRole: (key: string, patch: Partial<SignTemplateRole>) => void;
   removeRole: (key: string) => void;
+  moveRole: (key: string, dir: -1 | 1) => void;
   signSelf: boolean;
   toggleSignSelf: (on: boolean) => void;
+  signingMode: "sequential" | "parallel";
+  setSigningMode: (m: "sequential" | "parallel") => void;
   onNext: () => void;
   canContinue: boolean;
 }) {
@@ -2351,6 +2331,26 @@ function SubStepPeople({
                   Use a role name, not a person's name — templates can be reused for anyone.
                 </p>
               </div>
+              {signingMode === "sequential" && !locked && (
+                <div className="flex flex-col items-center gap-0.5 shrink-0">
+                  <button
+                    onClick={() => moveRole(r.key, -1)}
+                    disabled={i === 0 || (i === 1 && isMyself(roles[0].key))}
+                    className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move up"
+                  >
+                    <ChevronDown className="w-3 h-3 rotate-180" />
+                  </button>
+                  <button
+                    onClick={() => moveRole(r.key, 1)}
+                    disabled={i === roles.length - 1}
+                    className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move down"
+                  >
+                    <ChevronDown className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
               {!locked && roles.length > 1 && (
                 <button
                   onClick={() => removeRole(r.key)}
@@ -2375,6 +2375,47 @@ function SubStepPeople({
           <span className="text-[11px] text-muted-foreground ml-1">
             Examples: {PERSON_PRESETS.join(" · ")}
           </span>
+        </div>
+      </div>
+
+      {/* Signing order */}
+      <div className="space-y-2">
+        <div className="px-1 text-[10.5px] uppercase tracking-[0.14em] font-semibold text-muted-foreground">
+          Signing order
+        </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          {([
+            { value: "parallel" as const, title: "Parallel", sub: "Everyone signs at the same time." },
+            { value: "sequential" as const, title: "Sequential", sub: "Recipients sign one after another, in the order above." },
+          ]).map((opt) => {
+            const active = signingMode === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setSigningMode(opt.value)}
+                className={cn(
+                  "text-left rounded-xl border p-3.5 transition-all",
+                  active
+                    ? "border-primary/50 bg-primary/5 shadow-[0_8px_24px_-14px_hsl(var(--primary)/0.45)]"
+                    : "border-border/50 bg-card/30 hover:bg-card/50 hover:border-border",
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] font-semibold">{opt.title}</span>
+                  <span
+                    className={cn(
+                      "w-4 h-4 rounded-full border flex items-center justify-center",
+                      active ? "border-primary bg-primary" : "border-border",
+                    )}
+                  >
+                    {active && <Check className="w-2.5 h-2.5 text-primary-foreground" />}
+                  </span>
+                </div>
+                <p className="text-[11.5px] text-muted-foreground mt-1 leading-snug">{opt.sub}</p>
+              </button>
+            );
+          })}
         </div>
       </div>
 
