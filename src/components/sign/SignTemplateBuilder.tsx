@@ -3459,7 +3459,7 @@ function StepLaunchExperience({
 
           <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
             <span className="inline-block w-2 h-2 rounded-full bg-primary/60" />
-            Each highlight becomes a quick question when you launch this template.
+            Tip: highlight any text in the document above to make it editable.
           </div>
         </div>
 
