@@ -78,9 +78,9 @@ type StepKey = "upload" | "configure" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Upload", sub: "Files" },
-  { key: "configure", label: "Configure", sub: "Variables & delivery" },
+  { key: "configure", label: "Configure", sub: "Documents & delivery" },
   { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
-  { key: "review", label: "Launch Experience", sub: "How it launches" },
+  { key: "review", label: "Customize", sub: "What changes each time" },
 ];
 
 const ROLE_COLORS = ["#3b82f6", "#a78bfa", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
@@ -701,9 +701,9 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
   const nextHint: Record<StepKey, string> = {
-    upload: "Next: configure variables & delivery",
+    upload: "Next: documents & delivery",
     configure: "Next: roles & signing fields",
-    rolesfields: "Next: launch experience",
+    rolesfields: "Next: customize before sending",
     review: "Save template",
   };
 
