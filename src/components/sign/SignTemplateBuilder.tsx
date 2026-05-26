@@ -1483,55 +1483,6 @@ function RolesFieldsSidebar({
 
   return (
     <div className="space-y-3 lg:sticky lg:top-4 h-fit">
-      {/* Sequential / Parallel pill */}
-      <div className="rounded-2xl border border-border/50 bg-card/30 p-1 grid grid-cols-2 gap-1">
-        {(["parallel", "sequential"] as const).map((m) => (
-          <button
-            key={m}
-            onClick={() => setSigningMode(m)}
-            className={cn(
-              "h-8 rounded-xl text-[11.5px] font-medium capitalize transition-colors",
-              signingMode === m
-                ? "bg-foreground text-background shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {m}
-          </button>
-        ))}
-      </div>
-
-      {/* Editing as */}
-      <div className="space-y-2">
-        <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-muted-foreground px-1">
-          Editing as
-        </div>
-        <div
-          className="rounded-2xl border bg-card/40 backdrop-blur px-3 py-2.5 flex items-center gap-2.5 shadow-[0_1px_0_0_hsl(var(--background))_inset]"
-          style={{ borderColor: `${activeRole?.color}55` }}
-        >
-          <span
-            className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[11px] font-semibold text-white shrink-0"
-            style={{ background: activeRole?.color }}
-          >
-            <Check className="w-3.5 h-3.5" />
-          </span>
-          <span className="text-[13px] font-medium truncate flex-1">
-            {activeRole?.label || "Untitled"}
-          </span>
-          <span
-            className="inline-flex items-center gap-1 px-1.5 h-5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
-            style={{
-              background: `${activeRole?.color}1a`,
-              color: activeRole?.color,
-            }}
-          >
-            <ActiveTypeIcon className="w-2.5 h-2.5" />
-            {activeMeta.label}
-          </span>
-        </div>
-      </div>
-
       {/* Fields required from */}
       <div className="space-y-2">
         <div className="flex items-center justify-between px-1">
