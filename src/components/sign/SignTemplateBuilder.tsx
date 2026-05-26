@@ -33,6 +33,7 @@ import {
   ChevronDown,
   Upload as UploadIcon,
 } from "lucide-react";
+import { Wand2, Settings2, Inbox, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -3346,7 +3347,6 @@ function StepLaunchExperience({
   signingMode: "sequential" | "parallel";
 }) {
   const [activeDocId, setActiveDocId] = useState<string>(documents[0]?.id ?? "");
-  const [openDetails, setOpenDetails] = useState(false);
   const [openLaunchPreview, setOpenLaunchPreview] = useState(false);
 
   useEffect(() => {
@@ -3561,79 +3561,23 @@ function StepLaunchExperience({
         </aside>
       </div>
 
-      {/* Collapsible: Saving + delivery details */}
-      <Collapsible open={openDetails} onOpenChange={setOpenDetails}>
-        <CollapsibleTrigger className="w-full group">
-          <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 px-5 py-3.5 hover:bg-card/50 transition-colors">
-            <div className="text-left">
-              <div className="text-[13px] font-semibold">Email, expiry & saving details</div>
-              <div className="text-[11.5px] text-muted-foreground">
-                Optional — adjust the email recipients see, expiry and how this template is saved.
-              </div>
-            </div>
-            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", openDetails && "rotate-180")} />
-          </div>
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pt-5 space-y-8">
-          <StepDelivery
-            delivery={delivery}
-            setDelivery={setDelivery}
-            automation={automation}
-            setAutomation={setAutomation}
-          />
-
-          <div className="border-t border-border/40" />
-
-          <section className="space-y-4">
-            <div>
-              <h3 className="text-[15px] font-semibold tracking-tight">Saving details</h3>
-              <p className="text-[12px] text-muted-foreground mt-0.5">
-                How this template appears in your library and the filename of signed PDFs.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FieldLabel text="Template name">
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Agency Client Agreement"
-                  className="h-10 bg-background/60"
-                />
-              </FieldLabel>
-              <FieldLabel text="Category">
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="h-10 bg-background/60">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FieldLabel>
-            </div>
-            <FieldLabel text="Description (optional)">
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="What this template is for, who uses it."
-                className="bg-background/60 text-[13px] min-h-[60px]"
-              />
-            </FieldLabel>
-            <FieldLabel text="Output filename">
-              <Input
-                value={filenamePattern}
-                onChange={(e) => setFilenamePattern(e.target.value)}
-                placeholder="Client - Agreement - Signed.pdf"
-                className="h-10 bg-background/60 font-mono text-[12.5px]"
-              />
-            </FieldLabel>
-          </section>
-        </CollapsibleContent>
-      </Collapsible>
+      {/* Recipient Experience */}
+      <RecipientExperience
+        name={name}
+        setName={setName}
+        description={description}
+        setDescription={setDescription}
+        category={category}
+        setCategory={setCategory}
+        filenamePattern={filenamePattern}
+        setFilenamePattern={setFilenamePattern}
+        variables={variables}
+        delivery={delivery}
+        setDelivery={setDelivery}
+        automation={automation}
+        setAutomation={setAutomation}
+        sample={sample}
+      />
 
     </div>
   );
@@ -4132,4 +4076,885 @@ function HighlightSpan({
   );
 }
 
+
+/* ──────────────────────────────────────────────────────────
+ * RecipientExperience — premium live email editor + preview.
+ * Replaces the old "Delivery & automation" form.
+ * ────────────────────────────────────────────────────────── */
+
+type Tone = "professional" | "friendly" | "minimal" | "luxury" | "corporate";
+
+const TONE_PRESETS: { value: Tone; label: string; hint: string }[] = [
+  { value: "professional", label: "Professional", hint: "Polished & clear" },
+  { value: "friendly", label: "Friendly", hint: "Warm & human" },
+  { value: "minimal", label: "Minimal", hint: "Short & direct" },
+  { value: "luxury", label: "Luxury", hint: "Considered & refined" },
+  { value: "corporate", label: "Corporate", hint: "Formal & structured" },
+];
+
+function pickVarToken(variables: SignTemplateVariable[], hints: string[]): string | null {
+  for (const h of hints) {
+    const v = variables.find((x) => x.label.toLowerCase().includes(h));
+    if (v) return `{{${v.name}}}`;
+  }
+  return null;
+}
+
+function generateAIEmail(
+  category: string,
+  tone: Tone,
+  templateName: string,
+  variables: SignTemplateVariable[],
+): { subject: string; message: string } {
+  const clientToken = pickVarToken(variables, ["client", "recipient", "name"]) ?? "{{CLIENT_NAME}}";
+  const companyToken = pickVarToken(variables, ["company", "business", "studio"]) ?? null;
+  const senderLine = companyToken ? `the team at ${companyToken}` : "the team";
+  const titleish = templateName || category;
+
+  const opener =
+    tone === "friendly"
+      ? `Hi ${clientToken},`
+      : tone === "minimal"
+      ? `${clientToken},`
+      : tone === "luxury"
+      ? `Dear ${clientToken},`
+      : tone === "corporate"
+      ? `Dear ${clientToken},`
+      : `Hello ${clientToken},`;
+
+  const closing =
+    tone === "friendly"
+      ? "Thanks so much,"
+      : tone === "minimal"
+      ? "Thanks,"
+      : tone === "luxury"
+      ? "With appreciation,"
+      : tone === "corporate"
+      ? "Best regards,"
+      : "Kind regards,";
+
+  const body: Record<string, string> = {
+    HR:
+      tone === "minimal"
+        ? `Your onboarding paperwork is ready. Please review and sign.`
+        : `Welcome aboard — we’re glad to have you with ${senderLine}. Below you’ll find your onboarding paperwork. It only takes a few minutes to review and sign.`,
+    Client:
+      tone === "minimal"
+        ? `Your agreement is ready. Please review and sign below.`
+        : `Thanks for choosing to work with ${senderLine}. Your ${titleish.toLowerCase()} is ready — please take a moment to review and sign below.`,
+    Legal:
+      tone === "minimal"
+        ? `Please review and sign the attached document.`
+        : `Please find the attached ${titleish.toLowerCase()} for your review. Once you’ve had a chance to read through it, please sign at your convenience.`,
+    Sales:
+      tone === "minimal"
+        ? `Your proposal is ready. Please review and sign.`
+        : `Excited to move forward with you. Your ${titleish.toLowerCase()} is ready below — review and sign whenever you’re ready.`,
+    Other:
+      tone === "minimal"
+        ? `Please review and sign below.`
+        : `Please take a moment to review and sign the document below. Let us know if you have any questions.`,
+  };
+
+  const message = `${opener}\n\n${body[category] ?? body.Other}\n\n${closing}`;
+  const subjectBase =
+    category === "HR"
+      ? "Your onboarding documents"
+      : category === "Sales"
+      ? "Your proposal is ready to sign"
+      : category === "Legal"
+      ? "Please review and sign"
+      : `Please sign: ${titleish}`;
+
+  return { subject: subjectBase, message };
+}
+
+/** Render text with {{TOKEN}} placeholders replaced by styled inline pills. */
+function renderEmailWithPills(
+  text: string,
+  variables: SignTemplateVariable[],
+): React.ReactNode[] {
+  if (!text) return [];
+  const parts: React.ReactNode[] = [];
+  const re = /\{\{([A-Z0-9_]+)\}\}/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(<span key={`t${i++}`}>{text.slice(last, m.index)}</span>);
+    const v = variables.find((x) => x.name === m![1]);
+    const label = v?.label ?? m[1].replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+    parts.push(
+      <span
+        key={`p${i++}`}
+        className="inline-flex items-center align-baseline rounded-md bg-primary/10 text-primary px-1.5 py-0.5 text-[12.5px] font-medium mx-[1px]"
+      >
+        {label}
+      </span>,
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(<span key={`t${i++}`}>{text.slice(last)}</span>);
+  return parts;
+}
+
+function InsertTokenButton({
+  variables,
+  onInsert,
+  label = "Insert detail",
+}: {
+  variables: SignTemplateVariable[];
+  onInsert: (token: string) => void;
+  label?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full border border-border/60 bg-background/60 text-[11.5px] font-medium text-foreground/80 hover:bg-background hover:border-border transition-colors"
+        >
+          <Plus className="w-3 h-3" /> {label}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-64 p-1.5">
+        <div className="px-2 py-1.5 text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+          Personalize with
+        </div>
+        {variables.length === 0 ? (
+          <div className="px-2 py-3 text-[12px] text-muted-foreground">
+            Highlight something in your document first to make it personalizable.
+          </div>
+        ) : (
+          <div className="max-h-64 overflow-y-auto">
+            {variables.map((v) => {
+              const meta = variableTypeMeta(v.type);
+              const Icon = meta.icon;
+              return (
+                <button
+                  key={v.name}
+                  onClick={() => {
+                    onInsert(`{{${v.name}}}`);
+                    setOpen(false);
+                  }}
+                  className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-left text-[12.5px] hover:bg-muted/60"
+                >
+                  <Icon className="w-3.5 h-3.5 text-primary" />
+                  <span className="flex-1 truncate">{v.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function RecipientExperience({
+  name,
+  setName,
+  description,
+  setDescription,
+  category,
+  setCategory,
+  filenamePattern,
+  setFilenamePattern,
+  variables,
+  delivery,
+  setDelivery,
+  automation,
+  setAutomation,
+  sample,
+}: {
+  name: string;
+  setName: (s: string) => void;
+  description: string;
+  setDescription: (s: string) => void;
+  category: string;
+  setCategory: (s: string) => void;
+  filenamePattern: string;
+  setFilenamePattern: (s: string) => void;
+  variables: SignTemplateVariable[];
+  delivery: SignTemplateDelivery;
+  setDelivery: React.Dispatch<React.SetStateAction<SignTemplateDelivery>>;
+  automation: SignTemplateAutomation;
+  setAutomation: React.Dispatch<React.SetStateAction<SignTemplateAutomation>>;
+  sample: Record<string, string>;
+}) {
+  const [tone, setTone] = useState<Tone>("professional");
+  const [editing, setEditing] = useState<"subject" | "body" | null>(null);
+  const [openRecipient, setOpenRecipient] = useState(false);
+  const [openAdvanced, setOpenAdvanced] = useState(false);
+  const [openSaving, setOpenSaving] = useState(false);
+  const [ccInput, setCcInput] = useState("");
+
+  const subjectRef = useRef<HTMLInputElement | null>(null);
+  const bodyRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Seed with AI-generated copy if both subject and body are empty
+  useEffect(() => {
+    if (!delivery.emailSubject && !delivery.emailMessage) {
+      const ai = generateAIEmail(category, tone, name, variables);
+      setDelivery((d) => ({ ...d, emailSubject: ai.subject, emailMessage: ai.message }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const regenerate = (nextTone?: Tone) => {
+    const t = nextTone ?? tone;
+    const ai = generateAIEmail(category, t, name, variables);
+    setDelivery((d) => ({ ...d, emailSubject: ai.subject, emailMessage: ai.message }));
+  };
+
+  const insertAtCaret = (
+    target: "subject" | "body",
+    token: string,
+  ) => {
+    if (target === "subject") {
+      const el = subjectRef.current;
+      const current = delivery.emailSubject ?? "";
+      const start = el?.selectionStart ?? current.length;
+      const end = el?.selectionEnd ?? current.length;
+      const next = current.slice(0, start) + token + current.slice(end);
+      setDelivery((d) => ({ ...d, emailSubject: next }));
+      requestAnimationFrame(() => {
+        el?.focus();
+        const pos = start + token.length;
+        el?.setSelectionRange(pos, pos);
+      });
+    } else {
+      const el = bodyRef.current;
+      const current = delivery.emailMessage ?? "";
+      const start = el?.selectionStart ?? current.length;
+      const end = el?.selectionEnd ?? current.length;
+      const next = current.slice(0, start) + token + current.slice(end);
+      setDelivery((d) => ({ ...d, emailMessage: next }));
+      requestAnimationFrame(() => {
+        el?.focus();
+        const pos = start + token.length;
+        el?.setSelectionRange(pos, pos);
+      });
+    }
+  };
+
+  const senderName = delivery.senderName || "You";
+  const subject = delivery.emailSubject ?? "";
+  const body = delivery.emailMessage ?? "";
+
+  return (
+    <section className="space-y-5">
+      <div className="flex items-end justify-between gap-3 flex-wrap">
+        <div>
+          <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+            Recipient Experience
+          </div>
+          <h3 className="text-[20px] font-semibold tracking-tight mt-1">
+            What recipients receive
+          </h3>
+          <p className="text-[12.5px] text-muted-foreground mt-0.5 max-w-xl">
+            Edit the email your client sees. Personalized details appear as soft pills — no syntax to learn.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => regenerate()}
+            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl border border-border/60 bg-background/60 text-[12.5px] font-medium hover:bg-background transition-colors"
+          >
+            <Wand2 className="w-3.5 h-3.5 text-primary" /> Regenerate
+          </button>
+          <button
+            onClick={() => setOpenRecipient(true)}
+            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl bg-primary text-primary-foreground text-[12.5px] font-medium hover:opacity-90 transition-opacity"
+          >
+            <Eye className="w-3.5 h-3.5" /> Preview recipient experience
+          </button>
+        </div>
+      </div>
+
+      {/* Tone presets */}
+      <div className="flex items-center gap-1.5 flex-wrap">
+        <span className="text-[11px] text-muted-foreground mr-1">Tone</span>
+        {TONE_PRESETS.map((t) => {
+          const active = tone === t.value;
+          return (
+            <button
+              key={t.value}
+              onClick={() => {
+                setTone(t.value);
+                regenerate(t.value);
+              }}
+              title={t.hint}
+              className={cn(
+                "h-7 px-3 rounded-full text-[11.5px] font-medium border transition-colors",
+                active
+                  ? "bg-foreground text-background border-foreground"
+                  : "bg-background/60 text-foreground/80 border-border/60 hover:bg-background",
+              )}
+            >
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Split: editor left, live preview right */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* EDITOR */}
+        <div className="rounded-3xl border border-border/50 bg-card/30 p-5 space-y-4">
+          <div className="flex items-center gap-2">
+            <PenLine className="w-3.5 h-3.5 text-primary" />
+            <div className="text-[11.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Compose
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] text-muted-foreground">Subject</label>
+              <InsertTokenButton
+                variables={variables}
+                onInsert={(t) => insertAtCaret("subject", t)}
+                label="Add detail"
+              />
+            </div>
+            {editing === "subject" ? (
+              <Input
+                ref={subjectRef}
+                autoFocus
+                value={subject}
+                onChange={(e) => setDelivery((d) => ({ ...d, emailSubject: e.target.value }))}
+                onBlur={() => setEditing(null)}
+                placeholder="Please review your agreement"
+                className="h-10 bg-background/60 text-[14px] font-medium"
+              />
+            ) : (
+              <button
+                onClick={() => setEditing("subject")}
+                className="w-full text-left rounded-lg border border-transparent hover:border-border/60 hover:bg-background/40 px-3 py-2 text-[14px] font-medium leading-relaxed transition-colors"
+              >
+                {subject ? (
+                  <span className="flex flex-wrap items-center gap-y-1">
+                    {renderEmailWithPills(subject, variables)}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground italic">Click to write a subject…</span>
+                )}
+              </button>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] text-muted-foreground">Message</label>
+              <InsertTokenButton
+                variables={variables}
+                onInsert={(t) => insertAtCaret("body", t)}
+                label="Add detail"
+              />
+            </div>
+            {editing === "body" ? (
+              <Textarea
+                ref={bodyRef}
+                autoFocus
+                value={body}
+                onChange={(e) => setDelivery((d) => ({ ...d, emailMessage: e.target.value }))}
+                onBlur={() => setEditing(null)}
+                placeholder="Write a short, warm note to your recipient…"
+                className="bg-background/60 text-[13.5px] min-h-[180px] leading-relaxed"
+              />
+            ) : (
+              <button
+                onClick={() => setEditing("body")}
+                className="w-full text-left rounded-lg border border-transparent hover:border-border/60 hover:bg-background/40 px-3 py-3 text-[13.5px] leading-relaxed min-h-[180px] whitespace-pre-wrap transition-colors"
+              >
+                {body ? (
+                  <span className="block">{renderEmailWithPills(body, variables)}</span>
+                ) : (
+                  <span className="text-muted-foreground italic">Click to write your message…</span>
+                )}
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div className="space-y-1.5">
+              <label className="text-[11px] text-muted-foreground">From</label>
+              <Input
+                value={delivery.senderName ?? ""}
+                onChange={(e) => setDelivery((d) => ({ ...d, senderName: e.target.value }))}
+                placeholder="Acme Studio"
+                className="h-9 bg-background/60 text-[13px]"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-[11px] text-muted-foreground">Button label</label>
+              <Input
+                value={(delivery as any).buttonLabel ?? "Review document"}
+                onChange={(e) =>
+                  setDelivery((d) => ({ ...(d as any), buttonLabel: e.target.value }))
+                }
+                placeholder="Review document"
+                className="h-9 bg-background/60 text-[13px]"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* LIVE EMAIL PREVIEW */}
+        <div className="rounded-3xl border border-border/50 bg-gradient-to-b from-muted/30 to-muted/10 p-5">
+          <EmailPreviewCard
+            senderName={senderName}
+            subject={subject}
+            body={body}
+            variables={variables}
+            buttonLabel={(delivery as any).buttonLabel ?? "Review document"}
+            sample={sample}
+          />
+        </div>
+      </div>
+
+      {/* Advanced settings */}
+      <Collapsible open={openAdvanced} onOpenChange={setOpenAdvanced}>
+        <CollapsibleTrigger className="w-full group">
+          <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 px-5 py-3.5 hover:bg-card/50 transition-colors">
+            <div className="text-left flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center">
+                <Settings2 className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div>
+                <div className="text-[13px] font-semibold">Advanced settings</div>
+                <div className="text-[11.5px] text-muted-foreground">
+                  Expiry, reminders, CC, redirect & permissions
+                </div>
+              </div>
+            </div>
+            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", openAdvanced && "rotate-180")} />
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-4 space-y-4">
+          <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <FieldLabel text="Expires after">
+                <div className="relative">
+                  <Input
+                    type="number"
+                    min={1}
+                    max={365}
+                    value={delivery.expiryDays ?? 14}
+                    onChange={(e) =>
+                      setDelivery((d) => ({ ...d, expiryDays: Number(e.target.value) || 1 }))
+                    }
+                    className="h-9 bg-background/60 text-[13px] pr-12"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground">
+                    days
+                  </span>
+                </div>
+              </FieldLabel>
+              <FieldLabel text="Reminder every">
+                <div className="relative">
+                  <Input
+                    type="number"
+                    min={0}
+                    value={automation.remindEveryDays ?? 0}
+                    onChange={(e) =>
+                      setAutomation((a) => ({ ...a, remindEveryDays: Number(e.target.value) || 0 }))
+                    }
+                    className="h-9 bg-background/60 text-[13px] pr-12"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground">
+                    days
+                  </span>
+                </div>
+              </FieldLabel>
+              <FieldLabel text="Redirect after signing">
+                <Input
+                  value={delivery.redirectUrl ?? ""}
+                  onChange={(e) => setDelivery((d) => ({ ...d, redirectUrl: e.target.value }))}
+                  placeholder="https://acme.com/thanks"
+                  className="h-9 bg-background/60 text-[13px]"
+                />
+              </FieldLabel>
+            </div>
+
+            <FieldLabel text="CC recipients">
+              <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-2 py-1.5 min-h-[36px]">
+                {(delivery.ccEmails ?? []).map((email) => (
+                  <span
+                    key={email}
+                    className="inline-flex items-center gap-1 h-6 pl-2 pr-1 rounded-full bg-primary/10 text-primary text-[11px] font-medium"
+                  >
+                    {email}
+                    <button
+                      onClick={() =>
+                        setDelivery((d) => ({
+                          ...d,
+                          ccEmails: (d.ccEmails ?? []).filter((e) => e !== email),
+                        }))
+                      }
+                      className="p-0.5 rounded hover:bg-primary/20"
+                    >
+                      <X className="w-2.5 h-2.5" />
+                    </button>
+                  </span>
+                ))}
+                <input
+                  value={ccInput}
+                  onChange={(e) => setCcInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === ",") && ccInput.trim()) {
+                      e.preventDefault();
+                      const email = ccInput.trim().replace(/,$/, "");
+                      if (/.+@.+\..+/.test(email)) {
+                        setDelivery((d) => ({
+                          ...d,
+                          ccEmails: Array.from(new Set([...(d.ccEmails ?? []), email])),
+                        }));
+                        setCcInput("");
+                      } else {
+                        toast.error("Enter a valid email address.");
+                      }
+                    }
+                  }}
+                  placeholder={
+                    (delivery.ccEmails ?? []).length === 0 ? "name@company.com" : ""
+                  }
+                  className="flex-1 min-w-[140px] bg-transparent outline-none text-[12.5px] py-1"
+                />
+              </div>
+            </FieldLabel>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
+              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
+                <Switch
+                  checked={!!delivery.allowDownload}
+                  onCheckedChange={(c) => setDelivery((d) => ({ ...d, allowDownload: c }))}
+                />
+                Allow downloads
+              </label>
+              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
+                <Switch
+                  checked={!!automation.notifyOnOpen}
+                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnOpen: c }))}
+                />
+                Notify me when opened
+              </label>
+              <label className="inline-flex items-center gap-2 text-[12px] text-foreground/80 cursor-pointer">
+                <Switch
+                  checked={!!automation.notifyOnComplete}
+                  onCheckedChange={(c) => setAutomation((a) => ({ ...a, notifyOnComplete: c }))}
+                />
+                Notify me when completed
+              </label>
+            </div>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* Saving details */}
+      <Collapsible open={openSaving} onOpenChange={setOpenSaving}>
+        <CollapsibleTrigger className="w-full group">
+          <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 px-5 py-3.5 hover:bg-card/50 transition-colors">
+            <div className="text-left flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-muted/60 flex items-center justify-center">
+                <FileText className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div>
+                <div className="text-[13px] font-semibold">Template details</div>
+                <div className="text-[11.5px] text-muted-foreground">
+                  Name, category and how signed files are saved
+                </div>
+              </div>
+            </div>
+            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", openSaving && "rotate-180")} />
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-4 space-y-4">
+          <div className="rounded-2xl border border-border/50 bg-card/30 p-5 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FieldLabel text="Template name">
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Agency Client Agreement"
+                  className="h-10 bg-background/60"
+                />
+              </FieldLabel>
+              <FieldLabel text="Category">
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger className="h-10 bg-background/60">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORIES.map((c) => (
+                      <SelectItem key={c} value={c}>
+                        {c}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldLabel>
+            </div>
+            <FieldLabel text="Description (optional)">
+              <Textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="What this template is for, who uses it."
+                className="bg-background/60 text-[13px] min-h-[60px]"
+              />
+            </FieldLabel>
+            <FieldLabel text="Output filename">
+              <Input
+                value={filenamePattern}
+                onChange={(e) => setFilenamePattern(e.target.value)}
+                placeholder="Client - Agreement - Signed.pdf"
+                className="h-10 bg-background/60 font-mono text-[12.5px]"
+              />
+            </FieldLabel>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* Recipient preview overlay */}
+      <AnimatePresence>
+        {openRecipient && (
+          <RecipientPreviewModal
+            onClose={() => setOpenRecipient(false)}
+            senderName={senderName}
+            subject={subject}
+            body={body}
+            buttonLabel={(delivery as any).buttonLabel ?? "Review document"}
+            variables={variables}
+            sample={sample}
+          />
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
+function EmailPreviewCard({
+  senderName,
+  subject,
+  body,
+  buttonLabel,
+  variables,
+  sample,
+  compact,
+}: {
+  senderName: string;
+  subject: string;
+  body: string;
+  buttonLabel: string;
+  variables: SignTemplateVariable[];
+  sample: Record<string, string>;
+  compact?: boolean;
+}) {
+  const initials = (senderName || "Y")
+    .split(/\s+/)
+    .map((s) => s[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  return (
+    <div
+      className={cn(
+        "rounded-2xl bg-background border border-border/40 overflow-hidden",
+        "shadow-[0_30px_80px_-20px_hsl(var(--foreground)/0.12)]",
+      )}
+    >
+      {/* Mail toolbar */}
+      <div className="px-4 py-2.5 border-b border-border/40 bg-muted/30 flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+        </div>
+        <div className="flex-1 text-center text-[10.5px] text-muted-foreground">Inbox</div>
+        <Inbox className="w-3.5 h-3.5 text-muted-foreground" />
+      </div>
+
+      {/* Header */}
+      <div className="px-5 pt-5 pb-3 flex items-center gap-3">
+        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 text-primary flex items-center justify-center text-[12px] font-semibold">
+          {initials}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-[13px] font-semibold truncate">{senderName || "You"}</div>
+          <div className="text-[11px] text-muted-foreground truncate">
+            via Docsora · just now
+          </div>
+        </div>
+      </div>
+
+      {/* Subject */}
+      <div className="px-5">
+        <div className="text-[16px] font-semibold tracking-tight leading-snug">
+          {subject ? (
+            <span className="flex flex-wrap items-center gap-y-1">
+              {renderEmailWithPills(subject, variables)}
+            </span>
+          ) : (
+            <span className="text-muted-foreground italic">Your subject preview</span>
+          )}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-5 py-4 text-[13.5px] leading-relaxed text-foreground/90 whitespace-pre-wrap">
+        {body ? (
+          <span>{renderEmailWithPills(body, variables)}</span>
+        ) : (
+          <span className="text-muted-foreground italic">Your message preview</span>
+        )}
+      </div>
+
+      {/* CTA */}
+      <div className="px-5 pb-5">
+        <div className="inline-flex items-center gap-2 h-10 px-5 rounded-xl bg-foreground text-background text-[13px] font-semibold">
+          <PenLine className="w-3.5 h-3.5" /> {buttonLabel}
+        </div>
+      </div>
+
+      {!compact && (
+        <div className="px-5 pb-5 text-[10.5px] text-muted-foreground">
+          Secured by Docsora · This email was sent to you because you’ve been invited to sign a document.
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RecipientPreviewModal({
+  onClose,
+  senderName,
+  subject,
+  body,
+  buttonLabel,
+  variables,
+  sample,
+}: {
+  onClose: () => void;
+  senderName: string;
+  subject: string;
+  body: string;
+  buttonLabel: string;
+  variables: SignTemplateVariable[];
+  sample: Record<string, string>;
+}) {
+  const [stage, setStage] = useState<"email" | "portal" | "sign" | "done">("email");
+  const stages: { key: typeof stage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { key: "email", label: "Email", icon: Mail },
+    { key: "portal", label: "Portal", icon: Eye },
+    { key: "sign", label: "Sign", icon: PenLine },
+    { key: "done", label: "Done", icon: Check },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.96, y: 10, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.96, y: 10, opacity: 0 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-3xl max-h-[88vh] overflow-hidden rounded-3xl border border-border/60 bg-card shadow-[0_50px_120px_-20px_hsl(var(--foreground)/0.25)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="px-6 py-4 border-b border-border/40 flex items-center justify-between">
+          <div>
+            <div className="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+              Recipient preview
+            </div>
+            <div className="text-[15px] font-semibold tracking-tight">What your client will see</div>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-lg hover:bg-muted/60 flex items-center justify-center text-muted-foreground"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="px-6 py-3 border-b border-border/40 flex items-center gap-1.5 overflow-x-auto">
+          {stages.map((s, i) => {
+            const active = s.key === stage;
+            const Icon = s.icon;
+            return (
+              <button
+                key={s.key}
+                onClick={() => setStage(s.key)}
+                className={cn(
+                  "inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[11.5px] font-medium border transition-colors shrink-0",
+                  active
+                    ? "bg-foreground text-background border-foreground"
+                    : "bg-background/60 border-border/60 text-foreground/70 hover:bg-background",
+                )}
+              >
+                <span className="text-[10px] opacity-60">{i + 1}</span>
+                <Icon className="w-3 h-3" /> {s.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="p-6 overflow-y-auto max-h-[calc(88vh-130px)] bg-muted/20">
+          {stage === "email" && (
+            <EmailPreviewCard
+              senderName={senderName}
+              subject={subject}
+              body={body}
+              buttonLabel={buttonLabel}
+              variables={variables}
+              sample={sample}
+            />
+          )}
+          {stage === "portal" && (
+            <div className="rounded-2xl bg-background border border-border/40 p-8 text-center space-y-3 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto">
+                <Eye className="w-5 h-5" />
+              </div>
+              <div className="text-[16px] font-semibold tracking-tight">Welcome to your signing portal</div>
+              <p className="text-[12.5px] text-muted-foreground max-w-md mx-auto">
+                A focused, distraction-free workspace with your documents, progress and signing steps clearly laid out.
+              </p>
+            </div>
+          )}
+          {stage === "sign" && (
+            <div className="rounded-2xl bg-background border border-border/40 p-8 text-center space-y-3 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto">
+                <PenLine className="w-5 h-5" />
+              </div>
+              <div className="text-[16px] font-semibold tracking-tight">Sign with confidence</div>
+              <p className="text-[12.5px] text-muted-foreground max-w-md mx-auto">
+                Guided field-by-field signing. Identity verification, audit trail and a clear signed copy.
+              </p>
+            </div>
+          )}
+          {stage === "done" && (
+            <div className="rounded-2xl bg-background border border-border/40 p-8 text-center space-y-3 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto">
+                <Check className="w-5 h-5" />
+              </div>
+              <div className="text-[16px] font-semibold tracking-tight">Confirmation & receipt</div>
+              <p className="text-[12.5px] text-muted-foreground max-w-md mx-auto">
+                A clean confirmation screen and an email receipt with a signed PDF copy.
+              </p>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
