@@ -4941,7 +4941,7 @@ function TemplateDetailsBlock({
   );
 }
 
-function EmailPreviewCard2_REMOVED({
+function EmailPreviewCard({
   senderName,
   subject,
   body,
