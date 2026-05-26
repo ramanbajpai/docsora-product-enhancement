@@ -1094,7 +1094,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
           </div>
         </div>
 
-        {step === "review" ? (
+        {step === "automation" ? (
           <Button
             onClick={handleSave}
             disabled={!canSave}
