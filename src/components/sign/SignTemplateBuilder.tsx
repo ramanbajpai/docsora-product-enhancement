@@ -1467,30 +1467,45 @@ function DownloadNameBuilder({
   filenamePattern: string;
   setFilenamePattern: (s: string) => void;
 }) {
+  const isMulti = documents.length > 1;
+
   // Parse current pattern → simple chip state
   const hasDate = /\{\{\s*DATE\s*\}\}/.test(filenamePattern);
   const hasCompany = /\{\{\s*COMPANY_NAME\s*\}\}/.test(filenamePattern);
-  const isMulti = documents.length > 1;
 
-  const buildPattern = (opts: { date: boolean; company: boolean }) => {
+  // Ensure {{DOCUMENT_NAME}} stays in the pattern when multiple docs are uploaded
+  // (each file gets its own name appended). Drop it when only one doc is left.
+  useEffect(() => {
+    const hasDoc = /\{\{\s*DOCUMENT_NAME\s*\}\}/.test(filenamePattern);
+    if (isMulti && !hasDoc) {
+      setFilenamePattern(buildPattern({ date: hasDate, company: hasCompany, multi: true }));
+    } else if (!isMulti && hasDoc) {
+      setFilenamePattern(buildPattern({ date: hasDate, company: hasCompany, multi: false }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMulti]);
+
+  function buildPattern(opts: { date: boolean; company: boolean; multi: boolean }) {
     const parts: string[] = ["{{TEMPLATE_NAME}}"];
+    if (opts.multi) parts.push("{{DOCUMENT_NAME}}");
     if (opts.company) parts.push("{{COMPANY_NAME}}");
     if (opts.date) parts.push("{{DATE}}");
-    const suffix = isMulti ? "Completed Package.pdf" : "Signed.pdf";
-    return `${parts.join(" - ")} - ${suffix}`;
-  };
+    return `${parts.join(" - ")} - Signed.pdf`;
+  }
 
   const toggle = (key: "date" | "company") => {
     setFilenamePattern(
       buildPattern({
         date: key === "date" ? !hasDate : hasDate,
         company: key === "company" ? !hasCompany : hasCompany,
+        multi: isMulti,
       }),
     );
   };
 
   const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-  const previewName = (() => {
+
+  const renderName = (docDisplayName?: string) => {
     const parts = parseFilenamePattern(filenamePattern);
     return parts
       .map((p) => {
@@ -1498,10 +1513,17 @@ function DownloadNameBuilder({
         if (p.value === "TEMPLATE_NAME") return name.trim() || "Employee Onboarding Agreement";
         if (p.value === "DATE") return today;
         if (p.value === "COMPANY_NAME") return "Acme Studio";
+        if (p.value === "DOCUMENT_NAME") return docDisplayName ?? "Document";
         return `[${p.value.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}]`;
       })
       .join("");
-  })();
+  };
+
+  const stripExt = (n: string) => n.replace(/\.(pdf|docx?|odt)$/i, "");
+  const previewDocs = isMulti
+    ? documents.slice(0, 2).map((d) => stripExt(d.name))
+    : [stripExt(documents[0]?.name || "")];
+  const remaining = isMulti ? Math.max(0, documents.length - 2) : 0;
 
   const [advanced, setAdvanced] = useState(false);
 
@@ -1522,23 +1544,40 @@ function DownloadNameBuilder({
 
       {/* Hero preview */}
       <motion.div
-        key={previewName}
+        key={filenamePattern + (documents[0]?.id ?? "")}
         initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-center gap-4 rounded-2xl border border-border/50 bg-gradient-to-b from-background/80 to-background/40 px-5 py-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_18px_44px_-24px_hsl(var(--foreground)/0.25)]"
+        className="rounded-2xl border border-border/50 bg-gradient-to-b from-background/80 to-background/40 px-5 py-5 shadow-[0_1px_0_0_hsl(var(--foreground)/0.04),0_18px_44px_-24px_hsl(var(--foreground)/0.25)]"
       >
-        <div className="w-12 h-14 rounded-lg bg-gradient-to-b from-background to-muted/60 border border-border/60 shrink-0 flex flex-col items-center justify-center shadow-inner">
-          <FileText className="w-5 h-5 text-primary/80" />
-          <span className="text-[8px] font-semibold text-muted-foreground mt-1">PDF</span>
+        <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold mb-3">
+          {isMulti ? `Recipients will download ${documents.length} files` : "Recipients will download"}
         </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold">
-            Recipients will download
-          </div>
-          <div className="text-[15px] font-semibold tracking-tight text-foreground truncate mt-1">
-            {previewName}
-          </div>
+        <div className="space-y-2">
+          {previewDocs.map((docName, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="flex items-center gap-3"
+            >
+              <div className="w-10 h-12 rounded-lg bg-gradient-to-b from-background to-muted/60 border border-border/60 shrink-0 flex flex-col items-center justify-center shadow-inner">
+                <FileText className="w-4 h-4 text-primary/80" />
+                <span className="text-[7.5px] font-semibold text-muted-foreground mt-0.5">PDF</span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[14px] font-semibold tracking-tight text-foreground truncate">
+                  {renderName(docName)}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+          {remaining > 0 && (
+            <div className="pl-[52px] text-[11.5px] text-muted-foreground">
+              + {remaining} more file{remaining === 1 ? "" : "s"} named the same way
+            </div>
+          )}
         </div>
       </motion.div>
 
