@@ -4279,9 +4279,6 @@ function StepLaunchExperience({
       <>
       {/* Hero header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> AI-assisted setup
-        </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
           What changes each time?
         </h2>
@@ -4328,75 +4325,6 @@ function StepLaunchExperience({
           })}
         </div>
       )}
-
-      {/* AI suggestion banner */}
-      <AnimatePresence>
-        {showSuggestions && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25 }}
-            className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-5"
-          >
-            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/15 blur-3xl pointer-events-none" />
-            <div className="relative flex items-start gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-[13.5px] font-semibold tracking-tight">
-                  Docsora found {detected.length} reusable {detected.length === 1 ? "value" : "values"} in this document
-                </div>
-                <div className="text-[12px] text-muted-foreground mt-0.5">
-                  Accept what looks right, or click any text below to add your own.
-                </div>
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {detected.map((d, i) => {
-                    const Icon = variableTypeMeta(d.type).icon;
-                    return (
-                      <motion.span
-                        key={d.value + i}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.05 }}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/80 border border-primary/20 text-[11.5px]"
-                      >
-                        <Icon className="w-3 h-3 text-primary" />
-                        <span className="font-medium">{d.value}</span>
-                        <span className="text-muted-foreground">· {d.label}</span>
-                      </motion.span>
-                    );
-                  })}
-                </div>
-                <div className="flex items-center gap-2 mt-4">
-                  <button
-                    onClick={acceptAllSuggestions}
-                    disabled={scanning}
-                    className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-lg bg-primary text-primary-foreground text-[12px] font-medium hover:bg-primary/90 transition disabled:opacity-60"
-                  >
-                    <Sparkles className={cn("w-3.5 h-3.5", scanning && "animate-pulse")} />
-                    {scanning ? "Adding…" : "Accept all"}
-                  </button>
-                  <button
-                    onClick={() => setSuggestionsDismissed(true)}
-                    className="inline-flex items-center h-8 px-3 rounded-lg text-[12px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/40 transition"
-                  >
-                    Review manually
-                  </button>
-                </div>
-              </div>
-              <button
-                onClick={() => setSuggestionsDismissed(true)}
-                className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 shrink-0"
-                aria-label="Dismiss"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Main split: document viewer + What changes summary */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,300px] gap-6">
