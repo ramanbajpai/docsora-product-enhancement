@@ -83,7 +83,6 @@ type StepKey = "upload" | "configure" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
-  { key: "configure", label: "Configure", sub: "Documents & delivery" },
   { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
   { key: "review", label: "Customize", sub: "What changes each time" },
 ];
