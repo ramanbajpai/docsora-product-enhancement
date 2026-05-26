@@ -4176,17 +4176,19 @@ function StepLaunchExperience({
 
   return (
     <div className="space-y-8">
+      {section === "customize" && (
+      <>
       {/* Hero header */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10.5px] font-medium">
-          <Sparkles className="w-3 h-3" /> Customize before sending
+          <Sparkles className="w-3 h-3" /> Customize Document
         </div>
         <h2 className="text-[28px] md:text-[34px] leading-[1.05] font-semibold tracking-tight">
-          Select anything that changes each time.
+          Choose what changes each time this process is launched.
         </h2>
         <p className="text-[13.5px] text-muted-foreground max-w-2xl">
-          Highlight text inside your document — like a name, date or amount — and mark it editable.
-          You&rsquo;ll fill it in each time you launch this template.
+          Click any text inside your document — a name, date or amount — and assign it to a
+          participant. You&rsquo;ll fill these in before each launch.
         </p>
       </div>
 
@@ -4357,8 +4359,10 @@ function StepLaunchExperience({
           </div>
         </aside>
       </div>
+      </>
+      )}
 
-      {/* Recipient Experience */}
+      {section === "automation" && (
       <RecipientExperience
         name={name}
         setName={setName}
@@ -4375,6 +4379,7 @@ function StepLaunchExperience({
         setAutomation={setAutomation}
         sample={sample}
       />
+      )}
 
     </div>
   );
