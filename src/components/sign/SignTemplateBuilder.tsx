@@ -60,6 +60,7 @@ import {
   applyTemplateVariables,
   detectTemplateVariables,
   useSignTemplates,
+  getTemplateDocuments,
 } from "@/hooks/useSignTemplates";
 import {
   Select,
