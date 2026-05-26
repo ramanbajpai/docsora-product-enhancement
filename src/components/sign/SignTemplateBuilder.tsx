@@ -83,7 +83,7 @@ type StepKey = "upload" | "rolesfields" | "review";
 
 const STEPS: { key: StepKey; label: string; sub: string }[] = [
   { key: "upload", label: "Name & Upload", sub: "Start here" },
-  { key: "rolesfields", label: "People & Fields", sub: "Who does what" },
+  { key: "rolesfields", label: "Participants", sub: "Who does what" },
   { key: "review", label: "Customize", sub: "What changes each time" },
 ];
 
@@ -487,7 +487,7 @@ export default function SignTemplateBuilder({ onBack, onSaved, editingTemplate }
       ...r,
       {
         key,
-        label: `Signer ${idx + 1}`,
+        label: "",
         color: nextRoleColor(r.map((x) => x.color)),
         signingOrder: idx + 1,
         type,
