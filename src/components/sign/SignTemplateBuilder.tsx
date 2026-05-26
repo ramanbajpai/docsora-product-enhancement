@@ -549,80 +549,85 @@ export default function SignTemplateBuilder({ onBack, onSaved }: SignTemplateBui
   /* ─────────── render ─────────── */
   const currentIdx = STEPS.findIndex((s) => s.key === step);
 
+  const nextHint: Record<StepKey, string> = {
+    upload: "Next: configure variables & delivery",
+    configure: "Next: roles & signing fields",
+    rolesfields: "Next: review & save",
+    review: "Save & launch",
+  };
+
   return (
-    <div className="px-6 md:px-10 py-8 max-w-6xl mx-auto">
+    <div className="px-6 md:px-10 py-8 pb-32 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-8">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-4"
+          className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-5"
         >
           <ChevronLeft className="w-3.5 h-3.5" /> Back to templates
         </button>
-        <div className="flex items-center gap-1.5 mb-2">
-          <Sparkles className="w-3 h-3 text-primary" />
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-primary">
-            New template
-          </span>
-        </div>
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+        <h1 className="text-3xl md:text-[42px] leading-[1.05] font-semibold tracking-tight">
           Configure once. Launch infinitely.
         </h1>
 
-        {/* Stepper */}
-        <div className="mt-6 flex items-center gap-0 overflow-x-auto pb-1">
-          {STEPS.map((s, i) => {
-            const active = s.key === step;
-            const done = i < currentIdx;
-            const reachable = i <= currentIdx || stepValid[STEPS[i - 1]?.key];
-            return (
-              <div key={s.key} className="flex items-center shrink-0">
+        {/* Stepper — premium operational */}
+        <div className="mt-8 relative">
+          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-border/50" />
+          <motion.div
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-primary/60 via-primary to-primary/60"
+            initial={false}
+            animate={{
+              width: `${(currentIdx / (STEPS.length - 1)) * 100}%`,
+            }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <div className="relative flex items-center justify-between">
+            {STEPS.map((s, i) => {
+              const active = s.key === step;
+              const done = i < currentIdx;
+              const reachable = i <= currentIdx || stepValid[STEPS[i - 1]?.key];
+              return (
                 <button
-                  onClick={() => {
-                    if (reachable) setStep(s.key);
-                  }}
-                  className={cn(
-                    "group flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-colors",
-                    active
-                      ? "bg-primary/10"
-                      : done
-                        ? "hover:bg-muted/40"
-                        : "opacity-60",
-                  )}
+                  key={s.key}
+                  onClick={() => reachable && setStep(s.key)}
                   disabled={!reachable}
+                  className={cn(
+                    "group flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-full transition-all bg-background",
+                    active && "ring-1 ring-primary/25 shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.4)]",
+                    !active && !done && "opacity-60",
+                  )}
                 >
                   <span
                     className={cn(
-                      "w-5 h-5 rounded-full inline-flex items-center justify-center text-[10px] font-semibold tabular-nums",
+                      "relative w-6 h-6 rounded-full inline-flex items-center justify-center text-[11px] font-semibold tabular-nums transition-all",
                       active
                         ? "bg-primary text-primary-foreground"
                         : done
                           ? "bg-primary/15 text-primary"
-                          : "bg-muted text-muted-foreground",
+                          : "bg-muted text-muted-foreground border border-border/60",
                     )}
                   >
+                    {active && (
+                      <motion.span
+                        className="absolute inset-0 rounded-full bg-primary/30"
+                        animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
+                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                      />
+                    )}
                     {done ? <Check className="w-3 h-3" /> : i + 1}
                   </span>
                   <span
                     className={cn(
-                      "text-[12px] font-medium hidden sm:inline",
-                      active ? "text-primary" : "text-foreground/80",
+                      "text-[12.5px] font-medium hidden sm:inline tracking-tight",
+                      active ? "text-foreground" : done ? "text-foreground/70" : "text-muted-foreground",
                     )}
                   >
                     {s.label}
                   </span>
                 </button>
-                {i < STEPS.length - 1 && (
-                  <div
-                    className={cn(
-                      "w-6 h-px mx-0.5",
-                      done ? "bg-primary/30" : "bg-border/60",
-                    )}
-                  />
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
