@@ -801,7 +801,7 @@ function PriorityEmptyState({
             )}
           </div>
           <p className="text-sm text-muted-foreground mt-0.5">
-            You're all caught up.
+            0 open actions
           </p>
         </div>
       </div>
@@ -827,8 +827,7 @@ function WorkspaceOverview() {
         <div className="min-w-0">
           <h3 className="text-sm font-semibold text-foreground">You're all caught up</h3>
           <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-            No actions currently require your attention. We'll surface anything that needs review,
-            approval or action automatically.
+            No actions currently require your attention. We'll notify you when something needs your attention.
           </p>
         </div>
       </motion.div>
