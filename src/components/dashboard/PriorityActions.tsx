@@ -811,21 +811,6 @@ function PriorityEmptyState({
   );
 }
 
-const snapshotStats: { label: string; value: number }[] = [
-  { label: "Active Flows", value: 12 },
-  { label: "Pending Signatures", value: 3 },
-  { label: "Waiting On Recipients", value: 7 },
-  { label: "Completed This Week", value: 24 },
-];
-
-const recentActivityItems: { id: string; title: string; meta: string }[] = [
-  { id: "r1", title: "Employment Contract signed", meta: "by J. Smith · 12m ago" },
-  { id: "r2", title: "Brand Assets delivered", meta: "to mike@helios.io · 1h ago" },
-  { id: "r3", title: "Client Onboarding completed", meta: "Northwind · 3h ago" },
-  { id: "r4", title: "NDA approved", meta: "Partner Inc · Yesterday" },
-  { id: "r5", title: "Documents uploaded", meta: "4 files · Yesterday" },
-];
-
 function WorkspaceOverview() {
   return (
     <div className="space-y-4">
@@ -845,61 +830,6 @@ function WorkspaceOverview() {
             No actions currently require your attention. We'll surface anything that needs review,
             approval or action automatically.
           </p>
-        </div>
-      </motion.div>
-
-      {/* Workspace Snapshot */}
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.05 }}
-      >
-        <div className="flex items-center justify-between mb-2 px-0.5">
-          <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground/70">
-            Workspace Snapshot
-          </span>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          {snapshotStats.map((s) => (
-            <div
-              key={s.label}
-              className="glass-card px-3.5 py-3 hover:bg-surface-2/40 transition-colors"
-            >
-              <p className="text-xl font-semibold text-foreground tabular-nums leading-none">
-                {s.value}
-              </p>
-              <p className="text-[11px] text-muted-foreground mt-1.5 truncate">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Recent Activity */}
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-      >
-        <div className="flex items-center justify-between mb-2 px-0.5">
-          <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground/70">
-            Recent Activity
-          </span>
-        </div>
-        <div className="glass-card divide-y divide-border overflow-hidden">
-          {recentActivityItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-2/40 transition-colors"
-            >
-              <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" strokeWidth={2} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm text-foreground truncate">{item.title}</p>
-              </div>
-              <span className="text-[11px] text-muted-foreground/70 shrink-0">{item.meta}</span>
-            </div>
-          ))}
         </div>
       </motion.div>
     </div>
