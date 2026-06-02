@@ -811,21 +811,6 @@ function PriorityEmptyState({
   );
 }
 
-const snapshotStats: { label: string; value: number }[] = [
-  { label: "Active Flows", value: 12 },
-  { label: "Pending Signatures", value: 3 },
-  { label: "Waiting On Recipients", value: 7 },
-  { label: "Completed This Week", value: 24 },
-];
-
-const recentActivityItems: { id: string; title: string; meta: string }[] = [
-  { id: "r1", title: "Employment Contract signed", meta: "by J. Smith · 12m ago" },
-  { id: "r2", title: "Brand Assets delivered", meta: "to mike@helios.io · 1h ago" },
-  { id: "r3", title: "Client Onboarding completed", meta: "Northwind · 3h ago" },
-  { id: "r4", title: "NDA approved", meta: "Partner Inc · Yesterday" },
-  { id: "r5", title: "Documents uploaded", meta: "4 files · Yesterday" },
-];
-
 function WorkspaceOverview() {
   return (
     <div className="space-y-4">
