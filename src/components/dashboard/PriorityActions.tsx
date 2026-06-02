@@ -175,6 +175,7 @@ export function PriorityActions() {
   const [activityMinimized, setActivityMinimized] = useState(false);
   const [activityFeed, setActivityFeed] = useState<ActivityEvent[]>([]);
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+  const [previewEmpty, setPreviewEmpty] = useState(false);
   // Tracks transfer items where the user already sent a reminder — surfaces
   // the inline "Need more time? Extend expiry" suggestion.
   const [remindedIds, setRemindedIds] = useState<Set<string>>(new Set());
@@ -206,6 +207,8 @@ export function PriorityActions() {
       const urgencyOrder = { critical: 0, high: 1, medium: 2 };
       return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
     });
+
+  const visibleActions = previewEmpty ? [] : sortedActions;
 
   const dismissAction = (id: string, title: string) => {
     setDismissedIds((prev) => new Set(prev).add(id));
@@ -311,22 +314,13 @@ export function PriorityActions() {
   const autopilotCount = autopilotIds.size;
   const allHandled = autopilotCount === sortedActions.filter((a) => a.canAutopilot).length;
 
-  if (sortedActions.length === 0) {
+  if (visibleActions.length === 0) {
     return (
-      <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="glass-card-elevated p-6 text-center"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
-          <CheckCircle2 className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <h3 className="font-medium text-foreground">All clear</h3>
-        <p className="text-sm text-muted-foreground mt-1">
-          Docsora has nothing on the runway right now
-        </p>
-      </motion.section>
+      <PriorityEmptyState
+        previewEmpty={previewEmpty}
+        onTogglePreview={() => setPreviewEmpty((v) => !v)}
+        canExitPreview={previewEmpty && sortedActions.length > 0}
+      />
     );
   }
 
@@ -353,6 +347,15 @@ export function PriorityActions() {
                 {autopilotCount} on autopilot
               </motion.span>
             )}
+            <button
+              type="button"
+              onClick={() => setPreviewEmpty(true)}
+              className="ml-1 inline-flex items-center gap-1 rounded-full border border-border/60 bg-surface-2/60 backdrop-blur-sm px-2 py-0.5 text-[10px] font-medium text-muted-foreground hover:text-foreground hover:border-border transition-colors"
+              title="Preview empty state"
+            >
+              <Eye className="w-2.5 h-2.5" />
+              Preview empty
+            </button>
           </div>
           <p className="text-sm text-muted-foreground mt-0.5">
             {allHandled
