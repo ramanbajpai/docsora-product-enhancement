@@ -801,7 +801,7 @@ function PriorityEmptyState({
             )}
           </div>
           <p className="text-sm text-muted-foreground mt-0.5">
-            You're all caught up.
+            0 open actions
           </p>
         </div>
       </div>
