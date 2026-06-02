@@ -806,51 +806,102 @@ function PriorityEmptyState({
         </div>
       </div>
 
-      {/* Calm, minimal empty state */}
-      <div className="flex flex-col items-center text-center py-12 sm:py-16">
-        {/* Prominent checkmark */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-          className="mb-8"
-        >
-          <div className="w-16 h-16 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/20 flex items-center justify-center">
-            <CheckCircle2 className="w-7 h-7 text-emerald-500" strokeWidth={1.5} />
-          </div>
-        </motion.div>
-
-        <motion.h3
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.06 }}
-          className="text-xl font-semibold tracking-tight text-foreground"
-        >
-          Everything is moving
-        </motion.h3>
-
-        <motion.p
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.12 }}
-          className="mt-2 max-w-sm text-sm text-muted-foreground leading-relaxed"
-        >
-          No actions require your attention right now. When a document needs
-          approval, files are uploaded, signatures are completed, or a workflow
-          becomes overdue, it will appear here automatically.
-        </motion.p>
-
-        {/* Subtle status footer */}
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-8 inline-flex items-center gap-2 text-[11px] text-muted-foreground/60"
-        >
-          <span className="inline-block w-1 h-1 rounded-full bg-emerald-500/70" />
-          All workflows are up to date
-        </motion.span>
-      </div>
+      <WorkspaceOverview />
     </motion.section>
+  );
+}
+
+const snapshotStats: { label: string; value: number }[] = [
+  { label: "Active Flows", value: 12 },
+  { label: "Pending Signatures", value: 3 },
+  { label: "Waiting On Recipients", value: 7 },
+  { label: "Completed This Week", value: 24 },
+];
+
+const recentActivityItems: { id: string; title: string; meta: string }[] = [
+  { id: "r1", title: "Employment Contract signed", meta: "by J. Smith · 12m ago" },
+  { id: "r2", title: "Brand Assets delivered", meta: "to mike@helios.io · 1h ago" },
+  { id: "r3", title: "Client Onboarding completed", meta: "Northwind · 3h ago" },
+  { id: "r4", title: "NDA approved", meta: "Partner Inc · Yesterday" },
+  { id: "r5", title: "Documents uploaded", meta: "4 files · Yesterday" },
+];
+
+function WorkspaceOverview() {
+  return (
+    <div className="space-y-4">
+      {/* Compact caught-up card */}
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        className="glass-card p-5 flex items-center gap-4"
+      >
+        <div className="w-11 h-11 rounded-xl bg-emerald-500/[0.08] border border-emerald-500/20 flex items-center justify-center shrink-0">
+          <CheckCircle2 className="w-5 h-5 text-emerald-500" strokeWidth={1.75} />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold text-foreground">You're all caught up</h3>
+          <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+            No actions currently require your attention. We'll surface anything that needs review,
+            approval or action automatically.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Workspace Snapshot */}
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.05 }}
+      >
+        <div className="flex items-center justify-between mb-2 px-0.5">
+          <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground/70">
+            Workspace Snapshot
+          </span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {snapshotStats.map((s) => (
+            <div
+              key={s.label}
+              className="glass-card px-3.5 py-3 hover:bg-surface-2/40 transition-colors"
+            >
+              <p className="text-xl font-semibold text-foreground tabular-nums leading-none">
+                {s.value}
+              </p>
+              <p className="text-[11px] text-muted-foreground mt-1.5 truncate">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Recent Activity */}
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        <div className="flex items-center justify-between mb-2 px-0.5">
+          <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground/70">
+            Recent Activity
+          </span>
+        </div>
+        <div className="glass-card divide-y divide-border overflow-hidden">
+          {recentActivityItems.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-2/40 transition-colors"
+            >
+              <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" strokeWidth={2} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm text-foreground truncate">{item.title}</p>
+              </div>
+              <span className="text-[11px] text-muted-foreground/70 shrink-0">{item.meta}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
   );
 }
