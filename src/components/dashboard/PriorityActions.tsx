@@ -771,7 +771,7 @@ function PriorityEmptyState({
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
     >
       {/* Header parity with active state */}
-      <div className="mb-4 flex items-end justify-between gap-4">
+      <div className="mb-6 flex items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold text-foreground">
@@ -806,103 +806,50 @@ function PriorityEmptyState({
         </div>
       </div>
 
-      {/* Premium empty surface */}
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-surface-1/40 backdrop-blur-xl">
-        {/* Ambient aurora */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <motion.div
-            aria-hidden
-            className="absolute -left-24 -top-28 h-[340px] w-[440px] rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.18), transparent 65%)" }}
-            animate={{ x: [0, 30, -10, 0], y: [0, 18, -8, 0], scale: [1, 1.08, 0.96, 1] }}
-            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            aria-hidden
-            className="absolute right-0 -bottom-32 h-[300px] w-[420px] rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.12), transparent 70%)" }}
-            animate={{ x: [0, -24, 12, 0], y: [0, -14, 8, 0], scale: [1, 1.06, 0.98, 1] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
-          {/* fine grid */}
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-              backgroundSize: "32px 32px",
-              maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-            }}
-          />
-        </div>
+      {/* Calm, minimal empty state */}
+      <div className="flex flex-col items-center text-center py-12 sm:py-16">
+        {/* Prominent checkmark */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          className="mb-8"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/20 flex items-center justify-center">
+            <CheckCircle2 className="w-7 h-7 text-emerald-500" strokeWidth={1.5} />
+          </div>
+        </motion.div>
 
-        <div className="relative z-10 px-8 py-14 sm:py-16 flex flex-col items-center text-center">
-          {/* Crystalline mark */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-            className="relative mb-6"
-          >
-            <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-2xl scale-110" />
-            <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-card to-surface-2 border border-border/60 shadow-sm flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-2xl"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, transparent, hsl(var(--primary) / 0.35), transparent 40%)",
-                  mask: "linear-gradient(#000,#000) content-box, linear-gradient(#000,#000)",
-                  WebkitMask:
-                    "linear-gradient(#000,#000) content-box, linear-gradient(#000,#000)",
-                  WebkitMaskComposite: "xor",
-                  maskComposite: "exclude",
-                  padding: 1,
-                }}
-              />
-              <CheckCircle2 className="relative w-6 h-6 text-primary" strokeWidth={1.75} />
-            </div>
-          </motion.div>
+        <motion.h3
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.06 }}
+          className="text-xl font-semibold tracking-tight text-foreground"
+        >
+          Everything is moving
+        </motion.h3>
 
-          <motion.h3
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[22px] sm:text-2xl font-semibold tracking-tight text-foreground"
-          >
-            Nothing needs you right now
-          </motion.h3>
-          <motion.p
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed"
-          >
-            Docsora is watching every document, signature, and transfer in the background. We'll surface anything the moment it needs your attention.
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.12 }}
+          className="mt-2 max-w-sm text-sm text-muted-foreground leading-relaxed"
+        >
+          No actions require your attention right now. When a document needs
+          approval, files are uploaded, signatures are completed, or a workflow
+          becomes overdue, it will appear here automatically.
+        </motion.p>
 
-          {/* Live monitoring pill */}
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.18 }}
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/60 backdrop-blur-sm px-3 py-1.5"
-          >
-            <span className="relative flex w-2 h-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-            </span>
-            <span className="text-[11px] font-medium text-foreground/80">
-              Autopilot monitoring active
-            </span>
-            <span className="text-[11px] text-muted-foreground/70">·</span>
-            <span className="text-[11px] text-muted-foreground">
-              Last checked just now
-            </span>
-          </motion.div>
-        </div>
+        {/* Subtle status footer */}
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="mt-8 inline-flex items-center gap-2 text-[11px] text-muted-foreground/60"
+        >
+          <span className="inline-block w-1 h-1 rounded-full bg-emerald-500/70" />
+          All workflows are up to date
+        </motion.span>
       </div>
     </motion.section>
   );
