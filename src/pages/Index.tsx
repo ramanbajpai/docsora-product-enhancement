@@ -6,7 +6,6 @@ import { PriorityActions } from "@/components/dashboard/PriorityActions";
 import { DocumentReminders } from "@/components/dashboard/DocumentReminders";
 import { RecentFiles } from "@/components/dashboard/RecentFiles";
 import { DocsoraAutopilot } from "@/components/dashboard/DocsoraAutopilot";
-import { DocsoraCommand } from "@/components/command";
 import { CreateAccountModal } from "@/components/dashboard/CreateAccountModal";
 import { FocusToggle } from "@/components/focus/FocusToggle";
 import { FocusExecution } from "@/components/focus/FocusExecution";
@@ -58,11 +57,6 @@ export default function Index() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
             >
-              {/* Docsora Command - AI-powered command center */}
-              <div className="mt-6">
-                <DocsoraCommand />
-              </div>
-
               {/* 1. Priority Actions */}
               <div className="mt-10">
                 <PriorityActions />
