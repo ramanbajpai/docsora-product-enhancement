@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/tooltip";
 import { StampPicker } from "./StampPicker";
 import { useAIFieldSuggestion } from "@/hooks/useAIFieldSuggestion";
+import { toast } from "sonner";
+import { Wand2, X } from "lucide-react";
 
 interface SignPlacementProps {
   file: File;
@@ -87,6 +89,7 @@ const SignPlacement = ({
   const [isAltPressed, setIsAltPressed] = useState(false);
   const [showApplyRemaining, setShowApplyRemaining] = useState(false);
   const [showStampPicker, setShowStampPicker] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -453,6 +456,13 @@ const SignPlacement = ({
     const targetPage = Object.entries(pageWithMostFields).sort((a, b) => b[1] - a[1])[0]?.[0];
     if (targetPage) {
       setCurrentPage(Number(targetPage));
+    }
+
+    setBannerDismissed(true);
+    if (newFields.length > 0) {
+      toast.success(`${newFields.length} field${newFields.length === 1 ? "" : "s"} placed automatically`, {
+        description: "Review placements before sending.",
+      });
     }
   }, [suggestFields, signatureData.fullName, fields, saveToHistory]);
 
