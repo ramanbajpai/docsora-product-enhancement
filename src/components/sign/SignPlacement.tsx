@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/tooltip";
 import { StampPicker } from "./StampPicker";
 import { useAIFieldSuggestion } from "@/hooks/useAIFieldSuggestion";
+import { toast } from "sonner";
+import { Wand2, X } from "lucide-react";
 
 interface SignPlacementProps {
   file: File;
@@ -87,6 +89,7 @@ const SignPlacement = ({
   const [isAltPressed, setIsAltPressed] = useState(false);
   const [showApplyRemaining, setShowApplyRemaining] = useState(false);
   const [showStampPicker, setShowStampPicker] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -453,6 +456,13 @@ const SignPlacement = ({
     const targetPage = Object.entries(pageWithMostFields).sort((a, b) => b[1] - a[1])[0]?.[0];
     if (targetPage) {
       setCurrentPage(Number(targetPage));
+    }
+
+    setBannerDismissed(true);
+    if (newFields.length > 0) {
+      toast.success(`${newFields.length} field${newFields.length === 1 ? "" : "s"} placed automatically`, {
+        description: "Review placements before sending.",
+      });
     }
   }, [suggestFields, signatureData.fullName, fields, saveToHistory]);
 
@@ -893,19 +903,37 @@ const SignPlacement = ({
 
       {/* Document Area */}
       <div className="flex-1 flex flex-col py-6 px-8 relative">
-        {/* Top Right Actions - Fixed to top right */}
-        <div className="absolute top-6 right-8 z-10 flex flex-col items-end gap-3">
-          {/* Review and Finish */}
+        {/* Top Right Actions — paired action group */}
+        <div className="absolute top-6 right-8 z-10 flex flex-wrap items-center justify-end gap-2">
+          <Button
+            variant="outline"
+            onClick={handleAISuggestFields}
+            disabled={isScanning}
+            className="h-10 px-4 text-sm gap-2"
+          >
+            {isScanning ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Analyzing document…</span>
+              </>
+            ) : (
+              <>
+                <Wand2 className="w-4 h-4" />
+                <span>Auto Place Fields</span>
+              </>
+            )}
+          </Button>
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <span>
-                  <Button 
-                    onClick={handleComplete} 
+                  <Button
+                    onClick={handleComplete}
                     className="h-10 px-5 text-sm"
                     disabled={!hasRequiredFields}
                   >
-                    Review and Finish
+                    Review &amp; Finish
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </span>
@@ -915,34 +943,6 @@ const SignPlacement = ({
                   <p>Place at least one signature to continue</p>
                 </TooltipContent>
               )}
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* AI Suggest - Below Review and Finish, aligned with page nav */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={handleAISuggestFields}
-                  disabled={isScanning}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-60"
-                >
-                  {isScanning ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Scanning…</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      <span>AI suggest</span>
-                    </>
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-xs">Automatically detect and place signature fields</p>
-              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
@@ -1004,6 +1004,57 @@ const SignPlacement = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15 }}
           >
+            <AnimatePresence>
+              {fields.length === 0 && !bannerDismissed && !isScanning && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 flex items-center gap-3"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Wand2 className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground leading-tight">
+                      Save time with Auto Place Fields
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                      Automatically detect signature, initials and date fields throughout the document.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={handleAISuggestFields}
+                      disabled={isScanning}
+                      className="h-8 px-3 text-xs gap-1.5"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" />
+                      Auto Place Fields
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setBannerDismissed(true)}
+                      className="h-8 px-3 text-xs text-muted-foreground"
+                    >
+                      Place Manually
+                    </Button>
+                    <button
+                      onClick={() => setBannerDismissed(true)}
+                      aria-label="Dismiss"
+                      className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <motion.div
               ref={containerRef}
               onClick={handleContainerClick}
