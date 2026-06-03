@@ -903,19 +903,37 @@ const SignPlacement = ({
 
       {/* Document Area */}
       <div className="flex-1 flex flex-col py-6 px-8 relative">
-        {/* Top Right Actions - Fixed to top right */}
-        <div className="absolute top-6 right-8 z-10 flex flex-col items-end gap-3">
-          {/* Review and Finish */}
+        {/* Top Right Actions — paired action group */}
+        <div className="absolute top-6 right-8 z-10 flex flex-wrap items-center justify-end gap-2">
+          <Button
+            variant="outline"
+            onClick={handleAISuggestFields}
+            disabled={isScanning}
+            className="h-10 px-4 text-sm gap-2"
+          >
+            {isScanning ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Analyzing document…</span>
+              </>
+            ) : (
+              <>
+                <Wand2 className="w-4 h-4" />
+                <span>Auto Place Fields</span>
+              </>
+            )}
+          </Button>
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <span>
-                  <Button 
-                    onClick={handleComplete} 
+                  <Button
+                    onClick={handleComplete}
                     className="h-10 px-5 text-sm"
                     disabled={!hasRequiredFields}
                   >
-                    Review and Finish
+                    Review &amp; Finish
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </span>
@@ -925,34 +943,6 @@ const SignPlacement = ({
                   <p>Place at least one signature to continue</p>
                 </TooltipContent>
               )}
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* AI Suggest - Below Review and Finish, aligned with page nav */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={handleAISuggestFields}
-                  disabled={isScanning}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-60"
-                >
-                  {isScanning ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Scanning…</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      <span>AI suggest</span>
-                    </>
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-xs">Automatically detect and place signature fields</p>
-              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
