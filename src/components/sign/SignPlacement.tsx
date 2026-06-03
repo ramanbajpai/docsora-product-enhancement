@@ -1004,6 +1004,57 @@ const SignPlacement = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15 }}
           >
+            <AnimatePresence>
+              {fields.length === 0 && !bannerDismissed && !isScanning && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 flex items-center gap-3"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Wand2 className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground leading-tight">
+                      Save time with Auto Place Fields
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                      Automatically detect signature, initials and date fields throughout the document.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={handleAISuggestFields}
+                      disabled={isScanning}
+                      className="h-8 px-3 text-xs gap-1.5"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" />
+                      Auto Place Fields
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setBannerDismissed(true)}
+                      className="h-8 px-3 text-xs text-muted-foreground"
+                    >
+                      Place Manually
+                    </Button>
+                    <button
+                      onClick={() => setBannerDismissed(true)}
+                      aria-label="Dismiss"
+                      className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <motion.div
               ref={containerRef}
               onClick={handleContainerClick}
