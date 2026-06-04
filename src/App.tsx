@@ -14,6 +14,7 @@ import AICheck from "./pages/AICheck";
 import AICheckVariant from "./pages/AICheckVariant";
 import AICheckGuide from "./pages/AICheckGuide";
 import AICompareLanding from "./pages/AICompareLanding";
+import AIGrammarlyCompare from "./pages/AIGrammarlyCompare";
 import Compress from "./pages/Compress";
 import CompressVariant from "./pages/CompressVariant";
 import CompressGuide from "./pages/CompressGuide";
@@ -91,7 +92,7 @@ const App = () => (
             <Route path="/professional-writing-checker" element={<AICheckVariant />} />
             <Route path="/proofreading-tool-online" element={<AICheckVariant />} />
             <Route path="/document-proofreader" element={<AICheckVariant />} />
-            <Route path="/compare/docsora-vs-grammarly" element={<AICompareLanding />} />
+            <Route path="/compare/docsora-vs-grammarly" element={<AIGrammarlyCompare />} />
             <Route path="/compare/docsora-vs-quillbot" element={<AICompareLanding />} />
             <Route path="/compare/docsora-vs-languagetool" element={<AICompareLanding />} />
             <Route path="/compress" element={<Compress />} />
