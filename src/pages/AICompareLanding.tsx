@@ -153,7 +153,13 @@ const AICompareLanding = () => {
               {variant.faq.map((f, i) => (
                 <AccordionItem key={f.question} value={`faq-${i}`} className="rounded-xl border border-border/30 bg-card/40 px-5">
                   <AccordionTrigger className="text-sm font-medium text-foreground hover:no-underline py-4">{f.question}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground/85 leading-relaxed pb-4">{f.answer}</AccordionContent>
+                  <AccordionContent className="text-sm text-muted-foreground/85 leading-relaxed pb-4">
+                    <div className="space-y-3">
+                      {f.answer.split("\n\n").map((p, j) => (
+                        <p key={j}>{p}</p>
+                      ))}
+                    </div>
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
