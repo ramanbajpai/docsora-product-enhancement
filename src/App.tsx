@@ -31,6 +31,7 @@ import TranslateGuide from "./pages/TranslateGuide";
 import TranslateCompareLanding from "./pages/TranslateCompareLanding";
 import Transfer from "./pages/Transfer";
 import TransferVariant from "./pages/TransferVariant";
+import TransferCompareLanding from "./pages/TransferCompareLanding";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
 import PDFToolLanding from "./pages/PDFToolLanding";
@@ -233,6 +234,12 @@ const App = () => (
             <Route path="/compare/docsora-vs-smallpdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/compare/docsora-vs-ilovepdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/transfer" element={<Transfer />} />
+            {/* Transfer comparison landing pages */}
+            <Route path="/compare/docsora-vs-wetransfer" element={<TransferCompareLanding />} />
+            <Route path="/compare/docsora-vs-dropbox-transfer" element={<TransferCompareLanding />} />
+            <Route path="/compare/docsora-vs-masv" element={<TransferCompareLanding />} />
+            <Route path="/compare/docsora-vs-smash" element={<TransferCompareLanding />} />
+            <Route path="/compare/docsora-vs-google-drive" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
             <Route path="/wetransfer-alternative" element={<TransferVariant />} />
