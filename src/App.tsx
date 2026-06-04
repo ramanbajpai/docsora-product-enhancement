@@ -239,7 +239,7 @@ const App = () => (
             <Route path="/compare/docsora-vs-dropbox-transfer" element={<TransferCompareLanding />} />
             <Route path="/compare/docsora-vs-masv" element={<TransferCompareLanding />} />
             <Route path="/compare/docsora-vs-smash" element={<TransferCompareLanding />} />
-            <Route path="/compare/docsora-vs-google-drive" element={<TransferCompareLanding />} />
+            <Route path="/compare/docsora-vs-transfernow" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
             <Route path="/wetransfer-alternative" element={<TransferVariant />} />
