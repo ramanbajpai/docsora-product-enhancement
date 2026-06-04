@@ -77,7 +77,7 @@ export const compressGuides: CompressGuide[] = [
         ],
         bullets: [
           "Open the Docsora PDF compressor and drop your file into the upload area.",
-          "Choose a compression mode — Balanced for everyday delivery, Maximum for tight email limits, Preserve Quality for archive-grade output.",
+          "Choose a compression mode — Preserve Quality (30% reduction) for archive-grade output, Balanced (50% compression) for everyday delivery, or Maximum (80% reduction) for tight email limits.",
           "Wait a few seconds while Docsora re-encodes embedded images, streamlines fonts, and rewrites the structure.",
           "Download the optimized PDF. Open it once to confirm pages, signatures, and form fields look right.",
           "Attach to email, upload to your CRM, or send through your e-signature flow.",
@@ -86,9 +86,10 @@ export const compressGuides: CompressGuide[] = [
       {
         heading: "How to choose the right compression mode",
         paragraphs: [
-          "Balanced is the right default for almost every business PDF. It keeps text crisp and reduces file size by roughly 30–80% — enough to clear Gmail's 25MB limit and Outlook's stricter 10–20MB enterprise caps.",
-          "Maximum is for PDFs that must be sent over constrained channels — older mail servers, mobile data, regional networks. Expect 30–80% reductions with slight visual softening on photo-heavy pages.",
-          "Preserve Quality keeps every pixel and is the correct choice for legal exhibits, regulatory filings, and any document that may be printed at full resolution. Expect 30–80% reductions driven by structural cleanup rather than image re-encoding.",
+          "Docsora offers three modes: Preserve Quality (30% reduction), Balanced (50% compression), and Maximum (80% reduction).",
+          "Balanced (50% compression) is the right default for almost every business PDF. It keeps text crisp and trims file size enough to clear Gmail's 25MB limit and Outlook's stricter 10–20MB enterprise caps.",
+          "Maximum (80% reduction) is for PDFs that must be sent over constrained channels — older mail servers, mobile data, regional networks — with slight visual softening on photo-heavy pages.",
+          "Preserve Quality (30% reduction) keeps every pixel and is the correct choice for legal exhibits, regulatory filings, and any document that may be printed at full resolution. The savings come from structural cleanup rather than image re-encoding.",
         ],
       },
       {
@@ -103,17 +104,17 @@ export const compressGuides: CompressGuide[] = [
       {
         question: "What is the best way to reduce PDF size for email?",
         answer:
-          "Use a format-aware compressor with the Balanced or Maximum mode. Most business PDFs drop 30–80% in size, which clears Gmail, Outlook, and Apple Mail attachment limits without splitting the file or relying on cloud links.",
+          "Use a format-aware compressor and pick the right mode for your need — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction). Most business PDFs clear Gmail, Outlook, and Apple Mail attachment limits in Balanced or Maximum without splitting the file or relying on cloud links.",
       },
       {
         question: "Will compression reduce PDF quality?",
         answer:
-          "Balanced and Preserve Quality modes are visually lossless — text stays crisp, vector graphics stay sharp, and embedded images keep their detail at normal viewing distance. Maximum mode applies stronger image re-encoding and is best reserved for delivery-only files.",
+          "Preserve Quality (30% reduction) and Balanced (50% compression) are visually lossless — text stays crisp, vector graphics stay sharp, and embedded images keep their detail at normal viewing distance. Maximum (80% reduction) applies stronger image re-encoding and is best reserved for delivery-only files.",
       },
       {
         question: "Can I reduce the size of a scanned PDF?",
         answer:
-          "Yes. Scanned PDFs are usually image-heavy, which means they respond well to compression. Expect significant size reductions, especially in Balanced and Maximum modes.",
+          "Yes. Scanned PDFs are usually image-heavy, which means they respond well to compression. Expect significant size reductions, especially in Balanced (50% compression) and Maximum (80% reduction) modes.",
       },
       {
         question: "Is it safe to compress confidential PDFs online?",
@@ -162,7 +163,7 @@ export const compressGuides: CompressGuide[] = [
         bullets: [
           "Open the Docsora PowerPoint compressor.",
           "Drop your .ppt, .pptx, or .odp deck into the upload area.",
-          "Pick a compression mode — Balanced is right for most decks.",
+          "Pick a compression mode — Preserve Quality (30% reduction), Balanced (50% compression, right for most decks), or Maximum (80% reduction).",
           "Wait while embedded images and video are re-encoded.",
           "Download the optimized deck and open it once to confirm animations and transitions play.",
         ],
@@ -177,9 +178,9 @@ export const compressGuides: CompressGuide[] = [
       {
         heading: "Compression modes for decks",
         paragraphs: [
-          "Balanced is the right default. Expect 30–80% reductions with no visible quality loss on typical decks.",
-          "Maximum is for decks that must squeeze under a tight inbox cap — 10MB Outlook environments, regional mail servers, mobile review.",
-          "Preserve Quality keeps every pixel and is appropriate for decks that will be projected on stage or printed as leave-behinds.",
+          "Balanced (50% compression) is the right default, with no visible quality loss on typical decks.",
+          "Maximum (80% reduction) is for decks that must squeeze under a tight inbox cap — 10MB Outlook environments, regional mail servers, mobile review.",
+          "Preserve Quality (30% reduction) keeps every pixel and is appropriate for decks that will be projected on stage or printed as leave-behinds.",
         ],
       },
       {
@@ -204,7 +205,7 @@ export const compressGuides: CompressGuide[] = [
       {
         question: "How small can a 200MB deck get?",
         answer:
-          "Image-heavy investor decks typically drop to 20–40MB in Balanced mode. Video-heavy decks can shrink even further when the embedded media is re-encoded.",
+          "Image-heavy investor decks typically drop to 20–40MB in Balanced (50% compression) mode. Video-heavy decks can shrink even further in Maximum (80% reduction) when the embedded media is re-encoded.",
       },
       {
         question: "Should I compress before or after adding speaker notes?",
@@ -253,7 +254,7 @@ export const compressGuides: CompressGuide[] = [
         bullets: [
           "Open the Docsora email attachment compressor.",
           "Drop the file directly from your desktop or download folder.",
-          "Pick Balanced for most files, Maximum if you need to clear a 10MB cap.",
+          "Pick Preserve Quality (30% reduction), Balanced (50% compression) for most files, or Maximum (80% reduction) if you need to clear a 10MB cap.",
           "Download the optimized file.",
           "Attach it to the email as you normally would — no cloud links required.",
         ],
@@ -268,7 +269,7 @@ export const compressGuides: CompressGuide[] = [
       {
         heading: "Sending multiple attachments in one email",
         paragraphs: [
-          "If you need to send several files, compress each one individually before attaching. The total message size — including all attachments plus body and headers — must fit under the provider limit. Balanced compression on each file typically lets you send three to four documents in a single message.",
+          "If you need to send several files, compress each one individually before attaching. The total message size — including all attachments plus body and headers — must fit under the provider limit. Balanced (50% compression) on each file typically lets you send three to four documents in a single message.",
         ],
       },
     ],
@@ -342,7 +343,7 @@ export const compressGuides: CompressGuide[] = [
         bullets: [
           "Open the Docsora image compressor.",
           "Drop your JPG, PNG, or WEBP files — individually or in bulk.",
-          "Pick Balanced for marketing imagery, Maximum for thumbnails and gallery tiles.",
+          "Pick Preserve Quality (30% reduction) for archive originals, Balanced (50% compression) for marketing imagery, or Maximum (80% reduction) for thumbnails and gallery tiles.",
           "Download the optimized images.",
           "Replace the originals in your CMS or asset pipeline.",
         ],
@@ -371,7 +372,7 @@ export const compressGuides: CompressGuide[] = [
       {
         question: "How small should my hero images be?",
         answer:
-          "Aim for under 200KB for a 1600–1920px hero image. Most well-shot photography reaches that target in Balanced mode without any visible quality loss.",
+          "Aim for under 200KB for a 1600–1920px hero image. Most well-shot photography reaches that target in Balanced (50% compression) without any visible quality loss.",
       },
       {
         question: "Will compression hurt SEO?",
@@ -425,7 +426,7 @@ export const compressGuides: CompressGuide[] = [
         bullets: [
           "Open the Docsora Excel compressor.",
           "Drop your .xls, .xlsx, or .ods workbook into the upload area.",
-          "Choose Balanced — Preserve Quality is overkill for spreadsheets.",
+          "Choose Balanced (50% compression) — Preserve Quality (30% reduction) is overkill for spreadsheets, and Maximum (80% reduction) is rarely needed.",
           "Download the optimized workbook.",
           "Open it once and confirm a sample formula, a sample pivot, and the named ranges still resolve.",
         ],
@@ -508,7 +509,7 @@ export const compressGuides: CompressGuide[] = [
           "Export the latest version from Figma, Keynote, or PowerPoint as a .pptx.",
           "Open the Docsora pitch deck compressor.",
           "Drop the deck into the upload area.",
-          "Choose Balanced — Maximum if you need to clear a 10MB enterprise cap.",
+          "Choose Balanced (50% compression) — or Maximum (80% reduction) if you need to clear a 10MB enterprise cap. Preserve Quality (30% reduction) is available for decks that will be printed.",
           "Download the optimized deck and attach to the email directly.",
         ],
       },
