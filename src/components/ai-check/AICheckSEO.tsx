@@ -331,7 +331,7 @@ const writingQuestions: { question: string; answer: string }[] = [
   {
     question: "How do I proofread contracts online?",
     answer:
-      "Upload the contract (PDF, DOC, DOCX or TXT) for an editorial pass that flags grammar, inconsistent defined terms, ambiguous phrasing and clarity gaps. Editorial review complements legal review — it does not replace counsel.",
+      "Upload the contract (PDF, DOC, DOCX or TXT) for an editorial pass that flags grammar and spelling issues across your document, alongside sentence enhancements based on tone selection. Docsora's AI Check feature does not replace legal counsel or act as a legal reviewer.",
   },
   {
     question: "Can AI improve board reports and executive summaries?",
