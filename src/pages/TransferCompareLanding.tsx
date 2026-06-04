@@ -206,6 +206,178 @@ const TransferCompareLanding = () => {
             </div>
           </motion.section>
 
+          {/* Why users switch */}
+          <motion.section {...fadeUp} className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-4">
+              Why users switch from {variant.competitor}
+            </h2>
+            <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed mb-6">
+              Many file transfer platforms focus only on sending files. Docsora Transfer
+              focuses on managing the entire lifecycle of a transfer. Instead of losing
+              visibility after clicking send, users can:
+            </p>
+            <ul className="space-y-2.5">
+              {variant.whySwitch.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed"
+                >
+                  <Check className="w-3.5 h-3.5 text-primary mt-1 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.section>
+
+          {/* Docsora Transfer benefits */}
+          <motion.section {...fadeUp}>
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
+              What you get with Docsora Transfer
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-w-3xl mx-auto">
+              {docsoraTransferBenefits.map((b) => (
+                <div
+                  key={b}
+                  className="flex items-start gap-2 rounded-xl px-4 py-3 bg-card/40 border border-border/30 text-sm text-foreground/85"
+                >
+                  <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                  <span>{b}</span>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Security & Compliance */}
+          <motion.section {...fadeUp}>
+            <div className="text-center max-w-3xl mx-auto mb-8">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-3">
+                Security, compliance & governance
+              </h2>
+              <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed">
+                Many organisations evaluating file transfer platforms are not simply comparing
+                upload speeds or file size limits. They are evaluating compliance requirements,
+                security controls, data protection standards, audit requirements, governance
+                requirements and vendor risk. Docsora Transfer combines large file delivery with
+                enterprise-grade security controls, activity visibility and compliance frameworks
+                designed for business use.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border/40 bg-card/40 overflow-hidden">
+              <div className="grid grid-cols-12 px-5 py-3 text-[11px] uppercase tracking-[0.12em] font-medium text-muted-foreground/70 bg-card/60 border-b border-border/30">
+                <div className="col-span-6">Security & compliance</div>
+                <div className="col-span-3 text-primary/80">Docsora</div>
+                <div className="col-span-3">{variant.competitor}</div>
+              </div>
+              {variant.securityFeatures.map((row, idx) => (
+                <div
+                  key={row.feature}
+                  className={cn(
+                    "grid grid-cols-12 px-5 py-4 text-sm items-start gap-2",
+                    idx !== variant.securityFeatures.length - 1 && "border-b border-border/20",
+                  )}
+                >
+                  <div className="col-span-6 text-foreground/90 font-medium flex items-start gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-muted-foreground/50 mt-0.5 shrink-0" />
+                    <span>{row.feature}</span>
+                  </div>
+                  <div className="col-span-3 text-foreground/80 flex items-start gap-2">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>{row.docsora}</span>
+                  </div>
+                  <div className="col-span-3 text-muted-foreground/80 flex items-start gap-2">
+                    <Minus className="w-3.5 h-3.5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span>{row.competitor}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-[11px] text-muted-foreground/60 text-center max-w-2xl mx-auto leading-relaxed">
+              Competitor columns are populated using verified public information. Where information
+              is not publicly stated, the field shows "Not publicly stated" rather than a
+              checkmark or cross.
+            </p>
+          </motion.section>
+
+          {/* Why businesses choose Docsora Transfer */}
+          <motion.section {...fadeUp}>
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
+              Why businesses choose Docsora Transfer
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {docsoraTransferDifferentiators.map((d, i) => {
+                const Icon = [Eye, RefreshCw, ShieldCheck][i] ?? Eye;
+                return (
+                  <div
+                    key={d.title}
+                    className="rounded-2xl p-6 bg-card/40 border border-border/30"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center mb-4">
+                      <Icon className="w-4 h-4 text-primary/80" />
+                    </div>
+                    <h3 className="text-base font-semibold text-foreground mb-2 tracking-tight">
+                      {d.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground/85 leading-relaxed">
+                      {d.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.section>
+
+          {/* Plans */}
+          <motion.section {...fadeUp}>
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-3">
+                Docsora Transfer plans
+              </h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                Predictable plans for individuals, professionals, teams and enterprises.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {docsoraTransferPlans.map((plan) => (
+                <div
+                  key={plan.name}
+                  className="rounded-2xl p-6 bg-card/40 border border-border/30 flex flex-col"
+                >
+                  <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80 mb-2">
+                    {plan.name}
+                  </span>
+                  <p className="text-lg font-semibold text-foreground tracking-tight">
+                    {plan.storage}
+                  </p>
+                  <p className="text-sm text-muted-foreground/80 mt-1">
+                    {plan.validity}
+                  </p>
+                  <p className="text-xs text-muted-foreground/70 mt-4 leading-relaxed">
+                    {plan.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Speed */}
+          <motion.section {...fadeUp} className="max-w-3xl mx-auto">
+            <div className="rounded-2xl p-6 md:p-8 bg-card/40 border border-border/30 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
+                <Gauge className="w-4 h-4 text-primary/80" />
+              </div>
+              <div>
+                <h2 className="text-lg md:text-xl font-semibold text-foreground tracking-tight mb-2">
+                  Built for fast file delivery
+                </h2>
+                <p className="text-sm text-muted-foreground/85 leading-relaxed">
+                  Docsora Transfer is designed to provide a fast upload and delivery experience for
+                  large files while maintaining visibility and control throughout the transfer
+                  lifecycle.
+                </p>
+              </div>
+            </div>
+          </motion.section>
+
           {/* Key Differences */}
           <motion.section {...fadeUp} className="max-w-3xl mx-auto">
             <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6">
