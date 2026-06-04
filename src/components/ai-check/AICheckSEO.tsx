@@ -238,7 +238,7 @@ const faqs = [
   {
     question: "How does editorial AI proofreading work?",
     answer:
-      "Docsora applies language-model analysis calibrated for professional writing. After upload, the system scans the whole document for grammar, spelling, punctuation, tone misalignment, terminology drift, ambiguous phrasing and structural clarity. Each suggestion is tagged with severity - low, medium, high - and surfaced beside its original sentence, so reviewers can accept individual edits, reject them, or apply every safe correction in one click.",
+      "Docsora applies language-model analysis calibrated for professional writing. After upload, the system scans the whole document for grammar, spelling, punctuation, tone misalignment, terminology drift, ambiguous phrasing and structural clarity. Each suggestion is tagged and surfaced beside its original sentence, so reviewers can accept individual edits, reject them, or apply every safe correction in one click.",
   },
   {
     question: "Can I review board reports and investor communications?",
