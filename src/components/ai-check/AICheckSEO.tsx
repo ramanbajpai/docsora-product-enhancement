@@ -248,7 +248,7 @@ const faqs = [
   {
     question: "Does Docsora preserve document formatting?",
     answer:
-      "Yes. Review is non-destructive. The original document - including PDF structure, PowerPoint master layouts, Word styles and ODT formatting - stays untouched while suggestions are surfaced in a side-by-side view. Exports preserve original layout where the format supports it.",
+      "Yes. Review is non-destructive. The original document - including PDF structure, PowerPoint master layouts, Word styles and ODT formatting - stays untouched while suggestions are surfaced in a side-by-side view. Exports preserve original layout where the format supports it. We are constantly enhancing formatting preservation to ensure your documents keep their structure.",
   },
   {
     question: "Do I need to install anything to use Docsora AI Check?",
