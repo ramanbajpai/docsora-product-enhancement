@@ -183,15 +183,13 @@ const AIGrammarlyCompare = () => {
               Docsora AI Check vs Grammarly
             </h1>
             <p className="text-base md:text-lg text-muted-foreground/85 leading-relaxed mb-4">
-              Compare Docsora AI Check and Grammarly across document review,
-              business workflows, PDF support and document management.
+              Both platforms help improve document quality. The difference is
+              what happens before and after the review process.
             </p>
             <p className="text-sm md:text-base text-muted-foreground/75 leading-relaxed mb-8">
-              Both Docsora AI Check and Grammarly help improve written content,
-              but they are designed for different workflows. Grammarly focuses
-              on writing assistance across emails, documents and browsers,
-              while Docsora AI Check is designed to review documents within a
-              broader document management and workflow environment.
+              Grammarly focuses on writing assistance and communication. Docsora
+              AI Check combines document review with file management, storage,
+              transfers, signatures and workflows inside a single platform.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -228,9 +226,9 @@ const AIGrammarlyCompare = () => {
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground/85 leading-relaxed">
-                  Teams and businesses that want document review as part of a
-                  broader document workflow that includes file management,
-                  sharing, signing and operational processes.
+                  Businesses that need document review as part of a broader
+                  operational process including file collection, document
+                  delivery, approvals, signatures and workflows.
                 </p>
               </div>
               <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
@@ -243,9 +241,8 @@ const AIGrammarlyCompare = () => {
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground/85 leading-relaxed">
-                  Individuals and teams looking for advanced writing assistance
-                  across emails, documents, websites and day-to-day
-                  communication.
+                  Individuals and teams focused primarily on improving writing
+                  and communication across emails, documents and websites.
                 </p>
               </div>
             </div>
