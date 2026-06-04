@@ -1056,9 +1056,9 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
                 Knowledge Guides for Professional Writing
               </h2>
               <p className="text-sm text-muted-foreground/80 leading-relaxed">
-                Practical editorial playbooks — sentence clarity, executive
-                writing, contract review, board reporting and enterprise
-                workflows.
+                Practical editorial playbooks — sentence clarity and
+                enhancement, executive writing, contract review, board reporting
+                and enterprise workflows.
               </p>
             </motion.div>
 
