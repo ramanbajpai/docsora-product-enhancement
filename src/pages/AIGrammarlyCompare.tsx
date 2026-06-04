@@ -279,75 +279,7 @@ const AIGrammarlyCompare = () => {
           </motion.section>
 
           {/* KEY DIFFERENCES */}
-          <motion.section {...fadeUp}>
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
-              The biggest differences
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {keyDifferences.map((d) => {
-                const Icon = d.icon;
-                return (
-                  <div
-                    key={d.title}
-                    className="rounded-2xl p-6 bg-card/40 border border-border/30"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Icon className="w-4 h-4 text-primary" />
-                    </div>
-                    <h3 className="text-sm font-semibold text-foreground mb-2">
-                      {d.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground/85 leading-relaxed">
-                      {d.body}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </motion.section>
-
           {/* WHO SHOULD CHOOSE */}
-          <motion.section {...fadeUp}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
-                <div className="flex items-center gap-2 mb-4">
-                  <FileText className="w-4 h-4 text-primary" />
-                  <h3 className="text-base font-semibold text-foreground">
-                    Choose Docsora if you:
-                  </h3>
-                </div>
-                <ul className="space-y-3">
-                  {docsoraFor.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className="text-sm text-foreground/85 leading-relaxed">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
-                <div className="flex items-center gap-2 mb-4">
-                  <Globe className="w-4 h-4 text-muted-foreground" />
-                  <h3 className="text-base font-semibold text-foreground">
-                    Choose Grammarly if you:
-                  </h3>
-                </div>
-                <ul className="space-y-3">
-                  {grammarlyFor.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-foreground/85 leading-relaxed">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.section>
-
           {/* AFTER SUGGESTIONS */}
           <motion.section {...fadeUp} className="max-w-3xl mx-auto">
             <div className="rounded-2xl p-8 md:p-10 bg-card/40 border border-border/30">
