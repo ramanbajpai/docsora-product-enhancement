@@ -92,7 +92,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I reduce PDF size for email?",
         answer:
-          "Upload your PDF, pick 'Maximum compression', and Docsora reduces PDF size to fit Gmail (25MB) and Outlook (10–20MB) limits - without splitting, uploading to a cloud link, or losing quality.",
+          "Upload your PDF and choose a mode — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction). Docsora reduces PDF size to fit Gmail (25MB) and Outlook (10–20MB) limits - without splitting, uploading to a cloud link, or losing quality.",
       },
       {
         question: "Can I reduce PDF size without losing quality?",
@@ -121,7 +121,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I reduce image size for a website?",
         answer:
-          "Upload your images, pick 'Balanced' mode, and Docsora optimizes them for fast loading and strong Core Web Vitals scores while keeping visual quality intact.",
+          "Upload your images and choose a mode — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction). Balanced is ideal for websites: it optimizes for fast loading and strong Core Web Vitals scores while keeping visual quality intact.",
       },
       {
         question: "Can I reduce image size in bulk?",
@@ -251,12 +251,12 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Can I compress a PDF without losing quality?",
         answer:
-          "Yes. Choose the 'Preserve Quality' mode for visually identical output, or 'Balanced' for the smallest file with no perceptible quality loss. Docsora applies format-aware compression that keeps text vector-sharp and images print-ready.",
+          "Yes. Choose 'Preserve Quality' (30% reduction) for visually identical output, 'Balanced' (50% compression) for the smallest file with no perceptible quality loss, or 'Maximum' (80% reduction) for delivery-only files. Docsora applies format-aware compression that keeps text vector-sharp and images print-ready.",
       },
       {
         question: "How do I reduce PDF size for email attachments?",
         answer:
-          "Most inboxes (Gmail, Outlook, Apple Mail) cap attachments at 25MB. Upload your PDF, pick 'Maximum compression', and Docsora will typically reduce it 30–80% - perfect for sending contracts, invoices, pitch decks, and legal PDFs without splitting.",
+          "Most inboxes (Gmail, Outlook, Apple Mail) cap attachments at 25MB. Upload your PDF and pick the mode that fits — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction) - perfect for sending contracts, invoices, pitch decks, and legal PDFs without splitting.",
       },
       {
         question: "Is Docsora's online PDF compressor free?",
@@ -464,7 +464,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Can I compress Excel files for email attachments?",
         answer:
-          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing 'Maximum compression' - most spreadsheets reduce 30–80%, easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
+          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing a mode — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction) - easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
       },
       {
         question: "Is Excel compression secure?",
@@ -508,7 +508,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I compress images for a website?",
         answer:
-          "Upload your images, choose 'Balanced' mode, and Docsora optimizes them for fast loading and strong Core Web Vitals scores while keeping visual quality intact.",
+          "Upload your images and choose a mode — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction). Balanced is the website default: it optimizes for fast loading and strong Core Web Vitals scores while keeping visual quality intact.",
       },
     ],
   },
@@ -566,7 +566,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I make a PDF small enough to email?",
         answer:
-          "Upload your PDF, pick 'Maximum compression', and Docsora reduces it 30–80% - enough for almost every PDF to fit standard email limits without splitting.",
+          "Upload your PDF and pick a mode — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction) - enough for almost every PDF to fit standard email limits without splitting.",
       },
     ],
   },
@@ -606,7 +606,7 @@ export const compressVariants: CompressVariantConfig[] = [
       "Compress files online without losing quality. Lossless and visually-lossless compression for PDFs, images, and documents - free, fast, secure.",
     h1: "Compress Files Without Losing Quality",
     intro:
-      "Smart compression that preserves every detail. Choose lossless output for archives or balanced mode for the smallest visually-identical file.",
+     "Smart compression that preserves every detail. Choose Preserve Quality (30% reduction) for archives, Balanced (50% compression) for the smallest visually-identical file, or Maximum (80% reduction) for delivery-only files.",
     keyword: "compress files without losing quality",
     acceptedFormats: "All major formats",
     cardIcon: FileType,
@@ -624,7 +624,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Which mode should I pick?",
         answer:
-          "Use 'Preserve Quality' for legal documents, archives, or print-bound files. Use 'Balanced' for the smallest file with no visible difference - ideal for email, web, and sharing.",
+          "Use 'Preserve Quality' (30% reduction) for legal documents, archives, or print-bound files. Use 'Balanced' (50% compression) for the smallest file with no visible difference - ideal for email, web, and sharing. Use 'Maximum' (80% reduction) when you need the smallest possible file for delivery.",
       },
     ],
   },
@@ -761,7 +761,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Can I compress files online without losing quality?",
         answer:
-          "Yes. Docsora's online file compressor uses lossless and visually-lossless modes tuned to each file type. PDFs keep vector text crisp, images preserve color depth, and presentations retain every slide, animation, and embedded element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no visible quality loss.",
+          "Yes. Docsora's online file compressor uses lossless and visually-lossless modes tuned to each file type. PDFs keep vector text crisp, images preserve color depth, and presentations retain every slide, animation, and embedded element. Choose 'Preserve Quality' (30% reduction) for archive-grade output, 'Balanced' (50% compression) for the smallest file with no visible quality loss, or 'Maximum' (80% reduction) for delivery-only files.",
       },
       {
         question: "What file types can I compress online?",
