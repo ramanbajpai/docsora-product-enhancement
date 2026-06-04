@@ -241,7 +241,7 @@ export const compareVariants: CompareVariantConfig[] = [
       {
         question: "What if I need full PDF editing like Acrobat?",
         answer:
-          "Docsora covers the high-frequency PDF workflows individuals, freelancers and teams rely on every day — compress, convert, merge, split, sign and organize — in a premium browser experience. For deep prepress editing, Acrobat remains the desktop standard.",
+          "Docsora covers the high-frequency PDF workflows individuals, freelancers and teams rely on every day — compress, convert, merge, split, sign and organize — in a premium browser experience that requires no installation, no subscription and no learning curve.",
       },
     ],
   },
