@@ -13,6 +13,7 @@ import {
   Upload,
 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
 import {
   Accordion,
   AccordionContent,
@@ -308,6 +309,9 @@ const CompareLanding = () => {
               </Link>
             </div>
           </motion.section>
+          {/* Disclaimer */}
+          <ComparisonDisclaimer />
+
         </div>
       </div>
     </AppLayout>
