@@ -108,11 +108,6 @@ export const aiCheckGuides: AICheckGuide[] = [
           "Yes. Review is non-destructive - the signed PDF is never modified. Editorial suggestions are surfaced in a side-by-side view and the original file remains intact.",
       },
       {
-        question: "Does it work on scanned PDFs?",
-        answer:
-          "Yes, if the PDF contains a readable text layer (OCR or native text). Image-only scans need OCR first - most PDFs from modern scanners already include this.",
-      },
-      {
         question: "Is it really free for standard documents?",
         answer:
           "Yes. Standard PDFs are reviewed at no cost with no signup. Pro unlocks long documents, batch review and team workflows.",
