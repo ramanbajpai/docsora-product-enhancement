@@ -219,13 +219,14 @@ const AIGrammarlyCompare = () => {
                     <Briefcase className="w-4 h-4 text-primary" />
                   </div>
                   <h3 className="text-sm font-semibold text-foreground">
-                    Best for Docsora
+                    Docsora
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground/85 leading-relaxed">
-                  Businesses that need document review as part of a broader
-                  operational process including file collection, document
-                  delivery, approvals, signatures and workflows.
+                  Teams or businesses that need document communication
+                  enhancement and fixes as part of a broader operational
+                  process including file collection, document delivery,
+                  approvals, signatures and workflows.
                 </p>
               </div>
               <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
@@ -234,7 +235,7 @@ const AIGrammarlyCompare = () => {
                     <PenLine className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <h3 className="text-sm font-semibold text-foreground">
-                    Best for Grammarly
+                    Grammarly
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground/85 leading-relaxed">
