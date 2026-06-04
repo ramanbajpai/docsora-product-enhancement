@@ -150,7 +150,7 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       {
         question: "Is Docsora a free QuillBot alternative?",
         answer:
-          "Yes. Docsora AI Check offers free browser-based document review with native PDF, Word and PowerPoint support, focused on full-document grammar and clarity rather than paraphrasing.",
+          "Docsora AI Check provides browser-based document review with native support for PDF, Word and PowerPoint files. It focuses on improving grammar, spelling, clarity and overall document quality across entire documents rather than content paraphrasing.\n\nUsers can access grammar and spelling enhancements free of charge for up to 50,000 characters per month. For larger documents or higher usage limits, users can upgrade to a Pro plan to unlock additional review capacity and suggestions.\n\nAdvanced tone enhancements and full-document AI improvements are available as part of the Pro experience, giving users deeper document analysis and more comprehensive refinement tools.",
       },
       {
         question: "Does Docsora paraphrase content like QuillBot?",
