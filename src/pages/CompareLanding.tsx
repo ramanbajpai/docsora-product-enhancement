@@ -164,13 +164,7 @@ const CompareLanding = () => {
                 )}
               >
                 <Upload className="w-4 h-4" />
-                Try Docsora Compress
-              </Link>
-              <Link
-                to="/compress"
-                className="text-xs font-medium text-muted-foreground/80 hover:text-primary transition-colors"
-              >
-                Back to compression hub
+                Try Docsora Compress today
               </Link>
             </div>
           </motion.section>
