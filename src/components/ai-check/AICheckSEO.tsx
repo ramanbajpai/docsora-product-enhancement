@@ -321,7 +321,7 @@ const writingQuestions: { question: string; answer: string }[] = [
   {
     question: "How do I rewrite awkward business sentences?",
     answer:
-      "Upload the document, filter suggestions by clarity severity, and step through rewrites sentence by sentence. The rewriter sharpens phrasing without changing meaning; reviewers accept individual suggestions or apply only the high-confidence improvements.",
+      "Upload the document or type text and step through rewrites sentence by sentence. The rewriter sharpens phrasing without changing meaning; reviewers accept individual suggestions or apply only the high-confidence improvements.",
   },
   {
     question: "What AI tool improves professional writing?",
