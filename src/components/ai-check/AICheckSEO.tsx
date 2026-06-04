@@ -326,7 +326,7 @@ const writingQuestions: { question: string; answer: string }[] = [
   {
     question: "What AI tool improves professional writing?",
     answer:
-      "An editorial AI tuned for business writing — reports, proposals, contracts, decks — with tone presets calibrated for executive, legal, simple and marketing audiences. Docsora is engineered for professional documents, not student essays or generic copy.",
+      "An editorial AI tuned for business writing — reports, proposals, contracts, decks — with tone presets calibrated for executive, legal, simple and marketing audiences. Allowing you to upload student essays to board documents and instantly enhance wording and sentences.",
   },
   {
     question: "How do I proofread contracts online?",
