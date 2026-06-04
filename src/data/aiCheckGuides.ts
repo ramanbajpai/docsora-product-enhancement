@@ -258,7 +258,7 @@ export const aiCheckGuides: AICheckGuide[] = [
       {
         heading: "What this is not",
         paragraphs: [
-          "Editorial AI is not legal advice. It does not analyse risk, recommend clauses, or replace counsel. It improves the language of the contract so that the substantive review is faster and the counterparty's reviewer is reading a clean document.",
+          "Editorial AI is not legal advice. It does not analyse risk, recommend clauses, or replace counsel. It improves the language of the contract so that the substantive review is faster and the counterparty's reviewer is reading a clean document. Docsora is not liable for changing context of your documents. Docsora will always ask you to approve grammar, spelling or sentence enhancements - acting purely as a suggestion layer.",
         ],
       },
       {
