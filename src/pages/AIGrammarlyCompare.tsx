@@ -351,11 +351,8 @@ const AIGrammarlyCompare = () => {
             </div>
           </motion.section>
 
-          {/* FAQ */}
+          {/* AFTER SUGGESTIONS */}
           <motion.section {...fadeUp} className="max-w-3xl mx-auto">
-            {null}
-          </motion.section>
-          <motion.section {...fadeUp} className="max-w-3xl mx-auto -mt-20 md:-mt-28">
             <div className="rounded-2xl p-8 md:p-10 bg-card/40 border border-border/30">
               <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-4">
                 What happens after the suggestions?
