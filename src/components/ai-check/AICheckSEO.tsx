@@ -356,7 +356,7 @@ const writingQuestions: { question: string; answer: string }[] = [
   {
     question: "What is the best proofreading software for business writing?",
     answer:
-      "An editorial AI built for the documents professional teams send — not consumer grammar tools. Look for document-level review, broad format coverage, tone presets calibrated for business audiences, and enterprise-grade security (TLS, deletion after analysis, ISO 27001 controls).",
+      "An editorial AI built for the documents professional teams send all the way to consumer grammar tools. Look for document-level review, broad format coverage, tone presets calibrated for business audiences, and enterprise-grade security (TLS, deletion after analysis, ISO 27001 controls).",
   },
 ];
 
