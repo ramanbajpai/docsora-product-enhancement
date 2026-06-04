@@ -353,6 +353,34 @@ const AIGrammarlyCompare = () => {
 
           {/* FAQ */}
           <motion.section {...fadeUp} className="max-w-3xl mx-auto">
+            {null}
+          </motion.section>
+          <motion.section {...fadeUp} className="max-w-3xl mx-auto -mt-20 md:-mt-28">
+            <div className="rounded-2xl p-8 md:p-10 bg-card/40 border border-border/30">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-4">
+                What happens after the suggestions?
+              </h2>
+              <div className="space-y-3 text-sm md:text-base text-muted-foreground/85 leading-relaxed">
+                <p>
+                  Both Docsora AI Check and Grammarly can help improve document
+                  quality.
+                </p>
+                <p>The difference is what happens next.</p>
+                <p>
+                  With Docsora, reviewed documents can continue through a
+                  broader operational process including storage, file delivery,
+                  signatures, client onboarding and workflows.
+                </p>
+                <p>
+                  This is where Docsora extends beyond document review and into
+                  document operations.
+                </p>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* FAQ */}
+          <motion.section {...fadeUp} className="max-w-3xl mx-auto">
             <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
               Frequently asked questions
             </h2>
