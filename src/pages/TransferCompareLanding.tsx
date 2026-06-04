@@ -14,7 +14,6 @@ import {
   Gauge,
   Eye,
   RefreshCw,
-  History,
 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
