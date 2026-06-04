@@ -174,7 +174,7 @@ const benefits = [
   { icon: Zap, title: "Editorial speed", description: "Whole-document suggestions surface in seconds across long reports and decks." },
   { icon: Layers, title: "Format coverage", description: "PDF, DOC, DOCX, ODT, HTML, PPT, PPTX and pasted text." },
   { icon: Lock, title: "Enterprise controls", description: "TLS, ISO 27001 and SOC 2-aligned operations for regulated teams." },
-  { icon: BookOpenCheck, title: "Operational focus", description: "Built for reports and proposals - not student essays or generic copy." },
+  { icon: BookOpenCheck, title: "Operational focus", description: "Built for reports, proposals or any type of document. From student essays to legal documents." },
 ];
 
 // SECTION 6 - Security
