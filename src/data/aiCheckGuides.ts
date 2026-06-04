@@ -232,7 +232,7 @@ export const aiCheckGuides: AICheckGuide[] = [
         heading: "Where contract language quietly fails",
         paragraphs: [
           "Most contract issues are not legal - they are linguistic. Defined terms used inconsistently, ambiguous scope clauses, paragraph-long sentences that obscure obligations, terminology drift between schedules and the body. Counsel catches most of them in review; editorial AI catches them before the document reaches counsel.",
-          "The result is a faster legal review, fewer redline cycles, and a contract that reads cleanly to the counterparty's reviewer.",
+          "The result is a faster legal review, fewer redline cycles, and a contract that reads cleanly to the counterparty's reviewer. Docsora never claims or acts as a legal counsel, our AI Check feature ensures language is consistent, grammar and spelling free. Docsora advises its users to share the enhanced document with legal representatives before sharing.",
         ],
       },
       {
