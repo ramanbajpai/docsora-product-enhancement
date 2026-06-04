@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Minus, Zap, Sparkles, Upload } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
 import {
   Accordion,
   AccordionContent,
@@ -213,6 +214,9 @@ const AICompareLanding = () => {
               </Link>
             </div>
           </motion.section>
+          {/* Disclaimer */}
+          <ComparisonDisclaimer />
+
         </div>
       </div>
     </AppLayout>
