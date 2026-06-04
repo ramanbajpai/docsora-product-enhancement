@@ -351,7 +351,7 @@ const writingQuestions: { question: string; answer: string }[] = [
   {
     question: "Can AI improve PowerPoint presentation wording?",
     answer:
-      "Yes. Editorial AI extracts text from every slide and reviews grammar, tone and clarity slide by slide. Design, layout, themes and animations remain untouched.",
+      "Yes. Editorial AI extracts text from every slide and reviews grammar, tone and clarity slide by slide. While formatting is preserved, we are constantly enhancing our models to ensure design, layout, themes and animations remain untouched.",
   },
   {
     question: "What is the best proofreading software for business writing?",
