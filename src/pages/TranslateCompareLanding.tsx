@@ -150,13 +150,7 @@ const TranslateCompareLanding = () => {
                 )}
               >
                 <Languages className="w-4 h-4" />
-                Try Docsora Translate
-              </Link>
-              <Link
-                to="/translate"
-                className="text-xs font-medium text-muted-foreground/80 hover:text-primary transition-colors"
-              >
-                Back to translation hub
+                Try Docsora Translate today
               </Link>
             </div>
           </motion.section>

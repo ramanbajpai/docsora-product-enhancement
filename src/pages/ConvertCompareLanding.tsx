@@ -159,13 +159,7 @@ const ConvertCompareLanding = () => {
                 )}
               >
                 <Upload className="w-4 h-4" />
-                Try Docsora Convert
-              </Link>
-              <Link
-                to="/convert"
-                className="text-xs font-medium text-muted-foreground/80 hover:text-primary transition-colors"
-              >
-                Back to conversion hub
+                Try Docsora Convert today
               </Link>
             </div>
           </motion.section>

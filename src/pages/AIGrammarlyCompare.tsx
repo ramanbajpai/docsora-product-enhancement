@@ -197,13 +197,7 @@ const AIGrammarlyCompare = () => {
                 )}
               >
                 <Upload className="w-4 h-4" />
-                Try Docsora AI Check
-              </Link>
-              <Link
-                to="/ai-check"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-foreground/90 bg-card/60 border border-border/40 hover:bg-card transition-all duration-200"
-              >
-                View Pricing
+                Try Docsora AI Check today
               </Link>
             </div>
           </motion.section>
