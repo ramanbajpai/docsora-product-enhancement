@@ -14,6 +14,7 @@ import {
   Globe,
 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
 import {
   Accordion,
   AccordionContent,
@@ -352,6 +353,9 @@ const AIGrammarlyCompare = () => {
               </Link>
             </div>
           </motion.section>
+          {/* Disclaimer */}
+          <ComparisonDisclaimer />
+
         </div>
       </div>
     </AppLayout>
