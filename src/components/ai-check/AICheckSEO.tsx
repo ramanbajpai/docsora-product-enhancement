@@ -39,7 +39,6 @@ import {
   aiCheckVariants,
   type AICheckVariantConfig,
 } from "@/data/aiCheckVariants";
-import { aiCheckCompareVariants } from "@/data/aiCheckCompareVariants";
 import { aiCheckGuides } from "@/data/aiCheckGuides";
 import { HelpCircle, Clock3 } from "lucide-react";
 
