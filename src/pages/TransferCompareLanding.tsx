@@ -120,13 +120,7 @@ const TransferCompareLanding = () => {
                 )}
               >
                 <Upload className="w-4 h-4" />
-                Try Docsora Transfer
-              </Link>
-              <Link
-                to="/transfer"
-                className="text-xs font-medium text-muted-foreground/80 hover:text-primary transition-colors"
-              >
-                Back to transfer hub
+                Try Docsora Transfer today
               </Link>
             </div>
             <p className="mt-6 text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60">
