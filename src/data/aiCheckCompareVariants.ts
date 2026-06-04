@@ -141,7 +141,7 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       { feature: "Pasted text", docsora: "Supported", competitor: "Supported" },
     ],
     workflow: [
-      "Teams that need full-document audits, not paraphrasing",
+      "Teams that need full-document audits, not just paraphrasing",
       "Legal and finance teams reviewing contracts and reports",
       "Sales teams polishing investor decks slide by slide",
       "Operations teams running pre-send writing audits",
