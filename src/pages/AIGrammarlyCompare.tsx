@@ -225,8 +225,8 @@ const AIGrammarlyCompare = () => {
                 <p className="text-sm text-muted-foreground/85 leading-relaxed">
                   Teams or businesses that need document communication
                   enhancement and fixes as part of a broader operational
-                  process including file collection, document delivery,
-                  approvals, signatures and workflows.
+                  process including document delivery, approvals, signatures
+                  and workflows.
                 </p>
               </div>
               <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
