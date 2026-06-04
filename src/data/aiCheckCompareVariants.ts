@@ -160,7 +160,7 @@ export const aiCheckCompareVariants: AICompareVariantConfig[] = [
       {
         question: "Can I review entire documents, not just paragraphs?",
         answer:
-          "Yes. Docsora is designed for full-document review with severity-tagged inline suggestions, not paragraph-by-paragraph rewriting.",
+          "Yes. Docsora is designed for full-document review with severity-tagged inline suggestions, not just paragraph-by-paragraph rewriting.",
       },
     ],
   },
