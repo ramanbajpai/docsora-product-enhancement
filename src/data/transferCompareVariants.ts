@@ -18,24 +18,18 @@ export interface TransferCompareVariantConfig {
   metaDescription: string;
   h1: string;
   heroSubtitle: string;
-  overview: string;
+  description: string;
+  bestForDocsora: string;
+  bestForCompetitor: string;
   features: TransferCompareFeatureRow[];
-  workflow: TransferCompareFeatureRow[];
-  security: TransferCompareFeatureRow[];
-  experience: TransferCompareFeatureRow[];
-  pricing: TransferCompareFeatureRow[];
-  bestFor: string[];
+  keyDifferences: string[];
+  whoChooseDocsora: string[];
+  whoChooseCompetitor: string[];
   faq: TransferCompareFAQ[];
+  lastUpdated: string;
 }
 
-const baseSecurity = (competitor: string): TransferCompareFeatureRow[] => [
-  { feature: "TLS in transit", docsora: "Yes", competitor: "Yes" },
-  { feature: "Encryption at rest", docsora: "Yes", competitor: "Yes" },
-  { feature: "Password-protected links", docsora: "Built-in", competitor: competitor === "WeTransfer" ? "Pro tier" : "Yes" },
-  { feature: "Download limits", docsora: "Per link", competitor: competitor === "WeTransfer" ? "Limited" : "Yes" },
-  { feature: "Expiring links", docsora: "Configurable", competitor: "Yes" },
-  { feature: "Audit-ready activity log", docsora: "Yes", competitor: "Partial" },
-];
+const LAST_UPDATED = "June 2026";
 
 export const transferCompareVariants: TransferCompareVariantConfig[] = [
   {
