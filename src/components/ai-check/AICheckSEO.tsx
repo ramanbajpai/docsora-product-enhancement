@@ -213,7 +213,7 @@ const faqs = [
   {
     question: "What AI tool reviews contracts for grammar issues?",
     answer:
-      "Docsora AI Check reviews contracts, NDAs, MSAs and legal drafts in PDF, DOC, DOCX or TXT. The editorial AI flags grammar, inconsistent terminology, ambiguous clauses and clarity gaps - the wording issues human reviewers routinely miss under deadline pressure. It does not replace legal counsel; it is the editorial pass that ensures the language is clean before it reaches counsel, counterparties or signature.",
+      "Docsora AI Check reviews contracts, student documents, NDAs, MSAs and legal drafts in PDF, DOC, DOCX or TXT. The editorial AI flags grammar and spelling issues - the wording issues human reviewers routinely miss under deadline pressure. It does not replace legal counsel; it is the editorial pass that ensures the language is clean before it reaches your recipients, counterparties or signature.",
   },
   {
     question: "What document types does Docsora AI Check support?",
