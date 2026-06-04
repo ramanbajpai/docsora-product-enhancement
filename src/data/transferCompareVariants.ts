@@ -38,57 +38,74 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Docsora vs WeTransfer",
     cardSummary:
       "How modern operational delivery infrastructure compares to the original generic upload utility.",
-    title: "Docsora vs WeTransfer — Modern WeTransfer Alternative | Docsora",
+    title: "Docsora vs WeTransfer — WeTransfer Alternative for Business File Delivery | Docsora",
     metaDescription:
-      "Compare Docsora and WeTransfer on tracking, branded delivery, workflow integration, encryption and pricing. The modern WeTransfer alternative for operational teams.",
+      "Objective Docsora vs WeTransfer comparison. See how each platform handles large file transfer, recipient tracking, storage, document workflows and team collaboration.",
     h1: "Docsora vs WeTransfer",
     heroSubtitle:
-      "How Docsora Transfer compares to WeTransfer for modern operational file delivery.",
-    overview:
-      "WeTransfer is a generic upload utility — drop a file, get a link, hope it gets opened. Docsora Transfer is operational delivery infrastructure — every transfer is tracked, brandable, encrypted and connected to the rest of your operational workflows. Both are browser-native; the difference is everything that happens after the file is uploaded.",
+      "Objective comparison of file delivery, recipient experience, tracking, storage and operational workflows.",
+    description:
+      "Both Docsora and WeTransfer allow users to share files, but they are designed for different use cases. WeTransfer is a focused file transfer service built around the simple act of sending files via a link. Docsora is a document delivery platform that combines file transfer with storage, file requests, tracking, signatures and operational workflows. This guide compares how each platform approaches file delivery, recipient visibility, collaboration and workflow management.",
+    bestForDocsora:
+      "Businesses, agencies, freelancers and consumers who need file delivery as part of a broader document workflow that includes storage, tracking, file requests, approvals and operational processes.",
+    bestForCompetitor:
+      "Individuals and small teams who need a simple, familiar way to send files quickly without setting up an account or building a workflow.",
     features: [
-      { feature: "Browser-native delivery", docsora: "Yes", competitor: "Yes" },
-      { feature: "Real-time download tracking", docsora: "Open + download events", competitor: "Email notification only" },
-      { feature: "Branded recipient pages", docsora: "Included", competitor: "Pro tier only" },
-      { feature: "Workflow integration (sign, approve)", docsora: "Native", competitor: "None" },
-      { feature: "Multi-file operational packages", docsora: "Bundled", competitor: "Single ZIP" },
-      { feature: "Audit-ready activity log", docsora: "Yes", competitor: "No" },
+      { feature: "Large file transfers", docsora: "Supported", competitor: "Supported" },
+      { feature: "Recipient tracking", docsora: "Open and download events", competitor: "Email notification on download" },
+      { feature: "Download tracking", docsora: "Built-in", competitor: "Limited" },
+      { feature: "File expiry controls", docsora: "Configurable per link", competitor: "Configurable on paid plans" },
+      { feature: "Password protection", docsora: "Built-in", competitor: "Paid plans" },
+      { feature: "Document storage", docsora: "Included", competitor: "Limited / separate product" },
+      { feature: "Request files from others", docsora: "Built-in", competitor: "Not a core feature" },
+      { feature: "Workflow automation", docsora: "Built-in", competitor: "Not available" },
+      { feature: "Client onboarding flows", docsora: "Supported", competitor: "Not available" },
+      { feature: "Team workspaces", docsora: "Supported", competitor: "Limited" },
+      { feature: "File versioning", docsora: "Supported in storage", competitor: "Not a focus" },
+      { feature: "Document signing", docsora: "Built-in", competitor: "Not available" },
+      { feature: "Operational workflows", docsora: "Built-in", competitor: "Not the product focus" },
     ],
-    workflow: [
-      { feature: "Time to first delivery", docsora: "Seconds", competitor: "Seconds" },
-      { feature: "Route to signing", docsora: "One click", competitor: "Manual export" },
-      { feature: "Approval workflows", docsora: "Native", competitor: "None" },
-      { feature: "Recipient experience", docsora: "Branded", competitor: "Generic WeTransfer page" },
+    keyDifferences: [
+      "WeTransfer is focused on simple, one-off file delivery via a link.",
+      "Docsora combines file delivery with storage, document workflows, signatures, file requests and operational processes in one platform.",
+      "WeTransfer is most often used as a standalone transfer tool alongside other document software.",
+      "Docsora is designed as part of a broader document management platform that covers the lifecycle around the file, not just the upload.",
+      "Recipient tracking in Docsora extends beyond a single download notification to a richer activity view.",
     ],
-    security: baseSecurity("WeTransfer"),
-    experience: [
-      { feature: "Upload UX", docsora: "Premium, motion-rich", competitor: "Utility-grade" },
-      { feature: "Mobile experience", docsora: "Fully responsive", competitor: "Functional" },
-      { feature: "Workspace integration", docsora: "Storage + Sign + Track", competitor: "Standalone" },
+    whoChooseDocsora: [
+      "Teams that want file transfer, storage, signing and tracking in one place instead of stitching tools together.",
+      "Agencies and consultancies delivering client work as part of a structured workflow.",
+      "Operations, legal, finance and HR teams who need an audit-friendly record of what was sent, received and signed.",
+      "Freelancers and small businesses that want a more professional recipient experience than a generic transfer page.",
     ],
-    pricing: [
-      { feature: "Free tier", docsora: "Generous browser-native", competitor: "2GB limit" },
-      { feature: "Pro tier", docsora: "Operational features included", competitor: "Branding behind paywall" },
-    ],
-    bestFor: [
-      "Agencies that need branded client delivery",
-      "Production teams moving RAW video and design files",
-      "Operations teams routing delivery into signing",
-      "Consultancies and finance shipping board materials",
-      "Anyone tired of WeTransfer Pro's pricing",
+    whoChooseCompetitor: [
+      "Individuals sending an occasional large file with no need for tracking, workflows or storage.",
+      "Users who specifically want the familiar WeTransfer link experience for one-off creative transfers.",
+      "Teams that already have their document stack in place and only need a lightweight transfer utility.",
     ],
     faq: [
       {
-        question: "Is Docsora a real WeTransfer alternative?",
+        question: "Is Docsora a WeTransfer alternative?",
         answer:
-          "Yes. Docsora replicates WeTransfer's core drag-and-drop flow and adds operational infrastructure on top — tracking, branding, encryption and workflow integration.",
+          "Yes. Docsora can be used in place of WeTransfer for large file transfer, and it also includes storage, file requests, recipient tracking, signing and document workflows in the same platform.",
       },
       {
-        question: "Can I migrate my WeTransfer workflows to Docsora?",
+        question: "What is the main difference between Docsora and WeTransfer?",
         answer:
-          "Yes. Most teams migrate in an afternoon — share the new Docsora link in place of the WeTransfer URL and you're done.",
+          "WeTransfer is primarily a file transfer service. Docsora is a document delivery platform that uses transfer as one part of a broader workflow that includes storage, signatures, requests and operational processes.",
+      },
+      {
+        question: "Can Docsora track recipient activity?",
+        answer:
+          "Yes. Docsora records open and download events for shared files and surfaces this in the dashboard so senders can see what happened after a file was delivered.",
+      },
+      {
+        question: "Does Docsora include storage?",
+        answer:
+          "Yes. Files sent through Docsora can be retained in built-in storage, organised into folders and reused across signatures, requests and other workflows.",
       },
     ],
+    lastUpdated: LAST_UPDATED,
   },
   {
     slug: "compare/docsora-vs-dropbox-transfer",
@@ -96,43 +113,67 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Docsora vs Dropbox Transfer",
     cardSummary:
       "How a workflow-native delivery platform compares to Dropbox's bolt-on transfer feature.",
-    title: "Docsora vs Dropbox Transfer — Modern Alternative | Docsora",
+    title: "Docsora vs Dropbox Transfer — Dropbox Transfer Alternative for Document Workflows | Docsora",
     metaDescription:
-      "Compare Docsora and Dropbox Transfer on workflow integration, branded delivery, tracking and pricing for modern operational teams.",
+      "Objective Docsora vs Dropbox Transfer comparison. See how each platform handles file delivery, recipient tracking, document storage, signing and operational workflows.",
     h1: "Docsora vs Dropbox Transfer",
     heroSubtitle:
-      "How Docsora Transfer compares to Dropbox Transfer for modern operational delivery.",
-    overview:
-      "Dropbox Transfer is a bolt-on feature inside the broader Dropbox sync ecosystem. Docsora Transfer is a purpose-built operational delivery layer — no sync clients required, with branded pages, real-time tracking and workflow integration designed for teams that ship work professionally.",
+      "Objective comparison of file delivery, recipient experience, tracking, storage and operational workflows.",
+    description:
+      "Both Docsora and Dropbox Transfer allow users to send files via a link, but they sit inside very different products. Dropbox Transfer is a feature within the Dropbox ecosystem, designed to let existing Dropbox users send copies of files to recipients. Docsora is a standalone document delivery platform that combines file transfer with storage, file requests, signing and workflows. This guide compares how each platform approaches file delivery, recipient visibility, collaboration and workflow management.",
+    bestForDocsora:
+      "Teams managing client-facing document processes who want transfer, storage, signing and tracking in one platform.",
+    bestForCompetitor:
+      "Existing Dropbox users who occasionally need to send a copy of a file to a recipient as a transfer link.",
     features: [
-      { feature: "Browser-native (no sync client)", docsora: "Yes", competitor: "Sync client recommended" },
-      { feature: "Branded recipient pages", docsora: "Yes", competitor: "Limited" },
-      { feature: "Workflow integration", docsora: "Sign + approve + track", competitor: "Dropbox ecosystem only" },
-      { feature: "Tracking & audit log", docsora: "Real-time", competitor: "Basic" },
+      { feature: "Large file transfers", docsora: "Supported", competitor: "Supported" },
+      { feature: "Recipient tracking", docsora: "Open and download events", competitor: "Download notifications" },
+      { feature: "Download tracking", docsora: "Built-in", competitor: "Built-in" },
+      { feature: "File expiry controls", docsora: "Configurable per link", competitor: "Configurable" },
+      { feature: "Password protection", docsora: "Built-in", competitor: "Available on paid plans" },
+      { feature: "Document storage", docsora: "Included", competitor: "Core Dropbox product (separate)" },
+      { feature: "Request files from others", docsora: "Built-in", competitor: "Available as separate feature" },
+      { feature: "Workflow automation", docsora: "Built-in", competitor: "Limited" },
+      { feature: "Client onboarding flows", docsora: "Supported", competitor: "Not a core focus" },
+      { feature: "Team workspaces", docsora: "Supported", competitor: "Supported via Dropbox" },
+      { feature: "File versioning", docsora: "Supported in storage", competitor: "Supported via Dropbox" },
+      { feature: "Document signing", docsora: "Built-in", competitor: "Available via separate Dropbox Sign product" },
+      { feature: "Operational workflows", docsora: "Built-in", competitor: "Requires additional Dropbox products" },
     ],
-    workflow: [
-      { feature: "Setup time", docsora: "Seconds", competitor: "Account + workspace setup" },
-      { feature: "Route to signing", docsora: "Native", competitor: "Via integrations" },
+    keyDifferences: [
+      "Dropbox Transfer is an extension of Dropbox's cloud storage product.",
+      "Docsora focuses specifically on operational document delivery workflows.",
+      "Docsora includes transfer, storage, signatures, file requests and workflows inside a single platform.",
+      "Dropbox Transfer is primarily a delivery feature; broader workflow and signing capabilities live in separate Dropbox products.",
+      "Docsora is a fit when teams want one tool for the full document lifecycle rather than several Dropbox products.",
     ],
-    security: baseSecurity("Dropbox Transfer"),
-    experience: [
-      { feature: "Standalone transfer UX", docsora: "Premium, focused", competitor: "Embedded in Dropbox" },
-      { feature: "Mobile experience", docsora: "Fully responsive", competitor: "App-first" },
+    whoChooseDocsora: [
+      "Teams that want transfer, storage, signing and tracking unified in one platform.",
+      "Client-facing teams who need structured delivery rather than ad-hoc transfer links.",
+      "Operations and legal teams that need a clear record of what was sent and signed.",
     ],
-    pricing: [
-      { feature: "Free tier", docsora: "Generous", competitor: "Tied to Dropbox plan" },
-    ],
-    bestFor: [
-      "Teams that don't want Dropbox sync",
-      "Agencies needing branded delivery",
-      "Workflow-first operational teams",
+    whoChooseCompetitor: [
+      "Organisations already standardised on Dropbox who want to use Transfer as an extension of their existing storage.",
+      "Users who only need occasional transfer functionality on top of Dropbox.",
     ],
     faq: [
       {
+        question: "What is the difference between Docsora and Dropbox Transfer?",
+        answer:
+          "Dropbox Transfer is a delivery feature inside the Dropbox storage product. Docsora is a standalone document delivery platform that combines transfer with storage, signing, file requests and operational workflows.",
+      },
+      {
         question: "Do I need a Dropbox account to use Docsora?",
-        answer: "No. Docsora is fully independent — no Dropbox, no sync clients, no ecosystem lock-in.",
+        answer:
+          "No. Docsora is independent of Dropbox. Sender and recipient experiences work directly in the browser without any Dropbox account.",
+      },
+      {
+        question: "Can Docsora replace Dropbox for my team?",
+        answer:
+          "Docsora is purpose-built for document delivery, storage and workflows rather than full general-purpose cloud sync. Teams that primarily use Dropbox to deliver documents to clients can use Docsora end to end; teams using Dropbox as a general file system may continue to use it for that purpose.",
       },
     ],
+    lastUpdated: LAST_UPDATED,
   },
   {
     slug: "compare/docsora-vs-masv",
@@ -140,43 +181,67 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Docsora vs MASV",
     cardSummary:
       "How an operational delivery platform compares to MASV's pay-per-GB media transfer.",
-    title: "Docsora vs MASV — Operational Alternative | Docsora",
+    title: "Docsora vs MASV — Business Document Delivery vs Large Media Transfer | Docsora",
     metaDescription:
-      "Compare Docsora and MASV for large media transfer, operational workflows, pricing and team usage.",
+      "Objective Docsora vs MASV comparison. See how each platform approaches file delivery: Docsora for business document workflows, MASV for large media transfer.",
     h1: "Docsora vs MASV",
     heroSubtitle:
-      "How Docsora Transfer compares to MASV for large media and operational file delivery.",
-    overview:
-      "MASV is a specialist large-media transfer tool with pay-per-GB pricing aimed at film and broadcast. Docsora Transfer covers large media plus the wider operational stack — documents, decks, signing, approvals and tracked client delivery — on predictable flat pricing.",
+      "Objective comparison of file delivery, recipient experience, tracking, storage and operational workflows.",
+    description:
+      "Docsora and MASV are both file delivery platforms, but they are built for different categories of work. MASV is designed around the needs of media and broadcast teams moving very large production files, with pricing structured around data volume. Docsora is built around business document delivery — contracts, proposals, onboarding packs, compliance documents and client work — combined with storage, signing and operational workflows. This guide compares how each platform approaches file delivery, recipient visibility, collaboration and workflow management. Docsora is not positioned as a replacement for specialised media delivery infrastructure.",
+    bestForDocsora:
+      "Business document delivery and operational workflows for contracts, proposals, onboarding, compliance and client deliverables.",
+    bestForCompetitor:
+      "Media, film, video production and broadcast teams moving very large production files where transfer speed and per-GB economics are the main consideration.",
     features: [
-      { feature: "Large media support", docsora: "Yes", competitor: "Yes" },
-      { feature: "Operational document workflows", docsora: "Native", competitor: "Limited" },
-      { feature: "Branded delivery pages", docsora: "Included", competitor: "Yes" },
-      { feature: "Workflow integration", docsora: "Sign + approve", competitor: "None" },
+      { feature: "Large file transfers", docsora: "Supported for typical business files", competitor: "Optimised for very large media files" },
+      { feature: "Recipient tracking", docsora: "Open and download events", competitor: "Download tracking" },
+      { feature: "Download tracking", docsora: "Built-in", competitor: "Built-in" },
+      { feature: "File expiry controls", docsora: "Configurable per link", competitor: "Configurable" },
+      { feature: "Password protection", docsora: "Built-in", competitor: "Built-in" },
+      { feature: "Document storage", docsora: "Included for business documents", competitor: "Storage focused on media files" },
+      { feature: "Request files from others", docsora: "Built-in", competitor: "Supported for media intake" },
+      { feature: "Workflow automation", docsora: "Document workflows", competitor: "Media-centric workflows" },
+      { feature: "Client onboarding flows", docsora: "Supported", competitor: "Not the product focus" },
+      { feature: "Team workspaces", docsora: "Supported", competitor: "Supported" },
+      { feature: "File versioning", docsora: "Supported in storage", competitor: "Not a primary focus" },
+      { feature: "Document signing", docsora: "Built-in", competitor: "Not available" },
+      { feature: "Operational workflows", docsora: "Business documents", competitor: "Media production pipelines" },
     ],
-    workflow: [
-      { feature: "Pricing model", docsora: "Flat plans", competitor: "Pay-per-GB" },
-      { feature: "Cross-domain workflow", docsora: "Media + docs + sign", competitor: "Media-only" },
+    keyDifferences: [
+      "MASV is built around high-volume media transfers and very large production files.",
+      "Docsora focuses on business document operations, including contracts, proposals, onboarding and compliance.",
+      "MASV is commonly used by video production, film and media organisations.",
+      "Docsora is designed for legal, finance, operations, agency and consultancy use cases that revolve around documents.",
+      "MASV uses pricing structured around data volume; Docsora uses subscription pricing aligned to document workflows.",
     ],
-    security: baseSecurity("MASV"),
-    experience: [
-      { feature: "Cross-team usability", docsora: "Wider operational fit", competitor: "Media-team focused" },
+    whoChooseDocsora: [
+      "Teams whose primary delivery is documents rather than raw media.",
+      "Operations and client-facing teams that want delivery combined with storage and signing.",
+      "Businesses that need a predictable subscription model rather than per-GB billing for documents.",
     ],
-    pricing: [
-      { feature: "Free tier", docsora: "Generous", competitor: "Pay-per-GB after credit" },
-    ],
-    bestFor: [
-      "Studios that also ship documents",
-      "Teams that want flat pricing",
-      "Cross-functional creative ops",
+    whoChooseCompetitor: [
+      "Media, post-production and broadcast teams moving terabyte-scale footage between facilities.",
+      "Studios and production companies whose core workflow is large media files rather than business documents.",
     ],
     faq: [
       {
-        question: "Is Docsora as fast as MASV for large media?",
+        question: "When should I use MASV instead of Docsora?",
         answer:
-          "For most operational workloads, yes. MASV optimizes for terabyte-scale broadcast pipelines; Docsora optimizes for everyday large-media delivery integrated with the rest of your operational stack.",
+          "MASV is a strong fit when the primary workload is very large media files for film, video or broadcast production. Docsora is intended for business document delivery rather than specialised media pipelines.",
+      },
+      {
+        question: "Can Docsora handle large files?",
+        answer:
+          "Docsora supports large file transfers for typical business use cases such as design files, presentations and document bundles. For specialised high-volume media production workflows, dedicated media transfer infrastructure such as MASV is often a better fit.",
+      },
+      {
+        question: "Does Docsora include signing and storage?",
+        answer:
+          "Yes. Docsora combines file delivery with document storage, file requests and document signing in one platform, which sits outside MASV's media-focused scope.",
       },
     ],
+    lastUpdated: LAST_UPDATED,
   },
   {
     slug: "compare/docsora-vs-smash",
@@ -184,43 +249,66 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Docsora vs Smash",
     cardSummary:
       "How Docsora Transfer compares to Smash for large file delivery and operational workflows.",
-    title: "Docsora vs Smash — Modern File Transfer Alternative | Docsora",
+    title: "Docsora vs Smash — Smash Alternative for Business File Delivery | Docsora",
     metaDescription:
-      "Compare Docsora and Smash on operational workflows, branded delivery, tracking and pricing.",
+      "Objective Docsora vs Smash comparison. See how each platform handles large file transfer, recipient tracking, storage, signing and document workflows.",
     h1: "Docsora vs Smash",
     heroSubtitle:
-      "How Docsora Transfer compares to Smash for operational file delivery.",
-    overview:
-      "Smash is a clean WeTransfer alternative for consumer and small-team file delivery. Docsora Transfer covers the same ground and adds operational infrastructure — workflow integration into signing and approvals, audit-ready activity logs and full workspace integration.",
+      "Objective comparison of file delivery, recipient experience, tracking, storage and operational workflows.",
+    description:
+      "Docsora and Smash both let users send files in the browser, but they target different needs. Smash is designed around frictionless large file sharing with a simple uploader and shareable links. Docsora is a document delivery platform that adds storage, tracking, file requests, signing and operational workflows around the act of sending a file. This guide compares how each platform approaches file delivery, recipient visibility, collaboration and workflow management.",
+    bestForDocsora:
+      "Operational file delivery and document workflows where transfer is one step in a broader process that also includes storage, signing and tracking.",
+    bestForCompetitor:
+      "Users seeking large file sharing with minimal setup, primarily for sending creative assets or one-off files.",
     features: [
-      { feature: "Browser-native delivery", docsora: "Yes", competitor: "Yes" },
-      { feature: "Branded pages", docsora: "Included", competitor: "Pro tier" },
-      { feature: "Workflow integration", docsora: "Native", competitor: "None" },
-      { feature: "Audit log", docsora: "Yes", competitor: "Limited" },
+      { feature: "Large file transfers", docsora: "Supported", competitor: "Supported" },
+      { feature: "Recipient tracking", docsora: "Open and download events", competitor: "Basic notifications" },
+      { feature: "Download tracking", docsora: "Built-in", competitor: "Built-in" },
+      { feature: "File expiry controls", docsora: "Configurable per link", competitor: "Configurable" },
+      { feature: "Password protection", docsora: "Built-in", competitor: "Built-in" },
+      { feature: "Document storage", docsora: "Included", competitor: "Limited" },
+      { feature: "Request files from others", docsora: "Built-in", competitor: "Not a core feature" },
+      { feature: "Workflow automation", docsora: "Built-in", competitor: "Not available" },
+      { feature: "Client onboarding flows", docsora: "Supported", competitor: "Not available" },
+      { feature: "Team workspaces", docsora: "Supported", competitor: "Limited" },
+      { feature: "File versioning", docsora: "Supported in storage", competitor: "Not a focus" },
+      { feature: "Document signing", docsora: "Built-in", competitor: "Not available" },
+      { feature: "Operational workflows", docsora: "Built-in", competitor: "Not the product focus" },
     ],
-    workflow: [
-      { feature: "Time to first delivery", docsora: "Seconds", competitor: "Seconds" },
-      { feature: "Workspace integration", docsora: "Sign + Track + Storage", competitor: "Standalone" },
+    keyDifferences: [
+      "Both Docsora and Smash support large file delivery in the browser.",
+      "Docsora extends beyond transfer into document management, storage, file requests and workflows.",
+      "Smash focuses primarily on the file transfer experience itself.",
+      "Docsora is a fit when the file being delivered is part of a larger document process such as a proposal, contract or onboarding pack.",
     ],
-    security: baseSecurity("Smash"),
-    experience: [
-      { feature: "Recipient experience", docsora: "Branded operational page", competitor: "Smash-branded by default" },
+    whoChooseDocsora: [
+      "Teams that want delivery, storage, signing and tracking in one platform.",
+      "Client-facing teams who need recipient visibility after a file is sent.",
+      "Businesses that need structured document processes around the file transfer.",
     ],
-    pricing: [
-      { feature: "Free tier", docsora: "Generous", competitor: "Speed-limited free tier" },
-    ],
-    bestFor: [
-      "Teams growing beyond consumer transfer tools",
-      "Agencies that want branding included",
-      "Operational teams routing files into workflows",
+    whoChooseCompetitor: [
+      "Individuals and creative users who want simple large file sharing.",
+      "Teams that already have document workflows in place and only need a lightweight transfer tool.",
     ],
     faq: [
       {
-        question: "Why pick Docsora over Smash?",
+        question: "Is Docsora a Smash alternative?",
         answer:
-          "Smash is a fine consumer transfer tool; Docsora is an operational platform. If you need workflow integration, branded delivery and audit logging without paying for multiple add-ons, Docsora is the modern fit.",
+          "Docsora can be used in place of Smash for sending files, and it also includes storage, signing, file requests and document workflows in the same platform.",
+      },
+      {
+        question: "What is the difference between Docsora and Smash?",
+        answer:
+          "Smash is focused on the file transfer step. Docsora is a document delivery platform that wraps transfer in storage, tracking, signing and operational workflows.",
+      },
+      {
+        question: "Can Docsora track recipient activity?",
+        answer:
+          "Yes. Docsora records open and download events for shared files so senders can see what happened after a transfer was sent.",
       },
     ],
+    lastUpdated: LAST_UPDATED,
   },
   {
     slug: "compare/docsora-vs-google-drive",
@@ -228,43 +316,67 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Docsora vs Google Drive",
     cardSummary:
       "How a purpose-built delivery platform compares to using Google Drive share links for client work.",
-    title: "Docsora vs Google Drive — Modern Delivery Alternative | Docsora",
+    title: "Docsora vs Google Drive — Google Drive Alternative for Client File Delivery | Docsora",
     metaDescription:
-      "Compare Docsora and Google Drive for client file delivery, branded transfer pages, tracking and operational workflows.",
+      "Objective Docsora vs Google Drive comparison. See how each platform handles file delivery, recipient experience, tracking, storage and document workflows.",
     h1: "Docsora vs Google Drive",
     heroSubtitle:
-      "How Docsora Transfer compares to using Google Drive share links for operational delivery.",
-    overview:
-      "Google Drive is a great storage product, but client delivery via Drive share links is fragmented and unprofessional. Docsora Transfer is purpose-built operational delivery — branded pages, real-time tracking, encrypted sessions and workflow integration the moment recipients open the link.",
+      "Objective comparison of file delivery, recipient experience, tracking, storage and operational workflows.",
+    description:
+      "Docsora and Google Drive are often compared because many teams use Google Drive share links as a workaround for client file delivery. Google Drive is primarily a cloud storage and collaboration product. Docsora is a document delivery platform designed specifically around sending files to recipients, tracking what happens after delivery and connecting transfer to signing, storage and workflows. This guide compares how each platform approaches file delivery, recipient visibility, collaboration and workflow management.",
+    bestForDocsora:
+      "Structured, client-facing document delivery and workflow management where each transfer has a clear recipient experience, tracking and follow-on actions.",
+    bestForCompetitor:
+      "General-purpose cloud storage and real-time document collaboration across teams already standardised on Google Workspace.",
     features: [
-      { feature: "Branded recipient pages", docsora: "Yes", competitor: "Generic Drive UI" },
-      { feature: "Real-time tracking", docsora: "Open + download events", competitor: "Basic activity" },
-      { feature: "Workflow integration", docsora: "Sign + approve", competitor: "Workspace required" },
-      { feature: "Recipient account required", docsora: "Never", competitor: "Often required" },
+      { feature: "Large file transfers", docsora: "Supported", competitor: "Supported via share links" },
+      { feature: "Recipient tracking", docsora: "Open and download events for transfers", competitor: "Limited; depends on file type and account" },
+      { feature: "Download tracking", docsora: "Built-in", competitor: "Limited" },
+      { feature: "File expiry controls", docsora: "Configurable per link", competitor: "Limited" },
+      { feature: "Password protection", docsora: "Built-in for transfers", competitor: "Not a core sharing feature" },
+      { feature: "Document storage", docsora: "Included", competitor: "Core product" },
+      { feature: "Request files from others", docsora: "Built-in", competitor: "Possible via folder sharing or forms" },
+      { feature: "Workflow automation", docsora: "Document workflows", competitor: "Via separate Google Workspace tools" },
+      { feature: "Client onboarding flows", docsora: "Supported", competitor: "Not a core focus" },
+      { feature: "Team workspaces", docsora: "Supported", competitor: "Supported via shared drives" },
+      { feature: "File versioning", docsora: "Supported in storage", competitor: "Supported in Drive" },
+      { feature: "Document signing", docsora: "Built-in", competitor: "Not built in" },
+      { feature: "Operational workflows", docsora: "Built-in", competitor: "Requires additional tooling" },
     ],
-    workflow: [
-      { feature: "External recipient friction", docsora: "Zero", competitor: "Account / permissions" },
-      { feature: "Delivery experience", docsora: "Branded transfer page", competitor: "Drive folder view" },
+    keyDifferences: [
+      "Google Drive is primarily a cloud storage and collaboration platform.",
+      "Docsora is designed around operational document delivery to recipients.",
+      "Many businesses currently use Google Drive share links as a workaround for file delivery to clients.",
+      "Docsora provides a purpose-built delivery experience with tracking, expiry controls, password protection and recipient actions.",
+      "Google Drive is broader as a general workspace; Docsora is focused on the delivery, signing and document workflow layer.",
     ],
-    security: baseSecurity("Google Drive"),
-    experience: [
-      { feature: "Purpose-built for delivery", docsora: "Yes", competitor: "Storage product" },
+    whoChooseDocsora: [
+      "Teams that regularly deliver documents to external clients and want a professional, structured recipient experience.",
+      "Agencies, consultancies, legal and finance teams that need tracking and an audit trail around what was sent.",
+      "Businesses that want transfer, signing and document workflows in one platform rather than stitched together.",
     ],
-    pricing: [
-      { feature: "Free tier", docsora: "Generous", competitor: "15GB total (shared with Gmail)" },
-    ],
-    bestFor: [
-      "Teams that deliver work to non-Google clients",
-      "Agencies needing branded delivery",
-      "Anyone tired of permission-error emails",
+    whoChooseCompetitor: [
+      "Teams primarily using Google Drive for internal collaboration and document editing.",
+      "Organisations already standardised on Google Workspace whose delivery needs are occasional and informal.",
     ],
     faq: [
       {
-        question: "Why not just use Google Drive share links?",
+        question: "Can Docsora replace Google Drive?",
         answer:
-          "Drive share links require recipients to navigate Google's UI, often hit permission errors and give the sender no branding or real tracking. Docsora is purpose-built for the recipient experience.",
+          "Docsora is not intended as a full replacement for general-purpose cloud storage and collaboration. It is designed to replace the use of Google Drive share links as an ad-hoc client file delivery method, with a structured delivery, tracking and workflow experience.",
+      },
+      {
+        question: "What is the difference between Docsora and Google Drive?",
+        answer:
+          "Google Drive is built around storing and collaborating on files. Docsora is built around delivering files to recipients with tracking, expiry controls, signing and document workflows.",
+      },
+      {
+        question: "Do recipients need a Google account to receive files via Docsora?",
+        answer:
+          "No. Docsora transfers are delivered via a link that opens in the browser without requiring a Google account or any other third-party login.",
       },
     ],
+    lastUpdated: LAST_UPDATED,
   },
 ];
 
