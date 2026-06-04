@@ -340,7 +340,7 @@ export const aiCheckGuides: AICheckGuide[] = [
       {
         heading: "What stays untouched",
         paragraphs: [
-          "Design. Editorial review only analyses the text inside slide objects - it never modifies master slides, layouts, themes, fonts, animations, or embedded media. The deck you upload looks identical to the deck you export, only with the wording tightened.",
+          "Docsora's AI Check feature tries to ensure that the design of your documents are not altered. Editorial review only analyses the text inside slide objects - it tries to ensure there are no design changes to master slides, layouts, themes, fonts, animations, or embedded media.",
         ],
       },
       {
