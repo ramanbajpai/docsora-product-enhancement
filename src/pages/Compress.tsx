@@ -83,7 +83,7 @@ const Compress = ({ variant }: CompressProps = {}) => {
     setStage("progress");
     
     setTimeout(() => {
-      const reductions = { balanced: 0.58, maximum: 0.72, quality: 0.32 };
+      const reductions = { balanced: 0.5, maximum: 0.8, quality: 0.3 };
       const reduction = reductions[mode];
       setCompressionResult({
         originalSize: file?.size || 42600000,

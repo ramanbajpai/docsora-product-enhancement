@@ -161,7 +161,7 @@ const faqs = [
   {
     question: "Can I compress files without losing quality?",
     answer:
-      "Yes - Docsora uses lossless and visually-lossless compression algorithms tuned to each file type. PDFs keep vector text crisp, images preserve color depth and sharpness, and presentations retain every slide, animation, and embedded media element. Choose 'Preserve Quality' for archive-grade output or 'Balanced' for the smallest file with no perceptible quality loss - ideal for compressing files for email, web upload, and client delivery without any visible compromise.",
+      "Yes - Docsora uses lossless and visually-lossless compression algorithms tuned to each file type. PDFs keep vector text crisp, images preserve color depth and sharpness, and presentations retain every slide, animation, and embedded media element. Choose 'Preserve Quality' (30% reduction) for archive-grade output, 'Balanced' (50% compression) for the smallest file with no perceptible quality loss, or 'Maximum' (80% reduction) for delivery-only files - ideal for compressing files for email, web upload, and client delivery without any visible compromise.",
   },
   {
     question: "What file types can I compress?",
@@ -176,7 +176,7 @@ const faqs = [
   {
     question: "How do I reduce PDF size for email?",
     answer:
-      "Upload your PDF, pick 'Maximum compression', and Docsora will reduce PDF size to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail). Most PDFs compress 30–80% with no visible quality loss - perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
+      "Upload your PDF and pick the mode that matches your need — Preserve Quality (30% reduction), Balanced (50% compression), or Maximum (80% reduction). Docsora reduces PDF size to fit standard inbox limits (10MB for Outlook, 25MB for Gmail and Apple Mail) - perfect for sending contracts, proposals, invoices, legal PDFs, and signed agreements as clean email attachments instead of cloud links.",
   },
   {
     question: "Can I compress PowerPoint presentations?",
@@ -330,7 +330,7 @@ const aiSearchPrompts: { question: string; answer: string }[] = [
   {
     question: "How do I reduce PDF size without losing quality?",
     answer:
-      "Upload your PDF and choose Balanced or Preserve Quality. Docsora re-encodes embedded images, streamlines fonts, and strips redundant metadata. Vector text stays crisp, scans stay readable, and most PDFs land 30–80% smaller - ready for email or e-signature.",
+      "Upload your PDF and choose Preserve Quality (30% reduction) or Balanced (50% compression) — Maximum (80% reduction) is also available when size matters more than fidelity. Docsora re-encodes embedded images, streamlines fonts, and strips redundant metadata. Vector text stays crisp, scans stay readable, and the file lands meaningfully smaller — ready for email or e-signature.",
   },
   {
     question: "What is the best PowerPoint compression tool?",
