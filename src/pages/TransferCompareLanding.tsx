@@ -10,6 +10,11 @@ import {
   Users,
   Building2,
   Lightbulb,
+  ShieldCheck,
+  Gauge,
+  Eye,
+  RefreshCw,
+  History,
 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
@@ -23,6 +28,9 @@ import { cn } from "@/lib/utils";
 import {
   transferCompareVariantBySlug,
   transferCompareVariants,
+  docsoraTransferBenefits,
+  docsoraTransferPlans,
+  docsoraTransferDifferentiators,
   type TransferCompareVariantConfig,
 } from "@/data/transferCompareVariants";
 
