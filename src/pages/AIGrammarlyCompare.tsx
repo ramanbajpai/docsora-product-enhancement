@@ -33,57 +33,58 @@ const fadeUp = {
 type Row = { feature: string; docsora: boolean; grammarly: boolean };
 
 const featureRows: Row[] = [
-  { feature: "Grammar & spelling suggestions", docsora: true, grammarly: true },
-  { feature: "Writing clarity suggestions", docsora: true, grammarly: true },
-  { feature: "Tone improvement suggestions", docsora: true, grammarly: true },
-  { feature: "Document review inside Docsora workflows", docsora: true, grammarly: false },
-  { feature: "Works directly within document management platform", docsora: true, grammarly: false },
-  { feature: "File transfer capabilities", docsora: true, grammarly: false },
-  { feature: "E-signature capabilities", docsora: true, grammarly: false },
+  { feature: "Grammar suggestions", docsora: true, grammarly: true },
+  { feature: "Spelling suggestions", docsora: true, grammarly: true },
+  { feature: "Sentence improvements", docsora: true, grammarly: true },
+  { feature: "Tone improvements", docsora: true, grammarly: true },
+  { feature: "Document review", docsora: true, grammarly: true },
+  { feature: "Upload existing documents", docsora: true, grammarly: true },
+  { feature: "Export reviewed documents", docsora: true, grammarly: true },
   { feature: "Document storage", docsora: true, grammarly: false },
-  { feature: "Request files from clients", docsora: true, grammarly: false },
-  { feature: "Operational workflow automation", docsora: true, grammarly: false },
-  { feature: "Browser-wide writing assistant", docsora: false, grammarly: true },
-  { feature: "Email writing assistance", docsora: false, grammarly: true },
-  { feature: "Website writing assistance", docsora: false, grammarly: true },
-  { feature: "Dedicated writing platform", docsora: false, grammarly: true },
+  { feature: "File transfer", docsora: true, grammarly: false },
+  { feature: "Request files", docsora: true, grammarly: false },
+  { feature: "Document signing", docsora: true, grammarly: false },
+  { feature: "Workflow automation", docsora: true, grammarly: false },
+  { feature: "Client onboarding workflows", docsora: true, grammarly: false },
+  { feature: "Team workspaces", docsora: true, grammarly: true },
+  { feature: "Document tracking", docsora: true, grammarly: false },
 ];
 
 const keyDifferences = [
   {
     icon: PenLine,
-    title: "Grammarly focuses on writing",
+    title: "Grammarly improves writing",
     body:
-      "Grammarly is designed to help users write and improve content across websites, emails, documents and communication platforms.",
+      "Grammarly is designed to help users improve grammar, clarity, tone and communication quality across a wide range of applications.",
   },
   {
     icon: Layers,
-    title: "Docsora focuses on document workflows",
+    title: "Docsora manages document operations",
     body:
-      "Docsora AI Check is part of a larger document platform that includes document storage, transfers, signing, tracking and workflows.",
+      "Docsora AI Check sits inside a broader document platform that helps businesses collect, review, share, sign and manage documents.",
   },
   {
     icon: Sparkles,
-    title: "Different use cases",
+    title: "Review is only one step",
     body:
-      "Users looking primarily for writing assistance may prefer Grammarly. Businesses looking to manage operational document processes may benefit from Docsora's broader platform approach.",
+      "Many businesses need more than document review. They also need file collection, approvals, signatures, storage, delivery and tracking. Docsora brings these capabilities together in one workflow.",
   },
 ];
 
 const docsoraFor = [
-  "Work with documents as part of business operations",
-  "Need document review alongside file sharing and storage",
-  "Want AI review integrated into workflows",
-  "Manage client onboarding, compliance or document collection processes",
-  "Prefer a single platform for multiple document-related tasks",
+  "You work with client documents",
+  "You review documents before sending them",
+  "You need document workflows",
+  "You need signatures and file transfers",
+  "You want document operations in one platform",
+  "You want AI review connected to business processes",
 ];
 
 const grammarlyFor = [
-  "Spend most of your day writing",
-  "Need writing assistance across websites and emails",
-  "Want browser-wide suggestions",
-  "Focus heavily on communication quality",
-  "Need a dedicated writing assistant",
+  "Your primary goal is writing assistance",
+  "You spend most of your day creating content",
+  "You want browser-wide writing help",
+  "You need communication assistance across websites and email",
 ];
 
 const faq = [
