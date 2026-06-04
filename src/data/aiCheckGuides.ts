@@ -110,7 +110,7 @@ export const aiCheckGuides: AICheckGuide[] = [
       {
         question: "Is it really free for standard documents?",
         answer:
-          "Yes. Standard PDFs are reviewed at no cost with no signup. Pro unlocks long documents, batch review and team workflows.",
+          "Yes. Standard PDFs are reviewed at no cost with no signup. Pro unlocks AI review and enhancement for longer documents.",
       },
     ],
     relatedTools: [
