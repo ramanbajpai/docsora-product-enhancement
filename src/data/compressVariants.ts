@@ -87,7 +87,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Shrink PDFs for email and sharing - formatting and clarity preserved.",
     longCopy:
-      "Docsora's online PDF size reducer compresses PDF documents by 60–90% while keeping text vector-sharp and images print-ready. Reduce PDF size for Gmail and Outlook attachments, e-signature workflows, and client deliverables - directly in your browser.",
+      "Docsora's online PDF size reducer compresses PDF documents by 30–80% while keeping text vector-sharp and images print-ready. Reduce PDF size for Gmail and Outlook attachments, e-signature workflows, and client deliverables - directly in your browser.",
     faq: [
       {
         question: "How do I reduce PDF size for email?",
@@ -97,7 +97,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Can I reduce PDF size without losing quality?",
         answer:
-          "Yes. Docsora's PDF size reducer uses visually-lossless compression that keeps text crisp and images sharp while typically reducing file size by 60–90%.",
+          "Yes. Docsora's PDF size reducer uses visually-lossless compression that keeps text crisp and images sharp while typically reducing file size by 30–80%.",
       },
     ],
   },
@@ -169,7 +169,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Shrink spreadsheets without breaking formulas, pivots, or references.",
     longCopy:
-      "Docsora's Excel size reducer rebuilds XLSX storage, clears redundant cache, and optimizes embedded objects - typically reducing Excel file size 40–70%. Every formula, named range, and pivot table remains fully intact.",
+      "Docsora's Excel size reducer rebuilds XLSX storage, clears redundant cache, and optimizes embedded objects - typically reducing Excel file size 30–80%. Every formula, named range, and pivot table remains fully intact.",
     faq: [
       {
         question: "Will reducing Excel file size break my formulas?",
@@ -241,7 +241,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Shrink PDF documents for email, web, and sharing - no quality loss.",
     longCopy:
-      "Docsora's online PDF compressor reduces file size by 60–90% while keeping text crisp, images sharp, and layouts identical. Compress PDFs for email attachments, web uploads, e-signature workflows, and client deliverables - directly in your browser with end-to-end encryption.",
+      "Docsora's online PDF compressor reduces file size by 30–80% while keeping text crisp, images sharp, and layouts identical. Compress PDFs for email attachments, web uploads, e-signature workflows, and client deliverables - directly in your browser with end-to-end encryption.",
     faq: [
       {
         question: "How do I compress a PDF file online?",
@@ -256,7 +256,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I reduce PDF size for email attachments?",
         answer:
-          "Most inboxes (Gmail, Outlook, Apple Mail) cap attachments at 25MB. Upload your PDF, pick 'Maximum compression', and Docsora will typically reduce it 60–90% - perfect for sending contracts, invoices, pitch decks, and legal PDFs without splitting.",
+          "Most inboxes (Gmail, Outlook, Apple Mail) cap attachments at 25MB. Upload your PDF, pick 'Maximum compression', and Docsora will typically reduce it 30–80% - perfect for sending contracts, invoices, pitch decks, and legal PDFs without splitting.",
       },
       {
         question: "Is Docsora's online PDF compressor free?",
@@ -314,7 +314,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Shrink PNG files with full transparency support for web and design.",
     longCopy:
-      "Docsora's PNG compressor uses lossless palette optimization and smart quantization to cut PNG file size by 50–80% - without breaking transparency, alpha channels, or sharp graphic edges. Ideal for UI assets, logos, screenshots, marketing visuals, and website graphics.",
+      "Docsora's PNG compressor uses lossless palette optimization and smart quantization to cut PNG file size by 30–80% - without breaking transparency, alpha channels, or sharp graphic edges. Ideal for UI assets, logos, screenshots, marketing visuals, and website graphics.",
     faq: [
       {
         question: "Does PNG compression preserve transparency?",
@@ -437,7 +437,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Reduce spreadsheet file size without breaking formulas or pivot tables.",
     longCopy:
-      "Docsora's online Excel compressor reduces XLS, XLSX, CSV, and ODS file sizes by 40–70% - perfect for compressing spreadsheets for email attachments, optimizing Excel exports for sharing, and shrinking large reporting workbooks. Browser-based spreadsheet compression with no installs, formulas preserved.",
+      "Docsora's online Excel compressor reduces XLS, XLSX, CSV, and ODS file sizes by 30–80% - perfect for compressing spreadsheets for email attachments, optimizing Excel exports for sharing, and shrinking large reporting workbooks. Browser-based spreadsheet compression with no installs, formulas preserved.",
     useCases: [
       "Compress spreadsheets for email",
       "Reduce reporting file sizes",
@@ -464,7 +464,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "Can I compress Excel files for email attachments?",
         answer:
-          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing 'Maximum compression' - most spreadsheets reduce 40–70%, easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
+          "Yes. Compress Excel for email by uploading any XLS or XLSX file and choosing 'Maximum compression' - most spreadsheets reduce 30–80%, easily fitting Gmail's 25MB cap and Outlook's tighter corporate limits. Ideal for sending financial models, monthly reports, and client data sheets without splitting attachments.",
       },
       {
         question: "Is Excel compression secure?",
@@ -479,7 +479,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I reduce a large Excel file size?",
         answer:
-          "Upload the file, pick a compression mode, and Docsora clears redundant cache, optimizes embedded images, and rebuilds the XLSX archive - typically cutting size by 40–70%.",
+          "Upload the file, pick a compression mode, and Docsora clears redundant cache, optimizes embedded images, and rebuilds the XLSX archive - typically cutting size by 30–80%.",
       },
     ],
   },
@@ -566,7 +566,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I make a PDF small enough to email?",
         answer:
-          "Upload your PDF, pick 'Maximum compression', and Docsora reduces it 60–90% - enough for almost every PDF to fit standard email limits without splitting.",
+          "Upload your PDF, pick 'Maximum compression', and Docsora reduces it 30–80% - enough for almost every PDF to fit standard email limits without splitting.",
       },
     ],
   },
@@ -739,7 +739,7 @@ export const compressVariants: CompressVariantConfig[] = [
     cardDescription:
       "Modern browser-based file compression for every major format.",
     longCopy:
-      "Docsora is a browser-based file compressor built for modern teams that need to compress files online without installing software. Format-aware optimization typically reduces PDF, DOCX, PPTX, XLSX, JPG, and PNG file size by 60-90% in seconds - encrypted in transit, automatically deleted after processing, and accessible from any browser on macOS, Windows, Linux, ChromeOS, iOS, and Android.",
+      "Docsora is a browser-based file compressor built for modern teams that need to compress files online without installing software. Format-aware optimization typically reduces PDF, DOCX, PPTX, XLSX, JPG, and PNG file size by 30–80% in seconds - encrypted in transit, automatically deleted after processing, and accessible from any browser on macOS, Windows, Linux, ChromeOS, iOS, and Android.",
     useCases: [
       "Compress files online for email attachments",
       "Compress files online without losing quality",
@@ -751,7 +751,7 @@ export const compressVariants: CompressVariantConfig[] = [
       {
         question: "How do I compress files online?",
         answer:
-          "Drop any file into the upload area on this page and Docsora compresses it directly in your browser using format-aware optimization. Compress PDF, DOCX, PPTX, XLSX, JPG, PNG, WEBP, and EML files online for free - no installs, no signup, no plugins. Most files are reduced 60-90% in seconds, then download instantly.",
+          "Drop any file into the upload area on this page and Docsora compresses it directly in your browser using format-aware optimization. Compress PDF, DOCX, PPTX, XLSX, JPG, PNG, WEBP, and EML files online for free - no installs, no signup, no plugins. Most files are reduced 30–80% in seconds, then download instantly.",
       },
       {
         question: "Is it safe to compress files online with Docsora?",

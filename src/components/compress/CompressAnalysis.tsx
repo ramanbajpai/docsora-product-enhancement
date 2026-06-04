@@ -34,7 +34,7 @@ export const CompressAnalysis = ({ file }: CompressAnalysisProps) => {
         } else if (index === 1) {
           setInsights(prev => [...prev, "Image-heavy document detected"]);
         } else if (index === 2) {
-          setInsights(prev => [...prev, "Estimated compression: ~58-72%"]);
+          setInsights(prev => [...prev, "Estimated compression: ~30–80%"]);
         }
       }, step.duration * (index + 1));
     });

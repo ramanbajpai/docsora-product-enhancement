@@ -49,7 +49,7 @@ export const compressGuides: CompressGuide[] = [
       "The most reliable way to reduce PDF size online without losing quality. Format-aware techniques, compression modes, and a step-by-step workflow.",
     h1: "The best way to reduce PDF size without losing quality",
     intro:
-      "Large PDFs are the most common reason emails bounce, uploads fail, and review cycles stall. This guide walks through the technique professional teams use to shrink PDFs by 60–80% while keeping vector text crisp, scans readable, and signatures intact.",
+      "Large PDFs are the most common reason emails bounce, uploads fail, and review cycles stall. This guide walks through the technique professional teams use to shrink PDFs by 30–80% while keeping vector text crisp, scans readable, and signatures intact.",
     readTime: "5 min read",
     category: "PDF compression",
     icon: FileText,
@@ -86,9 +86,9 @@ export const compressGuides: CompressGuide[] = [
       {
         heading: "How to choose the right compression mode",
         paragraphs: [
-          "Balanced is the right default for almost every business PDF. It keeps text crisp and reduces file size by roughly 60–80% — enough to clear Gmail's 25MB limit and Outlook's stricter 10–20MB enterprise caps.",
-          "Maximum is for PDFs that must be sent over constrained channels — older mail servers, mobile data, regional networks. Expect 80%+ reductions with slight visual softening on photo-heavy pages.",
-          "Preserve Quality keeps every pixel and is the correct choice for legal exhibits, regulatory filings, and any document that may be printed at full resolution. Expect 30–50% reductions driven by structural cleanup rather than image re-encoding.",
+          "Balanced is the right default for almost every business PDF. It keeps text crisp and reduces file size by roughly 30–80% — enough to clear Gmail's 25MB limit and Outlook's stricter 10–20MB enterprise caps.",
+          "Maximum is for PDFs that must be sent over constrained channels — older mail servers, mobile data, regional networks. Expect 30–80% reductions with slight visual softening on photo-heavy pages.",
+          "Preserve Quality keeps every pixel and is the correct choice for legal exhibits, regulatory filings, and any document that may be printed at full resolution. Expect 30–80% reductions driven by structural cleanup rather than image re-encoding.",
         ],
       },
       {
@@ -103,7 +103,7 @@ export const compressGuides: CompressGuide[] = [
       {
         question: "What is the best way to reduce PDF size for email?",
         answer:
-          "Use a format-aware compressor with the Balanced or Maximum mode. Most business PDFs drop 60–80% in size, which clears Gmail, Outlook, and Apple Mail attachment limits without splitting the file or relying on cloud links.",
+          "Use a format-aware compressor with the Balanced or Maximum mode. Most business PDFs drop 30–80% in size, which clears Gmail, Outlook, and Apple Mail attachment limits without splitting the file or relying on cloud links.",
       },
       {
         question: "Will compression reduce PDF quality?",
@@ -177,7 +177,7 @@ export const compressGuides: CompressGuide[] = [
       {
         heading: "Compression modes for decks",
         paragraphs: [
-          "Balanced is the right default. Expect 60–80% reductions with no visible quality loss on typical decks.",
+          "Balanced is the right default. Expect 30–80% reductions with no visible quality loss on typical decks.",
           "Maximum is for decks that must squeeze under a tight inbox cap — 10MB Outlook environments, regional mail servers, mobile review.",
           "Preserve Quality keeps every pixel and is appropriate for decks that will be projected on stage or printed as leave-behinds.",
         ],
@@ -358,7 +358,7 @@ export const compressGuides: CompressGuide[] = [
         heading: "What perceptual encoding preserves",
         paragraphs: [
           "Perceptual encoding analyses what the human eye actually notices and spends bits accordingly. Faces, sharp edges, and high-contrast areas keep detail. Smooth gradients and uniform color regions get aggressive compression because the eye cannot tell the difference.",
-          "The result is a file that looks identical to the original at normal viewing distance but is 50–80% smaller.",
+          "The result is a file that looks identical to the original at normal viewing distance but is 30–80% smaller.",
         ],
       },
     ],
@@ -453,7 +453,7 @@ export const compressGuides: CompressGuide[] = [
       {
         question: "How much smaller will my workbook get?",
         answer:
-          "Spreadsheets with embedded images or full-column formatting often drop 50–70%. Pure data workbooks see smaller but still meaningful reductions of 20–40%.",
+          "Spreadsheets with embedded images or full-column formatting often drop 30–80%. Pure data workbooks see smaller but still meaningful reductions of 30–80%.",
       },
       {
         question: "Can I compress a CSV file?",
