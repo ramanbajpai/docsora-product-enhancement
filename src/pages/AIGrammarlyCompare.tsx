@@ -42,10 +42,7 @@ const featureRows: Row[] = [
   { feature: "Export reviewed documents", docsora: true, grammarly: true },
   { feature: "Document storage", docsora: true, grammarly: false },
   { feature: "File transfer", docsora: true, grammarly: false },
-  { feature: "Request files", docsora: true, grammarly: false },
   { feature: "Document signing", docsora: true, grammarly: false },
-  { feature: "Workflow automation", docsora: true, grammarly: false },
-  { feature: "Client onboarding workflows", docsora: true, grammarly: false },
   { feature: "Team workspaces", docsora: true, grammarly: true },
   { feature: "Document tracking", docsora: true, grammarly: false },
 ];
