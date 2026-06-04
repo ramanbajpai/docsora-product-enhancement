@@ -39,7 +39,6 @@ import {
   aiCheckVariants,
   type AICheckVariantConfig,
 } from "@/data/aiCheckVariants";
-import { aiCheckCompareVariants } from "@/data/aiCheckCompareVariants";
 import { aiCheckGuides } from "@/data/aiCheckGuides";
 import { HelpCircle, Clock3 } from "lucide-react";
 
@@ -1111,60 +1110,113 @@ export function AICheckSEO({ variant }: AICheckSEOProps = {}) {
           </section>
         )}
 
-        {/* SECTION 10 - Compare AI Writing Platforms */}
+        {/* SECTION 10 - Understand Different Document Review Approaches */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Compare AI Writing Platforms
+              Understand Different Document Review Approaches
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              See how Docsora AI Check compares to other writing platforms
-              across review depth, file support, tone control and workflow
-              integration.
+              Docsora AI Check is designed to review completed documents before they are shared, signed or submitted. Compare how it differs from popular writing assistants.
             </p>
           </motion.div>
 
           <motion.div
             {...staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {aiCheckCompareVariants.map((c, i) => (
-              <motion.div
-                key={c.slug}
-                initial={staggerItem.initial}
-                whileInView={staggerItem.whileInView}
-                viewport={staggerItem.viewport}
-                transition={{ ...staggerItem.transition, delay: i * 0.06 }}
+            {/* Docsora AI Check vs Grammarly */}
+            <motion.div
+              initial={staggerItem.initial}
+              whileInView={staggerItem.whileInView}
+              viewport={staggerItem.viewport}
+              transition={{ ...staggerItem.transition, delay: 0 }}
+            >
+              <Link
+                to="/compare/docsora-vs-grammarly"
+                className={cn(
+                  "group rounded-2xl p-6 block h-full",
+                  "bg-card/40 border border-border/30",
+                  "hover:border-primary/20 hover:bg-card/70 transition-all duration-300",
+                )}
               >
-                <Link
-                  to={`/${c.slug}`}
-                  className={cn(
-                    "group rounded-2xl p-6 block h-full",
-                    "bg-card/40 border border-border/30",
-                    "hover:border-primary/20 hover:bg-card/70 transition-all duration-300",
-                  )}
-                >
-                  <div className="flex items-center gap-2.5 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
-                      <GitCompare className="w-3.5 h-3.5 text-primary/80" />
-                    </div>
-                    <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
-                      Comparison
-                    </span>
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
+                    <GitCompare className="w-3.5 h-3.5 text-primary/80" />
                   </div>
-                  <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {c.cardTitle}
-                  </h3>
-                  <p className="text-sm text-muted-foreground/75 leading-relaxed">
-                    {c.cardSummary}
-                  </p>
-                  <div className="mt-5 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
-                    <span>View comparison</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
+                    Writing assistant
+                  </span>
+                </div>
+                <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  Docsora AI Check vs Grammarly
+                </h3>
+                <p className="text-sm text-muted-foreground/75 leading-relaxed">
+                  Grammarly helps users improve writing while creating emails, documents and online content. Docsora AI Check focuses on reviewing completed business documents before they move through operational workflows.
+                </p>
+                <div className="mt-5 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
+                  <span>Learn the difference</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+            </motion.div>
+
+            {/* Docsora AI Check vs QuillBot */}
+            <motion.div
+              initial={staggerItem.initial}
+              whileInView={staggerItem.whileInView}
+              viewport={staggerItem.viewport}
+              transition={{ ...staggerItem.transition, delay: 0.06 }}
+            >
+              <Link
+                to="/compare/docsora-vs-quillbot"
+                className={cn(
+                  "group rounded-2xl p-6 block h-full",
+                  "bg-card/40 border border-border/30",
+                  "hover:border-primary/20 hover:bg-card/70 transition-all duration-300",
+                )}
+              >
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
+                    <GitCompare className="w-3.5 h-3.5 text-primary/80" />
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+                  <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">
+                    Paraphrasing tool
+                  </span>
+                </div>
+                <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  Docsora AI Check vs QuillBot
+                </h3>
+                <p className="text-sm text-muted-foreground/75 leading-relaxed">
+                  QuillBot focuses on rewriting, paraphrasing and improving content during drafting. Docsora AI Check is designed to review finished documents before sharing, approval or submission.
+                </p>
+                <div className="mt-5 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
+                  <span>Learn the difference</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Trust-building note */}
+          <motion.div
+            {...fadeUp}
+            className="mt-10 max-w-3xl mx-auto rounded-2xl border border-border/30 bg-card/30 p-6 md:p-8"
+          >
+            <h3 className="text-base font-semibold text-foreground mb-3 text-center">
+              Different tools for different stages
+            </h3>
+            <div className="space-y-3 text-sm text-muted-foreground/80 leading-relaxed">
+              <p>
+                Writing assistants and document review tools solve different problems.
+              </p>
+              <p>
+                If your primary goal is writing, editing or rewriting content while drafting, a dedicated writing assistant may be the better choice.
+              </p>
+              <p>
+                If your goal is reviewing completed documents before they are sent to clients, shared internally, signed or submitted, Docsora AI Check provides review capabilities within a broader document management platform.
+              </p>
+            </div>
           </motion.div>
         </section>
 
