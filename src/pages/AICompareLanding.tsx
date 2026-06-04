@@ -165,17 +165,42 @@ const AICompareLanding = () => {
             </Accordion>
           </motion.section>
 
-          <motion.section {...fadeUp}>
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">Other comparisons</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-3xl mx-auto">
-              {aiCheckCompareVariants.filter((v) => v.slug !== variant.slug).map((v) => (
-                <Link key={v.slug} to={`/${v.slug}`} className="group rounded-xl p-5 bg-card/40 border border-border/30 hover:border-primary/20 hover:bg-card/70 transition-all duration-300">
-                  <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{v.cardTitle}</h3>
-                  <p className="text-xs text-muted-foreground/80 leading-relaxed">{v.cardSummary}</p>
-                </Link>
-              ))}
-            </div>
-          </motion.section>
+          {(() => {
+            const others = aiCheckCompareVariants.filter((v) => v.slug !== variant.slug);
+            if (others.length === 0) return null;
+            return (
+              <motion.section {...fadeUp}>
+                <div className="text-center mb-6">
+                  <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight">Other comparisons</h2>
+                  <p className="text-sm text-muted-foreground/70 mt-2">Explore how Docsora compares to other writing tools.</p>
+                </div>
+                <div
+                  className={cn(
+                    "grid gap-4 mx-auto",
+                    others.length === 1 && "grid-cols-1 max-w-md",
+                    others.length === 2 && "grid-cols-1 sm:grid-cols-2 max-w-3xl",
+                    others.length >= 3 && "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl",
+                  )}
+                >
+                  {others.map((v) => (
+                    <Link
+                      key={v.slug}
+                      to={`/${v.slug}`}
+                      className="group relative rounded-2xl p-5 bg-card/50 border border-border/40 hover:border-primary/30 hover:bg-card/80 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+                    >
+                      <div className="flex items-start justify-between gap-3 mb-1.5">
+                        <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                          {v.cardTitle}
+                        </h3>
+                        <ArrowRight className="w-4 h-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                      </div>
+                      <p className="text-xs text-muted-foreground/80 leading-relaxed">{v.cardSummary}</p>
+                    </Link>
+                  ))}
+                </div>
+              </motion.section>
+            );
+          })()}
 
           <motion.section {...fadeUp}>
             <div className="text-center rounded-3xl p-12 md:p-16 bg-card/40 border border-border/30 backdrop-blur-sm">
