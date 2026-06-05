@@ -85,7 +85,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the maximum file size I can send?",
         answer:
-          "Docsora Transfer supports oversized operational files — well beyond email attachment limits — including large video exports, RAW imagery, design files and archives bundled into a single delivery.",
+          "Docsora supports oversized operational files well beyond email attachment limits up to 500gb in a single transfer request.",
       },
       {
         question: "Are file transfers secure?",

@@ -90,7 +90,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "What is the maximum file size I can send?",
         answer:
-          "Docsora supports oversized operational files well beyond email attachment limits — typically multi-GB transfers handled in a single browser session.",
+          "Docsora supports oversized operational files well beyond email attachment limits up to 500gb in a single transfer request.",
       },
       {
         question: "Do recipients need an account?",
