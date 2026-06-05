@@ -691,7 +691,6 @@ export const docsoraTransferBenefits = [
   "Dashboard recommendations and reminders",
   "Custom transfer messages",
   "Centralized transfer management",
-  "Team visibility",
   "File transfer integrated into a broader document platform",
 ];
 
