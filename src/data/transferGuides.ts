@@ -82,7 +82,7 @@ export const transferGuides: TransferGuide[] = [
       {
         heading: "What to look for in a transfer platform",
         paragraphs: [
-          "Beyond raw file size, the right platform should give you tracking, branded recipient pages, encryption in transit and at rest, and workflow integration into signing and approvals.",
+          "Beyond raw file size, the right platform should give you tracking, encrypted recipient sessions, encryption in transit and at rest, and workflow integration into signing and approvals.",
         ],
       },
     ],
@@ -135,7 +135,7 @@ export const transferGuides: TransferGuide[] = [
         bullets: [
           "Upload master, RAW or ProRes files directly from your edit station.",
           "Generate a delivery link the moment upload begins — recipients can start pulling files in parallel.",
-          "Brand the recipient page with studio identity.",
+          "Control recipient access with studio identity.",
           "Track opens and downloads to confirm receipt before invoicing.",
         ],
       },
@@ -157,7 +157,7 @@ export const transferGuides: TransferGuide[] = [
     slug: "how-agencies-deliver-large-client-files",
     title: "How Agencies Deliver Large Client Files Professionally | Docsora",
     metaDescription:
-      "How creative agencies, studios and consultancies professionally deliver large client files — branded pages, tracking and workflow integration.",
+      "How creative agencies, studios and consultancies professionally deliver large client files — tracking and workflow integration.",
     h1: "How Agencies Deliver Large Client Files",
     intro:
       "Generic WeTransfer pages don't reflect the value agencies create. Here's how modern studios deliver work professionally.",
@@ -170,15 +170,15 @@ export const transferGuides: TransferGuide[] = [
       {
         heading: "Why generic transfer pages hurt agencies",
         paragraphs: [
-          "When clients receive deliverables through a generic transfer page, the studio brand disappears at the most important moment in the relationship — the handoff.",
-          "Branded delivery pages, on the other hand, reinforce the studio's positioning every single time a client opens a transfer.",
+          "When clients receive deliverables through a generic transfer page, the studio loses visibility at the most important moment in the relationship — the handoff.",
+          "Tracked delivery pages, on the other hand, give the studio full visibility every single time a client opens a transfer.",
         ],
       },
       {
         heading: "The modern agency delivery stack",
         paragraphs: ["Here's what high-performing agencies converge on:"],
         bullets: [
-          "Branded recipient pages with the studio's identity.",
+          "Encrypted sessions for every studio handoff.",
           "Real-time tracking of opens and downloads.",
           "Encrypted sessions and expiring links for confidential campaigns.",
           "Direct routing into approvals and signing workflows.",
@@ -187,9 +187,9 @@ export const transferGuides: TransferGuide[] = [
     ],
     faqs: [
       {
-        question: "Can I brand the delivery page with my studio identity?",
+        question: "Can I track every client download from a transfer?",
         answer:
-          "Yes. Docsora Transfer ships branded recipient pages — colors, logo and copy reflect your studio rather than the platform.",
+          "Yes. Docsora Transfer records every open and download event with timestamps so you always know who accessed each transfer.",
       },
     ],
     relatedTools: [
@@ -302,12 +302,12 @@ export const transferGuides: TransferGuide[] = [
       {
         heading: "The modern workaround",
         paragraphs: [
-          "Instead of attaching the file, attach a delivery link. Docsora can email the link directly to your recipients from a branded sender identity.",
+          "Instead of attaching the file, attach a delivery link. Docsora can email the link directly to your recipients from a Docsora sender identity.",
         ],
         bullets: [
           "Upload your file to Docsora.",
           "Choose 'email delivery' and add recipients.",
-          "Docsora sends a branded email with a tracked download link.",
+          "Docsora sends an email with a tracked download link.",
         ],
       },
     ],
@@ -325,7 +325,7 @@ export const transferGuides: TransferGuide[] = [
     slug: "large-file-transfer-for-creative-teams",
     title: "Large File Transfer for Creative Teams | Docsora",
     metaDescription:
-      "How creative teams transfer large design, photography and production files — without compression, with branding and tracking.",
+      "How creative teams transfer large design, photography and production files — without compression, with tracking and access control.",
     h1: "Large File Transfer for Creative Teams",
     intro:
       "Designers, photographers and production teams move massive files daily. Here's the modern workflow that keeps them moving.",
@@ -344,7 +344,7 @@ export const transferGuides: TransferGuide[] = [
       {
         heading: "The creative delivery workflow",
         paragraphs: [
-          "High-performing creative teams use a single browser-native delivery layer for design files, photography and video — branded, tracked and connected to client approvals.",
+          "High-performing creative teams use a single browser-native delivery layer for design files, photography and video — tracked, secure and connected to client approvals.",
         ],
       },
     ],
@@ -405,7 +405,7 @@ export const transferGuides: TransferGuide[] = [
     slug: "operational-workflows-for-client-delivery",
     title: "Operational Workflows for Client Delivery | Docsora",
     metaDescription:
-      "How modern operational teams deliver work to clients — branded transfer pages, tracked downloads, approval workflows and integrated signing.",
+      "How modern operational teams deliver work to clients — tracked downloads, approval workflows and integrated signing.",
     h1: "Operational Workflows for Client Delivery",
     intro:
       "Client delivery shouldn't end at 'here's a link.' Here's the operational workflow that wins repeat work.",
@@ -425,7 +425,7 @@ export const transferGuides: TransferGuide[] = [
         heading: "The end-to-end client delivery workflow",
         paragraphs: ["The modern operational chain looks like this:"],
         bullets: [
-          "Deliver final files via branded Docsora Transfer.",
+          "Deliver final files via Docsora Transfer.",
           "Track open and download events to confirm receipt.",
           "Route the deliverable into client approval.",
           "Send the sign-off contract through Docsora Sign.",
