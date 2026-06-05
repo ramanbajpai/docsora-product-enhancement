@@ -150,7 +150,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       {
         question: "How do I send large files online?",
         answer:
-          "Upload your files to Docsora's transfer feature via drag and drop or upload button, generate a secure transfer link or select share via email and share it with recipients - in two clicks. Docsora supports large file transfers directly from your browser without requiring recipients to create an account.",
+          "To send large files online, upload your files to Docsora Transfer using drag-and-drop or the upload button, then generate a secure transfer link or send the files directly by email. Recipients can access the files without creating an account. Docsora supports large file transfers directly from your browser and provides download tracking, transfer history, expiry controls and recipient activity visibility from a single dashboard.",
       },
       {
         question: "Can I see who downloaded my files?",
