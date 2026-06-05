@@ -85,7 +85,7 @@ export default function Transfer({ variant }: TransferProps = {}) {
     </div>
   );
 
-  const pageTitle = variant?.title ?? "Docsora Transfer — Send Large Files Instantly";
+  const pageTitle = variant?.title ?? "Docsora Transfer - Send Large Files Instantly";
   const pageDescription =
     variant?.metaDescription ??
     "Browser-native file delivery for creators, agencies, freelancers and teams. Send large files securely with tracking and encryption.";

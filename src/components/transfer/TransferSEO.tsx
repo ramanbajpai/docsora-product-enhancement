@@ -78,7 +78,7 @@ const whyLeaveWeTransfer = [
   { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
   { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
-  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly — neither senders nor recipients need to create an account or install software." },
+  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly - neither senders nor recipients need to create an account or install software." },
 ];
 
 const operationalWorkflows = [
@@ -126,20 +126,20 @@ const features = [
   { icon: History, title: "Transfer history & visibility", description: "See every large file transfer, recipient and download in one searchable activity log." },
   { icon: FileStack, title: "100+ file types supported", description: "Send PDFs, videos, ZIPs, CAD files, design assets and documents without conversion." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
-  { icon: UserX, title: "No recipient account required", description: "Recipients open and download shared files instantly — no sign-up, login or install." },
+  { icon: UserX, title: "No recipient account required", description: "Recipients open and download shared files instantly - no sign-up, login or install." },
   { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
   { icon: CalendarClock, title: "Expiry control & reactivation", description: "Set, extend or reactivate transfer expiry dates anytime to keep secure file sharing under your control." },
 ];
 
 const aiQuestions = [
-  { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment — no inbox limits." },
-  { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation — recipients can begin downloading the moment upload starts." },
-  { q: "How do agencies send large client deliverables?", a: "Through tracked delivery platforms like Docsora — agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
+  { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment - no inbox limits." },
+  { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation - recipients can begin downloading the moment upload starts." },
+  { q: "How do agencies send large client deliverables?", a: "Through tracked delivery platforms like Docsora - agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
   { q: "Can I transfer files securely online?", a: "Yes. Docsora encrypts every transfer in transit (TLS) and at rest, with password protection, download limits and expiring links available per delivery." },
-  { q: "What is the best platform for sending large videos?", a: "Browser-native platforms that preserve source quality — Docsora moves RAW, ProRes, BRAW and master exports byte-for-byte with no transcoding." },
+  { q: "What is the best platform for sending large videos?", a: "Browser-native platforms that preserve source quality - Docsora moves RAW, ProRes, BRAW and master exports byte-for-byte with no transcoding." },
   { q: "How do I share large files professionally?", a: "Use a tracked delivery platform with secure links. Docsora shows exactly when each recipient opened and downloaded." },
-  { q: "Can I transfer files directly from my browser?", a: "Yes — Docsora is 100% browser-native. No installs, no sync clients, no plugins." },
-  { q: "What transfer platform supports collaborative workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
+  { q: "Can I transfer files directly from my browser?", a: "Yes - Docsora is 100% browser-native. No installs, no sync clients, no plugins." },
+  { q: "What transfer platform supports collaborative workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage - delivery, approvals, signing and archiving in one workflow." },
   { q: "How do I track large file downloads?", a: "Docsora records every open and download event with timestamps, surfaced on the transfer dashboard in real time." },
 ];
 
@@ -165,7 +165,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   return (
     <div className="bg-background border-t border-border/30">
       <div className="max-w-6xl mx-auto px-6 py-24 md:py-32 space-y-28 md:space-y-36">
-        {/* SECTION — Secure large file transfer with tracking */}
+        {/* SECTION - Secure large file transfer with tracking */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
@@ -202,7 +202,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </motion.div>
         </section>
 
-        {/* SECTION — Supported file types */}
+        {/* SECTION - Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">100+ file types supported</h2>
@@ -224,7 +224,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION — Popular transfer workflows */}
+        {/* SECTION - Popular transfer workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular File Transfer Scenarios</h2>
@@ -249,7 +249,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION — Operational workflows */}
+        {/* SECTION - Operational workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Teams, Agencies and Professionals</h2>
@@ -274,7 +274,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION — Features */}
+        {/* SECTION - Features */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
@@ -291,7 +291,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION — FAQ */}
+        {/* SECTION - FAQ */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
@@ -308,7 +308,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </motion.div>
         </section>
 
-        {/* SECTION — Comparisons */}
+        {/* SECTION - Comparisons */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare Docsora Against Leading File Transfer Platforms</h2>
@@ -336,7 +336,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION — Guides */}
+        {/* SECTION - Guides */}
         {!variant && (
           <section>
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
@@ -345,7 +345,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer guides</span>
               </div>
               <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer Guides</h2>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples — no generic AI filler.</p>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples - no generic AI filler.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {transferGuides.map((g, i) => {
@@ -366,7 +366,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </section>
         )}
 
-        {/* SECTION — Final CTA */}
+        {/* SECTION - Final CTA */}
         <section className="relative">
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute left-1/2 top-1/2 h-[520px] w-[820px] max-w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.18),hsl(var(--primary)/0.06)_38%,transparent_70%)] blur-3xl" />
@@ -381,7 +381,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <br className="hidden sm:block" />
                 <span className="text-foreground/70"> Professional file delivery starts here.</span>
               </h2>
-              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Encrypted. Built for modern file sharing — for creators, agencies and teams.</p>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Encrypted. Built for modern file sharing - for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 <Upload className="w-4 h-4" />
