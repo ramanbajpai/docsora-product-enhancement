@@ -121,6 +121,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Docsora surfaces dashboard recommendations such as recipient reminders and expiry warnings to help senders take the next step.",
     ],
     whySwitch: [
+      "Enjoy a simple, easy-to-use experience with no learning curve.",
       "Track every transfer's activity from a centralized dashboard.",
       "Extend transfer validity without having to re-upload files.",
       "Reactivate expired transfers instead of resending them.",
