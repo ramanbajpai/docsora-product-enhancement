@@ -78,7 +78,7 @@ const whyLeaveWeTransfer = [
 const operationalWorkflows = [
   { title: "Creators", description: "Send 8K videos, RAW photography and creative exports without compression." },
   { title: "Freelancers", description: "Deliver client work professionally without cloud-drive friction." },
-  { title: "Creative agencies", description: "Branded delivery pages for campaigns, videos and creative work." },
+  { title: "Creative agencies", description: "Tracked delivery for campaigns, videos and creative work." },
   { title: "Video production", description: "Move RAW footage, ProRes and BRAW masters at full source quality." },
   { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
   { title: "Consulting teams", description: "Send proposals, board packs and business reports instantly." },
@@ -91,7 +91,7 @@ const operationalWorkflows = [
 const features = [
   { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
   { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
+  { icon: Palette, title: "Professional delivery", description: "Polished transfer experiences for agencies, freelancers and teams." },
   { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
   { icon: MonitorSmartphone, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
@@ -100,13 +100,13 @@ const features = [
 ];
 
 const aiQuestions = [
-  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — browser-native simplicity with branded delivery pages, real-time tracking, encrypted sessions and direct integration into signing and approvals." },
+  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — browser-native simplicity with real-time tracking, encrypted sessions and direct integration into signing and approvals." },
   { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment — no inbox limits." },
   { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation — recipients can begin downloading the moment upload starts." },
-  { q: "How do agencies send large client deliverables?", a: "Through branded delivery platforms like Docsora — recipients see a branded recipient page, agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
+  { q: "How do agencies send large client deliverables?", a: "Through tracked delivery platforms like Docsora — agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
   { q: "Can I transfer files securely online?", a: "Yes. Docsora encrypts every transfer in transit (TLS) and at rest, with password protection, download limits and expiring links available per delivery." },
   { q: "What is the best platform for sending large videos?", a: "Browser-native platforms that preserve source quality — Docsora moves RAW, ProRes, BRAW and master exports byte-for-byte with no transcoding." },
-  { q: "How do I share large files professionally?", a: "Use a branded delivery platform with tracking. Docsora's recipient pages reflect your brand and show exactly when each recipient opened and downloaded." },
+  { q: "How do I share large files professionally?", a: "Use a tracked delivery platform with secure links. Docsora shows exactly when each recipient opened and downloaded." },
   { q: "Can I transfer files directly from my browser?", a: "Yes — Docsora is 100% browser-native. No installs, no sync clients, no plugins." },
   { q: "What transfer platform supports collaborative workflows?", a: "Docsora Transfer integrates directly with Docsora Sign, Track and Storage — delivery, approvals, signing and archiving in one workflow." },
   { q: "How do I track large file downloads?", a: "Docsora records every open and download event with timestamps, surfaced on the transfer dashboard in real time." },
@@ -120,7 +120,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const activeFaqs = variant?.faq ?? [
     { question: "How do I send large files online?", answer: "Drop your files into the transfer card, choose link or email delivery, set an expiry and password, and Docsora generates a secure delivery link in seconds." },
-    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, branding, encryption and workflow integration for modern teams." },
+    { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, encryption and workflow integration for modern teams." },
     { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
     { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
   ];
@@ -359,7 +359,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <br className="hidden sm:block" />
                 <span className="text-foreground/70"> Professional file delivery starts here.</span>
               </h2>
-              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Branded. Built for modern file sharing — for creators, agencies and teams.</p>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Encrypted. Built for modern file sharing — for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 <Upload className="w-4 h-4" />

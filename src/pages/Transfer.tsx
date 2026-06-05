@@ -88,7 +88,7 @@ export default function Transfer({ variant }: TransferProps = {}) {
   const pageTitle = variant?.title ?? "Docsora Transfer — Send Large Files Instantly";
   const pageDescription =
     variant?.metaDescription ??
-    "Browser-native file delivery for creators, agencies, freelancers and teams. Send large files securely with tracking, branding and encryption.";
+    "Browser-native file delivery for creators, agencies, freelancers and teams. Send large files securely with tracking and encryption.";
   const canonicalPath = variant ? `/${variant.slug}` : "/transfer";
   const h1 = variant?.h1 ?? "Send Large Files Instantly";
 
@@ -97,7 +97,7 @@ export default function Transfer({ variant }: TransferProps = {}) {
     "@type": "FAQPage",
     mainEntity: (variant?.faq ?? [
       { question: "How do I send large files online?", answer: "Drop your files into the transfer card, choose link or email delivery, set an expiry and password, and Docsora generates a secure delivery link in seconds." },
-      { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, branding, encryption and workflow integration for modern teams." },
+      { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, encryption and workflow integration for modern teams." },
       { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
       { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
     ]).map((f) => ({
