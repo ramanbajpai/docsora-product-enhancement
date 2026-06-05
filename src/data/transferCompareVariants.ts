@@ -346,13 +346,10 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "Transfer expiry controls", docsora: "Yes", competitor: "Yes" },
       { feature: "Download tracking", docsora: "Yes", competitor: "Yes" },
       { feature: "Activity visibility", docsora: "Yes", competitor: "Limited" },
-      { feature: "Audit visibility", docsora: "Yes", competitor: "Yes (Dropbox Business)" },
       { feature: "GDPR compliance", docsora: "Yes", competitor: "Yes" },
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: "Yes" },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: "Yes" },
       { feature: "SOC 2 Type II", docsora: "Audit in progress", competitor: "Yes" },
-      { feature: "Regional data hosting options", docsora: "Yes", competitor: "Yes (Dropbox Business)" },
-      { feature: "Team workspace controls", docsora: "Yes", competitor: "Yes" },
     ],
     keyDifferences: [
       "Dropbox Transfer is a delivery feature within the broader Dropbox cloud storage product.",
