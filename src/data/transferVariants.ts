@@ -53,12 +53,12 @@ export interface TransferVariantConfig {
 export const transferVariants: TransferVariantConfig[] = [
   {
     slug: "send-large-files",
-    title: "Send Large Files Online — Fast, Secure Transfer | Docsora",
+    title: "Send Large Files Online - Fast, Secure Transfer | Docsora",
     metaDescription:
       "Send large files online instantly with browser-native delivery, link tracking and encrypted transfer sessions built for modern operational teams.",
     h1: "Send Large Files Instantly",
     intro:
-      "Drop oversized documents, videos, design files or operational packages — Docsora generates a secure delivery link in seconds, no installs required.",
+      "Drop oversized documents, videos, design files or operational packages - Docsora generates a secure delivery link in seconds, no installs required.",
     keyword: "send large files",
     cardIcon: Send,
     cardLabel: "Send Large Files",
@@ -68,7 +68,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Browser-native delivery for documents, video, design and archives.",
     ctaLabel: "Choose files to send",
     longCopy:
-      "Docsora Transfer is the modern infrastructure layer for sending large files online. Drop one file or an entire operational package, generate an encrypted delivery link, and track opens and downloads in real time. No installs, no sync clients, no fragmented cloud drives — just professional file delivery built for the way modern teams actually ship work.",
+      "Docsora Transfer is the modern infrastructure layer for sending large files online. Drop one file or an entire operational package, generate an encrypted delivery link, and track opens and downloads in real time. No installs, no sync clients, no fragmented cloud drives - just professional file delivery built for the way modern teams actually ship work.",
     useCases: [
       "Deliver campaign assets to clients",
       "Send RAW video to production teams",
@@ -101,7 +101,7 @@ export const transferVariants: TransferVariantConfig[] = [
       "Professional large file transfer platform with link tracking and operational workflows. Faster than WeTransfer, more capable than email.",
     h1: "Large File Transfer for Operational Teams",
     intro:
-      "Move oversized files between teams, clients and partners instantly — with delivery tracking, encrypted sessions and workflow integration.",
+      "Move oversized files between teams, clients and partners instantly - with delivery tracking, encrypted sessions and workflow integration.",
     keyword: "large file transfer",
     cardIcon: Upload,
     cardLabel: "Large File Transfer",
@@ -123,7 +123,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the best large file transfer platform?",
         answer:
-          "The best large file transfer platforms combine massive file support with operational features — tracking, encrypted sessions and workflow integration. Docsora ships all four in a browser-native experience without sync clients or enterprise software.",
+          "The best large file transfer platforms combine massive file support with operational features - tracking, encrypted sessions and workflow integration. Docsora ships all four in a browser-native experience without sync clients or enterprise software.",
       },
       {
         question: "Can I track who downloaded my large file transfer?",
@@ -139,7 +139,7 @@ export const transferVariants: TransferVariantConfig[] = [
       "Looking for a WeTransfer alternative? Docsora delivers large files with real-time tracking, encrypted sessions and operational workflows.",
     h1: "The Modern WeTransfer Alternative",
     intro:
-      "WeTransfer evolved for modern operational teams — large file delivery with tracking, workflows and signing in one platform.",
+      "WeTransfer evolved for modern operational teams - large file delivery with tracking, workflows and signing in one platform.",
     keyword: "wetransfer alternative",
     cardIcon: Zap,
     cardLabel: "WeTransfer Alternative",
@@ -149,7 +149,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Delivery tracking, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
     longCopy:
-      "Docsora Transfer is the WeTransfer alternative built for operational teams. Beyond sending files, every transfer is a workflow primitive — trackable, expirable, and connected to approvals and signing. Agencies, production teams, consultancies and finance teams use it to replace fragmented WeTransfer + Dropbox + email chains with one operational delivery layer.",
+      "Docsora Transfer is the WeTransfer alternative built for operational teams. Beyond sending files, every transfer is a workflow primitive - trackable, expirable, and connected to approvals and signing. Agencies, production teams, consultancies and finance teams use it to replace fragmented WeTransfer + Dropbox + email chains with one operational delivery layer.",
     useCases: [
       "Replace WeTransfer for client delivery",
       "Track downloads WeTransfer can't",
@@ -161,7 +161,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "Why use Docsora instead of WeTransfer?",
         answer:
-          "WeTransfer is a generic upload utility. Docsora is operational delivery infrastructure — same browser-native simplicity, but with real-time tracking, tracked pages, encrypted sessions and direct workflow integration into signing and approvals.",
+          "WeTransfer is a generic upload utility. Docsora is operational delivery infrastructure - same browser-native simplicity, but with real-time tracking, tracked pages, encrypted sessions and direct workflow integration into signing and approvals.",
       },
       {
         question: "Is Docsora faster than WeTransfer?",
@@ -171,18 +171,18 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "Can I migrate my WeTransfer workflows to Docsora?",
         answer:
-          "Yes. Docsora replicates WeTransfer's core flow — drop files, get a link, send to recipients — and adds the operational layer (tracking, workflows) on top.",
+          "Yes. Docsora replicates WeTransfer's core flow - drop files, get a link, send to recipients - and adds the operational layer (tracking, workflows) on top.",
       },
     ],
   },
   {
     slug: "secure-file-transfer",
-    title: "Secure File Transfer Online — Encrypted Delivery | Docsora",
+    title: "Secure File Transfer Online - Encrypted Delivery | Docsora",
     metaDescription:
       "Secure file transfer with TLS encryption, password protection, download limits and expiring links. Built for finance, legal and operational teams.",
     h1: "Secure File Transfer for Sensitive Work",
     intro:
-      "TLS-encrypted delivery sessions, password-protected links, download caps and expiring access — file transfer designed for sensitive operational data.",
+      "TLS-encrypted delivery sessions, password-protected links, download caps and expiring access - file transfer designed for sensitive operational data.",
     keyword: "secure file transfer",
     cardIcon: ShieldCheck,
     cardLabel: "Secure File Transfer",
@@ -192,7 +192,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Encrypted sessions, expiring links and granular access controls.",
     ctaLabel: "Start secure transfer",
     longCopy:
-      "Docsora Transfer encrypts every delivery session end-to-end, supports per-link passwords, enforces download caps and expires links automatically. Built for finance, legal and operational teams that need real security controls — not just a public download URL.",
+      "Docsora Transfer encrypts every delivery session end-to-end, supports per-link passwords, enforces download caps and expires links automatically. Built for finance, legal and operational teams that need real security controls - not just a public download URL.",
     useCases: [
       "Deliver audit-ready financial exports",
       "Share confidential legal documents",
@@ -209,7 +209,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "Is Docsora Transfer compliant with enterprise standards?",
         answer:
-          "Docsora aligns with SOC 2 and ISO 27001 principles, supports encrypted sessions, role-based access and audit trails — suitable for finance, legal and regulated operational teams.",
+          "Docsora aligns with SOC 2 and ISO 27001 principles, supports encrypted sessions, role-based access and audit trails - suitable for finance, legal and regulated operational teams.",
       },
     ],
   },
@@ -220,14 +220,14 @@ export const transferVariants: TransferVariantConfig[] = [
       "Send large videos online without compression. Transfer RAW footage, master exports and 4K/8K video files at full resolution with delivery tracking.",
     h1: "Send Large Videos Without Compression",
     intro:
-      "Move RAW footage, master exports and 4K/8K video files at full resolution — no compression, no quality loss, no hard drives.",
+      "Move RAW footage, master exports and 4K/8K video files at full resolution - no compression, no quality loss, no hard drives.",
     keyword: "send large videos",
     cardIcon: FileVideo,
     cardLabel: "Send Large Videos",
     cardDescription:
-      "Send large videos at full resolution — RAW, ProRes, no compression.",
+      "Send large videos at full resolution - RAW, ProRes, no compression.",
     uploadHeadline: "Send large videos at full resolution",
-    uploadSubheadline: "RAW, MXF, BRAW, R3D, ProRes — no compression, no quality loss.",
+    uploadSubheadline: "RAW, MXF, BRAW, R3D, ProRes - no compression, no quality loss.",
     ctaLabel: "Upload video files",
     longCopy:
       "Docsora Transfer is built for video teams that move large files daily. Send RAW footage, master exports, BRAW, R3D and MXF assets without compression and without re-uploading to half a dozen platforms. Generate a delivery link the moment upload completes so editors, colorists and producers can download.",
@@ -242,7 +242,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the fastest way to transfer large videos?",
         answer:
-          "Browser-native transfer platforms like Docsora are the fastest practical option for most teams — no software to install, encrypted sessions, and delivery links generated the moment upload completes so recipients can download.",
+          "Browser-native transfer platforms like Docsora are the fastest practical option for most teams - no software to install, encrypted sessions, and delivery links generated the moment upload completes so recipients can download.",
       },
       {
         question: "Can I send large videos without compression?",
@@ -253,9 +253,9 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-files-online",
-    title: "Send Large Files Online — Browser-Native Transfer | Docsora",
+    title: "Send Large Files Online - Browser-Native Transfer | Docsora",
     metaDescription:
-      "Send large files online from any browser. No installs, no sync clients — secure transfer links, delivery tracking and workflow integration.",
+      "Send large files online from any browser. No installs, no sync clients - secure transfer links, delivery tracking and workflow integration.",
     h1: "Send Large Files Online",
     intro:
       "Drop a file in the browser and Docsora generates a secure delivery link in seconds. Track opens and set expiry on every transfer.",
@@ -263,12 +263,12 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Globe2,
     cardLabel: "Send Files Online",
     cardDescription:
-      "Send files online from your browser — no installs, no accounts.",
+      "Send files online from your browser - no installs, no accounts.",
     uploadHeadline: "Send files online in seconds",
-    uploadSubheadline: "Pure browser delivery — no installs, no plugins, no sync clients.",
+    uploadSubheadline: "Pure browser delivery - no installs, no plugins, no sync clients.",
     ctaLabel: "Send a file online",
     longCopy:
-      "Docsora Transfer is 100% browser-native. No desktop apps, no sync clients, no plugins — just open the page, drop your files and get a delivery link. Works identically across macOS, Windows, Linux, iOS and Android.",
+      "Docsora Transfer is 100% browser-native. No desktop apps, no sync clients, no plugins - just open the page, drop your files and get a delivery link. Works identically across macOS, Windows, Linux, iOS and Android.",
     useCases: [
       "Send files from any device",
       "Cross-platform team handoffs",
@@ -279,7 +279,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "Can I transfer files directly from my browser?",
         answer:
-          "Yes — Docsora Transfer is fully browser-native. Drop files into the page, and a secure delivery link is generated immediately. No installs or plugins required.",
+          "Yes - Docsora Transfer is fully browser-native. Drop files into the page, and a secure delivery link is generated immediately. No installs or plugins required.",
       },
       {
         question: "Does Docsora work on mobile?",
@@ -302,10 +302,10 @@ export const transferVariants: TransferVariantConfig[] = [
     cardDescription:
       "Share large files with secure links, notifications and download tracking.",
     uploadHeadline: "Share large files securely",
-    uploadSubheadline: "Generate a delivery link in seconds — track and control every download.",
+    uploadSubheadline: "Generate a delivery link in seconds - track and control every download.",
     ctaLabel: "Generate share link",
     longCopy:
-      "Docsora Transfer turns file sharing into operational infrastructure. Every share is a tracked, controllable delivery — not a fire-and-forget download URL. Set passwords, expiry windows, recipient lists and download caps in seconds.",
+      "Docsora Transfer turns file sharing into operational infrastructure. Every share is a tracked, controllable delivery - not a fire-and-forget download URL. Set passwords, expiry windows, recipient lists and download caps in seconds.",
     useCases: [
       "Share assets with external partners",
       "Send reports to clients",
@@ -316,13 +316,13 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "How do I share large files professionally?",
         answer:
-          "Use a tracked delivery platform like Docsora Transfer. Upload files, generate a secure link, and share with clients — you'll see exactly when they open and download.",
+          "Use a tracked delivery platform like Docsora Transfer. Upload files, generate a secure link, and share with clients - you'll see exactly when they open and download.",
       },
     ],
   },
   {
     slug: "large-media-transfer",
-    title: "Large Media Transfer — Video, RAW & Design Files | Docsora",
+    title: "Large Media Transfer - Video, RAW & Design Files | Docsora",
     metaDescription:
       "Large media transfer for video, RAW imagery, design files and production assets. Browser-native delivery without compression.",
     h1: "Large Media Transfer for Production Teams",
@@ -333,7 +333,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardLabel: "Large Media Transfer",
     cardDescription: "Production-grade media delivery for video, RAW and design teams.",
     uploadHeadline: "Move production media instantly",
-    uploadSubheadline: "Video, RAW imagery, design exports — delivered without compression.",
+    uploadSubheadline: "Video, RAW imagery, design exports - delivered without compression.",
     ctaLabel: "Transfer media",
     longCopy:
       "Docsora Transfer is operational delivery infrastructure for production media. Move masters, RAW imagery, PSDs, INDDs, AEPs and design exports without quality loss, with tracked delivery and encrypted sessions.",
@@ -353,19 +353,19 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-pdf-files",
-    title: "Send Large PDF Files Online — Secure Delivery | Docsora",
+    title: "Send Large PDF Files Online - Secure Delivery | Docsora",
     metaDescription:
       "Send large PDF files online with delivery tracking and encrypted sessions. Built for legal, finance and operational teams.",
     h1: "Send Large PDF Files Online",
     intro:
-      "Move oversized contracts, reports and PDF bundles past email size limits — with tracking, passwords and expiry baked in.",
+      "Move oversized contracts, reports and PDF bundles past email size limits - with tracking, passwords and expiry baked in.",
     keyword: "send large pdf files",
     cardIcon: FileText,
     cardLabel: "Send Large PDFs",
     cardDescription:
       "Send large PDF files online with tracking, expiry and password protection.",
     uploadHeadline: "Send large PDF files securely",
-    uploadSubheadline: "Past inbox limits — with tracking, expiry and password protection.",
+    uploadSubheadline: "Past inbox limits - with tracking, expiry and password protection.",
     ctaLabel: "Send a PDF transfer",
     longCopy:
       "Docsora Transfer is the operational delivery layer for large PDFs. Send oversized contracts, audit reports, board packs and operational document bundles with real-time delivery tracking and granular access controls.",
@@ -379,18 +379,18 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "How do I send large PDF files over email?",
         answer:
-          "Don't attach them — generate a Docsora delivery link instead. Recipients click through to a tracked download page with tracking, password protection and expiry controls.",
+          "Don't attach them - generate a Docsora delivery link instead. Recipients click through to a tracked download page with tracking, password protection and expiry controls.",
       },
     ],
   },
   {
     slug: "send-large-powerpoint-files",
-    title: "Send ZIP Files Online — Secure Large Archive Transfer | Docsora",
+    title: "Send ZIP Files Online - Secure Large Archive Transfer | Docsora",
     metaDescription:
       "Send ZIP files online with secure delivery links, tracking and expiry controls. Move large archives, project bundles and compressed folders past inbox limits.",
     h1: "Send Large ZIP Files Online",
     intro:
-      "Move oversized ZIP archives, project bundles and compressed folders with tracked, encrypted delivery — no inbox limits, no installs.",
+      "Move oversized ZIP archives, project bundles and compressed folders with tracked, encrypted delivery - no inbox limits, no installs.",
     keyword: "send zip files",
     cardIcon: Archive,
     cardLabel: "Send ZIP Files",
@@ -400,7 +400,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Tracked delivery for archives, project bundles and compressed folders.",
     ctaLabel: "Send a ZIP transfer",
     longCopy:
-      "Docsora Transfer is built for sending large ZIP archives — project bundles, asset packs, code drops and compressed deliverables — with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
+      "Docsora Transfer is built for sending large ZIP archives - project bundles, asset packs, code drops and compressed deliverables - with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
     useCases: [
       "Deliver project archives to clients",
       "Send asset bundles to agencies",
@@ -417,9 +417,9 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-design-files",
-    title: "Send Large Design Files — Adobe, Figma & PSDs | Docsora",
+    title: "Send Large Design Files - Adobe, Figma & PSDs | Docsora",
     metaDescription:
-      "Send large design files online — PSD, AI, INDD, Figma exports and creative packages. Browser-native delivery without compression for design teams.",
+      "Send large design files online - PSD, AI, INDD, Figma exports and creative packages. Browser-native delivery without compression for design teams.",
     h1: "Send Large Design Files",
     intro:
       "Move Adobe, Figma and production design files across creative teams without compression, fragmented links or sync clients.",
@@ -428,7 +428,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardLabel: "Send Design Files",
     cardDescription: "Browser-native delivery for PSD, AI, INDD, AEP and Figma exports.",
     uploadHeadline: "Send design files at full fidelity",
-    uploadSubheadline: "PSD, AI, INDD, AEP, Figma exports — moved without compression.",
+    uploadSubheadline: "PSD, AI, INDD, AEP, Figma exports - moved without compression.",
     ctaLabel: "Send design files",
     longCopy:
       "Docsora Transfer is the modern design-file handoff layer for agencies, in-house teams and freelancers. Move PSDs, AIs, INDDs, AEPs and Figma exports without compression, with encrypted sessions and real-time delivery tracking.",
@@ -448,7 +448,7 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "agency-file-sharing",
-    title: "Send CAD Files Online — Secure Engineering File Transfer | Docsora",
+    title: "Send CAD Files Online - Secure Engineering File Transfer | Docsora",
     metaDescription:
       "Send large CAD files online with secure delivery, tracking and expiry controls. Move DWG, DXF, STEP, IGES and Revit files between engineering teams.",
     h1: "Send Large CAD Files Online",
@@ -458,9 +458,9 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Building2,
     cardLabel: "Send CAD Files",
     cardDescription:
-      "Send large CAD files — DWG, DXF, STEP, Revit — with tracked delivery.",
+      "Send large CAD files - DWG, DXF, STEP, Revit - with tracked delivery.",
     uploadHeadline: "Send large CAD files securely",
-    uploadSubheadline: "DWG, DXF, STEP, IGES, Revit — tracked delivery for engineering teams.",
+    uploadSubheadline: "DWG, DXF, STEP, IGES, Revit - tracked delivery for engineering teams.",
     ctaLabel: "Send a CAD transfer",
     longCopy:
       "Docsora Transfer is built for engineering, architecture and manufacturing teams that move large CAD files daily. Send DWG, DXF, STEP, IGES, Revit and 3D model packages with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
@@ -494,7 +494,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Tracked recipient pages with approvals and signing built in.",
     ctaLabel: "Deliver to client",
     longCopy:
-      "Docsora Transfer is the operational delivery layer for client-facing teams. Replace fragmented WeTransfer + email + Dropbox chains with one delivery workflow — tracked, encrypted and connected to approvals and signing.",
+      "Docsora Transfer is the operational delivery layer for client-facing teams. Replace fragmented WeTransfer + email + Dropbox chains with one delivery workflow - tracked, encrypted and connected to approvals and signing.",
     useCases: [
       "Send client deliverables",
       "Route work for client approval",
@@ -511,21 +511,21 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "browser-file-transfer",
-    title: "Browser-Native File Transfer — No Installs | Docsora",
+    title: "Browser-Native File Transfer - No Installs | Docsora",
     metaDescription:
       "Browser-native file transfer with no installs, no sync clients and no desktop software. Pure-browser delivery for large operational files.",
     h1: "Browser-Native File Transfer",
     intro:
-      "100% browser-native delivery — no installs, no sync clients, no desktop software. Move large files from any device, any OS.",
+      "100% browser-native delivery - no installs, no sync clients, no desktop software. Move large files from any device, any OS.",
     keyword: "browser file transfer",
     cardIcon: Globe2,
     cardLabel: "Browser File Transfer",
-    cardDescription: "Pure browser delivery — no installs, no plugins, no sync clients.",
+    cardDescription: "Pure browser delivery - no installs, no plugins, no sync clients.",
     uploadHeadline: "Transfer files entirely in the browser",
     uploadSubheadline: "No installs. No sync clients. macOS, Windows, Linux, iOS, Android.",
     ctaLabel: "Start browser transfer",
     longCopy:
-      "Docsora Transfer runs entirely in the browser. There are no desktop apps to install, no sync clients to maintain and no plugins to manage — the entire delivery experience is web-native and cross-platform by default.",
+      "Docsora Transfer runs entirely in the browser. There are no desktop apps to install, no sync clients to maintain and no plugins to manage - the entire delivery experience is web-native and cross-platform by default.",
     useCases: [
       "Cross-platform team handoffs",
       "Quick transfers from kiosks",
@@ -542,9 +542,9 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "email-large-files",
-    title: "Email Large Files — Bypass Inbox Size Limits | Docsora",
+    title: "Email Large Files - Bypass Inbox Size Limits | Docsora",
     metaDescription:
-      "Email files larger than 25MB without attachment limits. Send a tracked delivery link directly from Docsora — no compression, no fragmented uploads.",
+      "Email files larger than 25MB without attachment limits. Send a tracked delivery link directly from Docsora - no compression, no fragmented uploads.",
     h1: "Email Large Files Without Limits",
     intro:
       "Bypass Gmail, Outlook and corporate inbox attachment limits with a tracked Docsora delivery link sent directly to recipients.",
@@ -552,12 +552,12 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Mail,
     cardLabel: "Email Large Files",
     cardDescription:
-      "Send oversized files via a tracked delivery link — bypass every inbox limit.",
+      "Send oversized files via a tracked delivery link - bypass every inbox limit.",
     uploadHeadline: "Email large files past inbox limits",
-    uploadSubheadline: "Send a tracked Docsora link — no 25MB ceiling, no compression.",
+    uploadSubheadline: "Send a tracked Docsora link - no 25MB ceiling, no compression.",
     ctaLabel: "Email a large file",
     longCopy:
-      "Docsora Transfer replaces the 25MB email attachment with a tracked delivery link — sent from Docsora directly to recipients with expiry windows and download tracking.",
+      "Docsora Transfer replaces the 25MB email attachment with a tracked delivery link - sent from Docsora directly to recipients with expiry windows and download tracking.",
     useCases: [
       "Send oversized PDF bundles",
       "Email large video files",
@@ -568,18 +568,18 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "How do I email files larger than 25MB?",
         answer:
-          "Don't attach them. Upload to Docsora Transfer, choose email delivery, and Docsora sends recipients a tracked download link — no inbox limits and no compression.",
+          "Don't attach them. Upload to Docsora Transfer, choose email delivery, and Docsora sends recipients a tracked download link - no inbox limits and no compression.",
       },
     ],
   },
   {
     slug: "encrypted-file-transfer",
-    title: "Encrypted File Transfer — TLS-Secured Delivery | Docsora",
+    title: "Encrypted File Transfer - TLS-Secured Delivery | Docsora",
     metaDescription:
       "Encrypted file transfer with TLS sessions, at-rest encryption, password protection and expiring links. Built for compliance-aware operational teams.",
     h1: "Encrypted File Transfer",
     intro:
-      "TLS-encrypted delivery sessions, at-rest encryption, password protection and expiring links — for teams that take operational security seriously.",
+      "TLS-encrypted delivery sessions, at-rest encryption, password protection and expiring links - for teams that take operational security seriously.",
     keyword: "encrypted file transfer",
     cardIcon: Lock,
     cardLabel: "Encrypted Transfer",
@@ -599,27 +599,27 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "Is encrypted file transfer the same as end-to-end encryption?",
         answer:
-          "Not exactly — Docsora encrypts files in transit (TLS) and at rest on storage, with password-protected access. True E2E encryption is on the roadmap for regulated workloads.",
+          "Not exactly - Docsora encrypts files in transit (TLS) and at rest on storage, with password-protected access. True E2E encryption is on the roadmap for regulated workloads.",
       },
     ],
   },
   {
     slug: "send-files-online",
-    title: "Send Files Online — Fast Browser-Native Delivery | Docsora",
+    title: "Send Files Online - Fast Browser-Native Delivery | Docsora",
     metaDescription:
       "Send files online instantly with secure delivery links and tracking. The modern way to move work between teams.",
     h1: "Send Files Online Instantly",
     intro:
-      "Drop a file, get a secure delivery link, track every recipient action — file sharing built for the way modern teams actually ship work.",
+      "Drop a file, get a secure delivery link, track every recipient action - file sharing built for the way modern teams actually ship work.",
     keyword: "send files online",
     cardIcon: Send,
     cardLabel: "Send Files Online",
     cardDescription: "Instant secure delivery links with real-time download tracking.",
-    uploadHeadline: "Send files online — instantly",
+    uploadHeadline: "Send files online - instantly",
     uploadSubheadline: "Browser-native delivery with real-time tracking.",
     ctaLabel: "Send files online",
     longCopy:
-      "Docsora Transfer is the operational delivery layer for sending files online. Drop a file, generate a link in seconds, and track every open and download in real time — no installs and no sync clients required.",
+      "Docsora Transfer is the operational delivery layer for sending files online. Drop a file, generate a link in seconds, and track every open and download in real time - no installs and no sync clients required.",
     useCases: [
       "Quick cross-team transfers",
       "Send files to clients",
@@ -638,10 +638,10 @@ export const transferVariants: TransferVariantConfig[] = [
     slug: "large-file-sharing",
     title: "Large File Sharing for Modern Teams | Docsora",
     metaDescription:
-      "Large file sharing built for operational teams — delivery tracking, encrypted sessions and workflow integration. Beyond WeTransfer.",
+      "Large file sharing built for operational teams - delivery tracking, encrypted sessions and workflow integration. Beyond WeTransfer.",
     h1: "Large File Sharing for Operational Teams",
     intro:
-      "Share oversized work professionally — real-time tracking, encrypted sessions and workflow handoffs.",
+      "Share oversized work professionally - real-time tracking, encrypted sessions and workflow handoffs.",
     keyword: "large file sharing",
     cardIcon: Share2,
     cardLabel: "Large File Sharing",
@@ -650,7 +650,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Tracking, encryption and workflow handoffs.",
     ctaLabel: "Share a large file",
     longCopy:
-      "Docsora Transfer replaces the generic WeTransfer flow with operational file sharing — encrypted sessions, real-time tracking and direct workflow integration into signing and approvals.",
+      "Docsora Transfer replaces the generic WeTransfer flow with operational file sharing - encrypted sessions, real-time tracking and direct workflow integration into signing and approvals.",
     useCases: [
       "Ship large client packages",
       "Distribute media to partners",
@@ -661,18 +661,18 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What's the best large file sharing service?",
         answer:
-          "Large file sharing services should combine browser-native simplicity with operational features — tracking and encryption. Docsora was built specifically for this combination.",
+          "Large file sharing services should combine browser-native simplicity with operational features - tracking and encryption. Docsora was built specifically for this combination.",
       },
     ],
   },
   {
     slug: "transfer-large-files-online",
-    title: "Transfer Large Files Online — Operational Delivery | Docsora",
+    title: "Transfer Large Files Online - Operational Delivery | Docsora",
     metaDescription:
       "Transfer large files online with delivery tracking and encrypted sessions. Built for agencies, production teams and operations.",
     h1: "Transfer Large Files Online",
     intro:
-      "Browser-native large file transfer with tracking and workflow integration — built for the way modern teams actually deliver work.",
+      "Browser-native large file transfer with tracking and workflow integration - built for the way modern teams actually deliver work.",
     keyword: "transfer large files online",
     cardIcon: Upload,
     cardLabel: "Transfer Large Files",
@@ -681,7 +681,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Operational delivery with tracking and workflow integration.",
     ctaLabel: "Transfer a large file",
     longCopy:
-      "Docsora Transfer is operational delivery infrastructure for large files. Every transfer is encrypted, trackable and connected to the rest of the Docsora operational stack — signing, approvals and document storage.",
+      "Docsora Transfer is operational delivery infrastructure for large files. Every transfer is encrypted, trackable and connected to the rest of the Docsora operational stack - signing, approvals and document storage.",
     useCases: [
       "Client deliverables at scale",
       "Cross-office handoffs",
@@ -698,7 +698,7 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "creative-agency-file-sharing",
-    title: "Creative Agency File Sharing — Send Large Files to Clients | Docsora",
+    title: "Creative Agency File Sharing - Send Large Files to Clients | Docsora",
     metaDescription:
       "File sharing for creative agencies. Send videos, design files and client deliverables with secure links, real-time tracking and download notifications.",
     h1: "File Sharing for Creative Agencies",
@@ -713,7 +713,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Secure links, real-time tracking and download notifications for client work.",
     ctaLabel: "Send agency files",
     longCopy:
-      "Docsora Transfer is the file sharing layer for creative agencies. Move videos, PSDs, AIs, INDDs, Figma exports and full campaign packages with secure delivery links, real-time tracking and download notifications — without sync clients or fragmented cloud drives.",
+      "Docsora Transfer is the file sharing layer for creative agencies. Move videos, PSDs, AIs, INDDs, Figma exports and full campaign packages with secure delivery links, real-time tracking and download notifications - without sync clients or fragmented cloud drives.",
     useCases: [
       "Send campaign assets to clients",
       "Share video cuts for review",
@@ -730,22 +730,22 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "video-file-transfer",
-    title: "Video File Transfer — Send Large Video Files Online | Docsora",
+    title: "Video File Transfer - Send Large Video Files Online | Docsora",
     metaDescription:
       "Video file transfer for production teams. Send large video files, RAW footage and production assets online without compression and with delivery tracking.",
     h1: "Video File Transfer for Production Teams",
     intro:
-      "Transfer large video files, RAW footage and production assets online — without compression, without sync clients, with delivery tracking baked in.",
+      "Transfer large video files, RAW footage and production assets online - without compression, without sync clients, with delivery tracking baked in.",
     keyword: "video file transfer",
     cardIcon: Film,
     cardLabel: "Video Production",
     cardDescription:
       "Transfer large video files, RAW footage and production assets without compression.",
     uploadHeadline: "Video file transfer for production teams",
-    uploadSubheadline: "RAW, ProRes, BRAW, R3D — moved at source quality with tracked delivery.",
+    uploadSubheadline: "RAW, ProRes, BRAW, R3D - moved at source quality with tracked delivery.",
     ctaLabel: "Send video files",
     longCopy:
-      "Docsora Transfer is built for video production teams that move large files daily. Send RAW footage, ProRes, BRAW and master exports byte-for-byte, with secure delivery links and real-time download tracking — no transcoding, no quality loss.",
+      "Docsora Transfer is built for video production teams that move large files daily. Send RAW footage, ProRes, BRAW and master exports byte-for-byte, with secure delivery links and real-time download tracking - no transcoding, no quality loss.",
     useCases: [
       "Deliver master video edits",
       "Move RAW footage between editors",
@@ -762,7 +762,7 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "cad-file-transfer",
-    title: "CAD File Transfer — Send DWG, DXF, STEP & Revit Files | Docsora",
+    title: "CAD File Transfer - Send DWG, DXF, STEP & Revit Files | Docsora",
     metaDescription:
       "CAD file transfer for architecture and engineering teams. Send DWG, DXF, STEP, IGES, Revit and BIM models securely with tracking and expiry controls.",
     h1: "CAD File Transfer for Architecture & Engineering",
@@ -774,7 +774,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardDescription:
       "Send CAD drawings, BIM models and technical documentation securely.",
     uploadHeadline: "CAD file transfer for engineering teams",
-    uploadSubheadline: "DWG, DXF, STEP, IGES, Revit — secure tracked delivery for technical files.",
+    uploadSubheadline: "DWG, DXF, STEP, IGES, Revit - secure tracked delivery for technical files.",
     ctaLabel: "Send CAD files",
     longCopy:
       "Docsora Transfer is built for architecture, engineering and manufacturing teams that move CAD drawings, BIM models and technical documentation daily. Send DWG, DXF, STEP, IGES and Revit files with secure delivery links, real-time tracking and expiry controls.",
@@ -794,12 +794,12 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "legal-file-sharing",
-    title: "Legal File Sharing — Send Contracts & Case Files Securely | Docsora",
+    title: "Legal File Sharing - Send Contracts & Case Files Securely | Docsora",
     metaDescription:
       "Legal file sharing for law firms and in-house counsel. Send contracts, case files and sensitive legal documents securely with tracking and expiry controls.",
     h1: "Secure File Sharing for Legal Teams",
     intro:
-      "Share contracts, case files and sensitive legal documents with confidence — encrypted delivery, password protection and full audit visibility.",
+      "Share contracts, case files and sensitive legal documents with confidence - encrypted delivery, password protection and full audit visibility.",
     keyword: "legal file sharing",
     cardIcon: ShieldCheck,
     cardLabel: "Legal Teams",
@@ -826,12 +826,12 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "consulting-file-sharing",
-    title: "Consulting File Sharing — Send Proposals & Board Packs | Docsora",
+    title: "Consulting File Sharing - Send Proposals & Board Packs | Docsora",
     metaDescription:
       "Consulting file sharing for advisory firms. Deliver proposals, board packs, reports and client documentation securely with tracking and expiry controls.",
     h1: "File Sharing for Consulting Teams",
     intro:
-      "Deliver proposals, board packs, reports and client documentation securely — with download tracking, expiry controls and workflow-native handoffs.",
+      "Deliver proposals, board packs, reports and client documentation securely - with download tracking, expiry controls and workflow-native handoffs.",
     keyword: "consulting file sharing",
     cardIcon: Briefcase,
     cardLabel: "Consulting Teams",
@@ -858,12 +858,12 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "freelancer-file-transfer",
-    title: "Freelancer File Transfer — Send Client Files Online | Docsora",
+    title: "Freelancer File Transfer - Send Client Files Online | Docsora",
     metaDescription:
       "File transfer for freelancers. Send project files, creative assets and client deliverables professionally with secure links and download tracking.",
     h1: "File Transfer for Freelancers",
     intro:
-      "Send project files, creative assets and client deliverables professionally — with secure links, download tracking and expiry controls.",
+      "Send project files, creative assets and client deliverables professionally - with secure links, download tracking and expiry controls.",
     keyword: "freelancer file transfer",
     cardIcon: Send,
     cardLabel: "Freelancers",
@@ -873,7 +873,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Secure delivery links and download tracking for client deliverables.",
     ctaLabel: "Send client files",
     longCopy:
-      "Docsora Transfer is the file transfer layer for freelancers — designers, editors, developers, writers and consultants. Send project files, creative assets and client deliverables with secure links, real-time download tracking and expiry controls that make every handoff feel professional.",
+      "Docsora Transfer is the file transfer layer for freelancers - designers, editors, developers, writers and consultants. Send project files, creative assets and client deliverables with secure links, real-time download tracking and expiry controls that make every handoff feel professional.",
     useCases: [
       "Deliver finished work to clients",
       "Send revisions and previews",
@@ -884,7 +884,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the best file transfer platform for freelancers?",
         answer:
-          "Freelancers need fast, secure delivery with tracking — without paying for enterprise software. Docsora Transfer combines browser-native upload with real-time download tracking and expiry controls.",
+          "Freelancers need fast, secure delivery with tracking - without paying for enterprise software. Docsora Transfer combines browser-native upload with real-time download tracking and expiry controls.",
       },
     ],
   },

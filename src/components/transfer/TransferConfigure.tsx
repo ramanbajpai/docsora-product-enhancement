@@ -88,7 +88,7 @@ export function TransferConfigure({
       settings.subject.trim().length > 0 &&
       !!settings.senderEmail?.trim();
 
-  // Capacity meter — generous free tier feel (3 GB)
+  // Capacity meter - generous free tier feel (3 GB)
   const CAPACITY_BYTES = 3 * 1024 * 1024 * 1024;
   const usedPct = Math.min((totalSize / CAPACITY_BYTES) * 100, 100);
   const remainingBytes = Math.max(CAPACITY_BYTES - totalSize, 0);
@@ -210,7 +210,7 @@ export function TransferConfigure({
         </div>
       </div>
 
-      {/* Mode-specific content area — fills remaining space so both modes match */}
+      {/* Mode-specific content area - fills remaining space so both modes match */}
       <div className="flex-1 min-h-0 overflow-y-auto pr-1 -mr-1">
         <AnimatePresence mode="wait">
           {deliveryMethod === 'email' ? (
@@ -222,7 +222,7 @@ export function TransferConfigure({
               transition={{ duration: 0.25, ease: appleEasing }}
               className="space-y-2.5"
             >
-              {/* Unified composition card — one continuous surface, like Apple Mail */}
+              {/* Unified composition card - one continuous surface, like Apple Mail */}
               {(() => {
                 const senderValid = !!settings.senderEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.senderEmail);
                 const initialsFor = (email: string) => {
@@ -352,7 +352,7 @@ export function TransferConfigure({
               className="h-full flex flex-col justify-center"
             >
               <div className="relative h-[200px] flex items-center justify-center overflow-hidden">
-                {/* Outer halo — depth layer */}
+                {/* Outer halo - depth layer */}
                 <div
                   className="absolute rounded-full pointer-events-none"
                   style={{
@@ -376,7 +376,7 @@ export function TransferConfigure({
                   }}
                 />
 
-                {/* The glyph — static */}
+                {/* The glyph - static */}
                 <div className="relative">
                   {/* Inner glow */}
                   <div

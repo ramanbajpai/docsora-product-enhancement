@@ -335,7 +335,7 @@ const TransferGuide = () => {
                 Ready to send your files?
               </h2>
               <p className="text-sm text-muted-foreground/75 mb-7 max-w-md mx-auto">
-                Try {guide.primaryToolLabel} — browser-based, tracked, and finished in minutes.
+                Try {guide.primaryToolLabel} - browser-based, tracked, and finished in minutes.
               </p>
               <Link
                 to={`/${guide.primaryToolSlug}`}

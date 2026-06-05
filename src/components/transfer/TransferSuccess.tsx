@@ -493,7 +493,7 @@ export function TransferSuccess({
                 </motion.div>
                 <div className="text-left flex-1 min-w-0">
                   <h3 className="text-base font-semibold text-foreground whitespace-nowrap">
-                    Unlock Pro — advanced transfer controls
+                    Unlock Pro - advanced transfer controls
                   </h3>
                   <p className="text-xs text-muted-foreground/70 mt-0.5 whitespace-nowrap">
                     Password protection • Custom expiry • Download limits • Larger files
