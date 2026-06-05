@@ -205,8 +205,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     lastUpdated: LAST_UPDATED,
   },
-  {
-    slug: "transfernow-alternative",
     competitor: "TransferNow",
     cardTitle: "TransferNow Alternative",
     cardSummary:
