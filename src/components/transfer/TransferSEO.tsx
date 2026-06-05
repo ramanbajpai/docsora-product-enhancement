@@ -315,9 +315,9 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare Docsora Against Leading File Transfer Platforms</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Compare Docsora with WeTransfer, TransferNow, Dropbox Transfer and Smash across file transfer, download tracking, transfer lifecycle management, security and compliance.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Compare Docsora with WeTransfer and Smash across file transfer, download tracking, transfer lifecycle management, security and compliance.</p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {transferCompareVariants.map((c, i) => (
               <motion.div key={c.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.05 }}>
                 <Link to={`/${c.slug}`} className="group rounded-2xl p-6 block h-full bg-card/40 border border-border/30 hover:border-primary/20 hover:bg-card/70 transition-all duration-300">
