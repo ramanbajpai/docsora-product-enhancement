@@ -158,7 +158,7 @@ const TransferCompareLanding = () => {
                     <Building2 className="w-3.5 h-3.5 text-primary/80" />
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
-                    Choose Docsora if you want
+                    Docsora
                   </span>
                 </div>
                 {variant.chooseDocsoraList ? (
