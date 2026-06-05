@@ -236,10 +236,7 @@ const App = () => (
             <Route path="/transfer" element={<Transfer />} />
             {/* Transfer comparison landing pages */}
             <Route path="/wetransfer-alternative" element={<TransferCompareLanding />} />
-            <Route path="/dropbox-transfer-alternative" element={<TransferCompareLanding />} />
             <Route path="/smash-alternative" element={<TransferCompareLanding />} />
-            <Route path="/smash-alternative" element={<TransferCompareLanding />} />
-            <Route path="/transfernow-alternative" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
             <Route path="/secure-file-transfer" element={<TransferVariant />} />
