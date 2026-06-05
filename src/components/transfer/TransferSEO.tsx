@@ -190,8 +190,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Popular transfer workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular Transfer Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Dedicated landing pages for the file delivery workflows creators, freelancers and teams reach for most.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular File Transfer Scenarios</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {transferVariants.slice(0, 12).map((tool, i) => (
