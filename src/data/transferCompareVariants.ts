@@ -45,7 +45,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "WeTransfer Alternative",
     cardSummary:
       "Compare two modern large-file transfer platforms on transfer management, tracking, expiry control and recipient visibility.",
-    title: "Docsora Transfer vs WeTransfer — WeTransfer Alternative for Large File Transfer | Docsora",
+    title: "WeTransfer Alternative — WeTransfer Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora Transfer vs WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
     h1: "WeTransfer Alternative",
@@ -167,7 +167,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "TransferNow Alternative",
     cardSummary:
       "Compare two large-file transfer platforms on transfer lifecycle management, tracking, expiry control and compliance.",
-    title: "Docsora Transfer vs TransferNow — TransferNow Alternative for Large File Transfer | Docsora",
+    title: "TransferNow Alternative — TransferNow Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora Transfer vs TransferNow for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "TransferNow Alternative",
@@ -289,7 +289,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Dropbox Transfer Alternative",
     cardSummary:
       "Compare a standalone transfer platform with Dropbox's transfer feature on lifecycle management, tracking and visibility.",
-    title: "Docsora Transfer vs Dropbox Transfer — Dropbox Transfer Alternative | Docsora",
+    title: "Dropbox Transfer Alternative — Dropbox Transfer Alternative | Docsora",
     metaDescription:
       "Compare Docsora Transfer vs Dropbox Transfer for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "Dropbox Transfer Alternative",
@@ -410,7 +410,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Smash Alternative",
     cardSummary:
       "Compare two browser-based large-file transfer platforms on lifecycle management, tracking and visibility.",
-    title: "Docsora Transfer vs Smash — Smash Alternative for Large File Transfer | Docsora",
+    title: "Smash Alternative — Smash Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora Transfer vs Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "Smash Alternative",
@@ -532,7 +532,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "MASV Alternative",
     cardSummary:
       "Compare a business file transfer platform with MASV's high-volume media transfer service.",
-    title: "Docsora Transfer vs MASV — MASV Alternative for Business File Transfer | Docsora",
+    title: "MASV Alternative — MASV Alternative for Business File Transfer | Docsora",
     metaDescription:
       "Compare Docsora Transfer vs MASV for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business file delivery.",
     h1: "MASV Alternative",
