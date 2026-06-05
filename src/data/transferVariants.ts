@@ -145,7 +145,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardLabel: "WeTransfer Alternative",
     cardDescription:
       "Move large files in two clicks with tracking, status and expiry control.",
-    uploadHeadline: "WeTransfer evolved",
+    uploadHeadline: "The modern way to send files",
     uploadSubheadline: "Delivery tracking, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
     longCopy:
