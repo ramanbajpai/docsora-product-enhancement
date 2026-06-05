@@ -242,7 +242,6 @@ const App = () => (
             <Route path="/transfernow-alternative" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
-            <Route path="/wetransfer-alternative" element={<TransferVariant />} />
             <Route path="/secure-file-transfer" element={<TransferVariant />} />
             <Route path="/send-large-videos" element={<TransferVariant />} />
             <Route path="/send-large-files-online" element={<TransferVariant />} />
