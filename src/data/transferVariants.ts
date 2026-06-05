@@ -149,7 +149,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Delivery tracking, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
     longCopy:
-      "Docsora Transfer is the WeTransfer alternative built for operational teams. Beyond sending files, every transfer is a workflow primitive — trackable, brandable, expirable, and connected to approvals and signing. Agencies, production teams, consultancies and finance teams use it to replace fragmented WeTransfer + Dropbox + email chains with one operational delivery layer.",
+      "Docsora Transfer is the WeTransfer alternative built for operational teams. Beyond sending files, every transfer is a workflow primitive — trackable, expirable, and connected to approvals and signing. Agencies, production teams, consultancies and finance teams use it to replace fragmented WeTransfer + Dropbox + email chains with one operational delivery layer.",
     useCases: [
       "Replace WeTransfer for client delivery",
       "Track downloads WeTransfer can't",
@@ -681,7 +681,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Operational delivery with tracking and workflow integration.",
     ctaLabel: "Transfer a large file",
     longCopy:
-      "Docsora Transfer is operational delivery infrastructure for large files. Every transfer is encrypted, trackable, brandable and connected to the rest of the Docsora operational stack — signing, approvals and document storage.",
+      "Docsora Transfer is operational delivery infrastructure for large files. Every transfer is encrypted, trackable and connected to the rest of the Docsora operational stack — signing, approvals and document storage.",
     useCases: [
       "Client deliverables at scale",
       "Cross-office handoffs",
@@ -692,7 +692,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the best way to transfer large files online?",
         answer:
-          "Use a browser-native platform with operational features. Docsora Transfer combines drag-and-drop simplicity with tracking, branding, encryption and direct workflow integration.",
+          "Use a browser-native platform with operational features. Docsora Transfer combines drag-and-drop simplicity with tracking, encryption and direct workflow integration.",
       },
     ],
   },
