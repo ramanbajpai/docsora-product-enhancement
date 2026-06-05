@@ -250,9 +250,9 @@ const TransferCompareLanding = () => {
               Why users switch from {variant.competitor}
             </h2>
             <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed mb-6">
-              Many file transfer platforms focus only on sending files. Docsora Transfer
-              focuses on managing the entire lifecycle of a transfer. Instead of losing
-              visibility after clicking send, users can:
+              Many file transfer platforms focus only on sending files. Docsora Transfer is
+              simple and easy to use, while managing the entire lifecycle of a transfer.
+              Instead of losing visibility after clicking send, users can:
             </p>
             <ul className="space-y-2.5">
               {variant.whySwitch.map((item) => (
