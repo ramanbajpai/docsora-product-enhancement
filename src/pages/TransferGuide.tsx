@@ -178,6 +178,43 @@ const TransferGuide = () => {
                       ))}
                     </ol>
                   )}
+                  {section.table && (
+                    <figure className="mt-5 overflow-x-auto rounded-xl border border-border/40 bg-card/40">
+                      <table className="w-full text-left text-[13.5px]">
+                        <thead className="bg-card/70">
+                          <tr>
+                            {section.table.headers.map((h, i) => (
+                              <th
+                                key={i}
+                                className="px-4 py-3 font-semibold text-foreground/90 border-b border-border/40"
+                              >
+                                {h}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {section.table.rows.map((row, ri) => (
+                            <tr key={ri} className="border-b border-border/30 last:border-b-0">
+                              {row.map((cell, ci) => (
+                                <td
+                                  key={ci}
+                                  className="px-4 py-3 text-muted-foreground/85 align-top leading-[1.6]"
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {section.table.caption && (
+                        <figcaption className="px-4 py-2.5 text-[11.5px] text-muted-foreground/60 border-t border-border/30">
+                          {section.table.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
                 </div>
               </motion.section>
             ))}
@@ -257,6 +294,32 @@ const TransferGuide = () => {
                     </Link>
                   );
                 })}
+              </div>
+            </motion.section>
+          )}
+
+          {guide.relatedLinks && guide.relatedLinks.length > 0 && (
+            <motion.section {...fadeUp} className="mt-20">
+              <h2 className="text-xl md:text-[1.4rem] font-semibold text-foreground tracking-tight mb-6">
+                Explore Docsora Transfer
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {guide.relatedLinks.map((l) => (
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    className={cn(
+                      "group flex items-center justify-between rounded-xl px-5 py-4",
+                      "bg-card/40 border border-border/30",
+                      "hover:border-primary/25 hover:bg-card/70 transition-all duration-300",
+                    )}
+                  >
+                    <span className="text-[13px] font-medium text-foreground/90 group-hover:text-primary transition-colors">
+                      {l.label}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                ))}
               </div>
             </motion.section>
           )}

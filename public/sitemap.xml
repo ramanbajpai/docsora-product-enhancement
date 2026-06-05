@@ -217,4 +217,7 @@
   <url><loc>/repair-pdf</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/pdf-metadata-editor</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>/pdf-to-one-page</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>/transfer-guides/how-to-send-large-files-online</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>/transfer-guides/how-to-send-large-video-files-without-losing-quality</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>/transfer-guides/secure-file-transfer-for-business</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
 </urlset>
