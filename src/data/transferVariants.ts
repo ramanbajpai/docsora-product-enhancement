@@ -63,7 +63,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Send,
     cardLabel: "Send Large Files",
     cardDescription:
-      "Move oversized operational work between teams and clients without inbox limits.",
+      "Send large files securely online with download tracking, expiry controls and instant file sharing.",
     uploadHeadline: "Send large files instantly",
     uploadSubheadline: "Browser-native delivery for documents, video, design and archives.",
     ctaLabel: "Choose files to send",
@@ -106,7 +106,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Upload,
     cardLabel: "Large File Transfer",
     cardDescription:
-      "Operational large file delivery with tracking, branding and workflow integration.",
+      "Transfer large files online without size restrictions while tracking views, downloads and recipient activity.",
     uploadHeadline: "Move large files at operational speed",
     uploadSubheadline: "Track every open, download and recipient action in real time.",
     ctaLabel: "Start a large transfer",
@@ -144,7 +144,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Zap,
     cardLabel: "WeTransfer Alternative",
     cardDescription:
-      "Modern operational file delivery — faster, more workflow-native, more secure than WeTransfer.",
+      "Compare Docsora and WeTransfer for large file sharing, download tracking, expiry controls and transfer management.",
     uploadHeadline: "WeTransfer evolved",
     uploadSubheadline: "Delivery tracking, branded pages, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
@@ -187,7 +187,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: ShieldCheck,
     cardLabel: "Secure File Transfer",
     cardDescription:
-      "Encrypted browser-native transfer with password protection, expiry and download limits.",
+      "Send files securely with encryption, password protection, transfer expiry controls and download visibility.",
     uploadHeadline: "Transfer files securely online",
     uploadSubheadline: "Encrypted sessions, expiring links and granular access controls.",
     ctaLabel: "Start secure transfer",
@@ -262,7 +262,8 @@ export const transferVariants: TransferVariantConfig[] = [
     keyword: "send large files online",
     cardIcon: Globe2,
     cardLabel: "Send Files Online",
-    cardDescription: "Browser-native large file delivery with no installs required.",
+    cardDescription:
+      "Send files online directly from your browser without software downloads or recipient accounts.",
     uploadHeadline: "Send files online in seconds",
     uploadSubheadline: "Pure browser delivery — no installs, no plugins, no sync clients.",
     ctaLabel: "Send a file online",
@@ -299,7 +300,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Share2,
     cardLabel: "Share Large Files",
     cardDescription:
-      "Secure shareable delivery links with tracking and granular access controls.",
+      "Share large files with secure links, download notifications and real-time transfer tracking.",
     uploadHeadline: "Share large files securely",
     uploadSubheadline: "Generate a delivery link in seconds — track and control every download.",
     ctaLabel: "Generate share link",
@@ -384,32 +385,33 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-powerpoint-files",
-    title: "Send Large PowerPoint Files Online | Docsora Transfer",
+    title: "Send ZIP Files Online — Secure Large Archive Transfer | Docsora",
     metaDescription:
-      "Send large PowerPoint presentations online without inbox limits. Branded delivery pages, tracking and encrypted sessions for client-ready decks.",
-    h1: "Send Large PowerPoint Files",
+      "Send ZIP files online with secure delivery links, tracking and expiry controls. Move large archives, project bundles and compressed folders past inbox limits.",
+    h1: "Send Large ZIP Files Online",
     intro:
-      "Move oversized PPTX decks, embedded media and client presentation packages with branded delivery pages and tracking.",
-    keyword: "send large powerpoint files",
-    cardIcon: Presentation,
-    cardLabel: "Send Large PPTX",
-    cardDescription: "Branded delivery for oversized PowerPoint decks and presentation bundles.",
-    uploadHeadline: "Send large PowerPoint decks",
-    uploadSubheadline: "Bypass inbox limits — track every recipient open and download.",
-    ctaLabel: "Send a PPTX transfer",
+      "Move oversized ZIP archives, project bundles and compressed folders with tracked, encrypted delivery — no inbox limits, no installs.",
+    keyword: "send zip files",
+    cardIcon: Archive,
+    cardLabel: "Send ZIP Files",
+    cardDescription:
+      "Send large ZIP archives and project bundles with secure links, tracking and expiry controls.",
+    uploadHeadline: "Send large ZIP files securely",
+    uploadSubheadline: "Tracked delivery for archives, project bundles and compressed folders.",
+    ctaLabel: "Send a ZIP transfer",
     longCopy:
-      "Docsora Transfer is built for presentation-heavy teams. Send large PowerPoint files, Keynote bundles and embedded media decks with branded recipient pages, real-time tracking and access controls.",
+      "Docsora Transfer is built for sending large ZIP archives — project bundles, asset packs, code drops and compressed deliverables — with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
     useCases: [
-      "Deliver client pitches",
-      "Send investor decks",
-      "Ship workshop presentations",
-      "Move training bundles",
+      "Deliver project archives to clients",
+      "Send asset bundles to agencies",
+      "Ship code or build drops",
+      "Move compressed media packages",
     ],
     faq: [
       {
-        question: "How do I send a large PowerPoint file?",
+        question: "How do I send a large ZIP file online?",
         answer:
-          "Upload the PPTX or KEY file to Docsora, generate a delivery link and share with recipients. Branded recipient pages and tracking are included by default.",
+          "Drop the ZIP file into Docsora Transfer, generate a secure delivery link and share with recipients. Tracking, password protection and expiry are included by default.",
       },
     ],
   },
@@ -446,33 +448,33 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "agency-file-sharing",
-    title: "Agency File Sharing & Client Delivery | Docsora Transfer",
+    title: "Send CAD Files Online — Secure Engineering File Transfer | Docsora",
     metaDescription:
-      "Agency file sharing platform with branded delivery, tracking and workflow integration. Built for creative agencies, production studios and consultancies.",
-    h1: "Agency File Sharing Done Right",
+      "Send large CAD files online with secure delivery, tracking and expiry controls. Move DWG, DXF, STEP, IGES and Revit files between engineering teams.",
+    h1: "Send Large CAD Files Online",
     intro:
-      "Deliver client campaigns, video edits, design exports and operational packages with branded transfer pages and real-time tracking.",
-    keyword: "agency file sharing",
-    cardIcon: Briefcase,
-    cardLabel: "Agency File Sharing",
+      "Move DWG, DXF, STEP, IGES, Revit and 3D model files between engineering, architecture and manufacturing teams with tracked, secure delivery.",
+    keyword: "send cad files",
+    cardIcon: Building2,
+    cardLabel: "Send CAD Files",
     cardDescription:
-      "Branded delivery pages and tracking purpose-built for agency client handoffs.",
-    uploadHeadline: "Deliver agency work professionally",
-    uploadSubheadline: "Branded transfer pages, tracking and operational workflow integration.",
-    ctaLabel: "Start an agency transfer",
+      "Secure delivery for DWG, DXF, STEP, IGES, Revit and 3D model files with tracking and expiry.",
+    uploadHeadline: "Send large CAD files securely",
+    uploadSubheadline: "DWG, DXF, STEP, IGES, Revit — tracked delivery for engineering teams.",
+    ctaLabel: "Send a CAD transfer",
     longCopy:
-      "Docsora Transfer is operational file delivery infrastructure for creative agencies, production studios and consulting firms. Every transfer is a branded client touchpoint — not a generic WeTransfer page — with real-time tracking and direct integration into approvals and signing.",
+      "Docsora Transfer is built for engineering, architecture and manufacturing teams that move large CAD files daily. Send DWG, DXF, STEP, IGES, Revit and 3D model packages with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
     useCases: [
-      "Campaign asset delivery",
-      "Video edit reviews",
-      "Design system handoff",
-      "Client proposal packages",
+      "Ship CAD packages to clients",
+      "Move Revit models between offices",
+      "Send STEP and IGES files to suppliers",
+      "Deliver 3D model bundles",
     ],
     faq: [
       {
-        question: "How do agencies send large client deliverables?",
+        question: "How do I send large CAD files online?",
         answer:
-          "Modern agencies use branded delivery platforms like Docsora — clients receive a branded recipient page, agencies see exactly when files were opened and downloaded, and deliverables can flow directly into signing workflows.",
+          "Upload DWG, DXF, STEP, IGES or Revit files to Docsora Transfer and share the generated delivery link. Files are preserved byte-for-byte with tracked downloads and expiry controls.",
       },
     ],
   },
