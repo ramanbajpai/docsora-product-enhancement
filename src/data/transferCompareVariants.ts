@@ -237,7 +237,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     chooseCompetitorList: [
       "A familiar European file transfer experience",
-      "One-off large file sending via a public link",
+      "One-off large file sending via a link",
       "Quick sharing without lifecycle management",
       "Standalone use without a wider document ecosystem",
     ],
