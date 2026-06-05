@@ -11,7 +11,6 @@ import {
   Upload,
   Layers,
   Eye,
-  Palette,
   Lock,
   MonitorSmartphone,
   Workflow,
@@ -26,6 +25,9 @@ import {
   Music,
   Box,
   Code,
+  Mail,
+  Users,
+  Check,
 } from "lucide-react";
 import {
   Accordion,
