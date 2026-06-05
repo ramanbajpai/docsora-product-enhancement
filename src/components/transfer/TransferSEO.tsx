@@ -252,7 +252,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION - Operational workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Teams, Agencies and Professionals</h2>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">Securely send large files, videos, documents, CAD drawings and creative assets with tracking, download visibility and expiry controls.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
