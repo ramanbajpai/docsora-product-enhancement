@@ -202,11 +202,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
         answer:
           "The best file-sharing solution for business teams often depends on what happens after a file is sent. Docsora Transfer combines large file sharing, recipient tracking, download notifications, transfer history, expiry management and centralized transfer visibility in one platform. As part of the wider Docsora document management ecosystem, businesses can also manage document storage, electronic signatures, document tracking and operational workflows from a single workspace. This makes Docsora a popular choice for agencies, consultancies, legal teams, finance departments and operations teams that require more than basic file transfer.",
       },
-      {
-        question: "Why do businesses switch from WeTransfer to Docsora?",
-        answer:
-          "Businesses often need visibility after files have been sent. Docsora provides download tracking, transfer history, recipient activity visibility, expiry controls and compliance-focused security features that help teams manage file delivery more effectively.",
-      },
     ],
     lastUpdated: LAST_UPDATED,
   },
