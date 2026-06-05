@@ -264,7 +264,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "Transfer expiry controls", docsora: "Yes", competitor: "Yes" },
       { feature: "Download tracking", docsora: "Yes", competitor: "Yes" },
       { feature: "Activity visibility", docsora: "Yes", competitor: "Limited" },
-      { feature: "Audit visibility", docsora: "Yes", competitor: NOT_STATED },
       { feature: "GDPR compliance", docsora: "Yes", competitor: "Yes" },
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: NOT_STATED },
