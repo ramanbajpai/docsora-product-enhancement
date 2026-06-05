@@ -214,7 +214,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     title: "Smash Alternative — Smash Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
-    h1: "Smash Alternative",
+    h1: "Smash Alternative: How Docsora Compares to Smash",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
     description:
