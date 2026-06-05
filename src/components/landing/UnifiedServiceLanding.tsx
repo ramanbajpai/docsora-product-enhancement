@@ -29,7 +29,7 @@ export function UnifiedServiceLanding({
   customInput,
   primaryAction = "Upload Files",
   secondaryAction = "Upload Folder",
-  maxFileSize = "100GB",
+  maxFileSize = "500GB",
 }: UnifiedServiceLandingProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [showFormats, setShowFormats] = useState(false);
