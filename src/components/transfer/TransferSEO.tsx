@@ -121,7 +121,7 @@ const operationalWorkflows = [
 ];
 
 const features = [
-  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
+  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload completes." },
   { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
   { icon: History, title: "Transfer history & visibility", description: "See every large file transfer, recipient and download in one searchable activity log." },
   { icon: FileStack, title: "100+ file types supported", description: "Send PDFs, videos, ZIPs, CAD files, design assets and documents without conversion." },

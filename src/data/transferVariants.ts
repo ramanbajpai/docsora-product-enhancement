@@ -230,7 +230,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "RAW, MXF, BRAW, R3D, ProRes — no compression, no quality loss.",
     ctaLabel: "Upload video files",
     longCopy:
-      "Docsora Transfer is built for video teams that move large files daily. Send RAW footage, master exports, BRAW, R3D and MXF assets without compression and without re-uploading to half a dozen platforms. Generate a delivery link the moment upload begins so editors, colorists and producers can pull files in parallel.",
+      "Docsora Transfer is built for video teams that move large files daily. Send RAW footage, master exports, BRAW, R3D and MXF assets without compression and without re-uploading to half a dozen platforms. Generate a delivery link the moment upload completes so editors, colorists and producers can download.",
     useCases: [
       "Deliver master video edits",
       "Move RAW footage between editors",
@@ -242,7 +242,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "What is the fastest way to transfer large videos?",
         answer:
-          "Browser-native transfer platforms like Docsora are the fastest practical option for most teams — no software to install, encrypted sessions, and delivery links generated the moment upload begins so recipients can download in parallel.",
+          "Browser-native transfer platforms like Docsora are the fastest practical option for most teams — no software to install, encrypted sessions, and delivery links generated the moment upload completes so recipients can download.",
       },
       {
         question: "Can I send large videos without compression?",

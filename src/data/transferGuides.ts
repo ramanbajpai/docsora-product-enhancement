@@ -128,15 +128,36 @@ export const transferGuides: TransferGuide[] = [
         ],
       },
       {
+        heading: "How to send large video files without losing quality",
+        paragraphs: [
+          "Production video files — RAW, ProRes, BRAW, R3D and MXF — are too large for email and too valuable for compression. Consumer platforms often cap file sizes, re-encode uploads or compress previews without warning.",
+          "Docsora handles files up to 500 GB in a single transfer, preserving every frame at full fidelity. No transcoding, no generation loss, no broken delivery commitments.",
+        ],
+      },
+      {
         heading: "Recommended workflow for production teams",
         paragraphs: [
           "The operational workflow most production teams converge on looks like this:",
         ],
         bullets: [
           "Upload master, RAW or ProRes files directly from your edit station.",
-          "Generate a delivery link the moment upload begins — recipients can start pulling files in parallel.",
-          "Control recipient access with studio identity.",
+          "Generate a delivery link the moment upload completes.",
+          "Add password protection and download limits for sensitive unreleased content.",
           "Track opens and downloads to confirm receipt before invoicing.",
+        ],
+      },
+      {
+        heading: "Supported video formats and file types",
+        paragraphs: [
+          "Docsora accepts every major professional video format without conversion: ProRes 422 and 4444, DNxHD, DNxHR, BRAW, R3D, XAVC, AVCHD, MXF and uncompressed AVI. Container formats including MOV, MP4, MKV and MXF are preserved exactly as uploaded.",
+          "Unlike consumer platforms that transcode for streaming previews, Docsora delivers the original source file to recipients. Colorists receive the same bit depth, editors receive identical frame counts, and archival teams receive untouched masters.",
+        ],
+      },
+      {
+        heading: "Security for pre-release and client content",
+        paragraphs: [
+          "Unreleased trailers, client reviews and festival cuts need more than a public link. Docsora gives production teams granular control over who can access what — and for how long.",
+          "Set expiry dates on every transfer, limit total downloads and add password protection for an additional layer of security. Recipients never need an account, but you always know who opened what and when.",
         ],
       },
     ],
@@ -145,6 +166,21 @@ export const transferGuides: TransferGuide[] = [
         question: "Will my RAW footage be re-encoded?",
         answer:
           "No. Docsora preserves source files exactly as uploaded — no transcoding, no re-encoding, no generation loss.",
+      },
+      {
+        question: "What is the maximum video file size I can transfer?",
+        answer:
+          "Docsora supports video files up to 500 GB in a single transfer request, well beyond the limits of email and most consumer file sharing platforms.",
+      },
+      {
+        question: "Can recipients download while the upload is still in progress?",
+        answer:
+          "Recipients receive the delivery link once the upload completes. This ensures they download the complete, verified file rather than a partial or interrupted transfer.",
+      },
+      {
+        question: "Is Docsora better than shipping hard drives for video delivery?",
+        answer:
+          "For most productions, yes. Hard drives add days of shipping time, courier costs and risk of loss or damage. Browser-native transfer delivers files in hours with tracking, password protection and instant global access.",
       },
     ],
     relatedTools: [
