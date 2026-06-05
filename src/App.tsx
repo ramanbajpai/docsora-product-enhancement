@@ -259,6 +259,12 @@ const App = () => (
             <Route path="/send-files-online" element={<TransferVariant />} />
             <Route path="/large-file-sharing" element={<TransferVariant />} />
             <Route path="/transfer-large-files-online" element={<TransferVariant />} />
+            <Route path="/creative-agency-file-sharing" element={<TransferVariant />} />
+            <Route path="/video-file-transfer" element={<TransferVariant />} />
+            <Route path="/cad-file-transfer" element={<TransferVariant />} />
+            <Route path="/legal-file-sharing" element={<TransferVariant />} />
+            <Route path="/consulting-file-sharing" element={<TransferVariant />} />
+            <Route path="/freelancer-file-transfer" element={<TransferVariant />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
             <Route path="/edit-pdf" element={<PDFToolLanding />} />
