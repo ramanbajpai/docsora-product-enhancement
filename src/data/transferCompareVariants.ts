@@ -145,7 +145,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       {
         question: "What makes Docsora different from WeTransfer?",
         answer:
-          "The primary difference is transfer management after delivery. Docsora allows users to track downloads, view transfer activity, extend expiry dates, reactivate expired transfers and manage all transfers from a centralized dashboard. Both platforms support large file sharing, but Docsora provides additional visibility and control over the transfer lifecycle.",
+          "Both Docsora and WeTransfer allow users to send large files and monitor transfer activity. Docsora focuses on helping users manage what happens after a file is sent. Instead of checking individual transfers, Docsora surfaces actions that require attention directly in the dashboard, such as recipients who have not downloaded files, transfers approaching expiry and transfers that may need extending. This helps individuals, consultants and teams move work forward without manually monitoring every transfer.",
       },
       {
         question: "How do I send large files online?",
