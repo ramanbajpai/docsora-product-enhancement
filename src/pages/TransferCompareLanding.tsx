@@ -29,7 +29,6 @@ import { cn } from "@/lib/utils";
 import {
   transferCompareVariantBySlug,
   transferCompareVariants,
-  docsoraTransferBenefits,
   docsoraTransferPlans,
   type TransferCompareVariantConfig,
 } from "@/data/transferCompareVariants";
