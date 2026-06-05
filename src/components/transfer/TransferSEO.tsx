@@ -11,6 +11,7 @@ import {
   Upload,
   Layers,
   Eye,
+  Palette,
   Lock,
   MonitorSmartphone,
   Workflow,
