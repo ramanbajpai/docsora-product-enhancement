@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import {
   transferCompareVariantBySlug,
   transferCompareVariants,
+  docsoraTransferBenefits,
   docsoraTransferPlans,
   type TransferCompareVariantConfig,
 } from "@/data/transferCompareVariants";
@@ -244,6 +245,46 @@ const TransferCompareLanding = () => {
           </motion.section>
 
           {/* Why users switch */}
+          <motion.section {...fadeUp} className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-4">
+              Why users switch from {variant.competitor}
+            </h2>
+            <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed mb-6">
+              Many file transfer platforms focus only on sending files. Docsora Transfer
+              focuses on managing the entire lifecycle of a transfer. Instead of losing
+              visibility after clicking send, users can:
+            </p>
+            <ul className="space-y-2.5">
+              {variant.whySwitch.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed"
+                >
+                  <Check className="w-3.5 h-3.5 text-primary mt-1 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.section>
+
+          {/* Docsora Transfer benefits */}
+          <motion.section {...fadeUp}>
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
+              What you get with Docsora Transfer
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-w-3xl mx-auto">
+              {docsoraTransferBenefits.map((b) => (
+                <div
+                  key={b}
+                  className="flex items-start gap-2 rounded-xl px-4 py-3 bg-card/40 border border-border/30 text-sm text-foreground/85"
+                >
+                  <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                  <span>{b}</span>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+
           {/* Security & Compliance */}
           <motion.section {...fadeUp}>
             <div className="text-center max-w-3xl mx-auto mb-8">
