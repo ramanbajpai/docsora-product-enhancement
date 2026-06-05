@@ -139,44 +139,74 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     faq: [
       {
-        question: "Is Docsora Transfer a WeTransfer alternative?",
+        question: "Is Docsora a good alternative to WeTransfer?",
         answer:
-          "Yes. Docsora Transfer supports the same core use case as WeTransfer — sending large files in the browser via a shareable link with no recipient account required — and adds transfer tracking, expiry extension, reactivation and a centralized transfer management dashboard.",
+          "Docsora and WeTransfer both allow users to send large files through secure shareable links. Docsora is designed for users who want greater visibility after files have been sent, including download tracking, recipient activity visibility, transfer history, expiry management and transfer reactivation.",
       },
       {
-        question: "How does Docsora compare to WeTransfer for business use?",
+        question: "What makes Docsora different from WeTransfer?",
         answer:
-          "WeTransfer is optimised for sending. Docsora Transfer is optimised for managing the full transfer lifecycle, with download tracking, activity visibility, expiry extension, reactivation, recipient reminders and audit visibility — alongside ISO 27001 and SOC 2 Type I controls.",
+          "The primary difference is transfer management after delivery. Docsora allows users to track downloads, view transfer activity, extend expiry dates, reactivate expired transfers and manage all transfers from a centralized dashboard. Both platforms support large file sharing, but Docsora provides additional visibility and control over the transfer lifecycle.",
+      },
+      {
+        question: "How do I send large files online?",
+        answer:
+          "Upload your files, generate a secure transfer link and share it with recipients. Docsora supports large file transfers directly from your browser without requiring recipients to create an account.",
       },
       {
         question: "Can I see who downloaded my files?",
         answer:
-          "Yes. Docsora records open and download events for every transfer and shows the activity in the transfer history so senders can see exactly who has downloaded their files.",
+          "Yes. Docsora records transfer activity and download events, allowing senders to see when recipients interact with shared files.",
       },
       {
         question: "Can I extend a transfer after sending it?",
         answer:
-          "Yes. Senders can extend the validity of a transfer from the transfer management dashboard without having to re-upload the files.",
+          "Yes. Docsora allows users to extend transfer expiry dates after files have been sent, helping recipients access files without requiring a new upload.",
       },
       {
         question: "Can I reactivate an expired transfer?",
         answer:
-          "Yes. Expired transfers can be reactivated from the transfer history without resending or re-uploading the original files.",
+          "Yes. Expired transfers can be reactivated without re-uploading files, allowing users to restore access to existing transfers.",
+      },
+      {
+        question: "What file types can I send with Docsora?",
+        answer:
+          "Docsora supports more than 100 file types including PDF, Word, Excel, PowerPoint, ZIP, PSD, AI, MP4, MOV, RAW photography files, CAD drawings, 3D models and project archives.",
+      },
+      {
+        question: "Do recipients need a Docsora account?",
+        answer:
+          "No. Recipients can access files directly through secure transfer links without creating an account or installing software.",
+      },
+      {
+        question: "Is Docsora secure for business file sharing?",
+        answer:
+          "Docsora uses encrypted file transfers and supports security controls such as expiry management, password protection and download visibility. The platform is designed for businesses, agencies and professional teams sharing sensitive files.",
       },
       {
         question: "Is Docsora ISO 27001 certified?",
         answer:
-          "Yes. Docsora is ISO 27001 certified and aligned with industry security frameworks for handling business documents and large file transfers.",
+          "Yes. Docsora is ISO 27001 certified, demonstrating adherence to internationally recognized information security management standards.",
       },
       {
-        question: "Does Docsora have SOC 2?",
+        question: "Does Docsora have SOC 2 compliance?",
         answer:
-          "Docsora is SOC 2 Type I and is currently in audit for SOC 2 Type II.",
+          "Docsora is SOC 2 Type I compliant and is currently progressing through SOC 2 Type II audit requirements.",
       },
       {
-        question: "What compliance certifications does Docsora hold?",
+        question: "Is Docsora GDPR compliant?",
         answer:
-          "Docsora is GDPR compliant, ISO 27001 certified and SOC 2 Type I, with SOC 2 Type II audit in progress, and supports regional data hosting options.",
+          "Yes. Docsora is GDPR compliant and designed to support modern privacy and data protection requirements.",
+      },
+      {
+        question: "What is the best WeTransfer alternative for business teams?",
+        answer:
+          "Businesses often require more than basic file delivery. Docsora combines large file transfer, download tracking, transfer history, expiry management and compliance-focused controls, making it suitable for agencies, consultancies, operations teams, legal teams and finance departments.",
+      },
+      {
+        question: "Why do businesses switch from WeTransfer to Docsora?",
+        answer:
+          "Businesses often need visibility after files have been sent. Docsora provides download tracking, transfer history, recipient activity visibility, expiry controls and compliance-focused security features that help teams manage file delivery more effectively.",
       },
     ],
     lastUpdated: LAST_UPDATED,
