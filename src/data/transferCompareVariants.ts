@@ -47,7 +47,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Compare Docsora and WeTransfer across transfer tracking, expiry controls, transfer history, download visibility, security and compliance.",
     title: "WeTransfer Alternative — WeTransfer Alternative for Large File Transfer | Docsora",
     metaDescription:
-      "Compare Docsora Transfer vs WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
+      "Compare Docsora and WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
     h1: "WeTransfer Alternative",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
@@ -169,7 +169,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "See how Docsora compares to TransferNow for file sharing, recipient tracking, transfer management and business workflows.",
     title: "TransferNow Alternative — TransferNow Alternative for Large File Transfer | Docsora",
     metaDescription:
-      "Compare Docsora Transfer vs TransferNow for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
+      "Compare Docsora and TransferNow for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "TransferNow Alternative",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
@@ -291,7 +291,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Compare Docsora and Dropbox Transfer for large file delivery, transfer lifecycle management, download tracking and compliance.",
     title: "Dropbox Transfer Alternative — Dropbox Transfer Alternative | Docsora",
     metaDescription:
-      "Compare Docsora Transfer vs Dropbox Transfer for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
+      "Compare Docsora and Dropbox Transfer for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "Dropbox Transfer Alternative",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
@@ -412,7 +412,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Compare Docsora and Smash across file transfer, transfer visibility, expiry controls, compliance and operational workflows.",
     title: "Smash Alternative — Smash Alternative for Large File Transfer | Docsora",
     metaDescription:
-      "Compare Docsora Transfer vs Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
+      "Compare Docsora and Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "Smash Alternative",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
@@ -534,7 +534,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Compare Docsora and MASV for large media delivery, tracking, compliance, transfer management and business collaboration.",
     title: "MASV Alternative — MASV Alternative for Business File Transfer | Docsora",
     metaDescription:
-      "Compare Docsora Transfer vs MASV for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business file delivery.",
+      "Compare Docsora and MASV for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business file delivery.",
     h1: "MASV Alternative",
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
