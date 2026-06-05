@@ -135,7 +135,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     whoChooseCompetitor: [
       "Users who only need to send a one-off large file via a familiar link experience.",
-      "Teams that do not need visibility, tracking or lifecycle management after a transfer has been sent.",
+      "Users who only need to send a one-off large file via a familiar link experience.",
     ],
     faq: [
       {
