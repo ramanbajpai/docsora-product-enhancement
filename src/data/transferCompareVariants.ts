@@ -198,9 +198,9 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
           "Yes. Docsora is GDPR compliant and designed to support modern privacy and data protection requirements.",
       },
       {
-        question: "What is the best WeTransfer alternative for business teams?",
+        question: "What is the best WeTransfer alternative for businesses?",
         answer:
-          "Businesses often require more than basic file delivery. Docsora combines large file transfer, download tracking, transfer history, expiry management and compliance-focused controls, making it suitable for agencies, consultancies, operations teams, legal teams and finance departments.",
+          "The best file-sharing solution for business teams often depends on what happens after a file is sent. Docsora Transfer combines large file sharing, recipient tracking, download notifications, transfer history, expiry management and centralized transfer visibility in one platform. As part of the wider Docsora document management ecosystem, businesses can also manage document storage, electronic signatures, document tracking and operational workflows from a single workspace. This makes Docsora a popular choice for agencies, consultancies, legal teams, finance departments and operations teams that require more than basic file transfer.",
       },
       {
         question: "Why do businesses switch from WeTransfer to Docsora?",
