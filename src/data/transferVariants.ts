@@ -63,7 +63,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Send,
     cardLabel: "Send Large Files",
     cardDescription:
-      "Move oversized operational work between teams and clients without inbox limits.",
+      "Send large files securely online with download tracking, expiry controls and instant file sharing.",
     uploadHeadline: "Send large files instantly",
     uploadSubheadline: "Browser-native delivery for documents, video, design and archives.",
     ctaLabel: "Choose files to send",
@@ -106,7 +106,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Upload,
     cardLabel: "Large File Transfer",
     cardDescription:
-      "Operational large file delivery with tracking, branding and workflow integration.",
+      "Transfer large files online without size restrictions while tracking views, downloads and recipient activity.",
     uploadHeadline: "Move large files at operational speed",
     uploadSubheadline: "Track every open, download and recipient action in real time.",
     ctaLabel: "Start a large transfer",
@@ -144,7 +144,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Zap,
     cardLabel: "WeTransfer Alternative",
     cardDescription:
-      "Modern operational file delivery — faster, more workflow-native, more secure than WeTransfer.",
+      "Compare Docsora and WeTransfer for large file sharing, download tracking, expiry controls and transfer management.",
     uploadHeadline: "WeTransfer evolved",
     uploadSubheadline: "Delivery tracking, branded pages, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
@@ -187,7 +187,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: ShieldCheck,
     cardLabel: "Secure File Transfer",
     cardDescription:
-      "Encrypted browser-native transfer with password protection, expiry and download limits.",
+      "Send files securely with encryption, password protection, transfer expiry controls and download visibility.",
     uploadHeadline: "Transfer files securely online",
     uploadSubheadline: "Encrypted sessions, expiring links and granular access controls.",
     ctaLabel: "Start secure transfer",
@@ -262,7 +262,8 @@ export const transferVariants: TransferVariantConfig[] = [
     keyword: "send large files online",
     cardIcon: Globe2,
     cardLabel: "Send Files Online",
-    cardDescription: "Browser-native large file delivery with no installs required.",
+    cardDescription:
+      "Send files online directly from your browser without software downloads or recipient accounts.",
     uploadHeadline: "Send files online in seconds",
     uploadSubheadline: "Pure browser delivery — no installs, no plugins, no sync clients.",
     ctaLabel: "Send a file online",
@@ -299,7 +300,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Share2,
     cardLabel: "Share Large Files",
     cardDescription:
-      "Secure shareable delivery links with tracking and granular access controls.",
+      "Share large files with secure links, download notifications and real-time transfer tracking.",
     uploadHeadline: "Share large files securely",
     uploadSubheadline: "Generate a delivery link in seconds — track and control every download.",
     ctaLabel: "Generate share link",
