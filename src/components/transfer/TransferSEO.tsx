@@ -26,6 +26,9 @@ import {
   Music,
   Box,
   Code,
+  Mail,
+  Users,
+  Check,
 } from "lucide-react";
 import {
   Accordion,
@@ -64,12 +67,12 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
-  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
-  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
-  { icon: Globe2, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
+  { icon: Eye, title: "Real-time transfer tracking", description: "See when recipients open links and download files. Get visibility into transfer activity from your Track dashboard." },
+  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers without re-uploading files." },
+  { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
+  { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
+  { icon: Users, title: "No account required for recipients", description: "Recipients can access files instantly without creating an account or installing software." },
 ];
 
 const operationalWorkflows = [
@@ -125,15 +128,15 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   return (
     <div className="bg-background border-t border-border/30">
       <div className="max-w-6xl mx-auto px-6 py-24 md:py-32 space-y-28 md:space-y-36">
-        {/* SECTION — Why teams leave WeTransfer */}
+        {/* SECTION — Secure large file transfer with tracking */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
               <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files Without Limits</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Move videos, presentations, creative assets and business files securely from any browser. No failed uploads. No inbox limits.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Secure Large File Transfer with Tracking, Visibility and Control</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Send large files in seconds. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading and manage everything from a single dashboard.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {whyLeaveWeTransfer.map((item, i) => (
@@ -146,6 +149,20 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               </motion.div>
             ))}
           </div>
+          <motion.div {...staggerItem} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            {[
+              "No sign up required for recipients",
+              "100+ file types supported",
+              "Works on desktop, tablet and mobile",
+              "Secure encrypted delivery",
+              "Managed from your Docsora dashboard",
+            ].map((label) => (
+              <div key={label} className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
+                <Check className="w-3.5 h-3.5 text-primary/70" />
+                <span>{label}</span>
+              </div>
+            ))}
+          </motion.div>
         </section>
 
         {/* SECTION — Supported file types */}
