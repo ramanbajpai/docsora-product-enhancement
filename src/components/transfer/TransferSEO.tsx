@@ -64,7 +64,7 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
   { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
   { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
   { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
@@ -87,7 +87,7 @@ const operationalWorkflows = [
 
 const features = [
   { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track opens, downloads and recipient activity instantly." },
+  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
   { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
   { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
