@@ -31,7 +31,6 @@ import {
   transferCompareVariants,
   docsoraTransferBenefits,
   docsoraTransferPlans,
-  docsoraTransferDifferentiators,
   type TransferCompareVariantConfig,
 } from "@/data/transferCompareVariants";
 
