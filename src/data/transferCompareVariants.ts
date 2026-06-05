@@ -298,7 +298,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       {
         question: "Is Docsora Transfer a Smash alternative?",
         answer:
-          "Yes. Docsora Transfer allows users to send large files through secure shareable links without requiring recipients to create an account. In addition to file delivery, Docsora provides download tracking, recipient activity visibility, transfer history, expiry management, transfer reactivation and centralized transfer management from a single dashboard.",
+          "Yes. Docsora Transfer is a modern Smash alternative for individuals, freelancers, agencies and businesses that need more visibility after sending files. Users can send large files through secure shareable links, track downloads, monitor recipient activity, extend expiry dates, reactivate expired transfers and manage transfers from a centralized dashboard.",
       },
       {
         question: "How does Docsora compare to Smash?",
