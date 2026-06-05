@@ -67,12 +67,12 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: Palette, title: "Branded delivery pages", description: "Professional transfer experiences for agencies, freelancers and teams." },
-  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
-  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
-  { icon: Globe2, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
+  { icon: Eye, title: "Real-time transfer tracking", description: "See when recipients open links and download files. Get visibility into transfer activity from your Track dashboard." },
+  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers without re-uploading files." },
+  { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
+  { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
+  { icon: Users, title: "No account required for recipients", description: "Recipients can access files instantly without creating an account or installing software." },
 ];
 
 const operationalWorkflows = [
