@@ -144,7 +144,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardIcon: Zap,
     cardLabel: "WeTransfer Alternative",
     cardDescription:
-      "Compare Docsora and WeTransfer for large file sharing, download tracking, expiry controls and transfer management.",
+      "Move large documents and files in two clicks. Track every transfers activity, status and extend the expiry date at any time - all under your control.",
     uploadHeadline: "WeTransfer evolved",
     uploadSubheadline: "Delivery tracking, branded pages, encrypted sessions and workflow-native handoffs.",
     ctaLabel: "Try Docsora Transfer",
