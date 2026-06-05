@@ -538,7 +538,7 @@ export function RecipientPasswordProtectedView({ onClose }: RecipientPasswordPro
                       className="mt-6 pt-4 border-t border-border/10"
                     >
                       <p className="text-[10px] text-center text-muted-foreground/30">
-                        Docsora — professional-grade secure file transfers.
+                        Docsora - professional-grade secure file transfers.
                       </p>
                     </motion.div>
                   </div>
