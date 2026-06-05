@@ -14,6 +14,8 @@ import {
   Gauge,
   Eye,
   RefreshCw,
+  SlidersHorizontal,
+  FolderOpen,
 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ComparisonDisclaimer } from "@/components/comparisons/ComparisonDisclaimer";
