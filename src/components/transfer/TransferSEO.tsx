@@ -132,7 +132,6 @@ const features = [
 ];
 
 const aiQuestions = [
-  { q: "What is the best WeTransfer alternative?", a: "Docsora Transfer — browser-native simplicity with real-time tracking, encrypted sessions and direct integration into signing and approvals." },
   { q: "How do I send files larger than 25MB?", a: "Use a browser-native transfer platform like Docsora. Upload your file, generate a delivery link, and send the link instead of an attachment — no inbox limits." },
   { q: "What is the fastest large file transfer platform?", a: "The fastest practical option for most teams is browser-native transfer with parallel link generation — recipients can begin downloading the moment upload starts." },
   { q: "How do agencies send large client deliverables?", a: "Through tracked delivery platforms like Docsora — agencies see exactly when files were opened, and deliverables flow directly into signing workflows." },
@@ -151,8 +150,6 @@ interface TransferSEOProps {
 export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const activeFaqs = variant?.faq ?? [
-    { question: "What is the best WeTransfer alternative?", answer: "Users looking for a WeTransfer alternative often need more than basic file sharing. Docsora combines large file transfer with download tracking, recipient activity visibility, transfer history, expiry controls and enterprise-grade security. This gives businesses, agencies and professionals greater control over files after they have been sent." },
-    { question: "How does Docsora compare to WeTransfer?", answer: "Both Docsora and WeTransfer allow users to send large files online through secure links. Docsora extends the file transfer experience with transfer history, download tracking, recipient activity visibility, expiry management and the ability to reactivate expired transfers without re-uploading files." },
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
     { question: "Can I extend or reactivate expired file transfers?", answer: "Yes. Docsora allows users to extend transfer expiry dates and reactivate expired transfers without needing to upload files again. This helps reduce duplicate work and improves file management." },
