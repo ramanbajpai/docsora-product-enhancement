@@ -155,7 +155,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               "100+ file types supported",
               "Works on desktop, tablet and mobile",
               "Secure encrypted delivery",
-              "Managed from your Docsora dashboard",
+              "Managed from your Docsora Track section",
             ].map((label) => (
               <div key={label} className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
                 <Check className="w-3.5 h-3.5 text-primary/70" />
