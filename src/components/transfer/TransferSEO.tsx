@@ -344,8 +344,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <BookOpen className="w-3 h-3 text-primary/80" />
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer guides</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer Guides</h2>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples - no generic AI filler.</p>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Large File Transfer Resources</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Practical guides for sending large files online, transferring videos without compression and securing business file delivery.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {transferGuides.map((g, i) => {
