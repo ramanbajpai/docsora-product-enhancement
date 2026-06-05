@@ -345,22 +345,79 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
                 <BookOpen className="w-3 h-3 text-primary/80" />
-                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer guides</span>
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Transfer resources</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer Guides</h2>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">Real workflows, real examples — no generic AI filler.</p>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Large File Transfer Resources</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">Practical guides, comparisons and best practices for sending large files securely, tracking downloads and managing file delivery online.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {transferGuides.map((g, i) => {
-                const Icon = g.icon;
+              {[
+                {
+                  to: "/send-large-files-online",
+                  icon: Send,
+                  title: "Send Large Files Online",
+                  description:
+                    "Learn how to send large files online without email attachment limits. Compare file transfer methods, security considerations and download tracking options.",
+                },
+                {
+                  to: "/large-file-transfer",
+                  icon: Workflow,
+                  title: "Large File Transfer Software",
+                  description:
+                    "Compare modern large file transfer platforms and the features businesses need for secure delivery, transfer tracking and recipient visibility.",
+                },
+                {
+                  to: "/secure-file-transfer",
+                  icon: ShieldCheck,
+                  title: "Secure File Transfer",
+                  description:
+                    "How encryption, password protection, download tracking and compliance controls help protect sensitive business files.",
+                },
+                {
+                  to: "/wetransfer-alternative",
+                  icon: GitCompare,
+                  title: "WeTransfer Alternative",
+                  description:
+                    "Compare Docsora and WeTransfer for large file sharing, transfer tracking, recipient activity visibility and transfer management.",
+                },
+                {
+                  to: "/send-large-videos",
+                  icon: FileVideo,
+                  title: "Send Large Video Files",
+                  description:
+                    "How creative teams, agencies and production companies transfer large video files, RAW footage and high-resolution exports without compression.",
+                },
+                {
+                  to: "/send-large-pdf-files",
+                  icon: FileText,
+                  title: "Send Large PDF Files",
+                  description:
+                    "Best practices for securely sending large PDF files, contracts, proposals, reports and board packs with delivery tracking.",
+                },
+                {
+                  to: "/large-file-transfer",
+                  icon: Eye,
+                  title: "File Transfer With Download Tracking",
+                  description:
+                    "How download tracking, open tracking and recipient visibility help businesses understand exactly what happens after a file is sent.",
+                },
+                {
+                  to: "/large-file-sharing",
+                  icon: Building2,
+                  title: "Business File Sharing",
+                  description:
+                    "A guide to business file sharing — security, compliance, recipient access, audit visibility and transfer lifecycle management.",
+                },
+              ].map((r, i) => {
+                const Icon = r.icon;
                 return (
-                  <motion.div key={g.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
-                    <Link to={`/transfer-guides/${g.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                  <motion.div key={r.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
+                    <Link to={r.to} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
                       <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-3">
                         <Icon className="w-4 h-4 text-primary/70" />
                       </div>
-                      <h3 className="text-[13px] font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">{g.h1}</h3>
-                      <p className="mt-2 text-[12px] text-muted-foreground/75 leading-relaxed line-clamp-2">{g.intro}</p>
+                      <h3 className="text-[13px] font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">{r.title}</h3>
+                      <p className="mt-2 text-[12px] text-muted-foreground/75 leading-relaxed line-clamp-3">{r.description}</p>
                     </Link>
                   </motion.div>
                 );
