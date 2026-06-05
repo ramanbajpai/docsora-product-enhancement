@@ -336,31 +336,129 @@ const TransferCompareLanding = () => {
             </p>
           </motion.section>
 
-          {/* Why businesses choose Docsora Transfer */}
-          <motion.section {...fadeUp}>
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
-              Why businesses choose Docsora Transfer
+          {/* Why users choose Docsora */}
+          <motion.section {...fadeUp} className="max-w-4xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-4 text-center">
+              Why users choose Docsora over traditional file transfer tools
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {docsoraTransferDifferentiators.map((d, i) => {
-                const Icon = [Eye, RefreshCw, ShieldCheck][i] ?? Eye;
-                return (
-                  <div
-                    key={d.title}
-                    className="rounded-2xl p-6 bg-card/40 border border-border/30"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center mb-4">
-                      <Icon className="w-4 h-4 text-primary/80" />
-                    </div>
-                    <h3 className="text-base font-semibold text-foreground mb-2 tracking-tight">
-                      {d.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground/85 leading-relaxed">
-                      {d.body}
-                    </p>
+            <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed mb-8 text-center max-w-2xl mx-auto">
+              Both Docsora and {variant.competitor} allow users to send large files online. Docsora adds transfer tracking, expiry management, transfer history and recipient visibility, helping teams manage files after they have been sent.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {/* Visibility & Tracking */}
+              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
+                    <Eye className="w-4 h-4 text-primary/80" />
                   </div>
-                );
-              })}
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Visibility &amp; Tracking</h3>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Track opens and downloads</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Download notifications</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>View sent and received transfers</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Access transfer history anytime</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Transfer Control */}
+              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
+                    <SlidersHorizontal className="w-4 h-4 text-primary/80" />
+                  </div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Transfer Control</h3>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Extend expiry dates</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Reactivate expired transfers</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Manage transfers from the Track dashboard</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Custom transfer messages</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Teams & Business */}
+              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-primary/80" />
+                  </div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Teams &amp; Business</h3>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Team visibility</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Dashboard reminders and recommendations</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Centralized transfer management</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Access transfer, storage, signing and document workflows from one platform</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Large File Sharing */}
+              <div className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
+                    <FolderOpen className="w-4 h-4 text-primary/80" />
+                  </div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Large File Sharing</h3>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Send transfers in seconds</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>No recipient account required</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
+                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                    <span>Supports 100+ file types</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Compliance trust bar */}
+            <div className="text-center">
+              <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70">
+                ISO 27001 Certified &middot; SOC 2 Type I &middot; GDPR Compliant
+              </p>
             </div>
           </motion.section>
 
