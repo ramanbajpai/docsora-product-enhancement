@@ -32,6 +32,7 @@ import TranslateCompareLanding from "./pages/TranslateCompareLanding";
 import Transfer from "./pages/Transfer";
 import TransferVariant from "./pages/TransferVariant";
 import TransferCompareLanding from "./pages/TransferCompareLanding";
+import TransferGuide from "./pages/TransferGuide";
 import Tools from "./pages/Tools";
 import Tool from "./pages/Tool";
 import PDFToolLanding from "./pages/PDFToolLanding";
@@ -261,6 +262,8 @@ const App = () => (
             <Route path="/legal-file-sharing" element={<TransferVariant />} />
             <Route path="/consulting-file-sharing" element={<TransferVariant />} />
             <Route path="/freelancer-file-transfer" element={<TransferVariant />} />
+            {/* Transfer knowledge / guide pages */}
+            <Route path="/transfer-guides/:slug" element={<TransferGuide />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/tools/:toolId" element={<Tool />} />
             <Route path="/edit-pdf" element={<PDFToolLanding />} />
