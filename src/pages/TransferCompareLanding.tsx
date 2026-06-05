@@ -251,7 +251,7 @@ const TransferCompareLanding = () => {
             </h2>
             <p className="text-sm md:text-[15px] text-muted-foreground/80 leading-relaxed mb-6">
               Many file transfer platforms focus only on sending files. Docsora Transfer is
-              simple and easy to use, while managing the entire lifecycle of a transfer.
+              just as simple to use, while also managing the entire lifecycle of a transfer.
               Instead of losing visibility after clicking send, users can:
             </p>
             <ul className="space-y-2.5">
@@ -440,7 +440,7 @@ const TransferCompareLanding = () => {
                   </li>
                   <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
                     <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
-                    <span>No recipient account required</span>
+                    <span>No account required for recipients or senders</span>
                   </li>
                   <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
                     <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
