@@ -151,7 +151,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
           <motion.div {...staggerItem} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             {[
-              "No sign up required for recipients",
+              "No sign up required for recipients or senders",
               "100+ file types supported",
               "Works on desktop, tablet and mobile",
               "Secure encrypted delivery",
