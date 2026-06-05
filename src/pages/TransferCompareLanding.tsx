@@ -412,10 +412,6 @@ const TransferCompareLanding = () => {
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
                     <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
-                    <span>Team visibility</span>
-                  </li>
-                  <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
-                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
                     <span>Dashboard reminders and recommendations</span>
                   </li>
                   <li className="flex items-start gap-2 text-sm text-foreground/85 leading-relaxed">
