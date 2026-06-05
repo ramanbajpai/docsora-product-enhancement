@@ -74,7 +74,7 @@ export const transferGuides: TransferGuide[] = [
         heading: "Gmail attachment limits explained",
         paragraphs: [
           "Gmail caps direct attachments at 25MB per message for both sending and receiving. If you attach a file larger than 25MB, Gmail automatically uploads it to Google Drive and replaces the attachment with a Drive link. That sounds helpful, but it shifts the problem rather than solving it.",
-          "When Gmail converts your attachment to a Drive link, the recipient now needs Drive access. If their organisation blocks third-party Drive links, the file is unreachable. If they accept the link, the access controls default to the sender's Drive permissions — which most people never review. And Gmail provides no download tracking, no expiry, and no audit trail on those Drive links.",
+          "When Gmail converts your attachment to a Drive link, the recipient now needs Drive access. If their organisation blocks third-party Drive links, the file is unreachable. If they accept the link, the access controls default to the sender's Drive permissions — which most people never review. And Gmail provides no download tracking, no expiry, and no activity log on those Drive links.",
         ],
         table: {
           caption: "Gmail attachment limits at a glance",
@@ -165,7 +165,7 @@ export const transferGuides: TransferGuide[] = [
         heading: "How businesses send large files",
         paragraphs: [
           "At the individual level, sending a large file is a one-off task. At the business level, it is a recurring operational workflow with policy, audit and brand implications. The patterns mature teams use look very different from ad-hoc consumer behaviour.",
-          "Most businesses centralise transfer through a single approved platform rather than letting each team pick their own. That gives IT one audit log, one access policy and one place to revoke access when an employee leaves. It also gives the brand a consistent recipient experience — your client sees your branded download page, not a random WeTransfer screen.",
+          "Most businesses centralise transfer through a single approved platform rather than letting each team pick their own. That gives IT one activity log, one access policy and one place to revoke access when an employee leaves. It also gives the brand a consistent recipient experience — your client sees your branded download page, not a random WeTransfer screen.",
           "The second pattern is to integrate transfer into adjacent workflows. The same file that gets delivered to a client often needs to be signed, archived and referenced later. Platforms that combine transfer with e-signing and document storage — like Docsora — collapse that chain from four tools into one.",
         ],
         bullets: [
@@ -173,7 +173,7 @@ export const transferGuides: TransferGuide[] = [
           "Set default expiry and password policies at the account level.",
           "Use email delivery from a sender identity so recipients trust the link.",
           "Connect transfer to e-signing and storage so deliverables don't fragment across tools.",
-          "Review the audit log monthly for unusual access patterns.",
+          "Review the activity log monthly for unusual access patterns.",
         ],
       },
       {
@@ -210,7 +210,7 @@ export const transferGuides: TransferGuide[] = [
           "Use email delivery from the platform when you want recipients to trust the link.",
           "Confirm the download event before treating the delivery as complete.",
           "Archive the final delivered version into long-term storage — not the transfer link itself.",
-          "Review your audit log monthly to catch anomalies early.",
+          "Review your activity log monthly to catch anomalies early.",
         ],
       },
       {
@@ -269,7 +269,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "Can I track who downloaded my file?",
         answer:
-          "Yes. Per-recipient tracking is one of the main reasons businesses choose a dedicated transfer service over a cloud drive link. The dashboard records each open and download event with a timestamp, so you have a real audit trail rather than guessing.",
+          "Yes. Per-recipient tracking is one of the main reasons businesses choose a dedicated transfer service over a cloud drive link. The dashboard records each open and download event with a timestamp, so you have a real activity log rather than guessing.",
       },
     ],
     relatedTools: [
@@ -359,7 +359,7 @@ export const transferGuides: TransferGuide[] = [
         paragraphs: [
           "Creative agencies have two distinct video transfer needs and the same platform usually handles both badly if you pick the wrong one. The first is client review — sending a cut or a colour pass to a client for sign-off. The second is final delivery — handing the finished master to the broadcaster, platform or end client.",
           "Review files are small (H.264 previews, a few hundred MB), need to be easy to watch in a browser, and should expire quickly so old cuts do not float around. Delivery files are large (multi-GB or multi-TB), need to preserve every byte, and often need a longer access window so the recipient's QC team has time to ingest them.",
-          "The pattern that works is one transfer platform that handles both, with different default settings per type. A review transfer expires in 7 days, has download tracking turned on so you know the client opened it, and uses a branded download page so the agency's brand surrounds the work. A delivery transfer has a 30-day window, password protection by default, and an audit log entry for procurement.",
+          "The pattern that works is one transfer platform that handles both, with different default settings per type. A review transfer expires in 7 days, has download tracking turned on so you know the client opened it, and uses a branded download page so the agency's brand surrounds the work. A delivery transfer has a 30-day window, password protection by default, and an activity log entry for procurement.",
         ],
       },
       {
@@ -453,7 +453,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "How do production companies usually deliver final masters?",
         answer:
-          "Through a dedicated, branded transfer platform with password protection, per-recipient links and a 14–30 day download window. The delivery confirmation (download event in the audit log) is treated as proof of delivery for invoicing and contractual sign-off.",
+          "Through a dedicated, branded transfer platform with password protection, per-recipient links and a 14–30 day download window. The delivery confirmation (download event in the activity log) is treated as proof of delivery for invoicing and contractual sign-off.",
       },
       {
         question: "Can recipients download the file while it's still uploading?",
@@ -491,7 +491,7 @@ export const transferGuides: TransferGuide[] = [
     slug: "secure-file-transfer-for-business",
     title: "Secure File Transfer For Business: Complete Guide | Docsora",
     metaDescription:
-      "The complete guide to secure file transfer for business — encryption, access controls, audit logging, GDPR, ISO 27001, SOC 2 and compliance for legal, finance and HR teams.",
+      "The complete guide to secure file transfer for business — encryption, access controls, activity logging, GDPR, ISO 27001, SOC 2 and compliance for legal, finance and HR teams.",
     h1: "Secure File Transfer For Business: Complete Guide",
     intro:
       "Secure file transfer is not a single feature — it is a stack of controls covering encryption, access, audit and compliance. This guide breaks down what each layer actually means in practice, what GDPR, ISO 27001 and SOC 2 require, and how legal, finance and HR teams use secure transfer to handle sensitive material without leaking it.",
@@ -505,8 +505,8 @@ export const transferGuides: TransferGuide[] = [
         heading: "What 'secure file transfer' actually means",
         paragraphs: [
           "Secure file transfer is a category, not a feature. A platform is not secure because it has a padlock icon or because its homepage says 'bank-grade encryption.' It is secure because it provides a specific stack of controls that, together, reduce the risk that a file is accessed by someone who should not see it.",
-          "The stack has four layers. Encryption in transit protects the file as it moves between sender, server and recipient. Encryption at rest protects it while it is sitting on the platform's storage. Access controls determine who can open the link once it arrives. Audit logging gives you a verifiable record of every event, after the fact.",
-          "If any one of those layers is missing or weak, the platform is not secure regardless of what marketing copy says. The questions to ask a vendor are specific: what TLS version do you enforce, what cipher do you use for at-rest encryption, do you offer password protection and per-recipient links, and can you produce an audit log on request. Vague answers are the answer.",
+          "The stack has four layers. Encryption in transit protects the file as it moves between sender, server and recipient. Encryption at rest protects it while it is sitting on the platform's storage. Access controls determine who can open the link once it arrives. Activity logging gives you a verifiable record of every event, after the fact.",
+          "If any one of those layers is missing or weak, the platform is not secure regardless of what marketing copy says. The questions to ask a vendor are specific: what TLS version do you enforce, what cipher do you use for at-rest encryption, do you offer password protection and per-recipient links, and can you produce an activity log on request. Vague answers are the answer.",
         ],
       },
       {
@@ -545,30 +545,30 @@ export const transferGuides: TransferGuide[] = [
         heading: "Download tracking",
         paragraphs: [
           "Download tracking records every time someone opens or downloads the transfer link. The log typically includes the timestamp, the recipient identifier (where you used per-recipient links), the IP-derived location and the user agent.",
-          "For business workflows, the download log serves three purposes. It is your proof of delivery for invoicing and contractual sign-off. It is your early warning system for unexpected access — a download from an unexpected country at 3am is your cue to investigate. And it is part of your audit trail for compliance reviews.",
+          "For business workflows, the download log serves three purposes. It is your proof of delivery for invoicing and contractual sign-off. It is your early warning system for unexpected access — a download from an unexpected country at 3am is your cue to investigate. And it is part of your activity log for compliance reviews.",
           "Tracking should be on by default for any business-tier transfer. The cost is essentially zero and the operational value is significant. Platforms that do not offer per-recipient tracking are operating on a 2010 mental model.",
         ],
       },
       {
-        heading: "Audit visibility and logging",
+        heading: "Activity visibility and logging",
         paragraphs: [
-          "Audit logging is the verifiable, append-only record of every event on your account. Who uploaded what, who downloaded what, who changed an expiry, who reset a password, who invited a new team member. For compliance purposes, the log is the evidence.",
-          "Audit logs should be tamper-evident — meaning that any modification or deletion is itself logged. They should be exportable in a structured format (CSV or JSON) so they can be ingested into your own SIEM or GRC tooling. And they should retain history long enough to satisfy your longest compliance requirement, typically at least 12 months.",
-          "For GDPR, the audit log is how you demonstrate accountability for personal data processing. For SOC 2 and ISO 27001, it is how you demonstrate operational effectiveness of your access controls. For internal investigations, it is the first place anyone looks.",
+          "Activity logging is the verifiable, append-only record of every event on your account. Who uploaded what, who downloaded what, who changed an expiry, who reset a password, who invited a new team member. For compliance purposes, the log is the evidence.",
+          "Activity logs should be tamper-evident — meaning that any modification or deletion is itself logged. They should be exportable in a structured format (CSV or JSON) so they can be ingested into your own SIEM or GRC tooling. And they should retain history long enough to satisfy your longest compliance requirement, typically at least 12 months.",
+          "For GDPR, the activity log is how you demonstrate accountability for personal data processing. For SOC 2 and ISO 27001, it is how you demonstrate operational effectiveness of your access controls. For internal investigations, it is the first place anyone looks.",
         ],
       },
       {
         heading: "GDPR considerations for file transfer",
         paragraphs: [
           "GDPR applies whenever you transfer files containing personal data of EU or UK residents — which, for most businesses, is essentially every transfer. The regulation does not prescribe specific technical controls but it does require that the controls be 'appropriate to the risk'.",
-          "In practice, appropriate controls for typical personal data transfers include encryption in transit and at rest, access controls (password and expiry), an audit log, and a clear data processing agreement (DPA) with the transfer vendor. For special category data (health, biometric, financial) the bar rises — per-recipient links, shorter expiries and stricter access controls.",
+          "In practice, appropriate controls for typical personal data transfers include encryption in transit and at rest, access controls (password and expiry), an activity log, and a clear data processing agreement (DPA) with the transfer vendor. For special category data (health, biometric, financial) the bar rises — per-recipient links, shorter expiries and stricter access controls.",
           "The other GDPR-specific obligation is data residency. If your data must remain in the EU or UK, your transfer platform must store files in compliant regions. Ask the vendor to confirm in writing where files are stored, where backups are stored, and what sub-processors have access. Vague answers fail an audit.",
         ],
         bullets: [
           "Sign a DPA with your transfer vendor before the first business-critical transfer.",
           "Confirm data residency aligns with your regulatory obligations (EU, UK, US).",
           "Use password protection and short expiries by default for any personal data.",
-          "Keep an audit log retention long enough to satisfy your DPIA documentation.",
+          "Keep an activity log retention long enough to satisfy your DPIA documentation.",
           "Document a data breach response procedure that includes the transfer platform.",
         ],
       },
@@ -591,11 +591,11 @@ export const transferGuides: TransferGuide[] = [
       {
         heading: "Compliance considerations across frameworks",
         paragraphs: [
-          "Most regulated businesses operate against more than one framework simultaneously. A European fintech might need GDPR, ISO 27001, SOC 2 and PCI DSS at the same time. The controls overlap heavily — encryption, access management, audit logging — but the documentation requirements differ.",
+          "Most regulated businesses operate against more than one framework simultaneously. A European fintech might need GDPR, ISO 27001, SOC 2 and PCI DSS at the same time. The controls overlap heavily — encryption, access management, activity logging — but the documentation requirements differ.",
         ],
         table: {
           caption: "What each compliance framework requires of file transfer",
-          headers: ["Framework", "Encryption", "Access controls", "Audit log", "Data residency"],
+          headers: ["Framework", "Encryption", "Access controls", "Activity log", "Data residency"],
           rows: [
             ["GDPR", "Required (in transit + at rest)", "Required", "Required", "EU/UK for EU data"],
             ["ISO 27001", "Documented controls", "Required", "Required", "Risk-based"],
@@ -610,7 +610,7 @@ export const transferGuides: TransferGuide[] = [
         paragraphs: [
           "Legal teams routinely transfer contracts, IP filings, witness statements and discovery material — all of which are sensitive, and some of which are privileged. The wrong transfer tool exposes the firm and the client to real risk.",
           "The pattern that works is: per-matter folders, per-recipient links, password protection by default, 30-day expiry for active matters and indefinite archival in a separate document storage system. The transfer platform handles the delivery; the document management system handles the long-term record.",
-          "For litigation specifically, the audit log of the transfer platform becomes evidentiary. Being able to show exactly when opposing counsel downloaded a production set is a discovery-defensible record. Treat the audit log with the same care you would treat the underlying documents.",
+          "For litigation specifically, the activity log of the transfer platform becomes evidentiary. Being able to show exactly when opposing counsel downloaded a production set is a discovery-defensible record. Treat the activity log with the same care you would treat the underlying documents.",
         ],
       },
       {
@@ -618,7 +618,7 @@ export const transferGuides: TransferGuide[] = [
         paragraphs: [
           "Finance teams transfer board packs, audit working papers, due diligence material and management accounts — all market-sensitive, much of it under formal confidentiality obligations. The transfer platform is part of the control environment.",
           "For M&A specifically, virtual data rooms have traditionally been the answer. They still are for large-scale, multi-party transactions. For smaller deals and for the bilateral phase of larger deals, a secure transfer platform with per-recipient tracking and granular permissions is more agile and considerably cheaper.",
-          "For routine reporting (board packs, investor updates, audit packs), the bar is per-recipient links, password protection, 30-day expiry and a clean audit log. Sending these as email attachments is now a documented control weakness in most internal audit reports.",
+          "For routine reporting (board packs, investor updates, audit packs), the bar is per-recipient links, password protection, 30-day expiry and a clean activity log. Sending these as email attachments is now a documented control weakness in most internal audit reports.",
         ],
       },
       {
@@ -640,7 +640,7 @@ export const transferGuides: TransferGuide[] = [
           "Use per-recipient links for any personal data, financial information or pre-release material.",
           "Send the link and the password through different channels — never the same email.",
           "Confirm the download event before treating the delivery as complete.",
-          "Export the audit log monthly into your SIEM or GRC tooling for retention.",
+          "Export the activity log monthly into your SIEM or GRC tooling for retention.",
           "Sign a DPA with the vendor before the first business-critical transfer.",
           "Review the supplier annually as part of your ISO/SOC 2 supplier management cycle.",
           "Train every employee that sends regularly — the platform is only as secure as the habits around it.",
@@ -651,27 +651,27 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "What makes a file transfer service 'secure'?",
         answer:
-          "A secure file transfer platform provides encryption in transit (TLS 1.2+), encryption at rest (AES-256), access controls (password protection, expiry, per-recipient links), and a tamper-evident audit log. Missing any of these layers means the platform is not fit for business-critical or regulated transfers.",
+          "A secure file transfer platform provides encryption in transit (TLS 1.2+), encryption at rest (AES-256), access controls (password protection, expiry, per-recipient links), and a tamper-evident activity log. Missing any of these layers means the platform is not fit for business-critical or regulated transfers.",
       },
       {
         question: "Is encrypted file transfer enough for GDPR?",
         answer:
-          "Encryption is necessary but not sufficient. GDPR also requires access controls, an audit log, a signed Data Processing Agreement with the vendor, and confirmed data residency for EU and UK personal data. Encryption alone covers technical security but not the accountability obligations.",
+          "Encryption is necessary but not sufficient. GDPR also requires access controls, an activity log, a signed Data Processing Agreement with the vendor, and confirmed data residency for EU and UK personal data. Encryption alone covers technical security but not the accountability obligations.",
       },
       {
         question: "Does Docsora Transfer support compliance audits?",
         answer:
-          "Yes. Docsora Transfer encrypts files in transit (TLS 1.2+) and at rest (AES-256), provides per-recipient tracking, password protection and expiry controls, and produces an exportable audit log to support GDPR, ISO 27001 and SOC 2 reviews. DPAs and vendor documentation are available for business plans.",
+          "Yes. Docsora Transfer encrypts files in transit (TLS 1.2+) and at rest (AES-256), provides per-recipient tracking, password protection and expiry controls, and produces an exportable activity log to support GDPR, ISO 27001 and SOC 2 reviews. DPAs and vendor documentation are available for business plans.",
       },
       {
         question: "What is the difference between secure file transfer and a virtual data room?",
         answer:
-          "A virtual data room is built for structured, long-running disclosure (typically M&A) with detailed permission matrices, Q&A workflows and watermarking. Secure file transfer is built for one-time delivery with per-recipient tracking, expiry and audit logging. Most businesses need transfer for everyday work and a data room only for specific transactions.",
+          "A virtual data room is built for structured, long-running disclosure (typically M&A) with detailed permission matrices, Q&A workflows and watermarking. Secure file transfer is built for one-time delivery with per-recipient tracking, expiry and activity logging. Most businesses need transfer for everyday work and a data room only for specific transactions.",
       },
       {
         question: "Can I use a free file transfer service for sensitive business data?",
         answer:
-          "Generally no. Free tiers typically lack per-recipient links, audit logging, DPAs and the contractual obligations that compliance frameworks require. For regulated data or business-critical material, use a paid business plan from a vendor that can produce SOC 2 Type 2 reporting and sign a DPA.",
+          "Generally no. Free tiers typically lack per-recipient links, activity logging, DPAs and the contractual obligations that compliance frameworks require. For regulated data or business-critical material, use a paid business plan from a vendor that can produce SOC 2 Type 2 reporting and sign a DPA.",
       },
       {
         question: "How long should transfer links remain active?",
@@ -681,7 +681,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "What happens if a transfer link is leaked?",
         answer:
-          "On a platform with per-recipient links and password protection, the impact is contained — the leaked link still requires the password, and the audit log identifies which recipient's link leaked. Revoke that specific link from the dashboard without affecting other recipients, and review the incident as part of your security process.",
+          "On a platform with per-recipient links and password protection, the impact is contained — the leaked link still requires the password, and the activity log identifies which recipient's link leaked. Revoke that specific link from the dashboard without affecting other recipients, and review the incident as part of your security process.",
       },
       {
         question: "Do I need a DPA with my file transfer vendor?",
@@ -696,7 +696,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "How does secure transfer support SOC 2 compliance?",
         answer:
-          "Secure transfer supports SOC 2 by providing documented encryption, access controls and audit logging — the operational controls auditors evaluate under the security and confidentiality criteria. Pick a transfer vendor that can produce a current SOC 2 Type 2 report itself, since their controls form part of your own control environment.",
+          "Secure transfer supports SOC 2 by providing documented encryption, access controls and activity logging — the operational controls auditors evaluate under the security and confidentiality criteria. Pick a transfer vendor that can produce a current SOC 2 Type 2 report itself, since their controls form part of your own control environment.",
       },
     ],
     relatedTools: [
