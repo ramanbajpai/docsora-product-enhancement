@@ -220,9 +220,24 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     description:
       "Looking for a Smash alternative?\n\nDocsora Transfer helps individuals, freelancers, agencies and businesses send large files online while maintaining visibility after delivery. Track downloads, manage transfer expiry dates, reactivate expired transfers and view transfer activity from one centralized dashboard.\n\nThis guide compares Docsora and Smash across file transfer, recipient visibility, transfer management, security controls, compliance and business use cases.",
     bestForDocsora:
-      "Businesses, agencies, freelancers and individuals that want lifecycle management of every transfer — including tracking, expiry extension, reactivation and centralized transfer history.",
+      "Businesses, agencies, freelancers and individuals who want fast large file transfer with download tracking, recipient visibility, transfer history, expiry management, transfer reactivation and centralized transfer control from a single dashboard.",
     bestForCompetitor:
-      "Users who want a clean upload experience without additional transfer management features.",
+      "Users looking for a dedicated large file transfer platform focused on sharing files through transfer links.",
+    chooseDocsoraList: [
+      "Track opens and downloads",
+      "View transfer activity",
+      "Extend expiry dates",
+      "Reactivate expired transfers",
+      "Manage all transfers from one place",
+      "Receive transfer reminders and recommendations",
+      "Maintain visibility after clicking send",
+    ],
+    chooseCompetitorList: [
+      "Large file sharing",
+      "Browser-based file transfer",
+      "Shareable transfer links",
+      "File delivery for individuals and teams",
+    ],
     features: [
       { feature: "Large file transfers", docsora: "Supported (up to 500 GB on Teams)", competitor: "No file size limit" },
       { feature: "No recipient account required", docsora: "Yes", competitor: "Yes" },
@@ -241,7 +256,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "Custom transfer messages", docsora: "Built-in", competitor: "Built-in" },
       { feature: "Recipient reminders", docsora: "Built-in", competitor: "Limited" },
       { feature: "File storage integration", docsora: "Built-in", competitor: "Limited" },
-      { feature: "Workspaces for teams", docsora: "Built-in", competitor: "Limited" },
     ],
     securityFeatures: [
       { feature: "AES-256 encryption", docsora: "Yes", competitor: "Yes" },
