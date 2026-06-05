@@ -127,7 +127,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Reactivate expired transfers instead of resending them.",
       "View complete download history for every recipient.",
       "Manage all sent and received transfers from one place.",
-      "Receive dashboard recommendations and reminders to follow up on inactive transfers.",
+      "Receive dashboard recommendations and reminders to follow up on transfers - actions suggested to you.",
     ],
     whoChooseDocsora: [
       "Teams that want visibility, control and management over transfers after they have been sent.",
@@ -249,7 +249,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Reactivate expired transfers in one click.",
       "View complete download history for every recipient.",
       "Manage all sent and received transfers from one place.",
-      "Receive dashboard recommendations and reminders to follow up on inactive transfers.",
+      "Receive dashboard recommendations and reminders to follow up on transfers - actions suggested to you.",
     ],
     whoChooseDocsora: [
       "Teams that want visibility, control and management of transfers after they have been sent.",
