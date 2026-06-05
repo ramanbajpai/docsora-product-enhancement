@@ -169,7 +169,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">100+ file types supported</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From contracts to 8K video and RAW photography — one browser-native transfer layer for everything you actually send.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora Transfer helps teams and individuals send large files securely, track downloads, manage transfer expiry dates over a range of different file types.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fileTypeGroups.map((g, i) => (
