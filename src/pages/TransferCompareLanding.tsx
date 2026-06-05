@@ -616,11 +616,10 @@ const TransferCompareLanding = () => {
           <motion.section {...fadeUp}>
             <div className="text-center rounded-3xl p-12 md:p-16 bg-card/40 border border-border/30 backdrop-blur-sm">
               <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-3">
-                See how Docsora handles delivery.
+                Stop Guessing What Happened After You Click Send
               </h2>
               <p className="text-sm text-muted-foreground/70 mb-8 max-w-md mx-auto">
-                Send a file in your browser and see the recipient experience, tracking
-                and workflow integration in action.
+                See who opened your files, track downloads, extend expiry dates and manage transfers from a centralized dashboard.
               </p>
               <Link
                 to="/transfer"
