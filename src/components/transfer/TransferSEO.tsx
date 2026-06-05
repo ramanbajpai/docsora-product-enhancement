@@ -311,29 +311,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </motion.div>
         </section>
 
-        {/* SECTION — AI search Q&A */}
-        {!variant && (
-          <section>
-            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Transfer Questions Answered</h2>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">Direct answers to the most common large file transfer questions — surfaced for AI search and featured snippets.</p>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
-              {aiQuestions.map((p, i) => (
-                <motion.div key={p.q} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
-                  <div className="flex items-start gap-3 mb-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-primary/8 border border-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <HelpCircle className="w-3.5 h-3.5 text-primary/70" />
-                    </div>
-                    <h3 className="text-[13px] font-semibold text-foreground leading-snug pt-1">{p.q}</h3>
-                  </div>
-                  <p className="text-[13px] text-muted-foreground/80 leading-relaxed pl-10">{p.a}</p>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-        )}
-
         {/* SECTION — Comparisons */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
