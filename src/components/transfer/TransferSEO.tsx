@@ -311,7 +311,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION - Comparisons */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare Docsora Against Leading File Transfer Platforms</h2>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare The Best WeTransfer & Smash Alternatives</h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">Compare Docsora with WeTransfer and Smash across file transfer, download tracking, transfer lifecycle management, security and compliance.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
