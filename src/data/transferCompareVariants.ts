@@ -222,7 +222,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     bestForDocsora:
       "Businesses, agencies, freelancers and individuals that want lifecycle management of every transfer — including tracking, expiry extension, reactivation and centralized transfer history.",
     bestForCompetitor:
-      "Users who want a simple, frictionless way to send large files with minimal setup.",
+      "Users who want a clean upload experience without additional transfer management features.",
     features: [
       { feature: "Large file transfers", docsora: "Supported (up to 500 GB on Teams)", competitor: "No file size limit" },
       { feature: "No recipient account required", docsora: "Yes", competitor: "Yes" },
@@ -257,8 +257,8 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "SOC 2 Type II", docsora: "Audit in progress", competitor: NOT_STATED },
     ],
     keyDifferences: [
-      "Smash focuses on the simplicity of the upload-and-send experience.",
-      "Docsora Transfer focuses on the full transfer lifecycle — sending, tracking, extending, reactivating and managing transfers from one place.",
+      "Smash offers a clean upload-and-send experience with minimal setup.",
+      "Docsora Transfer offers the same ease of use with added visibility — tracking, extending, reactivating and managing transfers from one place.",
       "Docsora records open and download events for every transfer and surfaces them in a unified transfer history.",
       "Docsora lets senders extend expiry dates and reactivate expired transfers without re-uploading the files.",
       "Docsora surfaces dashboard recommendations such as recipient reminders and expiry warnings.",
@@ -278,7 +278,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       "Users who want to extend or reactivate transfers instead of resending files.",
     ],
     whoChooseCompetitor: [
-      "Users who want the simplest possible upload-and-link experience for one-off sends.",
+      "Users who want a clean upload experience for one-off sends.",
       "Creative users who occasionally need to send a single large file without managing it afterwards.",
     ],
     faq: [
@@ -290,7 +290,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       {
         question: "How does Docsora compare to Smash for business use?",
         answer:
-          "Smash is optimised for simple sending. Docsora Transfer is optimised for managing the full lifecycle of a transfer, with download tracking, activity visibility, expiry extension, reactivation, recipient reminders and audit visibility — backed by ISO 27001 and SOC 2 Type I controls.",
+          "Smash is optimised for sending large files quickly. Docsora Transfer is optimised for managing the full lifecycle of a transfer, with download tracking, activity visibility, expiry extension, reactivation, recipient reminders and audit visibility — backed by ISO 27001 and SOC 2 Type I controls.",
       },
       {
         question: "Can I see who downloaded my files?",
