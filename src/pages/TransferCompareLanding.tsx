@@ -185,7 +185,7 @@ const TransferCompareLanding = () => {
                     <Users className="w-3.5 h-3.5 text-muted-foreground/80" />
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-muted-foreground/70">
-                    Choose {variant.competitor} if you want
+                    {variant.competitor}
                   </span>
                 </div>
                 {variant.chooseCompetitorList ? (
