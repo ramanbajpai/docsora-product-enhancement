@@ -443,7 +443,7 @@ export const transferGuides: TransferGuide[] = [
       {
         question: "Can I send RAW footage like ARRIRAW or REDCODE?",
         answer:
-          "Yes. RAW formats are large but treated like any other file by a professional transfer platform. Docsora Transfer accepts every major RAW format including ARRIRAW, REDCODE, BRAW and ProRes RAW with no conversion. Single transfers up to 500GB are supported.",
+          "Yes. RAW formats are large but treated like any other file by a professional transfer platform. Docsora Transfer accepts major RAW formats including REDCODE (R3D), BRAW and camera RAW formats (DNG, ARW, CR2, CR3, NEF, RAF, RW2) with no conversion. Single transfers up to 500GB are supported.",
       },
       {
         question: "What is the maximum video file size I can transfer?",
