@@ -109,6 +109,11 @@ const TransferCompareLanding = () => {
             <h1 className="text-3xl md:text-5xl font-semibold text-foreground tracking-tight mb-5">
               {variant.h1}
             </h1>
+            {variant.tagline && (
+              <p className="text-lg md:text-xl font-medium text-foreground/85 tracking-tight mb-5">
+                {variant.tagline}
+              </p>
+            )}
             <p className="text-base md:text-lg text-muted-foreground/85 leading-relaxed mb-6">
               {variant.heroSubtitle}
             </p>
@@ -127,9 +132,14 @@ const TransferCompareLanding = () => {
                 )}
               >
                 <Upload className="w-4 h-4" />
-                Try Docsora Transfer today
+                Try Docsora Transfer
               </Link>
             </div>
+            {variant.trustStrip && (
+              <p className="mt-5 text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70">
+                {variant.trustStrip}
+              </p>
+            )}
             <p className="mt-6 text-[11px] uppercase tracking-[0.14em] text-muted-foreground/60">
               Last updated: {variant.lastUpdated}
             </p>
@@ -147,12 +157,26 @@ const TransferCompareLanding = () => {
                     <Building2 className="w-3.5 h-3.5 text-primary/80" />
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">
-                    Best for Docsora
+                    Choose Docsora if you want
                   </span>
                 </div>
-                <p className="text-sm text-foreground/90 leading-relaxed">
-                  {variant.bestForDocsora}
-                </p>
+                {variant.chooseDocsoraList ? (
+                  <ul className="space-y-2">
+                    {variant.chooseDocsoraList.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-sm text-foreground/90 leading-relaxed"
+                      >
+                        <Check className="w-3.5 h-3.5 text-primary mt-1 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-foreground/90 leading-relaxed">
+                    {variant.bestForDocsora}
+                  </p>
+                )}
               </div>
               <div className="rounded-2xl p-6 bg-card/40 border border-border/40">
                 <div className="flex items-center gap-2 mb-3">
@@ -160,12 +184,26 @@ const TransferCompareLanding = () => {
                     <Users className="w-3.5 h-3.5 text-muted-foreground/80" />
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-muted-foreground/70">
-                    Best for {variant.competitor}
+                    Choose {variant.competitor} if you want
                   </span>
                 </div>
-                <p className="text-sm text-foreground/90 leading-relaxed">
-                  {variant.bestForCompetitor}
-                </p>
+                {variant.chooseCompetitorList ? (
+                  <ul className="space-y-2">
+                    {variant.chooseCompetitorList.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-sm text-foreground/90 leading-relaxed"
+                      >
+                        <Check className="w-3.5 h-3.5 text-muted-foreground/60 mt-1 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-foreground/90 leading-relaxed">
+                    {variant.bestForCompetitor}
+                  </p>
+                )}
               </div>
             </div>
           </motion.section>

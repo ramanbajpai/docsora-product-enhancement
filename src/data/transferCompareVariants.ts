@@ -21,6 +21,10 @@ export interface TransferCompareVariantConfig {
   description: string;
   bestForDocsora: string;
   bestForCompetitor: string;
+  tagline?: string;
+  trustStrip?: string;
+  chooseDocsoraList?: string[];
+  chooseCompetitorList?: string[];
   features: TransferCompareFeatureRow[];
   securityFeatures: TransferCompareFeatureRow[];
   keyDifferences: string[];
@@ -48,15 +52,33 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     title: "WeTransfer Alternative — WeTransfer Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
-    h1: "WeTransfer Alternative",
+    h1: "A Modern WeTransfer Alternative",
+    tagline: "Send Files. Track Everything.",
     heroSubtitle:
-      "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
+      "Send large files securely with download tracking, expiry controls, transfer history and recipient activity visibility from one dashboard.",
     description:
-      "Docsora Transfer and WeTransfer both let users send large files in the browser via a shareable link. The difference shows up after the transfer has been sent. WeTransfer focuses on the act of sending. Docsora Transfer focuses on the full transfer lifecycle — sending, tracking, extending, reactivating and managing every transfer from one place. This guide compares the two on file delivery, recipient experience, tracking, expiry control, transfer history, security and compliance.",
+      "Both Docsora and WeTransfer help users send large files through shareable links. Docsora is built for users who want more visibility after sending — including transfer tracking, download activity, expiry management and access to transfer history.",
+    trustStrip:
+      "ISO 27001 Certified · SOC 2 Type I · GDPR Compliant · 100+ File Types · Download Tracking",
     bestForDocsora:
       "Individuals, freelancers, agencies and businesses that want visibility, control and management over every transfer after it has been sent — including tracking, expiry extension, reactivation and centralized transfer history.",
     bestForCompetitor:
       "Users who want a familiar, simple way to send a one-off large file via a link without managing it afterwards.",
+    chooseDocsoraList: [
+      "Download tracking",
+      "Transfer history",
+      "Expiry date management",
+      "Reactivate expired transfers",
+      "Recipient activity visibility",
+      "Secure business file sharing",
+      "Compliance-focused controls",
+    ],
+    chooseCompetitorList: [
+      "A familiar file transfer experience",
+      "Simple one-time file sending",
+      "Quick sharing without ongoing transfer management",
+      "A widely recognised transfer tool",
+    ],
     features: [
       { feature: "Large file transfers", docsora: "Supported (up to 500 GB on Teams)", competitor: "Up to 200 GB on Pro" },
       { feature: "No recipient account required", docsora: "Yes", competitor: "Yes" },
