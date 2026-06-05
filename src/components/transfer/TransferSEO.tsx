@@ -15,6 +15,10 @@ import {
   Lock,
   MonitorSmartphone,
   Workflow,
+  History,
+  UserX,
+  FileStack,
+  CalendarClock,
   GitCompare,
   HelpCircle,
   BookOpen,
@@ -119,12 +123,12 @@ const operationalWorkflows = [
 const features = [
   { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload begins." },
   { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: Palette, title: "Professional delivery", description: "Polished transfer experiences for agencies, freelancers and teams." },
-  { icon: Layers, title: "Massive file support", description: "Transfer RAW video, design assets and oversized projects without compression." },
+  { icon: History, title: "Transfer history & visibility", description: "See every large file transfer, recipient and download in one searchable activity log." },
+  { icon: FileStack, title: "100+ file types supported", description: "Send PDFs, videos, ZIPs, CAD files, design assets and documents without conversion." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
-  { icon: MonitorSmartphone, title: "Browser-native experience", description: "No sync clients, installs or fragmented cloud-drive workflows." },
+  { icon: UserX, title: "No recipient account required", description: "Recipients open and download shared files instantly — no sign-up, login or install." },
   { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
-  { icon: Workflow, title: "Integrated approvals", description: "Move files into approvals and signatures from the same workflow." },
+  { icon: CalendarClock, title: "Expiry control & reactivation", description: "Set, extend or reactivate transfer expiry dates anytime to keep secure file sharing under your control." },
 ];
 
 const aiQuestions = [
@@ -268,8 +272,8 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Features */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Professional File Delivery Features</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for reliability, recipient experience and collaborative workflows.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Track downloads, manage transfers, control expiry dates and share files securely.</p>
           </motion.div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {features.map((f, i) => (
