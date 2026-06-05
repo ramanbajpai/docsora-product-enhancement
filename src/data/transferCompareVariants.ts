@@ -110,8 +110,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: "Yes" },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type II", docsora: "Audit in progress", competitor: NOT_STATED },
-      { feature: "Regional data hosting options", docsora: "Yes", competitor: "Yes (EU)" },
-      { feature: "Team workspace controls", docsora: "Yes", competitor: "Limited" },
     ],
     keyDifferences: [
       "WeTransfer is built around the act of sending a single file via a link.",
@@ -233,8 +231,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type II", docsora: "Audit in progress", competitor: NOT_STATED },
-      { feature: "Regional data hosting options", docsora: "Yes", competitor: "EU hosted" },
-      { feature: "Team workspace controls", docsora: "Yes", competitor: "Limited" },
     ],
     keyDifferences: [
       "TransferNow is focused on the upload-and-send experience for large files.",
@@ -476,8 +472,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type II", docsora: "Audit in progress", competitor: NOT_STATED },
-      { feature: "Regional data hosting options", docsora: "Yes", competitor: "EU hosted" },
-      { feature: "Team workspace controls", docsora: "Yes", competitor: "Limited" },
     ],
     keyDifferences: [
       "Smash focuses on the simplicity of the upload-and-send experience.",
