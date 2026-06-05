@@ -235,14 +235,13 @@ const App = () => (
             <Route path="/compare/docsora-vs-ilovepdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/transfer" element={<Transfer />} />
             {/* Transfer comparison landing pages */}
-            <Route path="/compare/docsora-vs-wetransfer" element={<TransferCompareLanding />} />
-            <Route path="/compare/docsora-vs-dropbox-transfer" element={<TransferCompareLanding />} />
-            <Route path="/compare/docsora-vs-masv" element={<TransferCompareLanding />} />
-            <Route path="/compare/docsora-vs-smash" element={<TransferCompareLanding />} />
-            <Route path="/compare/docsora-vs-transfernow" element={<TransferCompareLanding />} />
+            <Route path="/wetransfer-alternative" element={<TransferCompareLanding />} />
+            <Route path="/dropbox-transfer-alternative" element={<TransferCompareLanding />} />
+            <Route path="/masv-alternative" element={<TransferCompareLanding />} />
+            <Route path="/smash-alternative" element={<TransferCompareLanding />} />
+            <Route path="/transfernow-alternative" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
-            <Route path="/wetransfer-alternative" element={<TransferVariant />} />
             <Route path="/secure-file-transfer" element={<TransferVariant />} />
             <Route path="/send-large-videos" element={<TransferVariant />} />
             <Route path="/send-large-files-online" element={<TransferVariant />} />
