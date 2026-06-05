@@ -218,7 +218,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     heroSubtitle:
       "Compare two modern large-file transfer platforms and see how they differ in transfer management, tracking, expiry control and recipient visibility.",
     description:
-      "Docsora Transfer and Smash both let users send large files in the browser. Smash is built around the simplicity of sending. Docsora Transfer is built around the full lifecycle of a transfer — sending, tracking, extending, reactivating and managing every transfer from one place. This guide compares the two on file delivery, recipient experience, tracking, expiry control, transfer history, security and compliance.",
+      "Looking for a Smash alternative?\n\nDocsora Transfer helps individuals, freelancers, agencies and businesses send large files online while maintaining visibility after delivery. Track downloads, manage transfer expiry dates, reactivate expired transfers and view transfer activity from one centralized dashboard.\n\nThis guide compares Docsora and Smash across file transfer, recipient visibility, transfer management, security controls, compliance and business use cases.",
     bestForDocsora:
       "Businesses, agencies, freelancers and individuals that want lifecycle management of every transfer — including tracking, expiry extension, reactivation and centralized transfer history.",
     bestForCompetitor:
