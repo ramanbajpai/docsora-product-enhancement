@@ -264,7 +264,6 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       { feature: "Transfer expiry controls", docsora: "Yes", competitor: "Yes" },
       { feature: "Download tracking", docsora: "Yes", competitor: "Yes" },
       { feature: "Activity visibility", docsora: "Yes", competitor: "Limited" },
-      { feature: "Audit visibility", docsora: "Yes", competitor: NOT_STATED },
       { feature: "GDPR compliance", docsora: "Yes", competitor: "Yes" },
       { feature: "ISO 27001 certified", docsora: "Yes", competitor: NOT_STATED },
       { feature: "SOC 2 Type I", docsora: "Yes", competitor: NOT_STATED },
@@ -299,42 +298,62 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
       {
         question: "Is Docsora Transfer a Smash alternative?",
         answer:
-          "Yes. Docsora Transfer supports the same core use case as Smash — sending large files via a link with no recipient account required — and adds transfer tracking, expiry extension, reactivation and a centralized transfer management dashboard.",
+          "Yes. Docsora Transfer allows users to send large files through secure shareable links without requiring recipients to create an account. In addition to file delivery, Docsora provides download tracking, recipient activity visibility, transfer history, expiry management, transfer reactivation and centralized transfer management from a single dashboard.",
       },
       {
-        question: "How does Docsora compare to Smash for business use?",
+        question: "How does Docsora compare to Smash?",
         answer:
-          "Smash is optimised for sending large files quickly. Docsora Transfer is optimised for managing the full lifecycle of a transfer, with download tracking, activity visibility, expiry extension, reactivation, recipient reminders and audit visibility — backed by ISO 27001 and SOC 2 Type I controls.",
+          "Both Docsora and Smash support large file sharing through browser-based transfer links. Docsora additionally provides transfer tracking, recipient visibility, transfer history, expiry controls and transfer management features designed for individuals, freelancers, agencies and business teams that want visibility after a file has been sent.",
       },
       {
-        question: "Can I see who downloaded my files?",
+        question: "Can I track who downloaded my files?",
         answer:
-          "Yes. Docsora records open and download events for every transfer and shows the activity in the transfer history.",
+          "Yes. Docsora Transfer records file opens and downloads, helping senders understand recipient activity after a transfer has been shared. Activity is available through the Track section and transfer management dashboard.",
       },
       {
         question: "Can I extend a transfer after sending it?",
         answer:
-          "Yes. Senders can extend the validity of a transfer from the management dashboard without re-uploading the files.",
+          "Yes. Docsora allows users to extend transfer expiry dates after a file has been sent, helping keep files accessible without creating a new transfer.",
       },
       {
         question: "Can I reactivate an expired transfer?",
         answer:
-          "Yes. Expired transfers can be reactivated from the transfer history without resending or re-uploading the original files.",
+          "Yes. Docsora allows eligible transfers to be reactivated, helping users restore access without re-uploading files or creating a new transfer link.",
       },
       {
-        question: "Is Docsora ISO 27001 certified?",
+        question: "Do recipients need a Docsora account?",
         answer:
-          "Yes. Docsora is ISO 27001 certified and aligned with industry security frameworks for handling business documents and large file transfers.",
+          "No. Recipients can access shared files directly through the transfer link. Creating a Docsora account is only required for users who want to manage transfers, view activity and access additional transfer controls.",
       },
       {
-        question: "Does Docsora have SOC 2?",
+        question: "What file types does Docsora support?",
         answer:
-          "Docsora is SOC 2 Type I and is currently in audit for SOC 2 Type II.",
+          "Docsora supports more than 100 file types, including documents, PDFs, spreadsheets, presentations, ZIP archives, images, videos, design files, CAD files and development files.",
       },
       {
-        question: "What compliance certifications does Docsora hold?",
+        question: "Is Docsora secure for large file sharing?",
         answer:
-          "Docsora is GDPR compliant, ISO 27001 certified and SOC 2 Type I, with SOC 2 Type II audit in progress, and supports regional data hosting options.",
+          "Docsora uses encryption in transit and at rest, password-protected transfers, expiry controls and activity visibility features to help organizations share files securely online.",
+      },
+      {
+        question: "Can businesses use Docsora for client file delivery?",
+        answer:
+          "Yes. Agencies, consultancies, legal teams, finance departments, creative studios and operational teams use large file transfer platforms to share files with clients, partners and stakeholders. Docsora combines file delivery with tracking, transfer visibility and centralized management.",
+      },
+      {
+        question: "What makes Docsora different from Smash?",
+        answer:
+          "Both platforms support large file sharing. Docsora focuses on helping users maintain visibility after sending a file through features such as download tracking, recipient activity visibility, transfer history, expiry management, transfer reactivation and centralized transfer controls.",
+      },
+      {
+        question: "Can I send large video files with Docsora?",
+        answer:
+          "Yes. Docsora supports large video file transfers, including production assets, creative exports, RAW footage and other high-resolution media files.",
+      },
+      {
+        question: "What is the best Smash alternative for businesses?",
+        answer:
+          "Businesses often require more than basic file delivery. Docsora combines large file transfer with download tracking, recipient visibility, transfer management, compliance-focused controls and centralized oversight, making it suitable for agencies, consultancies, operations teams, legal teams and finance departments.",
       },
     ],
     lastUpdated: LAST_UPDATED,
