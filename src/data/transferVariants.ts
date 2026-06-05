@@ -80,7 +80,7 @@ export const transferVariants: TransferVariantConfig[] = [
       {
         question: "How do I send large files online with Docsora?",
         answer:
-          "Drop your files into the transfer card, choose link or email delivery, set an expiry and optional password, and Docsora generates a secure delivery link in seconds. Recipients download in the browser with no account required.",
+          "Drop your files into the transfer card, choose link or email delivery, set an expiry and optional password, and Docsora generates a secure delivery link in seconds. Both senders and recipients can use Docsora directly in the browser with no account required.",
       },
       {
         question: "What is the maximum file size I can send?",

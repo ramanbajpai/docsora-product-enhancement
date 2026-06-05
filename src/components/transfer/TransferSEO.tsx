@@ -78,7 +78,7 @@ const whyLeaveWeTransfer = [
   { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
   { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
   { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
-  { icon: Users, title: "No account required for recipients", description: "Recipients can access files instantly without creating an account or installing software." },
+  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly — neither senders nor recipients need to create an account or install software." },
 ];
 
 const operationalWorkflows = [

@@ -93,8 +93,8 @@ export const transferGuides: TransferGuide[] = [
           "Docsora supports oversized operational files well beyond email attachment limits up to 500gb in a single transfer request.",
       },
       {
-        question: "Do recipients need an account?",
-        answer: "No. Recipients click a delivery link and download directly — no account required.",
+        question: "Do senders or recipients need an account?",
+        answer: "No. Neither senders nor recipients need an account — senders upload directly in the browser and recipients click a delivery link to download.",
       },
     ],
     relatedTools: [
