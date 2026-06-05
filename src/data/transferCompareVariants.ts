@@ -679,7 +679,7 @@ export const transferCompareVariantBySlug: Record<string, TransferCompareVariant
 
 export const docsoraTransferBenefits = [
   "Send transfers in seconds",
-  "No account required for recipients",
+  "No account required for recipients or senders",
   "Supports 100+ file types",
   "View every transfer sent and received",
   "Track opens and downloads",
