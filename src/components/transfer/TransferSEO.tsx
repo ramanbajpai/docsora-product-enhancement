@@ -29,6 +29,8 @@ import {
   Mail,
   Users,
   Check,
+  Film,
+  Building2,
 } from "lucide-react";
 import {
   Accordion,
@@ -76,16 +78,42 @@ const whyLeaveWeTransfer = [
 ];
 
 const operationalWorkflows = [
-  { title: "Creators", description: "Send 8K videos, RAW photography and creative exports without compression." },
-  { title: "Freelancers", description: "Deliver client work professionally without cloud-drive friction." },
-  { title: "Creative agencies", description: "Tracked delivery for campaigns, videos and creative work." },
-  { title: "Video production", description: "Move RAW footage, ProRes and BRAW masters at full source quality." },
-  { title: "Architecture & engineering", description: "Move CAD exports, models and technical documentation securely." },
-  { title: "Consulting teams", description: "Send proposals, board packs and business reports instantly." },
-  { title: "Finance teams", description: "Transfer audit exports and sensitive spreadsheets securely." },
-  { title: "Legal teams", description: "Deliver contracts, evidence files and legal documentation with tracking." },
-  { title: "HR & onboarding", description: "Send onboarding packets and training documentation across teams." },
-  { title: "Developers", description: "Transfer builds, exports and project packages securely across environments." },
+  {
+    title: "Creative Agencies",
+    description: "Share videos, design files and client deliverables with tracking and download notifications.",
+    href: "/creative-agency-file-sharing",
+    icon: Palette,
+  },
+  {
+    title: "Video Production",
+    description: "Transfer large video files, RAW footage and production assets without compression.",
+    href: "/video-file-transfer",
+    icon: Film,
+  },
+  {
+    title: "Architecture & Engineering",
+    description: "Send CAD drawings, BIM models and technical documentation securely.",
+    href: "/cad-file-transfer",
+    icon: Building2,
+  },
+  {
+    title: "Legal Teams",
+    description: "Share contracts, case files and sensitive legal documents with confidence.",
+    href: "/legal-file-sharing",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Consulting Teams",
+    description: "Deliver proposals, board packs, reports and client documentation securely.",
+    href: "/consulting-file-sharing",
+    icon: Briefcase,
+  },
+  {
+    title: "Freelancers",
+    description: "Send project files, creative assets and client deliverables professionally.",
+    href: "/freelancer-file-transfer",
+    icon: Send,
+  },
 ];
 
 const features = [
@@ -215,17 +243,25 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION — Operational workflows */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Built for Real File Sharing Workflows</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From creators and freelancers to creative agencies and finance teams — modern file delivery for every workflow.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Teams, Agencies and Professionals</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Securely send large files, videos, documents, CAD drawings and creative assets with tracking, download visibility and expiry controls.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {operationalWorkflows.map((w, i) => (
-              <motion.div key={w.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }} className="rounded-2xl p-5 bg-card/40 border border-border/30">
-                <Briefcase className="w-4 h-4 text-primary/70 mb-3" />
-                <h3 className="text-[13px] font-semibold text-foreground mb-1">{w.title}</h3>
-                <p className="text-xs text-muted-foreground/75 leading-relaxed">{w.description}</p>
-              </motion.div>
-            ))}
+            {operationalWorkflows.map((w, i) => {
+              const Icon = w.icon;
+              return (
+                <motion.div key={w.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
+                  <Link
+                    to={w.href}
+                    className="block rounded-2xl p-5 bg-card/40 border border-border/30 hover:border-primary/30 hover:bg-card/70 transition-all duration-200"
+                  >
+                    <Icon className="w-4 h-4 text-primary/70 mb-3" />
+                    <h3 className="text-[13px] font-semibold text-foreground mb-1">{w.title}</h3>
+                    <p className="text-xs text-muted-foreground/75 leading-relaxed">{w.description}</p>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
