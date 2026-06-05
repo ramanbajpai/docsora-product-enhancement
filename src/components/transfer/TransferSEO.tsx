@@ -155,6 +155,13 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { question: "Is Docsora a real WeTransfer alternative?", answer: "Yes. Docsora keeps the drag-and-drop simplicity and adds tracking, encryption and workflow integration for modern teams." },
     { question: "What's the max file size?", answer: "Docsora supports oversized files well beyond inbox limits — multi-GB transfers handled in a single browser session." },
     { question: "Are transfers secure?", answer: "Every transfer runs over TLS with encryption at rest, optional password protection, expiring links and download caps." },
+    { question: "Can I track who downloaded my files?", answer: "Yes. Docsora lets you track transfer activity, including views, downloads and recipient engagement." },
+    { question: "Can I extend an expired transfer?", answer: "Yes. Docsora allows you to extend expiry dates or reactivate transfers without re-uploading files." },
+    { question: "Do recipients need a Docsora account?", answer: "No. Recipients can access and download files without creating an account." },
+    { question: "What file types does Docsora support?", answer: "Docsora supports over 100 file types including PDFs, Word documents, PowerPoint files, ZIP archives, videos, images, CAD files and creative assets." },
+    { question: "Is Docsora secure?", answer: "Docsora uses encrypted file transfer and is built around enterprise-grade security practices including GDPR compliance, ISO 27001 certification and SOC 2 Type I compliance." },
+    { question: "What makes Docsora different from WeTransfer?", answer: "Docsora combines file transfer with download tracking, transfer history, expiry management and recipient visibility from a single dashboard." },
+    { question: "Can I send folders and multiple files?", answer: "Yes. Upload multiple files or entire project packages and share them through a single transfer." },
   ];
 
   return (
