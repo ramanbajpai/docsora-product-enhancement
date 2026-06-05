@@ -511,24 +511,26 @@ const TransferCompareLanding = () => {
           </motion.section>
 
           {/* Key Differences */}
-          <motion.section {...fadeUp} className="max-w-3xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6">
-              Key differences
-            </h2>
-            <div className="space-y-3">
-              {variant.keyDifferences.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-xl px-5 py-4 bg-card/40 border border-border/30 flex items-start gap-3"
-                >
-                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Lightbulb className="w-3.5 h-3.5 text-primary" />
+          {variant.slug !== "wetransfer-alternative" && (
+            <motion.section {...fadeUp} className="max-w-3xl mx-auto">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6">
+                Key differences
+              </h2>
+              <div className="space-y-3">
+                {variant.keyDifferences.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-xl px-5 py-4 bg-card/40 border border-border/30 flex items-start gap-3"
+                  >
+                    <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Lightbulb className="w-3.5 h-3.5 text-primary" />
+                    </div>
+                    <p className="text-sm text-foreground/90 leading-relaxed">{item}</p>
                   </div>
-                  <p className="text-sm text-foreground/90 leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
-          </motion.section>
+                ))}
+              </div>
+            </motion.section>
+          )}
 
           {/* Who should choose */}
           <motion.section {...fadeUp}>
