@@ -135,7 +135,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <Sparkles className="w-3 h-3 text-primary/80" />
               <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Secure Large File Transfer with Tracking, Visibility and Control</h2>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files up to 500GB</h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">Send large files in seconds. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading and manage everything from a single dashboard.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
