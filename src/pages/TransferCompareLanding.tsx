@@ -146,7 +146,7 @@ const TransferCompareLanding = () => {
             </p>
           </motion.section>
 
-          {/* Quick summary — Best for */}
+          {/* Quick summary - Best for */}
           <motion.section {...fadeUp}>
             <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6 text-center">
               Quick summary

@@ -49,7 +49,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "WeTransfer Alternative",
     cardSummary:
       "Compare Docsora and WeTransfer across transfer tracking, expiry controls, transfer history, download visibility, security and compliance.",
-    title: "WeTransfer Alternative — WeTransfer Alternative for Large File Transfer | Docsora",
+    title: "WeTransfer Alternative - WeTransfer Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
     h1: "A Modern WeTransfer Alternative",
@@ -57,11 +57,11 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     heroSubtitle:
       "Send large files securely with download tracking, expiry controls, transfer history and recipient activity visibility from one dashboard.",
     description:
-      "Both Docsora and WeTransfer help users send large files through shareable links. Docsora is built for users who want more visibility after sending — including transfer tracking, download activity, expiry management and access to transfer history.",
+      "Both Docsora and WeTransfer help users send large files through shareable links. Docsora is built for users who want more visibility after sending - including transfer tracking, download activity, expiry management and access to transfer history.",
     trustStrip:
       "ISO 27001 Certified · SOC 2 Type I · GDPR Compliant · 100+ File Types · Download Tracking",
     bestForDocsora:
-      "Individuals, freelancers, agencies and businesses that want visibility, control and management over every transfer after it has been sent — including tracking, expiry extension, reactivation and centralized transfer history.",
+      "Individuals, freelancers, agencies and businesses that want visibility, control and management over every transfer after it has been sent - including tracking, expiry extension, reactivation and centralized transfer history.",
     bestForCompetitor:
       "Users who want a familiar, simple way to send a one-off large file via a link without managing it afterwards.",
     chooseDocsoraList: [
@@ -113,7 +113,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     keyDifferences: [
       "WeTransfer is built around the act of sending a single file via a link.",
-      "Docsora Transfer is built around the full lifecycle of a transfer — sending, tracking, extending, reactivating and managing every transfer from a centralized dashboard.",
+      "Docsora Transfer is built around the full lifecycle of a transfer - sending, tracking, extending, reactivating and managing every transfer from a centralized dashboard.",
       "Docsora records open, download and activity events for every transfer and surfaces them in a unified transfer history.",
       "Docsora lets senders extend expiry dates without re-uploading and reactivate expired transfers in one click.",
       "Docsora surfaces dashboard recommendations such as recipient reminders and expiry warnings to help senders take the next step.",
@@ -211,7 +211,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     cardTitle: "Smash Alternative",
     cardSummary:
       "Compare Docsora and Smash across file transfer, transfer visibility, expiry controls, compliance and operational workflows.",
-    title: "Smash Alternative — Smash Alternative for Large File Transfer | Docsora",
+    title: "Smash Alternative - Smash Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",
     h1: "Smash Alternative: How Docsora Compares to Smash",
@@ -271,7 +271,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     ],
     keyDifferences: [
       "Smash offers a clean upload-and-send experience with minimal setup.",
-      "Docsora Transfer offers the same ease of use with added visibility — tracking, extending, reactivating and managing transfers from one place.",
+      "Docsora Transfer offers the same ease of use with added visibility - tracking, extending, reactivating and managing transfers from one place.",
       "Docsora records open and download events for every transfer and surfaces them in a unified transfer history.",
       "Docsora lets senders extend expiry dates and reactivate expired transfers without re-uploading the files.",
       "Docsora surfaces dashboard recommendations such as recipient reminders and expiry warnings.",
