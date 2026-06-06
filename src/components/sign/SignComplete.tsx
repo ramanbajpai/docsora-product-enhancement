@@ -19,11 +19,8 @@ import {
   GitCompare,
   Shield,
   FileOutput,
-  Layers,
   Droplets,
   Edit3,
-  Database,
-  WrenchIcon,
   ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
