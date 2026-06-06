@@ -61,9 +61,6 @@ const TOOL_SUCCESS_CONFIG: Record<string, {
   protect: { title: "Your document is ready", subtitle: "Document protected successfully", downloadLabel: "Download protected PDF", resetLabel: "Protect another file", proFeatures: "Advanced encryption & permissions" },
   watermark: { title: "Your document is ready", subtitle: "Watermark applied successfully", downloadLabel: "Download document", resetLabel: "Add another watermark", proFeatures: "Image watermarks & batch apply" },
   compare: { title: "Comparison complete", subtitle: "Differences highlighted", downloadLabel: "Download comparison", resetLabel: "Compare other files", proFeatures: "Detailed change tracking" },
-  repair: { title: "Your document is ready", subtitle: "Document repaired successfully", downloadLabel: "Download repaired PDF", resetLabel: "Repair another file", proFeatures: "Advanced recovery options" },
-  metadata: { title: "Your document is ready", subtitle: "Metadata saved successfully", downloadLabel: "Download document", resetLabel: "Edit another file", proFeatures: "Batch metadata editing" },
-  flatten: { title: "Your document is ready", subtitle: "Converted to one page", downloadLabel: "Download document", resetLabel: "Convert another file", proFeatures: "Custom layouts & sizing" },
 };
 
 interface ToolProps {
