@@ -574,19 +574,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* One Page Success - Custom component */}
-          {step === "success" && toolId === "flatten" && (
-            <motion.div
-              key="onepage-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <OnePageSuccess files={uploadedFiles} originalPageCount={5} onReset={handleBack} />
-            </motion.div>
-          )}
-
           {/* Watermark Success - Custom component */}
           {step === "success" && toolId === "watermark" && (
             <motion.div
