@@ -207,11 +207,11 @@ const ToolPickerModal = ({ file, isOpen, onClose }: ToolPickerModalProps) => {
                 </div>
               )}
 
-              {/* PDF Tools */}
+              {/* Tools */}
               {filteredTools.length > 0 && (
                 <div>
                   <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                    PDF Tools
+                    Tools
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {filteredTools.map((tool) => (
