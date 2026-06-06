@@ -352,15 +352,88 @@ export default function Tools() {
     uploadMode: "single",
   };
 
+  // Synthetic configs for standalone service tools
+  const aiCheckConfig: ToolConfig = {
+    id: "ai-check",
+    name: "AI Check",
+    title: "AI Check",
+    subtitle: "Verify document authenticity, grammar, and writing quality.",
+    readyTitle: "AI Check",
+    description: "Verify document authenticity",
+    icon: Sparkles as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','DOC','DOCX'],
+    uploadMode: "single",
+  };
+
+  const compressConfig: ToolConfig = {
+    id: "compress",
+    name: "Compress",
+    title: "Compress",
+    subtitle: "Reduce file size without losing quality.",
+    readyTitle: "Compress",
+    description: "Reduce file size",
+    icon: FileDown as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','XLS','XLSX','PPT','PPTX'],
+    uploadMode: "single",
+  };
+
+  const convertConfig: ToolConfig = {
+    id: "convert",
+    name: "Convert",
+    title: "Convert",
+    subtitle: "Change file formats seamlessly.",
+    readyTitle: "Convert",
+    description: "Change file format",
+    icon: ArrowLeftRight as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
+    uploadMode: "single",
+  };
+
+  const translateConfig: ToolConfig = {
+    id: "translate",
+    name: "Translate",
+    title: "Translate",
+    subtitle: "Translate documents into 50+ languages.",
+    readyTitle: "Translate",
+    description: "Translate documents",
+    icon: Languages as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','DOC','DOCX','PPT','PPTX','XLS','XLSX'],
+    uploadMode: "single",
+  };
+
   // Flatten tool order and get configs
   const orderedTools = toolOrder.flat().map(id => {
     if (id === "flows") return flowsConfig;
+    if (id === "ai-check") return aiCheckConfig;
+    if (id === "compress") return compressConfig;
+    if (id === "convert") return convertConfig;
+    if (id === "translate") return translateConfig;
     return getToolConfig(id);
   }).filter(Boolean) as ToolConfig[];
 
   const handleToolClick = (tool: ToolConfig) => {
     if (tool.id === "flows") {
       navigate("/templates");
+      return;
+    }
+    if (tool.id === "ai-check") {
+      navigate("/ai-check");
+      return;
+    }
+    if (tool.id === "compress") {
+      navigate("/compress");
+      return;
+    }
+    if (tool.id === "convert") {
+      navigate("/convert");
+      return;
+    }
+    if (tool.id === "translate") {
+      navigate("/translate");
       return;
     }
     const slug = pdfToolVariantByToolId[tool.id]?.slug;
