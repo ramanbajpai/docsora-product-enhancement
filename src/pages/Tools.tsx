@@ -330,19 +330,6 @@ export default function Tools() {
   const navigate = useNavigate();
   const [hoveredTool, setHoveredTool] = useState<ToolConfig | null>(null);
   
-  // Synthetic config for Flows (navigates to /templates)
-  const flowsConfig: ToolConfig = {
-    id: "flows",
-    name: "Flows",
-    title: "Flows",
-    subtitle: "Reusable agreements, signing packages, and operational workflows.",
-    readyTitle: "Flows",
-    description: "Reusable agreements & workflows",
-    icon: FlowIcon as unknown as ToolConfig["icon"],
-    acceptMultiple: false,
-    supportedFormats: [],
-    uploadMode: "single",
-  };
 
   // Synthetic configs for standalone service tools
   const aiCheckConfig: ToolConfig = {
