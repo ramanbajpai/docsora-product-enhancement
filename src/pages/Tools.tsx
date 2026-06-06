@@ -386,7 +386,6 @@ export default function Tools() {
 
   // Flatten tool order and get configs
   const orderedTools = toolOrder.flat().map(id => {
-    if (id === "flows") return flowsConfig;
     if (id === "ai-check") return aiCheckConfig;
     if (id === "compress") return compressConfig;
     if (id === "convert") return convertConfig;
@@ -395,10 +394,6 @@ export default function Tools() {
   }).filter(Boolean) as ToolConfig[];
 
   const handleToolClick = (tool: ToolConfig) => {
-    if (tool.id === "flows") {
-      navigate("/templates");
-      return;
-    }
     if (tool.id === "ai-check") {
       navigate("/ai-check");
       return;
