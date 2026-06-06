@@ -600,47 +600,8 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* Metadata Update Success */}
-          {step === "success" && toolId === "metadata" && metadataMode === "update" && (
-            <motion.div
-              key="metadata-update-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <MetadataUpdateSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
-          {/* Metadata Remove Success */}
-          {step === "success" && toolId === "metadata" && metadataMode === "remove" && (
-            <motion.div
-              key="metadata-remove-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <MetadataRemoveSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
-          {/* Repair Success - Custom component */}
-          {step === "success" && toolId === "repair" && (
-            <motion.div
-              key="repair-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <RepairSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
           {/* New Tool Success - Skip for self-contained tools and tools with custom success components */}
-          {step === "success" && isEditorTool && !isSelfContainedTool && toolId !== "split" && toolId !== "merge" && toolId !== "delete" && toolId !== "compare" && toolId !== "protect" && toolId !== "extract" && toolId !== "flatten" && toolId !== "watermark" && toolId !== "organize" && toolId !== "metadata" && toolId !== "repair" && successConfig && (
+          {step === "success" && isEditorTool && !isSelfContainedTool && toolId !== "split" && toolId !== "merge" && toolId !== "delete" && toolId !== "compare" && toolId !== "protect" && toolId !== "extract" && toolId !== "watermark" && toolId !== "organize" && successConfig && (
             <motion.div
               key={`${toolId}-success`}
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
