@@ -219,7 +219,7 @@ const ToolPickerModal = ({ file, isOpen, onClose }: ToolPickerModalProps) => {
                         key={tool.id}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => handleToolSelect(tool.id)}
+                        onClick={() => handleToolSelect(tool)}
                         className="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-2/50 hover:bg-primary/10 hover:border-primary/20 border border-transparent transition-all group"
                       >
                         <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
