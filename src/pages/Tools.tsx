@@ -16,9 +16,9 @@ const toolOrder = [
   // Document structure & cleanup (Row 2)
   ["rotate", "delete", "organize", "extract"],
   // Advanced / trust features (Row 3)
-  ["protect", "watermark", "compare", "repair"],
-  // Low-frequency utilities (Row 4)
-  ["metadata", "flatten"],
+  ["protect", "watermark", "compare", "ai-check"],
+  // Format & language (Row 4)
+  ["convert", "translate"],
 ];
 
 // Short, action-focused descriptions
