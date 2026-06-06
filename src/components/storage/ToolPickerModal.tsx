@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Search, Sparkles, FileDown, ArrowLeftRight, PenTool, Send, Wand2 } from "lucide-react";
+import { X, Search, Sparkles, FileDown, ArrowLeftRight, PenTool, Send, Wand2, Languages } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { StorageFile } from "@/pages/Storage";
 import { toolConfigs, ToolConfig } from "@/components/tools/toolConfig";
@@ -18,11 +18,60 @@ const suggestedToolIds = ["rotate", "split", "merge", "compress", "convert", "si
 
 // Main service tools from sidebar
 const mainServices = [
-  { id: "ai-check", name: "AI Check", icon: Sparkles, description: "Verify document authenticity", route: "/ai-check" },
-  { id: "compress", name: "Compress", icon: FileDown, description: "Reduce file size", route: "/compress" },
-  { id: "convert", name: "Convert", icon: ArrowLeftRight, description: "Change file format", route: "/convert" },
   { id: "sign", name: "Sign", icon: PenTool, description: "Add signatures", route: "/sign" },
   { id: "transfer", name: "Transfer", icon: Send, description: "Send files securely", route: "/transfer" },
+];
+
+// Additional tools that route to standalone pages
+const extraTools: ToolConfig[] = [
+  {
+    id: "ai-check",
+    name: "AI Check",
+    title: "AI Check",
+    subtitle: "Verify document authenticity",
+    readyTitle: "AI Check",
+    description: "Verify document authenticity",
+    icon: Sparkles as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: [],
+    uploadMode: "single",
+  },
+  {
+    id: "compress",
+    name: "Compress",
+    title: "Compress",
+    subtitle: "Reduce file size",
+    readyTitle: "Compress",
+    description: "Reduce file size",
+    icon: FileDown as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: [],
+    uploadMode: "single",
+  },
+  {
+    id: "convert",
+    name: "Convert",
+    title: "Convert",
+    subtitle: "Change file format",
+    readyTitle: "Convert",
+    description: "Change file format",
+    icon: ArrowLeftRight as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: [],
+    uploadMode: "single",
+  },
+  {
+    id: "translate",
+    name: "Translate",
+    title: "Translate",
+    subtitle: "Translate documents",
+    readyTitle: "Translate",
+    description: "Translate documents",
+    icon: Languages as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: [],
+    uploadMode: "single",
+  },
 ];
 
 const ToolPickerModal = ({ file, isOpen, onClose }: ToolPickerModalProps) => {
