@@ -35,9 +35,9 @@ const toolDescriptions: Record<string, string> = {
   protect: "Add password encryption",
   watermark: "Add text or image overlay",
   compare: "Spot differences between files",
-  repair: "Fix corrupted documents",
-  metadata: "View document properties",
-  flatten: "Condense to single page",
+  "ai-check": "Verify document authenticity",
+  convert: "Change file format",
+  translate: "Translate documents",
 };
 
 // Extended tool info for contextual panel
