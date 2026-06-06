@@ -293,12 +293,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
         return <WatermarkEditor {...editorProps} />;
       case "compare":
         return <CompareEditor {...editorProps} />;
-      case "repair":
-        return <RepairEditor {...editorProps} />;
-      case "metadata":
-        return <MetadataEditor files={uploadedFiles} onProcess={handleMetadataProcess} />;
-      case "flatten":
-        return <OnePageEditor {...editorProps} />;
       default:
         return null;
     }
