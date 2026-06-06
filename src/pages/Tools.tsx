@@ -90,17 +90,17 @@ const toolDetails: Record<string, { bestFor: string[]; proFeatures: string[] }> 
     bestFor: ["Contract revisions", "Version control", "Legal review"],
     proFeatures: ["AI-powered diff", "Change tracking", "Side-by-side view"],
   },
-  repair: {
-    bestFor: ["Corrupted files", "Download errors", "Recovery attempts"],
-    proFeatures: ["Deep repair mode", "Structure recovery", "Batch repair"],
+  "ai-check": {
+    bestFor: ["Grammar checking", "Writing improvement", "Document verification"],
+    proFeatures: ["Advanced AI analysis", "Batch checking", "Style suggestions"],
   },
-  metadata: {
-    bestFor: ["Document audit", "Privacy check", "File information"],
-    proFeatures: ["Bulk metadata edit", "Privacy scrubbing", "Custom properties"],
+  convert: {
+    bestFor: ["Format switching", "Cross-platform sharing", "Archive preparation"],
+    proFeatures: ["Batch conversion", "Format preservation", "OCR integration"],
   },
-  flatten: {
-    bestFor: ["Form locking", "Print preparation", "Reducing complexity"],
-    proFeatures: ["Selective flattening", "Layer control", "Batch processing"],
+  translate: {
+    bestFor: ["Multilingual documents", "Global teams", "Client localization"],
+    proFeatures: ["50+ languages", "Context-aware translation", "Terminology glossaries"],
   },
 };
 
