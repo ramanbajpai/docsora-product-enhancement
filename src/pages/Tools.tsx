@@ -20,7 +20,6 @@ const toolOrder = [
 
 // Short, action-focused descriptions
 const toolDescriptions: Record<string, string> = {
-  flows: "Reusable agreements & workflows",
   edit: "Edit text, images, and pages",
   merge: "Combine multiple PDFs into one",
   split: "Separate pages into files",
