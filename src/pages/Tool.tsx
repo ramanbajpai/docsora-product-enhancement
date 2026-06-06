@@ -86,7 +86,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
 
   const config = toolId ? getToolConfig(toolId) : undefined;
   const isEditPDF = toolId === "edit";
-  const isMetadata = toolId === "metadata";
   const isWatermark = toolId === "watermark";
   const isRotate = toolId === "rotate";
   const isEditorTool = toolId ? EDITOR_TOOLS.includes(toolId) : false;
