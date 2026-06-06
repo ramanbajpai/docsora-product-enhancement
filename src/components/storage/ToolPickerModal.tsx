@@ -78,7 +78,7 @@ const ToolPickerModal = ({ file, isOpen, onClose }: ToolPickerModalProps) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const allTools = useMemo(() => Object.values(toolConfigs), []);
+  const allTools = useMemo(() => [...Object.values(toolConfigs), ...extraTools], []);
 
   const filteredTools = useMemo(() => {
     if (!searchQuery.trim()) return allTools;
@@ -100,8 +100,18 @@ const ToolPickerModal = ({ file, isOpen, onClose }: ToolPickerModalProps) => {
     );
   }, [searchQuery]);
 
-  const handleToolSelect = (toolId: string) => {
-    navigate(`/tools/${toolId}`);
+  const handleToolSelect = (tool: ToolConfig) => {
+    if (tool.id === "ai-check") {
+      navigate("/ai-check");
+    } else if (tool.id === "compress") {
+      navigate("/compress");
+    } else if (tool.id === "convert") {
+      navigate("/convert");
+    } else if (tool.id === "translate") {
+      navigate("/translate");
+    } else {
+      navigate(`/tools/${tool.id}`);
+    }
     onClose();
   };
 
