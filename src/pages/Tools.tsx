@@ -8,15 +8,13 @@ import { LayoutGrid, Check, Zap, Sparkles, FileDown, ArrowLeftRight, Languages }
 
 // Ordered by usage and value - grouped into rows
 const toolOrder = [
-  // Workflows (Row 0)
-  ["flows"],
-  // Primary tools (Row 1)
+  // Primary tools (Row 0)
   ["edit", "merge", "split", "compress"],
-  // Document structure & cleanup (Row 2)
+  // Document structure & cleanup (Row 1)
   ["rotate", "delete", "organize", "extract"],
-  // Advanced / trust features (Row 3)
+  // Advanced / trust features (Row 2)
   ["protect", "watermark", "compare", "ai-check"],
-  // Format & language (Row 4)
+  // Format & language (Row 3)
   ["convert", "translate"],
 ];
 
