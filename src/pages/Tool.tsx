@@ -464,36 +464,8 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* Repair Processing - Custom component */}
-          {step === "processing" && toolId === "repair" && (
-            <motion.div
-              key="repair-processing"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(12px)' }}
-              transition={{ duration: 0.4, ease: appleEasing }}
-              className="-mx-6 -mt-6"
-            >
-              <RepairProcessing onComplete={handleProcessingComplete} />
-            </motion.div>
-          )}
-
-          {/* One Page Processing - Custom component */}
-          {step === "processing" && toolId === "flatten" && (
-            <motion.div
-              key="onepage-processing"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(12px)' }}
-              transition={{ duration: 0.4, ease: appleEasing }}
-              className="-mx-6 -mt-6"
-            >
-              <OnePageProcessing onComplete={handleProcessingComplete} />
-            </motion.div>
-          )}
-
           {/* New Tool Processing - Skip for self-contained tools and tools with custom processing components */}
-          {step === "processing" && isEditorTool && !isSelfContainedTool && toolId !== "repair" && toolId !== "flatten" && toolId !== "protect" && (
+          {step === "processing" && isEditorTool && !isSelfContainedTool && toolId !== "protect" && (
             <motion.div
               key={`${toolId}-processing`}
               initial={{ opacity: 0, scale: 0.98 }}
