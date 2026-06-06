@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { AppLayout } from "@/components/layout/AppLayout";
 import { getToolConfig, ToolConfig } from "@/components/tools/toolConfig";
 import { pdfToolVariantByToolId } from "@/data/pdfToolVariants";
-import { LayoutGrid, Check, Zap } from "lucide-react";
+import { LayoutGrid, Check, Zap, Sparkles, FileDown, ArrowLeftRight, Languages } from "lucide-react";
 import { FlowIcon } from "@/components/icons/FlowIcon";
 
 // Ordered by usage and value - grouped into rows
@@ -16,9 +16,9 @@ const toolOrder = [
   // Document structure & cleanup (Row 2)
   ["rotate", "delete", "organize", "extract"],
   // Advanced / trust features (Row 3)
-  ["protect", "watermark", "compare", "repair"],
-  // Low-frequency utilities (Row 4)
-  ["metadata", "flatten"],
+  ["protect", "watermark", "compare", "ai-check"],
+  // Format & language (Row 4)
+  ["convert", "translate"],
 ];
 
 // Short, action-focused descriptions
@@ -35,9 +35,9 @@ const toolDescriptions: Record<string, string> = {
   protect: "Add password encryption",
   watermark: "Add text or image overlay",
   compare: "Spot differences between files",
-  repair: "Fix corrupted documents",
-  metadata: "View document properties",
-  flatten: "Condense to single page",
+  "ai-check": "Verify document authenticity",
+  convert: "Change file format",
+  translate: "Translate documents",
 };
 
 // Extended tool info for contextual panel
@@ -90,17 +90,17 @@ const toolDetails: Record<string, { bestFor: string[]; proFeatures: string[] }> 
     bestFor: ["Contract revisions", "Version control", "Legal review"],
     proFeatures: ["AI-powered diff", "Change tracking", "Side-by-side view"],
   },
-  repair: {
-    bestFor: ["Corrupted files", "Download errors", "Recovery attempts"],
-    proFeatures: ["Deep repair mode", "Structure recovery", "Batch repair"],
+  "ai-check": {
+    bestFor: ["Grammar checking", "Writing improvement", "Document verification"],
+    proFeatures: ["Advanced AI analysis", "Batch checking", "Style suggestions"],
   },
-  metadata: {
-    bestFor: ["Document audit", "Privacy check", "File information"],
-    proFeatures: ["Bulk metadata edit", "Privacy scrubbing", "Custom properties"],
+  convert: {
+    bestFor: ["Format switching", "Cross-platform sharing", "Archive preparation"],
+    proFeatures: ["Batch conversion", "Format preservation", "OCR integration"],
   },
-  flatten: {
-    bestFor: ["Form locking", "Print preparation", "Reducing complexity"],
-    proFeatures: ["Selective flattening", "Layer control", "Batch processing"],
+  translate: {
+    bestFor: ["Multilingual documents", "Global teams", "Client localization"],
+    proFeatures: ["50+ languages", "Context-aware translation", "Terminology glossaries"],
   },
 };
 
@@ -352,15 +352,88 @@ export default function Tools() {
     uploadMode: "single",
   };
 
+  // Synthetic configs for standalone service tools
+  const aiCheckConfig: ToolConfig = {
+    id: "ai-check",
+    name: "AI Check",
+    title: "AI Check",
+    subtitle: "Verify document authenticity, grammar, and writing quality.",
+    readyTitle: "AI Check",
+    description: "Verify document authenticity",
+    icon: Sparkles as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','DOC','DOCX'],
+    uploadMode: "single",
+  };
+
+  const compressConfig: ToolConfig = {
+    id: "compress",
+    name: "Compress",
+    title: "Compress",
+    subtitle: "Reduce file size without losing quality.",
+    readyTitle: "Compress",
+    description: "Reduce file size",
+    icon: FileDown as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','XLS','XLSX','PPT','PPTX'],
+    uploadMode: "single",
+  };
+
+  const convertConfig: ToolConfig = {
+    id: "convert",
+    name: "Convert",
+    title: "Convert",
+    subtitle: "Change file formats seamlessly.",
+    readyTitle: "Convert",
+    description: "Change file format",
+    icon: ArrowLeftRight as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','JPG','JPEG','PNG','GIF','BMP','TIFF','WEBP','DOC','DOCX','ODT','CSV','XLS','XLSX','ODS','PPT','PPTX','ODP','EML'],
+    uploadMode: "single",
+  };
+
+  const translateConfig: ToolConfig = {
+    id: "translate",
+    name: "Translate",
+    title: "Translate",
+    subtitle: "Translate documents into 50+ languages.",
+    readyTitle: "Translate",
+    description: "Translate documents",
+    icon: Languages as unknown as ToolConfig["icon"],
+    acceptMultiple: false,
+    supportedFormats: ['PDF','HTML','TXT','DOC','DOCX','PPT','PPTX','XLS','XLSX'],
+    uploadMode: "single",
+  };
+
   // Flatten tool order and get configs
   const orderedTools = toolOrder.flat().map(id => {
     if (id === "flows") return flowsConfig;
+    if (id === "ai-check") return aiCheckConfig;
+    if (id === "compress") return compressConfig;
+    if (id === "convert") return convertConfig;
+    if (id === "translate") return translateConfig;
     return getToolConfig(id);
   }).filter(Boolean) as ToolConfig[];
 
   const handleToolClick = (tool: ToolConfig) => {
     if (tool.id === "flows") {
       navigate("/templates");
+      return;
+    }
+    if (tool.id === "ai-check") {
+      navigate("/ai-check");
+      return;
+    }
+    if (tool.id === "compress") {
+      navigate("/compress");
+      return;
+    }
+    if (tool.id === "convert") {
+      navigate("/convert");
+      return;
+    }
+    if (tool.id === "translate") {
+      navigate("/translate");
       return;
     }
     const slug = pdfToolVariantByToolId[tool.id]?.slug;

@@ -19,11 +19,8 @@ import {
   GitCompare,
   Shield,
   FileOutput,
-  Layers,
   Droplets,
   Edit3,
-  Database,
-  WrenchIcon,
   ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -54,11 +51,8 @@ const toolsSubmenu = [
   { icon: GitCompare, label: "Compare", path: "/tools/compare" },
   { icon: Shield, label: "Protect", path: "/tools/protect" },
   { icon: FileOutput, label: "Extract", path: "/tools/extract" },
-  { icon: Layers, label: "PDF to One Page", path: "/tools/one-page" },
   { icon: Droplets, label: "Watermark", path: "/tools/watermark" },
   { icon: Grid3X3, label: "Organize", path: "/tools/organize" },
-  { icon: Database, label: "Metadata", path: "/tools/metadata" },
-  { icon: WrenchIcon, label: "Repair", path: "/tools/repair" },
   { icon: Edit3, label: "Edit PDF", path: "/tools/edit-pdf" },
 ];
 

@@ -18,9 +18,6 @@ import { ExtractEditor, ExtractSuccess } from "@/components/tools/extract";
 import { ProtectEditor, ProtectProcessing, ProtectSuccess } from "@/components/tools/protect";
 import { WatermarkEditor, WatermarkSuccess } from "@/components/tools/watermark";
 import { CompareEditor, CompareSuccess } from "@/components/tools/compare";
-import { RepairEditor, RepairProcessing, RepairSuccess } from "@/components/tools/repair";
-import { MetadataEditor, MetadataUpdateSuccess, MetadataRemoveSuccess } from "@/components/tools/metadata";
-import { OnePageEditor, OnePageProcessing, OnePageSuccess } from "@/components/tools/one-page";
 import { getToolConfig } from "@/components/tools/toolConfig";
 import { PDFToolSEO } from "@/components/tools/PDFToolSEO";
 import { type PDFToolVariant, pdfToolVariantByToolId } from "@/data/pdfToolVariants";
@@ -31,7 +28,7 @@ type ToolStep = "upload" | "uploading" | "complete" | "action" | "editor" | "pro
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Tools that use the new editor framework
-const EDITOR_TOOLS = ["merge", "split", "delete", "organize", "extract", "protect", "watermark", "compare", "repair", "metadata", "flatten"];
+const EDITOR_TOOLS = ["merge", "split", "delete", "organize", "extract", "protect", "watermark", "compare"];
 
 // Tools that skip the processing flow and handle everything internally
 const SELF_CONTAINED_TOOLS: string[] = [];
@@ -64,9 +61,6 @@ const TOOL_SUCCESS_CONFIG: Record<string, {
   protect: { title: "Your document is ready", subtitle: "Document protected successfully", downloadLabel: "Download protected PDF", resetLabel: "Protect another file", proFeatures: "Advanced encryption & permissions" },
   watermark: { title: "Your document is ready", subtitle: "Watermark applied successfully", downloadLabel: "Download document", resetLabel: "Add another watermark", proFeatures: "Image watermarks & batch apply" },
   compare: { title: "Comparison complete", subtitle: "Differences highlighted", downloadLabel: "Download comparison", resetLabel: "Compare other files", proFeatures: "Detailed change tracking" },
-  repair: { title: "Your document is ready", subtitle: "Document repaired successfully", downloadLabel: "Download repaired PDF", resetLabel: "Repair another file", proFeatures: "Advanced recovery options" },
-  metadata: { title: "Your document is ready", subtitle: "Metadata saved successfully", downloadLabel: "Download document", resetLabel: "Edit another file", proFeatures: "Batch metadata editing" },
-  flatten: { title: "Your document is ready", subtitle: "Converted to one page", downloadLabel: "Download document", resetLabel: "Convert another file", proFeatures: "Custom layouts & sizing" },
 };
 
 interface ToolProps {
@@ -92,7 +86,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
 
   const config = toolId ? getToolConfig(toolId) : undefined;
   const isEditPDF = toolId === "edit";
-  const isMetadata = toolId === "metadata";
   const isWatermark = toolId === "watermark";
   const isRotate = toolId === "rotate";
   const isEditorTool = toolId ? EDITOR_TOOLS.includes(toolId) : false;
@@ -299,12 +292,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
         return <WatermarkEditor {...editorProps} />;
       case "compare":
         return <CompareEditor {...editorProps} />;
-      case "repair":
-        return <RepairEditor {...editorProps} />;
-      case "metadata":
-        return <MetadataEditor files={uploadedFiles} onProcess={handleMetadataProcess} />;
-      case "flatten":
-        return <OnePageEditor {...editorProps} />;
       default:
         return null;
     }
@@ -476,36 +463,8 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* Repair Processing - Custom component */}
-          {step === "processing" && toolId === "repair" && (
-            <motion.div
-              key="repair-processing"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(12px)' }}
-              transition={{ duration: 0.4, ease: appleEasing }}
-              className="-mx-6 -mt-6"
-            >
-              <RepairProcessing onComplete={handleProcessingComplete} />
-            </motion.div>
-          )}
-
-          {/* One Page Processing - Custom component */}
-          {step === "processing" && toolId === "flatten" && (
-            <motion.div
-              key="onepage-processing"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(12px)' }}
-              transition={{ duration: 0.4, ease: appleEasing }}
-              className="-mx-6 -mt-6"
-            >
-              <OnePageProcessing onComplete={handleProcessingComplete} />
-            </motion.div>
-          )}
-
           {/* New Tool Processing - Skip for self-contained tools and tools with custom processing components */}
-          {step === "processing" && isEditorTool && !isSelfContainedTool && toolId !== "repair" && toolId !== "flatten" && toolId !== "protect" && (
+          {step === "processing" && isEditorTool && !isSelfContainedTool && toolId !== "protect" && (
             <motion.div
               key={`${toolId}-processing`}
               initial={{ opacity: 0, scale: 0.98 }}
@@ -614,19 +573,6 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* One Page Success - Custom component */}
-          {step === "success" && toolId === "flatten" && (
-            <motion.div
-              key="onepage-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <OnePageSuccess files={uploadedFiles} originalPageCount={5} onReset={handleBack} />
-            </motion.div>
-          )}
-
           {/* Watermark Success - Custom component */}
           {step === "success" && toolId === "watermark" && (
             <motion.div
@@ -653,47 +599,8 @@ export default function Tool({ toolIdOverride, seoVariant }: ToolProps = {}) {
             </motion.div>
           )}
 
-          {/* Metadata Update Success */}
-          {step === "success" && toolId === "metadata" && metadataMode === "update" && (
-            <motion.div
-              key="metadata-update-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <MetadataUpdateSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
-          {/* Metadata Remove Success */}
-          {step === "success" && toolId === "metadata" && metadataMode === "remove" && (
-            <motion.div
-              key="metadata-remove-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <MetadataRemoveSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
-          {/* Repair Success - Custom component */}
-          {step === "success" && toolId === "repair" && (
-            <motion.div
-              key="repair-success"
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: appleEasing }}
-            >
-              <RepairSuccess files={uploadedFiles} onReset={handleBack} />
-            </motion.div>
-          )}
-
           {/* New Tool Success - Skip for self-contained tools and tools with custom success components */}
-          {step === "success" && isEditorTool && !isSelfContainedTool && toolId !== "split" && toolId !== "merge" && toolId !== "delete" && toolId !== "compare" && toolId !== "protect" && toolId !== "extract" && toolId !== "flatten" && toolId !== "watermark" && toolId !== "organize" && toolId !== "metadata" && toolId !== "repair" && successConfig && (
+          {step === "success" && isEditorTool && !isSelfContainedTool && toolId !== "split" && toolId !== "merge" && toolId !== "delete" && toolId !== "compare" && toolId !== "protect" && toolId !== "extract" && toolId !== "watermark" && toolId !== "organize" && successConfig && (
             <motion.div
               key={`${toolId}-success`}
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
