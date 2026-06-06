@@ -1,6 +1,6 @@
 import { 
   RotateCw, Scissors, Layers, Trash2, GitCompare, Lock, 
-  FileOutput, FileDown, Droplets, ArrowUpDown, FileText, Wrench, Edit,
+  FileOutput, Droplets, ArrowUpDown, Edit,
   LucideIcon
 } from "lucide-react";
 
