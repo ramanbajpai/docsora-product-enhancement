@@ -5,7 +5,6 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { getToolConfig, ToolConfig } from "@/components/tools/toolConfig";
 import { pdfToolVariantByToolId } from "@/data/pdfToolVariants";
 import { LayoutGrid, Check, Zap, Sparkles, FileDown, ArrowLeftRight, Languages } from "lucide-react";
-import { FlowIcon } from "@/components/icons/FlowIcon";
 
 // Ordered by usage and value - grouped into rows
 const toolOrder = [
