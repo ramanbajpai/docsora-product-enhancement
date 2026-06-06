@@ -28,7 +28,7 @@ type ToolStep = "upload" | "uploading" | "complete" | "action" | "editor" | "pro
 const appleEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Tools that use the new editor framework
-const EDITOR_TOOLS = ["merge", "split", "delete", "organize", "extract", "protect", "watermark", "compare", "repair", "metadata", "flatten"];
+const EDITOR_TOOLS = ["merge", "split", "delete", "organize", "extract", "protect", "watermark", "compare"];
 
 // Tools that skip the processing flow and handle everything internally
 const SELF_CONTAINED_TOOLS: string[] = [];
