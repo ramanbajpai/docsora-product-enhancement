@@ -51,9 +51,9 @@ interface NavItem {
 const navItems: NavItem[] = [
   { title: "Dashboard", icon: Home, path: "/" },
   { title: "Sign", icon: PenTool, path: "/sign" },
-  { title: "Storage", icon: FolderOpen, path: "/storage" },
-  { title: "Track", icon: TrackIcon, path: "/track" },
   { title: "Transfer", icon: Send, path: "/transfer" },
+  { title: "Track", icon: TrackIcon, path: "/track" },
+  { title: "Storage", icon: FolderOpen, path: "/storage" },
   { title: "Tools", icon: LayoutGrid, path: "/tools" },
 ];
 

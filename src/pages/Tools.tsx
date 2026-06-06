@@ -5,25 +5,21 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { getToolConfig, ToolConfig } from "@/components/tools/toolConfig";
 import { pdfToolVariantByToolId } from "@/data/pdfToolVariants";
 import { LayoutGrid, Check, Zap, Sparkles, FileDown, ArrowLeftRight, Languages } from "lucide-react";
-import { FlowIcon } from "@/components/icons/FlowIcon";
 
 // Ordered by usage and value - grouped into rows
 const toolOrder = [
-  // Workflows (Row 0)
-  ["flows"],
-  // Primary tools (Row 1)
+  // Primary tools (Row 0)
   ["edit", "merge", "split", "compress"],
-  // Document structure & cleanup (Row 2)
+  // Document structure & cleanup (Row 1)
   ["rotate", "delete", "organize", "extract"],
-  // Advanced / trust features (Row 3)
+  // Advanced / trust features (Row 2)
   ["protect", "watermark", "compare", "ai-check"],
-  // Format & language (Row 4)
+  // Format & language (Row 3)
   ["convert", "translate"],
 ];
 
 // Short, action-focused descriptions
 const toolDescriptions: Record<string, string> = {
-  flows: "Reusable agreements & workflows",
   edit: "Edit text, images, and pages",
   merge: "Combine multiple PDFs into one",
   split: "Separate pages into files",
@@ -42,10 +38,6 @@ const toolDescriptions: Record<string, string> = {
 
 // Extended tool info for contextual panel
 const toolDetails: Record<string, { bestFor: string[]; proFeatures: string[] }> = {
-  flows: {
-    bestFor: ["Reusable agreements", "Repeatable signing packages", "Operational templates"],
-    proFeatures: ["Unlimited flows", "Dynamic smart fields", "Multi-document packages"],
-  },
   edit: {
     bestFor: ["Quick text corrections", "Adding annotations", "Filling form fields"],
     proFeatures: ["Batch editing", "OCR text recognition", "Advanced annotations"],
@@ -338,19 +330,6 @@ export default function Tools() {
   const navigate = useNavigate();
   const [hoveredTool, setHoveredTool] = useState<ToolConfig | null>(null);
   
-  // Synthetic config for Flows (navigates to /templates)
-  const flowsConfig: ToolConfig = {
-    id: "flows",
-    name: "Flows",
-    title: "Flows",
-    subtitle: "Reusable agreements, signing packages, and operational workflows.",
-    readyTitle: "Flows",
-    description: "Reusable agreements & workflows",
-    icon: FlowIcon as unknown as ToolConfig["icon"],
-    acceptMultiple: false,
-    supportedFormats: [],
-    uploadMode: "single",
-  };
 
   // Synthetic configs for standalone service tools
   const aiCheckConfig: ToolConfig = {
@@ -407,7 +386,6 @@ export default function Tools() {
 
   // Flatten tool order and get configs
   const orderedTools = toolOrder.flat().map(id => {
-    if (id === "flows") return flowsConfig;
     if (id === "ai-check") return aiCheckConfig;
     if (id === "compress") return compressConfig;
     if (id === "convert") return convertConfig;
@@ -416,10 +394,6 @@ export default function Tools() {
   }).filter(Boolean) as ToolConfig[];
 
   const handleToolClick = (tool: ToolConfig) => {
-    if (tool.id === "flows") {
-      navigate("/templates");
-      return;
-    }
     if (tool.id === "ai-check") {
       navigate("/ai-check");
       return;
