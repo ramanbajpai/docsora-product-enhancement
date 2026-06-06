@@ -38,10 +38,6 @@ const toolDescriptions: Record<string, string> = {
 
 // Extended tool info for contextual panel
 const toolDetails: Record<string, { bestFor: string[]; proFeatures: string[] }> = {
-  flows: {
-    bestFor: ["Reusable agreements", "Repeatable signing packages", "Operational templates"],
-    proFeatures: ["Unlimited flows", "Dynamic smart fields", "Multi-document packages"],
-  },
   edit: {
     bestFor: ["Quick text corrections", "Adding annotations", "Filling form fields"],
     proFeatures: ["Batch editing", "OCR text recognition", "Advanced annotations"],
