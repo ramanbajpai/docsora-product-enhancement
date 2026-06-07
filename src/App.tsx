@@ -236,7 +236,7 @@ const App = () => (
             <Route path="/compare/docsora-vs-ilovepdf-translate" element={<TranslateCompareLanding />} />
             <Route path="/transfer" element={<Transfer />} />
             {/* Transfer comparison landing pages */}
-            <Route path="/wetransfer-alternative" element={<TransferCompareLanding />} />
+            <Route path="/wetransfer-alternative" element={<TransferVariant />} />
             <Route path="/smash-alternative" element={<TransferCompareLanding />} />
             <Route path="/send-large-files" element={<TransferVariant />} />
             <Route path="/large-file-transfer" element={<TransferVariant />} />
