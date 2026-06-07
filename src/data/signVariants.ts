@@ -73,6 +73,80 @@ export const signVariants: SignVariantConfig[] = [
     ],
   },
   {
+    slug: "electronic-signature-software",
+    title: "Electronic Signature Software | Sign Documents Online | Docsora",
+    metaDescription:
+      "Electronic signature software for signing PDFs, contracts and business documents online. Legally binding eSignatures with audit trails — no installs.",
+    h1: "Electronic Signature Software",
+    intro:
+      "Sign documents online with legally binding electronic signatures — built for contracts, agreements and business document approvals.",
+    keyword: "electronic signature software",
+    acceptedFormats: "PDF · DOCX · DOC",
+    cardIcon: PenTool,
+    cardLabel: "Electronic Signature Software",
+    cardDescription:
+      "Sign PDFs and contracts online with legally binding eSignatures, audit trails and reusable templates.",
+    longCopy:
+      "Docsora is electronic signature software built for modern teams that need to sign documents online quickly and securely. Upload a PDF or Word document, place signature fields, and send for legally binding eSignatures that meet ESIGN, UETA and eIDAS standards. Every signed document is sealed with a tamper-evident audit trail capturing signer identity, IP, consent and timestamps — the same legal weight as enterprise platforms, in a browser-native workflow.",
+    useCases: [
+      "Sign PDFs online with legally binding eSignatures",
+      "Send contracts and agreements for electronic signature",
+      "Collect online signatures from clients and vendors",
+      "Replace print-and-scan with secure eSignatures",
+      "Roll out electronic signature workflows across teams",
+      "Track document signing status in real time",
+    ],
+    faq: [
+      {
+        question: "What is electronic signature software?",
+        answer:
+          "Electronic signature software lets you sign PDFs and other documents online with legally binding eSignatures instead of printing, signing on paper and scanning. Docsora is browser-based electronic signature software with audit trails, multi-party signing and reusable templates for contracts, proposals and business approvals.",
+      },
+      {
+        question: "Are electronic signatures legally binding?",
+        answer:
+          "Yes. Electronic signatures created with Docsora are legally binding under the ESIGN Act (US), UETA (US) and eIDAS (EU). Each signed document captures signer identity, IP address, consent and timestamps inside a tamper-evident audit trail.",
+      },
+    ],
+  },
+  {
+    slug: "online-signature-business",
+    title: "Online Signature for Business | eSignature Platform | Docsora",
+    metaDescription:
+      "Online signature platform for business document approvals. Send contracts, NDAs and proposals for secure eSignatures with audit trails and live tracking.",
+    h1: "Online Signature for Business",
+    intro:
+      "Send contracts, NDAs, proposals and business approvals for secure online signatures — with audit trails, live tracking and reusable templates.",
+    keyword: "online signature for business",
+    acceptedFormats: "PDF · DOCX · DOC",
+    cardIcon: Briefcase,
+    cardLabel: "Online Signature for Business",
+    cardDescription:
+      "Send business documents for legally binding online signatures with live tracking and audit trails.",
+    longCopy:
+      "Docsora is the online signature platform built for business document approvals — sales contracts, vendor agreements, NDAs, proposals, onboarding packets and operational approvals. Upload a document, add recipients, place fields and send for browser-based eSignatures. Every business document is returned legally executed, with an audit trail attached and full visibility into who signed, when and from where.",
+    useCases: [
+      "Send sales contracts for online signature",
+      "Sign vendor agreements and MSAs electronically",
+      "Collect NDA signatures from partners and counterparties",
+      "Approve business proposals with eSignatures",
+      "Sign onboarding and HR documents online",
+      "Route operational approvals through stakeholders",
+    ],
+    faq: [
+      {
+        question: "How do online signatures work for business documents?",
+        answer:
+          "Upload your business document, add the recipients who need to sign or approve, place signature and field markers, and send. Recipients receive a secure email link, sign in their browser on any device, and you receive the legally executed document with an embedded audit trail.",
+      },
+      {
+        question: "Is an online signature platform secure enough for business?",
+        answer:
+          "Yes. Docsora ships TLS-encrypted sessions, email signer verification, optional 2FA, tamper-evident audit trails and ISO 27001-aligned operations — meeting the security and compliance posture business, legal and finance teams expect.",
+      },
+    ],
+  },
+  {
     slug: "request-signatures",
     title: "Request Signatures Online | Secure E-Signature Workflows | Docsora",
     metaDescription:
