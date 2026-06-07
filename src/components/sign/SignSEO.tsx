@@ -65,43 +65,43 @@ const staggerItem = {
   transition: { duration: 0.5, ease: easeSmooth },
 };
 
-// SECTION 1 — Sign Any Document Type
+// SECTION 1 — High-intent eSignature search landing pages
 const documentTypes = [
   {
-    category: "Contracts",
-    icon: FileSignature,
-    formats: "PDF · DOCX · DOC · ODT",
-    title: "Sign Contracts & Agreements",
+    category: "Sign PDF Online",
+    icon: FileText,
+    formats: "PDF · DOCX · DOC",
+    title: "Sign PDF Online",
     description:
-      "Send contracts, NDAs and service agreements for legally binding signatures online.",
+      "Sign PDF documents online in your browser with legally binding electronic signatures, audit trails and signer verification.",
+    slug: "sign-pdf-online",
+  },
+  {
+    category: "eSignature Software",
+    icon: PenTool,
+    formats: "PDF · DOCX · DOC",
+    title: "Electronic Signature Software",
+    description:
+      "Modern electronic signature software for signing contracts, agreements and business documents online — ESIGN, UETA and eIDAS compliant.",
+    slug: "electronic-signature-software",
+  },
+  {
+    category: "Sign Contracts",
+    icon: FileSignature,
+    formats: "PDF · DOCX · DOC",
+    title: "Sign Contracts Online",
+    description:
+      "Send and sign contracts online with secure eSignatures — MSAs, service agreements and vendor contracts executed in minutes.",
     slug: "sign-contracts-online",
   },
   {
-    category: "Client Approvals",
-    icon: Handshake,
-    formats: "PDF · PPTX · DOCX",
-    title: "Approve Proposals & Deliverables",
+    category: "Business eSignatures",
+    icon: Briefcase,
+    formats: "PDF · DOCX · DOC",
+    title: "Online Signature for Business",
     description:
-      "Collect approvals on proposals, scopes of work and deliverables without email back-and-forth.",
-    slug: "proposal-approval-workflows",
-  },
-  {
-    category: "HR & Operations",
-    icon: GraduationCap,
-    formats: "PDF · DOCX · HTML",
-    title: "Sign Onboarding Documents",
-    description:
-      "Manage onboarding forms, policy acknowledgements and operational approvals online.",
-    slug: "online-document-approval",
-  },
-  {
-    category: "Reusable Workflows",
-    icon: LayoutTemplate,
-    formats: "Templates · Variables · Multi-document",
-    title: "Reusable Signature Templates",
-    description:
-      "Create reusable signing templates for agreements, proposals and recurring workflows.",
-    slug: "reusable-signature-templates",
+      "Online document signing for business approvals — collect legally binding eSignatures on proposals, NDAs and contracts with live tracking.",
+    slug: "online-signature-business",
   },
 ];
 
@@ -465,15 +465,17 @@ export function SignSEO({ variant }: SignSEOProps = {}) {
           </section>
         )}
 
-        {/* SECTION 1 — Sign Any Document Type */}
+        {/* SECTION 1 — High-intent eSignature landing pages */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">
-              Sign Any Document Online
+              Sign Documents Online
             </h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">
-              Send contracts, proposals, onboarding documents and approvals for
-              secure browser-based signatures in minutes.
+              Electronic signature software for signing PDFs, contracts and
+              business documents online. Legally binding eSignatures, secure
+              online document signing and business document approvals — all
+              in your browser.
             </p>
           </motion.div>
 
