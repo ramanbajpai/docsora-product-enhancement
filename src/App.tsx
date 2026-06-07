@@ -300,6 +300,8 @@ const App = () => (
             <Route path="/request-signatures" element={<SignVariant />} />
             <Route path="/sign-contracts-online" element={<SignVariant />} />
             <Route path="/electronic-signatures" element={<SignVariant />} />
+            <Route path="/electronic-signature-software" element={<SignVariant />} />
+            <Route path="/online-signature-business" element={<SignVariant />} />
             <Route path="/proposal-approval-workflows" element={<SignVariant />} />
             <Route path="/nda-signing" element={<SignVariant />} />
             <Route path="/online-document-approval" element={<SignVariant />} />
