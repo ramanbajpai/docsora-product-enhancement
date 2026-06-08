@@ -38,7 +38,7 @@ import {
 import { StampPicker } from "./StampPicker";
 import { useAIFieldSuggestion } from "@/hooks/useAIFieldSuggestion";
 import { toast } from "sonner";
-import { Wand2, X } from "lucide-react";
+import { Wand2, X, CheckCircle2 } from "lucide-react";
 
 interface SignPlacementProps {
   file: File;
