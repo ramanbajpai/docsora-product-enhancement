@@ -459,11 +459,13 @@ const SignPlacement = ({
       setCurrentPage(Number(targetPage));
     }
 
-    setBannerDismissed(true);
     if (newFields.length > 0) {
+      setAutoPlacedCount(newFields.length);
       toast.success(`${newFields.length} field${newFields.length === 1 ? "" : "s"} placed automatically`, {
         description: "Review placements before sending.",
       });
+    } else {
+      setBannerDismissed(true);
     }
   }, [suggestFields, signatureData.fullName, fields, saveToHistory]);
 
