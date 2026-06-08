@@ -1013,16 +1013,8 @@ const SignPlacement = ({
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    {autoPlacedCount !== null ? (
-                      <Button
-                        size="sm"
-                        variant="default"
-                        onClick={() => setBannerDismissed(true)}
-                        className="h-8 px-3 text-xs"
-                      >
-                        Review Fields
-                      </Button>
-                    ) : (
+                    {autoPlacedCount === null && (
+                      <>
                       <Button
                         size="sm"
                         variant="default"
@@ -1033,15 +1025,16 @@ const SignPlacement = ({
                         <Wand2 className="w-3.5 h-3.5" />
                         Auto Place Fields
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setBannerDismissed(true)}
+                        className="h-8 px-3 text-xs text-muted-foreground"
+                      >
+                        Place Manually
+                      </Button>
+                      </>
                     )}
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setBannerDismissed(true)}
-                      className="h-8 px-3 text-xs text-muted-foreground"
-                    >
-                      Place Manually
-                    </Button>
                     <button
                       onClick={() => setBannerDismissed(true)}
                       aria-label="Dismiss"
