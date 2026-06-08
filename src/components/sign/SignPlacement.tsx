@@ -989,7 +989,7 @@ const SignPlacement = ({
             transition={{ duration: 0.15 }}
           >
             <AnimatePresence>
-              {fields.length === 0 && !bannerDismissed && !isScanning && (
+              {!bannerDismissed && !isScanning && (fields.length === 0 || autoPlacedCount !== null) && (
                 <motion.div
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -997,28 +997,43 @@ const SignPlacement = ({
                   transition={{ duration: 0.2 }}
                   className="mb-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 flex items-center gap-3"
                 >
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Wand2 className="w-4 h-4" />
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${autoPlacedCount !== null ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-primary/10 text-primary"}`}>
+                    {autoPlacedCount !== null ? <CheckCircle2 className="w-4 h-4" /> : <Wand2 className="w-4 h-4" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground leading-tight">
-                      Save time with Auto Place Fields
+                      {autoPlacedCount !== null
+                        ? (autoPlacedCount > 0 ? `${autoPlacedCount} field${autoPlacedCount === 1 ? "" : "s"} applied` : "Fields applied")
+                        : "Save time with Auto Place Fields"}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
-                      Automatically detect signature, initials and date fields throughout the document.
+                      {autoPlacedCount !== null
+                        ? "Please review each placement before sending. AI suggestions may require minor adjustments depending on document formatting."
+                        : "Automatically detect signature, initials and date fields throughout the document."}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <Button
-                      size="sm"
-                      variant="default"
-                      onClick={handleAISuggestFields}
-                      disabled={isScanning}
-                      className="h-8 px-3 text-xs gap-1.5"
-                    >
-                      <Wand2 className="w-3.5 h-3.5" />
-                      Auto Place Fields
-                    </Button>
+                    {autoPlacedCount !== null ? (
+                      <Button
+                        size="sm"
+                        variant="default"
+                        onClick={() => setBannerDismissed(true)}
+                        className="h-8 px-3 text-xs"
+                      >
+                        Review Fields
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="default"
+                        onClick={handleAISuggestFields}
+                        disabled={isScanning}
+                        className="h-8 px-3 text-xs gap-1.5"
+                      >
+                        <Wand2 className="w-3.5 h-3.5" />
+                        Auto Place Fields
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="ghost"
