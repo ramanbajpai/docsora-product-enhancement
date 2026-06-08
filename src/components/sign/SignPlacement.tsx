@@ -90,6 +90,7 @@ const SignPlacement = ({
   const [showApplyRemaining, setShowApplyRemaining] = useState(false);
   const [showStampPicker, setShowStampPicker] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [autoPlacedCount, setAutoPlacedCount] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
