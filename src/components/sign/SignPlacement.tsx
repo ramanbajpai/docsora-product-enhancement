@@ -905,25 +905,6 @@ const SignPlacement = ({
       <div className="flex-1 flex flex-col py-6 px-8 relative">
         {/* Top Right Actions — paired action group */}
         <div className="absolute top-6 right-8 z-10 flex flex-wrap items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            onClick={handleAISuggestFields}
-            disabled={isScanning}
-            className="h-10 px-4 text-sm gap-2"
-          >
-            {isScanning ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Analyzing document…</span>
-              </>
-            ) : (
-              <>
-                <Wand2 className="w-4 h-4" />
-                <span>Auto Place Fields</span>
-              </>
-            )}
-          </Button>
-
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
