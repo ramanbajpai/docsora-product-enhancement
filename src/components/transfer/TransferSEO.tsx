@@ -73,12 +73,12 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Real-time transfer tracking", description: "See when recipients open links and download files. Get visibility into transfer activity from your Track dashboard." },
-  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers without re-uploading files." },
-  { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
-  { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
-  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly - neither senders nor recipients need to create an account or install software." },
+  { icon: Eye, title: "Real-time transfer tracking", description: "See each recipient's first open, every download, and the exact timestamp — your proof of delivery if anyone says a file never arrived." },
+  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers instantly, without re-uploading a single file." },
+  { icon: Mail, title: "Email notifications", description: "Get notified the moment files are viewed or downloaded, so you always know where a transfer stands." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "Transfers encrypted in transit (TLS) and at rest, with optional password protection and controlled expiry." },
+  { icon: Layers, title: "100+ file types supported", description: "Send videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats — no conversion, no compression." },
+  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly. Neither senders nor recipients need to create an account or install software." },
 ];
 
 const operationalWorkflows = [
@@ -179,26 +179,18 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             {whyLeaveWeTransfer.map((item, i) => (
               <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
                 <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
-                  <item.icon className="w-[18px] h-[18px] text-primary/80" />
+                  <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
                 </div>
                 <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
                 <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
-          <motion.div {...staggerItem} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-            {[
-              "No sign up required for recipients or senders",
-              "100+ file types supported",
-              "Works on desktop, tablet and mobile",
-              "Secure encrypted delivery",
-              "Managed from your Docsora Track section",
-            ].map((label) => (
-              <div key={label} className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
-                <Check className="w-3.5 h-3.5 text-primary/70" />
-                <span>{label}</span>
-              </div>
-            ))}
+          <motion.div {...staggerItem} className="mt-8 flex items-center justify-center">
+            <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
+              <Check aria-hidden="true" className="w-3.5 h-3.5 text-primary/70" />
+              <span>Works on desktop, tablet and mobile</span>
+            </div>
           </motion.div>
         </section>
 
