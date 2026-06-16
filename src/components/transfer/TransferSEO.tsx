@@ -59,14 +59,14 @@ const staggerItem = {
 };
 
 const fileTypeGroups = [
-  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds." },
-  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality." },
-  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers." },
-  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding." },
-  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely." },
-  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer." },
-  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams." },
-  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely." },
+  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds.", messageSLF: "Send contracts, proposals and board packs the moment they're ready." },
+  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality.", messageSLF: "Send full-resolution photos and RAW exports without quality loss." },
+  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact." },
+  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding." },
+  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression." },
+  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer." },
+  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion." },
+  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely." },
 ];
 
 const whyLeaveWeTransfer = [
@@ -152,6 +152,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { question: "Can I send large files without creating an account?", answer: "Yes. You can send large files with Docsora without signing up, and your recipient never needs an account either. There's nothing to install — everything runs in the browser, so you can upload and share a link in seconds." },
     { question: "How long do my transfer links stay active?", answer: "You control how long each transfer stays live. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. You decide when a link stops working." },
     { question: "Are my file transfers secure?", answer: "Yes. Files are encrypted in transit (TLS) and at rest, and you can add password protection and expiry to any transfer. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
+    { question: "Is it safe to send large files online?", answer: "Yes. Every transfer is encrypted in transit (TLS) and at rest, and you can add a password and an expiry date so only the right person can open it. You also see exactly when your file is downloaded, which most email and cloud-drive links can't show you." },
+    { question: "Can I send a large file to more than one person?", answer: "Yes. Share your transfer link with as many recipients as you like, or send it to several email addresses at once. You'll see each recipient's activity, so you know who has opened and downloaded the file." },
+    { question: "Can I send large files from my phone?", answer: "Yes. Docsora runs entirely in your browser, so you can upload and send large files from an iPhone or Android phone with no app to install. Your recipient can download on any device the same way." },
+    { question: "What happens if my recipient doesn't download the file in time?", answer: "Nothing is lost. You can extend the transfer's expiry date or reactivate an expired transfer without re-uploading the file, then resend the same link. You stay in control of how long it stays available." },
   ];
   const sendLargeFilesRelated = [
     { label: "Send large videos", href: "/send-large-videos" },
@@ -263,6 +267,27 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               </ol>
             </section>
 
+            {/* SECTION - Use cases */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">When people use Docsora to send large files</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Whatever you're sending, it's too big for email and too important to compress. Here's where Docsora fits.</p>
+              </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { title: "Sending video to a client or editor", body: "Upload a finished cut, a folder of footage, or a master file and send one link — at full resolution, no compression, with a record of when it's downloaded." },
+                  { title: "Delivering a large project folder", body: "Send an entire folder — designs, documents and assets together — as a single transfer, so nothing arrives missing or out of order." },
+                  { title: "Sharing photos at full quality", body: "Send RAW files or a full shoot without the quality loss that messaging apps and email force on your images." },
+                  { title: "Sending big files from your phone", body: "Upload straight from your phone's browser and share a link in seconds — no app to install, on iOS or Android." },
+                ].map((item, i) => (
+                  <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                    <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.body}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+
             {/* SECTION C - Limits comparison */}
             <section>
               <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
@@ -331,7 +356,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
-                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{g.message}</p>
+                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{(isSLF && g.messageSLF) ? g.messageSLF : g.message}</p>
               </motion.div>
             ))}
           </div>
