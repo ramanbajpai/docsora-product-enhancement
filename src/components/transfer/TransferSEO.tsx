@@ -62,14 +62,14 @@ const staggerItem = {
 };
 
 const fileTypeGroups = [
-  { category: "Documents & Office", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets, board packs and operational reports instantly." },
-  { category: "Images & Photography", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets without compression." },
-  { category: "Design & Creative", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files across agencies and production teams." },
-  { category: "Video", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports, RAW footage and production assets without compression." },
-  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio files securely online." },
-  { category: "Archives & Packages", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large operational packages and project archives in one workflow." },
-  { category: "3D · CAD · Models", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Transfer CAD exports, 3D models and rendering assets across engineering and production." },
-  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely across teams." },
+  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds." },
+  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality." },
+  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers." },
+  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding." },
+  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely." },
+  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer." },
+  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams." },
+  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely." },
 ];
 
 const whyLeaveWeTransfer = [
@@ -205,17 +205,23 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION - Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">100+ file types supported</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora Transfer helps teams and individuals send large files securely, track downloads, manage transfer expiry dates over a range of different file types. Send and share files across 100+ supported formats, including:</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Every format you need, delivered at original quality</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora supports over 100 file formats — from everyday documents to RAW video and CAD assemblies — and delivers every one at original quality, with no conversion or compression. Here's what you can send:</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fileTypeGroups.map((g, i) => (
               <motion.div key={g.category} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-5 bg-card/40 border border-border/30">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center">
-                    <g.icon className="w-4 h-4 text-primary/80" />
+                    <g.icon aria-hidden="true" className="w-4 h-4 text-primary/80" />
                   </div>
-                  <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/80">{g.category}</p>
+                  <h3 className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/80">
+                    {g.href ? (
+                      <Link to={g.href} className="hover:text-primary transition-colors">{g.category}</Link>
+                    ) : (
+                      g.category
+                    )}
+                  </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
                 <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{g.message}</p>
