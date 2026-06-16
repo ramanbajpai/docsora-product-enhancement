@@ -99,16 +99,16 @@ export const transferVariants: TransferVariantConfig[] = [
     title: "Large File Transfer Platform for Modern Teams | Docsora",
     metaDescription:
       "Professional large file transfer platform with link tracking and operational workflows. Faster than WeTransfer, more capable than email.",
-    h1: "Large File Transfer for Operational Teams",
+    h1: "Large file transfer",
     intro:
-      "Move oversized files between teams, clients and partners instantly - with delivery tracking, encrypted sessions and workflow integration.",
+      "Move files up to 500GB with tracking, expiry control and reactivation — no sign up required.",
     keyword: "large file transfer",
     cardIcon: Upload,
     cardLabel: "Large File Transfer",
     cardDescription:
       "Move big files with full delivery tracking and reactivation.",
-    uploadHeadline: "Move large files at operational speed",
-    uploadSubheadline: "Track every open, download and recipient action in real time.",
+    uploadHeadline: "Large file transfer",
+    uploadSubheadline: "Move files up to 500GB with tracking, expiry control and reactivation — no sign up required.",
     ctaLabel: "Start a large transfer",
     longCopy:
       "Docsora Transfer rebuilds large file delivery as operational infrastructure: encrypted sessions, real-time tracking and direct integration with approvals and signing. The same platform that moves a 4GB video edit also routes contracts for signature and stores deliverables for client access.",

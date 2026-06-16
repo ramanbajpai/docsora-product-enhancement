@@ -60,14 +60,14 @@ const staggerItem = {
 };
 
 const fileTypeGroups = [
-  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds.", messageSLF: "Send contracts, proposals and board packs the moment they're ready." },
-  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality.", messageSLF: "Send full-resolution photos and RAW exports without quality loss." },
-  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact." },
-  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding." },
-  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression." },
-  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer." },
-  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion." },
-  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely." },
+  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds.", messageSLF: "Send contracts, proposals and board packs the moment they're ready.", messageLFT: "Transfer contracts, proposals and board packs in one go." },
+  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality.", messageSLF: "Send full-resolution photos and RAW exports without quality loss.", messageLFT: "Transfer full-resolution photos and RAW exports without quality loss." },
+  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact.", messageLFT: "Transfer working design files with layers and fonts intact." },
+  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding.", messageLFT: "Transfer exports and RAW footage at source quality, no re-encoding." },
+  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression.", messageLFT: "Transfer masters, stems and podcast files without compression." },
+  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer.", messageLFT: "Transfer whole zipped projects and backups as one item." },
+  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion.", messageLFT: "Transfer CAD exports and 3D models with no conversion." },
+  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely.", messageLFT: "Transfer builds, databases and project exports securely." },
 ];
 
 const whyLeaveWeTransfer = [
@@ -146,6 +146,29 @@ interface TransferSEOProps {
 export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const isSLF = variant?.slug === "send-large-files";
+  const isLFT = variant?.slug === "large-file-transfer";
+  const lftCards = [
+    { icon: Upload, title: "Built for big files", description: "Move up to 500GB per transfer, with no splitting or compression." },
+    { icon: Eye, title: "Visibility after sending", description: "See opens and downloads with timestamps, from one dashboard." },
+    { icon: Zap, title: "Lifecycle you control", description: "Set expiry, extend it, or reactivate an expired transfer without re-uploading." },
+    { icon: Mail, title: "Link or email delivery", description: "Send a secure link anywhere, or deliver straight to an inbox." },
+    { icon: Lock, title: "Security that holds up", description: "Encrypted in transit (TLS) and at rest, with optional password protection." },
+    { icon: Users, title: "Nothing to install", description: "Neither sender nor recipient needs an account or software." },
+  ];
+  const lftFaqs = [
+    { question: "What is the best way to transfer large files?", answer: "For most people a dedicated transfer service beats email or a cloud drive: you upload the file, get a secure link, and the recipient downloads the original — no size limit, no compression, and a record of when it was opened. Docsora moves files up to 500GB this way." },
+    { question: "How do I transfer large files between two computers or to someone else?", answer: "Upload the file or folder to Docsora and share the secure link by message or email. The recipient downloads it on any device — no matching apps, no cables, no shared network. You see when the transfer is downloaded." },
+    { question: "How can I transfer 100GB of data or more?", answer: "Docsora handles single transfers up to 500GB, so 100GB moves as one transfer with one link — no splitting into parts or spreading it across multiple uploads. Once the upload finishes, the link is ready and the recipient downloads the original." },
+    { question: "Is a transfer service better than cloud storage for sending files?", answer: "They solve different problems. Cloud storage is built to store and sync files; a transfer service is built to deliver one to someone and tell you it arrived. With Docsora you get delivery tracking and expiry without giving anyone access to a shared drive." },
+    { question: "How long does a transfer stay available?", answer: "You control it. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. Transfers don't disappear on a fixed timer unless you want them to." },
+    { question: "What is the largest file transfer Docsora supports?", answer: "Up to 500GB in a single transfer, with over 100 file formats supported and no conversion or compression — the original file is what your recipient downloads." },
+  ];
+  const lftRelated = [
+    { label: "Send large files", href: "/send-large-files" },
+    { label: "Share large files", href: "/share-large-files" },
+    { label: "Secure file transfer", href: "/secure-file-transfer" },
+    { label: "Email large files", href: "/email-large-files" },
+  ];
   const sendLargeFilesFaqs = [
     { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
     { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
@@ -169,7 +192,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
     { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
   ];
-  const activeFaqs = isSLF ? sendLargeFilesFaqs : (variant?.faq ?? [
+  const activeFaqs = isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
@@ -203,13 +226,13 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{variant?.slug === "send-large-files" ? "Send Large Files" : "Modern File Delivery"}</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{isSLF ? "Send Large Files" : isLFT ? "Large File Transfer" : "Modern File Delivery"}</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{variant?.slug === "send-large-files" ? "Everything you need to send large files" : "Send Large Files up to 500GB"}</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">{variant?.slug === "send-large-files" ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{isSLF ? "Everything you need to send large files" : isLFT ? "What a large file transfer service should do" : "Send Large Files up to 500GB"}</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{isSLF ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : isLFT ? "A real transfer service does more than move a file — it gives you control after you hit send. Here's what to expect from Docsora." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(variant?.slug === "send-large-files" ? sendLargeFilesCards : whyLeaveWeTransfer).map((item, i) => (
+            {(isSLF ? sendLargeFilesCards : isLFT ? lftCards : whyLeaveWeTransfer).map((item, i) => (
               <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
                 <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
                   <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
@@ -234,6 +257,76 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </div>
           </motion.div>
         </section>
+
+        {isLFT && (
+          <>
+            {/* SECTION - LFT: What to look for */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">What to look for in a large file transfer service</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most "send a file" tools stop the moment the file leaves. The differences that matter show up afterwards.</p>
+              </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { title: "Transfer size", body: "Can it move the files you actually work with, not just a 2–3GB free cap?" },
+                  { title: "Delivery tracking", body: "Do you find out when a file is opened and downloaded, or are you guessing?" },
+                  { title: "Lifecycle control", body: "Can you extend or reactivate a transfer, or does it vanish after a few days?" },
+                  { title: "Security and compliance", body: "Encryption, password protection, expiry, and real compliance behind it." },
+                ].map((item, i) => (
+                  <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                    <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.body}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION - LFT: Method comparison */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Transfer service vs email, cloud drives and FTP</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">There's more than one way to move a large file. Here's where each one breaks.</p>
+              </motion.div>
+              <motion.div {...fadeUp} className="max-w-4xl mx-auto">
+                <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border/40">
+                        <th className="py-3.5 pr-4 text-[13px] font-semibold text-foreground/60">Method</th>
+                        <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground/60">Size limit</th>
+                        <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground/60">Tracking</th>
+                        <th className="py-3.5 pl-4 text-[13px] font-semibold text-foreground/60">Main drawback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["Email attachment", "~20–25MB", "None", "Bounces; no record of receipt"],
+                        ["Cloud drive link", "Large, shared access", "Limited", "Permission sprawl; links live forever"],
+                        ["FTP / SFTP", "Large", "None", "Setup, credentials, no recipient visibility"],
+                        ["Docsora transfer", "Up to 500GB", "Full — opens & downloads", "None of the above"],
+                      ].map((row, idx, arr) => (
+                        <tr key={row[0]} className={idx < arr.length - 1 ? "border-b border-border/30" : ""}>
+                          <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">{row[0]}</th>
+                          <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">{row[1]}</td>
+                          <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">{row[2]}</td>
+                          <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">{row[3]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            </section>
+
+            {/* SECTION - LFT: Lifecycle */}
+            <section>
+              <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Built around the transfer lifecycle</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most tools treat a transfer as fire-and-forget. Docsora keeps it under your control after you send — extend an expiry date when a client is slow, reactivate an expired transfer without uploading the file again, and see your full transfer history in one searchable dashboard. You decide when a link stops working, not a fixed timer.</p>
+              </motion.div>
+            </section>
+          </>
+        )}
 
         {variant?.slug === "send-large-files" && (
           <>
@@ -356,7 +449,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
-                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{(isSLF && g.messageSLF) ? g.messageSLF : g.message}</p>
+                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{isSLF && g.messageSLF ? g.messageSLF : isLFT && g.messageLFT ? g.messageLFT : g.message}</p>
               </motion.div>
             ))}
           </div>
@@ -370,6 +463,19 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </motion.div>
             <nav aria-label="Related ways to send files" className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-3">
               {sendLargeFilesRelated.map((r) => (
+                <a key={r.href} href={r.href} className="text-sm font-medium text-primary/80 hover:text-primary hover:underline">
+                  {r.label} →
+                </a>
+              ))}
+            </nav>
+          </section>
+        ) : isLFT ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-8 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Related ways to transfer files</h2>
+            </motion.div>
+            <nav aria-label="Related ways to transfer files" className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {lftRelated.map((r) => (
                 <a key={r.href} href={r.href} className="text-sm font-medium text-primary/80 hover:text-primary hover:underline">
                   {r.label} →
                 </a>
@@ -427,7 +533,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Operational workflows */}
-        {!isSLF && (
+        {!isSLF && !isLFT && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
@@ -454,7 +560,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Comparison table */}
-        {!isSLF && (
+        {!isSLF && !isLFT && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
@@ -570,14 +676,14 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Comparisons */}
-        {isSLF ? (
+        {isSLF || isLFT ? (
           <section>
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
                 <BookOpen aria-hidden="true" className="w-3 h-3 text-primary/80" />
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Guides</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Guides for sending large files</h2>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{isLFT ? "Guides for large file transfer" : "Guides for sending large files"}</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
               {sendLargeFilesGuides.map((g, i) => (
@@ -666,7 +772,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
-              {isSLF ? (
+              {isSLF || isLFT ? (
                 <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
                   Send Large Files Instantly.
                   <br className="hidden sm:block" />
