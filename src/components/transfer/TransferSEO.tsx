@@ -60,14 +60,14 @@ const staggerItem = {
 };
 
 const fileTypeGroups = [
-  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds.", messageSLF: "Send contracts, proposals and board packs the moment they're ready." },
-  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality.", messageSLF: "Send full-resolution photos and RAW exports without quality loss." },
-  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact." },
-  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding." },
-  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression." },
-  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer." },
-  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion." },
-  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely." },
+  { category: "Documents & Office", href: "/send-large-pdf-files", icon: FileText, formats: "PDF · DOCX · DOC · XLSX · XLS · PPTX · PPT · TXT · CSV · ODT · ODS · ODP · PAGES · NUMBERS · KEY", message: "Transfer contracts, proposals, spreadsheets and board packs in seconds.", messageSLF: "Send contracts, proposals and board packs the moment they're ready.", messageLFT: "Transfer contracts, proposals and board packs in one go." },
+  { category: "Images & Photography", href: "/large-media-transfer", icon: ImageIcon, formats: "JPG · PNG · GIF · TIFF · BMP · WEBP · HEIC · AVIF · SVG · RAW · DNG · ARW · CR2 · NEF", message: "Deliver RAW photography, creative exports and high-res visual assets at full quality.", messageSLF: "Send full-resolution photos and RAW exports without quality loss.", messageLFT: "Transfer full-resolution photos and RAW exports without quality loss." },
+  { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact.", messageLFT: "Transfer working design files with layers and fonts intact." },
+  { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding.", messageLFT: "Transfer exports and RAW footage at source quality, no re-encoding." },
+  { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression.", messageLFT: "Transfer masters, stems and podcast files without compression." },
+  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer.", messageLFT: "Transfer whole zipped projects and backups as one item." },
+  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion.", messageLFT: "Transfer CAD exports and 3D models with no conversion." },
+  { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely.", messageLFT: "Transfer builds, databases and project exports securely." },
 ];
 
 const whyLeaveWeTransfer = [
@@ -146,6 +146,29 @@ interface TransferSEOProps {
 export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const isSLF = variant?.slug === "send-large-files";
+  const isLFT = variant?.slug === "large-file-transfer";
+  const lftCards = [
+    { icon: Upload, title: "Built for big files", description: "Move up to 500GB per transfer, with no splitting or compression." },
+    { icon: Eye, title: "Visibility after sending", description: "See opens and downloads with timestamps, from one dashboard." },
+    { icon: Zap, title: "Lifecycle you control", description: "Set expiry, extend it, or reactivate an expired transfer without re-uploading." },
+    { icon: Mail, title: "Link or email delivery", description: "Send a secure link anywhere, or deliver straight to an inbox." },
+    { icon: Lock, title: "Security that holds up", description: "Encrypted in transit (TLS) and at rest, with optional password protection." },
+    { icon: Users, title: "Nothing to install", description: "Neither sender nor recipient needs an account or software." },
+  ];
+  const lftFaqs = [
+    { question: "What is the best way to transfer large files?", answer: "For most people a dedicated transfer service beats email or a cloud drive: you upload the file, get a secure link, and the recipient downloads the original — no size limit, no compression, and a record of when it was opened. Docsora moves files up to 500GB this way." },
+    { question: "How do I transfer large files between two computers or to someone else?", answer: "Upload the file or folder to Docsora and share the secure link by message or email. The recipient downloads it on any device — no matching apps, no cables, no shared network. You see when the transfer is downloaded." },
+    { question: "How can I transfer 100GB of data or more?", answer: "Docsora handles single transfers up to 500GB, so 100GB moves as one transfer with one link — no splitting into parts or spreading it across multiple uploads. Once the upload finishes, the link is ready and the recipient downloads the original." },
+    { question: "Is a transfer service better than cloud storage for sending files?", answer: "They solve different problems. Cloud storage is built to store and sync files; a transfer service is built to deliver one to someone and tell you it arrived. With Docsora you get delivery tracking and expiry without giving anyone access to a shared drive." },
+    { question: "How long does a transfer stay available?", answer: "You control it. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. Transfers don't disappear on a fixed timer unless you want them to." },
+    { question: "What is the largest file transfer Docsora supports?", answer: "Up to 500GB in a single transfer, with over 100 file formats supported and no conversion or compression — the original file is what your recipient downloads." },
+  ];
+  const lftRelated = [
+    { label: "Send large files", href: "/send-large-files" },
+    { label: "Share large files", href: "/share-large-files" },
+    { label: "Secure file transfer", href: "/secure-file-transfer" },
+    { label: "Email large files", href: "/email-large-files" },
+  ];
   const sendLargeFilesFaqs = [
     { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
     { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
@@ -169,7 +192,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
     { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
   ];
-  const activeFaqs = isSLF ? sendLargeFilesFaqs : (variant?.faq ?? [
+  const activeFaqs = isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
