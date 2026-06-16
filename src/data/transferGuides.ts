@@ -284,8 +284,8 @@ export const transferGuides: TransferGuide[] = [
     ],
     relatedLinks: [
       { href: "/transfer", label: "Docsora Transfer overview" },
-      { href: "/wetransfer-alternative", label: "WeTransfer alternative comparison" },
-      { href: "/smash-alternative", label: "Smash alternative comparison" },
+      { href: "/compare/docsora-vs-wetransfer", label: "WeTransfer alternative comparison" },
+      { href: "/compare/smash-vs-docsora", label: "Smash alternative comparison" },
     ],
   },
   {
@@ -483,8 +483,8 @@ export const transferGuides: TransferGuide[] = [
     ],
     relatedLinks: [
       { href: "/transfer", label: "Docsora Transfer overview" },
-      { href: "/wetransfer-alternative", label: "WeTransfer alternative comparison" },
-      { href: "/smash-alternative", label: "Smash alternative comparison" },
+      { href: "/compare/docsora-vs-wetransfer", label: "WeTransfer alternative comparison" },
+      { href: "/compare/smash-vs-docsora", label: "Smash alternative comparison" },
     ],
   },
   {
@@ -711,8 +711,8 @@ export const transferGuides: TransferGuide[] = [
     ],
     relatedLinks: [
       { href: "/transfer", label: "Docsora Transfer overview" },
-      { href: "/wetransfer-alternative", label: "WeTransfer alternative comparison" },
-      { href: "/smash-alternative", label: "Smash alternative comparison" },
+      { href: "/compare/docsora-vs-wetransfer", label: "WeTransfer alternative comparison" },
+      { href: "/compare/smash-vs-docsora", label: "Smash alternative comparison" },
     ],
   },
 ];

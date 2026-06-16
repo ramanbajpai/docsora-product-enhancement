@@ -44,7 +44,7 @@ const NOT_STATED = "Not publicly stated";
 
 export const transferCompareVariants: TransferCompareVariantConfig[] = [
   {
-    slug: "wetransfer-alternative",
+    slug: "compare/docsora-vs-wetransfer",
     competitor: "WeTransfer",
     cardTitle: "WeTransfer Alternative",
     cardSummary:
@@ -206,7 +206,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     lastUpdated: LAST_UPDATED,
   },
   {
-    slug: "smash-alternative",
+    slug: "compare/smash-vs-docsora",
     competitor: "Smash",
     cardTitle: "Smash Alternative",
     cardSummary:

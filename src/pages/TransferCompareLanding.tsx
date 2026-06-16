@@ -511,7 +511,7 @@ const TransferCompareLanding = () => {
           </motion.section>
 
           {/* Key Differences */}
-          {variant.slug !== "wetransfer-alternative" && variant.slug !== "smash-alternative" && (
+          {variant.slug !== "compare/docsora-vs-wetransfer" && variant.slug !== "compare/smash-vs-docsora" && (
             <motion.section {...fadeUp} className="max-w-3xl mx-auto">
               <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-6">
                 Key differences

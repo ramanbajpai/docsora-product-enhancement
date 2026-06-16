@@ -352,9 +352,9 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </div>
             <p className="mt-6 text-center text-sm text-muted-foreground/80">
               See the full breakdown —{" "}
-              <Link to="/wetransfer-alternative" className="text-primary hover:underline">Docsora vs WeTransfer</Link>
+              <Link to="/compare/docsora-vs-wetransfer" className="text-primary hover:underline">Docsora vs WeTransfer</Link>
               {" · "}
-              <Link to="/smash-alternative" className="text-primary hover:underline">Docsora vs Smash</Link>
+              <Link to="/compare/smash-vs-docsora" className="text-primary hover:underline">Docsora vs Smash</Link>
             </p>
           </motion.div>
         </section>
