@@ -186,10 +186,18 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               </motion.div>
             ))}
           </div>
-          <motion.div {...staggerItem} className="mt-8 flex items-center justify-center">
+          <motion.div {...staggerItem} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
               <Check aria-hidden="true" className="w-3.5 h-3.5 text-primary/70" />
               <span>Works on desktop, tablet and mobile</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
+              <Check aria-hidden="true" className="w-3.5 h-3.5 text-primary/70" />
+              <span>Files delivered via secure link or email</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
+              <Check aria-hidden="true" className="w-3.5 h-3.5 text-primary/70" />
+              <span>ISO 27001 · SOC 2 Type I · GDPR compliant</span>
             </div>
           </motion.div>
         </section>
