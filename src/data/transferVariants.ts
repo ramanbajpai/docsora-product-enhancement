@@ -426,7 +426,7 @@ export const transferVariants: TransferVariantConfig[] = [
     keyword: "send large design files",
     cardIcon: Palette,
     cardLabel: "Send Design Files",
-    cardDescription: "Browser-native delivery for PSD, AI, INDD, AEP and Figma exports.",
+    cardDescription: "PSD, AI, INDD and Figma exports, delivered intact.",
     uploadHeadline: "Send design files at full fidelity",
     uploadSubheadline: "PSD, AI, INDD, AEP, Figma exports - moved without compression.",
     ctaLabel: "Send design files",

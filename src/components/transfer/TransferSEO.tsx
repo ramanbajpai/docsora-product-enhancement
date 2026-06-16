@@ -32,6 +32,7 @@ import {
   Check,
   Film,
   Building2,
+  FileSpreadsheet,
 } from "lucide-react";
 import {
   Accordion,
@@ -400,6 +401,28 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                     </Link>
                   </motion.div>
                 ))}
+              {/* Additional scenario cards */}
+              {[
+                { slug: "email-large-files", icon: Mail, label: "Email Large Files", description: "Send files past the 25MB email limit as a tracked link." },
+                { slug: "encrypted-file-transfer", icon: Lock, label: "Encrypted File Transfer", description: "TLS in transit, encryption at rest, password and expiry." },
+                { slug: "browser-file-transfer", icon: Globe2, label: "Browser File Transfer", description: "Transfer large files in the browser — no installs, no sync clients." },
+                { slug: "send-large-powerpoint-files", icon: Presentation, label: "Send Large PowerPoint Files", description: "Send PPT and PPTX decks at full quality, with video and media intact." },
+                { slug: "send-large-spreadsheet-files", icon: FileSpreadsheet, label: "Send Large Spreadsheet Files", description: "Send large Excel and CSV files with formulas and structure intact." },
+              ].map((tool, i) => (
+                <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: (12 + i) * 0.03 }}>
+                  <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                      <tool.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                    </div>
+                    <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{tool.label}</h3>
+                    <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">{tool.description}</p>
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Open</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
           </section>
         )}
