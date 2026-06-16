@@ -16,9 +16,7 @@ import {
   MonitorSmartphone,
   Workflow,
   History,
-  UserX,
-  FileStack,
-  CalendarClock,
+  Archive,
   GitCompare,
   HelpCircle,
   BookOpen,
@@ -26,7 +24,6 @@ import {
   FileVideo,
   Image as ImageIcon,
   Presentation,
-  Archive,
   Music,
   Box,
   Code,
@@ -118,17 +115,6 @@ const operationalWorkflows = [
     href: "/freelancer-file-transfer",
     icon: Send,
   },
-];
-
-const features = [
-  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload completes." },
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: History, title: "Transfer history & visibility", description: "See every large file transfer, recipient and download in one searchable activity log." },
-  { icon: FileStack, title: "100+ file types supported", description: "Send PDFs, videos, ZIPs, CAD files, design assets and documents without conversion." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
-  { icon: UserX, title: "No recipient account required", description: "Recipients open and download shared files instantly - no sign-up, login or install." },
-  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
-  { icon: CalendarClock, title: "Expiry control & reactivation", description: "Set, extend or reactivate transfer expiry dates anytime to keep secure file sharing under your control." },
 ];
 
 const aiQuestions = [
