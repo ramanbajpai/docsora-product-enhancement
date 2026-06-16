@@ -215,9 +215,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             {/* SECTION A - Why email fails */}
             <section>
               <motion.div {...fadeUp} className="text-center mb-6 max-w-3xl mx-auto">
-                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Why your file won't send by email</h2>
-                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most email providers cap attachments at around 20–25MB — Gmail at 25MB, Outlook at 20MB — and that limit covers the whole message, not just the file. Email encoding adds roughly a third to a file's size, so something that looks like 18MB on your computer can already be too big to send. That's why a 4K video, a layered design file, or a folder of photos bounces back.</p>
-                <p className="mt-4 text-sm text-foreground/90 leading-relaxed">Docsora skips the limit entirely — upload the file, send a secure link, and your recipient downloads the original. No attachment, no compression, no bounce.</p>
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Bigger than email allows?</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Email providers cap attachments at around 20–25MB, so most large files bounce before they arrive. Docsora sends a secure link instead — no size limit, no compression, no bounce.</p>
+                <p className="mt-4 text-sm text-foreground/90 leading-relaxed">
+                  <Link to="/email-large-files" className="text-primary hover:underline">Starting from email? See how to send files too large to email.</Link>
+                </p>
               </motion.div>
             </section>
 
