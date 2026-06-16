@@ -144,7 +144,27 @@ interface TransferSEOProps {
 
 export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  const activeFaqs = variant?.faq ?? [
+  const isSLF = variant?.slug === "send-large-files";
+  const sendLargeFilesFaqs = [
+    { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
+    { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
+    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression. See how to send files too large to email for the full method.", linkText: "send files too large to email", linkHref: "/email-large-files" },
+    { question: "Can I send large files without creating an account?", answer: "Yes. You can send large files with Docsora without signing up, and your recipient never needs an account either. There's nothing to install — everything runs in the browser, so you can upload and share a link in seconds." },
+    { question: "How long do my transfer links stay active?", answer: "You control how long each transfer stays live. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. You decide when a link stops working." },
+    { question: "Are my file transfers secure?", answer: "Yes. Files are encrypted in transit (TLS) and at rest, and you can add password protection and expiry to any transfer. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
+  ];
+  const sendLargeFilesRelated = [
+    { label: "Send large videos", href: "/send-large-videos" },
+    { label: "Send large PDFs", href: "/send-large-pdf-files" },
+    { label: "Email large files", href: "/email-large-files" },
+    { label: "Share large files", href: "/share-large-files" },
+  ];
+  const sendLargeFilesGuides = [
+    { title: "How To Send Large Files Online (2026 Complete Guide)", href: "/transfer-guides/how-to-send-large-files-online", teaser: "Every method for sending large files online, compared — limits, trade-offs and what holds up for real work." },
+    { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
+    { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
+  ];
+  const activeFaqs = isSLF ? sendLargeFilesFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
@@ -155,7 +175,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { question: "Can I send ZIP files online?", answer: "Yes. Users can securely transfer ZIP files, project archives and packaged deliverables through a single transfer link while maintaining visibility over downloads and transfer activity." },
     { question: "Is Docsora secure for business file sharing?", answer: "Yes. Docsora is built for secure business file sharing and compliance-focused environments. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress." },
     { question: "What makes Docsora different from traditional file transfer services?", answer: "Traditional services focus on sending files. Docsora focuses on what happens after — track downloads, see recipient activity, extend or reactivate expiry, and manage every transfer from one dashboard." },
-  ];
+  ]);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
