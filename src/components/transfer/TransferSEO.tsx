@@ -523,6 +523,34 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Comparisons */}
+        {isSLF ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <BookOpen aria-hidden="true" className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Guides</span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Guides for sending large files</h2>
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+              {sendLargeFilesGuides.map((g, i) => (
+                <motion.div key={g.href} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.05 }}>
+                  <a href={g.href} className="group block h-full rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                    <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                      <BookOpen aria-hidden="true" className="w-4 h-4 text-primary/80" />
+                    </div>
+                    <h3 className="text-[14px] font-semibold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">{g.title}</h3>
+                    <p className="text-[13px] text-muted-foreground/80 leading-relaxed">{g.teaser}</p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
+                      <span>Read the guide</span>
+                      <ArrowRight aria-hidden="true" className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        ) : (
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare The Best WeTransfer & Smash Alternatives</h2>
@@ -549,6 +577,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             ))}
           </div>
         </section>
+        )}
 
         {/* SECTION - Guides */}
         {!variant && (
@@ -590,11 +619,19 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
-              <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
-                Send Large Files Instantly.
-                <br className="hidden sm:block" />
-                <span className="text-foreground/70"> Professional file delivery starts here.</span>
-              </h2>
+              {isSLF ? (
+                <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                  Send Large Files Instantly.
+                  <br className="hidden sm:block" />
+                  <span className="text-foreground/70"> Professional file delivery starts here.</span>
+                </p>
+              ) : (
+                <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                  Send Large Files Instantly.
+                  <br className="hidden sm:block" />
+                  <span className="text-foreground/70"> Professional file delivery starts here.</span>
+                </h2>
+              )}
               <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Built for modern file sharing - for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
