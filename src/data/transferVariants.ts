@@ -384,7 +384,7 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "send-large-powerpoint-files",
+    slug: "send-zip-files",
     title: "Send ZIP Files Online - Secure Large Archive Transfer | Docsora",
     metaDescription:
       "Send ZIP files online with secure delivery links, tracking and expiry controls. Move large archives, project bundles and compressed folders past inbox limits.",
