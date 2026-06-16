@@ -91,13 +91,13 @@ const operationalWorkflows = [
   {
     title: "Video Production",
     description: "Transfer large video files, RAW footage and production assets without compression.",
-    href: "/video-file-transfer",
+    href: "/video-production-file-sharing",
     icon: Film,
   },
   {
     title: "Architecture & Engineering",
     description: "Send CAD drawings, BIM models and technical documentation securely.",
-    href: "/cad-file-transfer",
+    href: "/architecture-engineering-file-sharing",
     icon: Building2,
   },
   {
