@@ -205,17 +205,23 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION - Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">100+ file types supported</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora Transfer helps teams and individuals send large files securely, track downloads, manage transfer expiry dates over a range of different file types. Send and share files across 100+ supported formats, including:</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Every format you need, delivered at original quality</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora supports over 100 file formats — from everyday documents to RAW video and CAD assemblies — and delivers every one at original quality, with no conversion or compression. Here's what you can send:</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fileTypeGroups.map((g, i) => (
               <motion.div key={g.category} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-5 bg-card/40 border border-border/30">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center">
-                    <g.icon className="w-4 h-4 text-primary/80" />
+                    <g.icon aria-hidden="true" className="w-4 h-4 text-primary/80" />
                   </div>
-                  <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/80">{g.category}</p>
+                  <h3 className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/80">
+                    {g.href ? (
+                      <Link to={g.href} className="hover:text-primary transition-colors">{g.category}</Link>
+                    ) : (
+                      g.category
+                    )}
+                  </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
                 <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{g.message}</p>
