@@ -137,16 +137,29 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const activeFaqs = variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
+    { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
     { question: "Can I extend or reactivate expired file transfers?", answer: "Yes. Docsora allows users to extend transfer expiry dates and reactivate expired transfers without needing to upload files again. This helps reduce duplicate work and improves file management." },
     { question: "Do recipients need a Docsora account?", answer: "No. Recipients can access files directly through a secure transfer link without creating an account or installing software." },
     { question: "What file types can I send with Docsora?", answer: "Docsora supports over 100 file types including PDF, Word, Excel, PowerPoint, ZIP, MP4, MOV, PSD, AI, DWG, STL, RAW photography formats and many other business, creative and technical file formats." },
     { question: "Can I send large video files online?", answer: "Yes. Docsora supports large video files including MP4, MOV, ProRes and RAW production formats, making it suitable for creators, production teams and agencies sharing high-resolution content." },
     { question: "Can I send ZIP files online?", answer: "Yes. Users can securely transfer ZIP files, project archives and packaged deliverables through a single transfer link while maintaining visibility over downloads and transfer activity." },
-    { question: "Is Docsora secure for business file sharing?", answer: "Yes. Docsora is built for secure business file sharing and compliance-focused environments. The platform is ISO 27001 certified, GDPR compliant, SOC 2 Type I compliant and currently progressing through SOC 2 Type II audit requirements." },
-    { question: "What makes Docsora different from traditional file transfer services?", answer: "Traditional file transfer services focus on sending files. Docsora focuses on what happens after files are sent. Users can track downloads, manage transfer history, extend expiry dates, reactivate transfers and maintain visibility over every file they share." },
-    { question: "Why do teams choose Docsora for large file transfer?", answer: "Teams use Docsora to securely send large files, monitor recipient activity, manage transfers from a single dashboard and maintain visibility throughout the entire file-sharing process." },
+    { question: "Is Docsora secure for business file sharing?", answer: "Yes. Docsora is built for secure business file sharing and compliance-focused environments. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress." },
+    { question: "What makes Docsora different from traditional file transfer services?", answer: "Traditional services focus on sending files. Docsora focuses on what happens after — track downloads, see recipient activity, extend or reactivate expiry, and manage every transfer from one dashboard." },
   ];
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: activeFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
 
   return (
     <div className="bg-background border-t border-border/30">
@@ -348,6 +361,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
 
         {/* SECTION - FAQ */}
         <section>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
           </motion.div>
@@ -356,7 +373,22 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               {activeFaqs.map((faq, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border-border/40">
                   <AccordionTrigger className="text-sm font-medium text-foreground hover:text-primary hover:no-underline py-5 text-left">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground/80 leading-relaxed">{faq.answer}</AccordionContent>
+                  <AccordionContent className="text-sm text-muted-foreground/80 leading-relaxed">
+                    {faq.linkHref && faq.linkText ? (
+                      <>
+                        {faq.answer.split(faq.linkText).map((part, idx, arr) => (
+                          <span key={idx}>
+                            {part}
+                            {idx < arr.length - 1 && (
+                              <Link to={faq.linkHref} className="text-primary hover:underline">{faq.linkText}</Link>
+                            )}
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      faq.answer
+                    )}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
