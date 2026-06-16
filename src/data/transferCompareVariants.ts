@@ -48,7 +48,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     competitor: "WeTransfer",
     cardTitle: "WeTransfer Alternative",
     cardSummary:
-      "Compare Docsora and WeTransfer across transfer tracking, expiry controls, transfer history, download visibility, security and compliance.",
+      "See how Docsora compares on free transfer limits, expiry length and whether your files are ever used to train AI.",
     title: "WeTransfer Alternative - WeTransfer Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and WeTransfer for large file transfer, recipient tracking, transfer expiry control, download notifications and transfer lifecycle management.",
@@ -210,7 +210,7 @@ export const transferCompareVariants: TransferCompareVariantConfig[] = [
     competitor: "Smash",
     cardTitle: "Smash Alternative",
     cardSummary:
-      "Compare Docsora and Smash across file transfer, transfer visibility, expiry controls, compliance and operational workflows.",
+      "See how Docsora compares on transfer size, speed handling and download tracking.",
     title: "Smash Alternative - Smash Alternative for Large File Transfer | Docsora",
     metaDescription:
       "Compare Docsora and Smash for large file transfer, recipient tracking, transfer expiry control, transfer history and compliance for business use.",

@@ -399,7 +399,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare The Best WeTransfer & Smash Alternatives</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Compare Docsora with WeTransfer and Smash across file transfer, download tracking, transfer lifecycle management, security and compliance.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">See how Docsora stacks up against the services teams switch from most.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {transferCompareVariants.map((c, i) => (
@@ -407,7 +407,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <Link to={`/${c.slug}`} className="group rounded-2xl p-6 block h-full bg-card/40 border border-border/30 hover:border-primary/20 hover:bg-card/70 transition-all duration-300">
                   <div className="flex items-center gap-2.5 mb-4">
                     <div className="w-8 h-8 rounded-lg bg-primary/8 border border-primary/15 flex items-center justify-center">
-                      <GitCompare className="w-3.5 h-3.5 text-primary/80" />
+                      <GitCompare aria-hidden="true" className="w-3.5 h-3.5 text-primary/80" />
                     </div>
                     <span className="text-[10px] uppercase tracking-[0.14em] font-medium text-muted-foreground/70">Comparison</span>
                   </div>
