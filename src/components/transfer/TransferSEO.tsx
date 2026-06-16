@@ -84,37 +84,37 @@ const whyLeaveWeTransfer = [
 const operationalWorkflows = [
   {
     title: "Creative Agencies",
-    description: "Share videos, design files and client deliverables with tracking and download notifications.",
+    description: "Deliver client work and track every open and download.",
     href: "/creative-agency-file-sharing",
     icon: Palette,
   },
   {
     title: "Video Production",
-    description: "Transfer large video files, RAW footage and production assets without compression.",
+    description: "Move RAW footage and masters between set, edit and client.",
     href: "/video-production-file-sharing",
     icon: Film,
   },
   {
     title: "Architecture & Engineering",
-    description: "Send CAD drawings, BIM models and technical documentation securely.",
+    description: "Send DWG and BIM models with assemblies and references intact.",
     href: "/architecture-engineering-file-sharing",
     icon: Building2,
   },
   {
     title: "Legal Teams",
-    description: "Share contracts, case files and sensitive legal documents with confidence.",
+    description: "Share case files and contracts with audit-ready download records.",
     href: "/legal-file-sharing",
     icon: ShieldCheck,
   },
   {
     title: "Consulting Teams",
-    description: "Deliver proposals, board packs, reports and client documentation securely.",
+    description: "Send proposals and board packs — and see when they're opened.",
     href: "/consulting-file-sharing",
     icon: Briefcase,
   },
   {
     title: "Freelancers",
-    description: "Send project files, creative assets and client deliverables professionally.",
+    description: "Deliver client work professionally and prove it landed.",
     href: "/freelancer-file-transfer",
     icon: Send,
   },
@@ -261,7 +261,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Securely send large files, videos, documents, CAD drawings and creative assets with tracking, download visibility and expiry controls.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for the people who send files for a living — agencies, studios, engineering, legal, consulting and freelance.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {operationalWorkflows.map((w, i) => {
@@ -272,7 +272,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                     to={w.href}
                     className="block rounded-2xl p-5 bg-card/40 border border-border/30 hover:border-primary/30 hover:bg-card/70 transition-all duration-200"
                   >
-                    <Icon className="w-4 h-4 text-primary/70 mb-3" />
+                    <Icon aria-hidden="true" className="w-4 h-4 text-primary/70 mb-3" />
                     <h3 className="text-[13px] font-semibold text-foreground mb-1">{w.title}</h3>
                     <p className="text-xs text-muted-foreground/75 leading-relaxed">{w.description}</p>
                   </Link>
