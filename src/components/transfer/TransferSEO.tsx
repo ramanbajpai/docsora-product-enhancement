@@ -325,7 +325,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Files used to train AI</th>
                     <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No</td>
-                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Clarified no (2025)</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Reversed after backlash, 2025</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
                   </tr>
                   <tr>
