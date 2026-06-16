@@ -78,6 +78,15 @@ const whyLeaveWeTransfer = [
   { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly. Neither senders nor recipients need to create an account or install software." },
 ];
 
+const sendLargeFilesCards = [
+  { icon: Upload, title: "No size limit that stops you", description: "Send up to 500GB per transfer. No splitting, no compression, no bounced emails." },
+  { icon: Mail, title: "Send by link or email", description: "Share a secure link anywhere, or send it straight to a recipient's inbox from Docsora." },
+  { icon: Eye, title: "Know it was received", description: "See each recipient's first open and every download, with timestamps — proof your file landed." },
+  { icon: Zap, title: "Set expiry and resend", description: "Choose how long a transfer stays live, extend it, or resend without uploading the file again." },
+  { icon: Lock, title: "Encrypted and protected", description: "Encrypted in transit (TLS) and at rest, with optional password protection on any transfer." },
+  { icon: Users, title: "No sign up for anyone", description: "Neither you nor your recipient needs an account or software." },
+];
+
 const operationalWorkflows = [
   {
     title: "Creative Agencies",
@@ -169,13 +178,13 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{variant?.slug === "send-large-files" ? "Send Large Files" : "Modern File Delivery"}</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files up to 500GB</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard.</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{variant?.slug === "send-large-files" ? "Everything you need to send large files" : "Send Large Files up to 500GB"}</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{variant?.slug === "send-large-files" ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {whyLeaveWeTransfer.map((item, i) => (
+            {(variant?.slug === "send-large-files" ? sendLargeFilesCards : whyLeaveWeTransfer).map((item, i) => (
               <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
                 <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
                   <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
@@ -200,6 +209,83 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </div>
           </motion.div>
         </section>
+
+        {variant?.slug === "send-large-files" && (
+          <>
+            {/* SECTION A - Why email fails */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-6 max-w-3xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Why your file won't send by email</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most email providers cap attachments at around 20–25MB — Gmail at 25MB, Outlook at 20MB — and that limit covers the whole message, not just the file. Email encoding adds roughly a third to a file's size, so something that looks like 18MB on your computer can already be too big to send. That's why a 4K video, a layered design file, or a folder of photos bounces back.</p>
+                <p className="mt-4 text-sm text-foreground/90 leading-relaxed">Docsora skips the limit entirely — upload the file, send a secure link, and your recipient downloads the original. No attachment, no compression, no bounce.</p>
+              </motion.div>
+            </section>
+
+            {/* SECTION B - Three steps */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">How to send a large file in three steps</h2>
+              </motion.div>
+              <ol className="grid grid-cols-1 md:grid-cols-3 gap-3 list-none">
+                {[
+                  { n: "1", title: "Upload your file or folder", body: "Drag in anything up to 500GB. No account, nothing to install." },
+                  { n: "2", title: "Get a secure link", body: "Docsora creates an encrypted transfer link the moment upload finishes." },
+                  { n: "3", title: "Send by link or email — and track it", body: "Share it anywhere or send from Docsora, then see when it's opened and downloaded." },
+                ].map((step, i) => (
+                  <motion.li key={step.n} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                    <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-4 text-[13px] font-semibold text-primary/80" aria-hidden="true">{step.n}</div>
+                    <h3 className="text-sm font-semibold text-foreground mb-1.5">{step.title}</h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed">{step.body}</p>
+                  </motion.li>
+                ))}
+              </ol>
+            </section>
+
+            {/* SECTION C - Limits comparison */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send large files without the usual limits</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Free transfer tools cap your file size, your monthly transfers, and how long links stay live. Docsora doesn't.</p>
+              </motion.div>
+              <motion.div {...fadeUp} className="max-w-3xl mx-auto">
+                <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border/40">
+                        <th className="py-3.5 pr-4 text-[13px] font-semibold text-foreground/60 w-[40%]">Feature</th>
+                        <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground bg-primary/[0.06] rounded-t-lg w-[30%]">Docsora</th>
+                        <th className="py-3.5 pl-4 text-[13px] font-semibold text-muted-foreground w-[30%]">Typical free tools</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-border/30">
+                        <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Transfer size</th>
+                        <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Up to 500GB</td>
+                        <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">2–3GB</td>
+                      </tr>
+                      <tr className="border-b border-border/30">
+                        <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Monthly transfer limit</th>
+                        <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No monthly cap</td>
+                        <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">As few as 10 per month</td>
+                      </tr>
+                      <tr>
+                        <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Link expiry</th>
+                        <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04] rounded-b-lg">Set, extend, resend</td>
+                        <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">3–7 days, then gone</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-6 text-center text-sm text-muted-foreground/80">
+                  Need the full breakdown? See how Docsora compares to{" "}
+                  <Link to="/wetransfer-alternative" className="text-primary hover:underline">WeTransfer</Link>
+                  {" and "}
+                  <Link to="/smash-alternative" className="text-primary hover:underline">Smash</Link>.
+                </p>
+              </motion.div>
+            </section>
+          </>
+        )}
 
         {/* SECTION - Supported file types */}
         <section>
