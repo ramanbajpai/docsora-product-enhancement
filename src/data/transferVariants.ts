@@ -416,7 +416,7 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "send-large-design-files",
+    slug: "send-design-files",
     title: "Send Large Design Files - Adobe, Figma & PSDs | Docsora",
     metaDescription:
       "Send large design files online - PSD, AI, INDD, Figma exports and creative packages. Browser-native delivery without compression for design teams.",
