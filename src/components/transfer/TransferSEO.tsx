@@ -173,7 +173,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Modern File Delivery</span>
             </div>
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Send Large Files up to 500GB</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading and manage all your large file transfers from a single dashboard.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {whyLeaveWeTransfer.map((item, i) => (
