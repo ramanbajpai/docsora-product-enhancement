@@ -276,7 +276,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </motion.div>
           <motion.div {...fadeUp} className="max-w-4xl mx-auto">
             <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
                   <tr className="border-b border-border/40">
                     <th className="py-3.5 pr-4 text-[13px] font-semibold text-foreground/60 w-[28%] min-w-[140px]">Feature</th>
