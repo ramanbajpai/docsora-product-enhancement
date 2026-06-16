@@ -16,9 +16,7 @@ import {
   MonitorSmartphone,
   Workflow,
   History,
-  UserX,
-  FileStack,
-  CalendarClock,
+  Archive,
   GitCompare,
   HelpCircle,
   BookOpen,
@@ -26,7 +24,6 @@ import {
   FileVideo,
   Image as ImageIcon,
   Presentation,
-  Archive,
   Music,
   Box,
   Code,
@@ -118,17 +115,6 @@ const operationalWorkflows = [
     href: "/freelancer-file-transfer",
     icon: Send,
   },
-];
-
-const features = [
-  { icon: Send, title: "Instant sharing links", description: "Generate delivery links the moment upload completes." },
-  { icon: Eye, title: "Real-time delivery tracking", description: "Track views, downloads and recipient activity instantly." },
-  { icon: History, title: "Transfer history & visibility", description: "See every large file transfer, recipient and download in one searchable activity log." },
-  { icon: FileStack, title: "100+ file types supported", description: "Send PDFs, videos, ZIPs, CAD files, design assets and documents without conversion." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with password protection and expiry controls." },
-  { icon: UserX, title: "No recipient account required", description: "Recipients open and download shared files instantly - no sign-up, login or install." },
-  { icon: Archive, title: "Multi-file delivery", description: "Bundle entire projects into one transfer in seconds." },
-  { icon: CalendarClock, title: "Expiry control & reactivation", description: "Set, extend or reactivate transfer expiry dates anytime to keep secure file sharing under your control." },
 ];
 
 const aiQuestions = [
@@ -282,21 +268,82 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </div>
         </section>
 
-        {/* SECTION - Features */}
+        {/* SECTION - Comparison table */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">Track downloads, manage transfers, control expiry dates and share files securely.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">See how Docsora compares to the file transfer services most teams are switching from.</p>
           </motion.div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {features.map((f, i) => (
-              <motion.div key={f.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }} className="rounded-2xl p-5 bg-card/40 border border-border/30">
-                <f.icon className="w-4 h-4 text-primary/70 mb-3" />
-                <h3 className="text-[13px] font-semibold text-foreground mb-1">{f.title}</h3>
-                <p className="text-xs text-muted-foreground/75 leading-relaxed">{f.description}</p>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div {...fadeUp} className="max-w-4xl mx-auto">
+            <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border/40">
+                    <th className="py-3.5 pr-4 text-[13px] font-semibold text-foreground/60 w-[28%] min-w-[140px]">Feature</th>
+                    <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground bg-primary/[0.06] rounded-t-lg w-[24%] min-w-[160px]">Docsora</th>
+                    <th className="py-3.5 px-4 text-[13px] font-semibold text-muted-foreground w-[24%] min-w-[160px]">WeTransfer</th>
+                    <th className="py-3.5 pl-4 text-[13px] font-semibold text-muted-foreground w-[24%] min-w-[160px]">Smash</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Transfer size</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Up to 500GB [CONFIRM]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">3GB free / up to 200GB paid</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">2GB free / larger on paid</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Monthly transfer limit</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No monthly cap [CONFIRM]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">10 transfers per month free</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No fixed cap</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">File expiry</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Set, extend &amp; reactivate</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">3 days free</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">7 days free</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Reactivate expired links</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Yes — no re-upload</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">No</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Download tracking</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Yes — opens &amp; downloads</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Paid plans only</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">Limited</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Recipient account needed</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">No</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
+                  </tr>
+                  <tr className="border-b border-border/30">
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Files used to train AI</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Never [CONFIRM TOS]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Clarified no (2025)</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
+                  </tr>
+                  <tr>
+                    <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Compliance</th>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04] rounded-b-lg">ISO 27001 · SOC 2 Type I · GDPR</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Not publicly detailed</td>
+                    <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">Not publicly detailed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-6 text-center text-sm text-muted-foreground/80">
+              See the full breakdown —{" "}
+              <Link to="/wetransfer-alternative" className="text-primary hover:underline">Docsora vs WeTransfer</Link>
+              {" · "}
+              <Link to="/smash-alternative" className="text-primary hover:underline">Docsora vs Smash</Link>
+            </p>
+          </motion.div>
         </section>
 
         {/* SECTION - FAQ */}
