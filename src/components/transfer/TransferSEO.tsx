@@ -361,6 +361,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
 
         {/* SECTION - FAQ */}
         <section>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
           <motion.div {...fadeUp} className="text-center mb-14">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
           </motion.div>
@@ -369,7 +373,22 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               {activeFaqs.map((faq, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border-border/40">
                   <AccordionTrigger className="text-sm font-medium text-foreground hover:text-primary hover:no-underline py-5 text-left">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground/80 leading-relaxed">{faq.answer}</AccordionContent>
+                  <AccordionContent className="text-sm text-muted-foreground/80 leading-relaxed">
+                    {faq.linkHref && faq.linkText ? (
+                      <>
+                        {faq.answer.split(faq.linkText).map((part, idx, arr) => (
+                          <span key={idx}>
+                            {part}
+                            {idx < arr.length - 1 && (
+                              <Link to={faq.linkHref} className="text-primary hover:underline">{faq.linkText}</Link>
+                            )}
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      faq.answer
+                    )}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
