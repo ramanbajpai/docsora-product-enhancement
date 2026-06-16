@@ -307,7 +307,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Reactivate expired links</th>
                     <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Yes — no re-upload</td>
-                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Yes — Paid Account</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Paid plans only</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
                   </tr>
                   <tr className="border-b border-border/30">
