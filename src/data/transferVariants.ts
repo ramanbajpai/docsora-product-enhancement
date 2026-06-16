@@ -65,7 +65,7 @@ export const transferVariants: TransferVariantConfig[] = [
     cardDescription:
       "Up to 500GB, no account needed to send or receive.",
     uploadHeadline: "Send large files instantly",
-    uploadSubheadline: "Browser-native delivery for documents, video, design and archives.",
+    uploadSubheadline: "Up to 500GB per transfer. Tracked, encrypted, no sign up required.",
     ctaLabel: "Choose files to send",
     longCopy:
       "Docsora Transfer is the modern infrastructure layer for sending large files online. Drop one file or an entire operational package, generate an encrypted delivery link, and track opens and downloads in real time. No installs, no sync clients, no fragmented cloud drives - just professional file delivery built for the way modern teams actually ship work.",
