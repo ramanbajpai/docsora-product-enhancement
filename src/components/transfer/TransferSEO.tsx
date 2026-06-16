@@ -144,7 +144,27 @@ interface TransferSEOProps {
 
 export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  const activeFaqs = variant?.faq ?? [
+  const isSLF = variant?.slug === "send-large-files";
+  const sendLargeFilesFaqs = [
+    { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
+    { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
+    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression. See how to send files too large to email for the full method.", linkText: "send files too large to email", linkHref: "/email-large-files" },
+    { question: "Can I send large files without creating an account?", answer: "Yes. You can send large files with Docsora without signing up, and your recipient never needs an account either. There's nothing to install — everything runs in the browser, so you can upload and share a link in seconds." },
+    { question: "How long do my transfer links stay active?", answer: "You control how long each transfer stays live. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. You decide when a link stops working." },
+    { question: "Are my file transfers secure?", answer: "Yes. Files are encrypted in transit (TLS) and at rest, and you can add password protection and expiry to any transfer. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
+  ];
+  const sendLargeFilesRelated = [
+    { label: "Send large videos", href: "/send-large-videos" },
+    { label: "Send large PDFs", href: "/send-large-pdf-files" },
+    { label: "Email large files", href: "/email-large-files" },
+    { label: "Share large files", href: "/share-large-files" },
+  ];
+  const sendLargeFilesGuides = [
+    { title: "How To Send Large Files Online (2026 Complete Guide)", href: "/transfer-guides/how-to-send-large-files-online", teaser: "Every method for sending large files online, compared — limits, trade-offs and what holds up for real work." },
+    { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
+    { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
+  ];
+  const activeFaqs = isSLF ? sendLargeFilesFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
@@ -155,7 +175,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { question: "Can I send ZIP files online?", answer: "Yes. Users can securely transfer ZIP files, project archives and packaged deliverables through a single transfer link while maintaining visibility over downloads and transfer activity." },
     { question: "Is Docsora secure for business file sharing?", answer: "Yes. Docsora is built for secure business file sharing and compliance-focused environments. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress." },
     { question: "What makes Docsora different from traditional file transfer services?", answer: "Traditional services focus on sending files. Docsora focuses on what happens after — track downloads, see recipient activity, extend or reactivate expiry, and manage every transfer from one dashboard." },
-  ];
+  ]);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -318,33 +338,49 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Popular transfer workflows */}
-        <section>
-          <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular File Transfer Scenarios</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {transferVariants
-              .slice(0, 12)
-              .map((tool, i) => (
-                <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
-                  <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
-                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
-                      <tool.cardIcon aria-hidden="true" className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
-                    </div>
-                    <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{tool.cardLabel}</h3>
-                    <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">{tool.cardDescription}</p>
-                    <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
-                      <span>Open</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </div>
-                  </Link>
-                </motion.div>
+        {isSLF ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-8 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Related ways to send files</h2>
+            </motion.div>
+            <nav aria-label="Related ways to send files" className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {sendLargeFilesRelated.map((r) => (
+                <a key={r.href} href={r.href} className="text-sm font-medium text-primary/80 hover:text-primary hover:underline">
+                  {r.label} →
+                </a>
               ))}
-          </div>
-        </section>
+            </nav>
+          </section>
+        ) : (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Popular File Transfer Scenarios</h2>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {transferVariants
+                .slice(0, 12)
+                .map((tool, i) => (
+                  <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
+                    <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                      <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                        <tool.cardIcon aria-hidden="true" className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                      </div>
+                      <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{tool.cardLabel}</h3>
+                      <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">{tool.cardDescription}</p>
+                      <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                        <span>Open</span>
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+            </div>
+          </section>
+        )}
 
         {/* SECTION - Operational workflows */}
+        {!isSLF && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
@@ -368,8 +404,10 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             })}
           </div>
         </section>
+        )}
 
         {/* SECTION - Comparison table */}
+        {!isSLF && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
@@ -446,6 +484,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </p>
           </motion.div>
         </section>
+        )}
 
         {/* SECTION - FAQ */}
         <section>
@@ -484,6 +523,34 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Comparisons */}
+        {isSLF ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
+                <BookOpen aria-hidden="true" className="w-3 h-3 text-primary/80" />
+                <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Guides</span>
+              </div>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Guides for sending large files</h2>
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+              {sendLargeFilesGuides.map((g, i) => (
+                <motion.div key={g.href} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.05 }}>
+                  <a href={g.href} className="group block h-full rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                    <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                      <BookOpen aria-hidden="true" className="w-4 h-4 text-primary/80" />
+                    </div>
+                    <h3 className="text-[14px] font-semibold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">{g.title}</h3>
+                    <p className="text-[13px] text-muted-foreground/80 leading-relaxed">{g.teaser}</p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-primary/70 group-hover:text-primary transition-colors">
+                      <span>Read the guide</span>
+                      <ArrowRight aria-hidden="true" className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        ) : (
         <section>
           <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Compare The Best WeTransfer & Smash Alternatives</h2>
@@ -510,6 +577,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             ))}
           </div>
         </section>
+        )}
 
         {/* SECTION - Guides */}
         {!variant && (
@@ -551,11 +619,19 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
-              <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
-                Send Large Files Instantly.
-                <br className="hidden sm:block" />
-                <span className="text-foreground/70"> Professional file delivery starts here.</span>
-              </h2>
+              {isSLF ? (
+                <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                  Send Large Files Instantly.
+                  <br className="hidden sm:block" />
+                  <span className="text-foreground/70"> Professional file delivery starts here.</span>
+                </p>
+              ) : (
+                <h2 className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                  Send Large Files Instantly.
+                  <br className="hidden sm:block" />
+                  <span className="text-foreground/70"> Professional file delivery starts here.</span>
+                </h2>
+              )}
               <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Built for modern file sharing - for creators, agencies and teams.</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
