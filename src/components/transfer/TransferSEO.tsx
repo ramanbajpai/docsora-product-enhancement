@@ -226,13 +226,13 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{variant?.slug === "send-large-files" ? "Send Large Files" : "Modern File Delivery"}</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{isSLF ? "Send Large Files" : isLFT ? "Large File Transfer" : "Modern File Delivery"}</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{variant?.slug === "send-large-files" ? "Everything you need to send large files" : "Send Large Files up to 500GB"}</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">{variant?.slug === "send-large-files" ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{isSLF ? "Everything you need to send large files" : isLFT ? "What a large file transfer service should do" : "Send Large Files up to 500GB"}</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{isSLF ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : isLFT ? "A real transfer service does more than move a file — it gives you control after you hit send. Here's what to expect from Docsora." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(variant?.slug === "send-large-files" ? sendLargeFilesCards : whyLeaveWeTransfer).map((item, i) => (
+            {(isSLF ? sendLargeFilesCards : isLFT ? lftCards : whyLeaveWeTransfer).map((item, i) => (
               <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
                 <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
                   <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
@@ -257,6 +257,76 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             </div>
           </motion.div>
         </section>
+
+        {isLFT && (
+          <>
+            {/* SECTION - LFT: What to look for */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">What to look for in a large file transfer service</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most "send a file" tools stop the moment the file leaves. The differences that matter show up afterwards.</p>
+              </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { title: "Transfer size", body: "Can it move the files you actually work with, not just a 2–3GB free cap?" },
+                  { title: "Delivery tracking", body: "Do you find out when a file is opened and downloaded, or are you guessing?" },
+                  { title: "Lifecycle control", body: "Can you extend or reactivate a transfer, or does it vanish after a few days?" },
+                  { title: "Security and compliance", body: "Encryption, password protection, expiry, and real compliance behind it." },
+                ].map((item, i) => (
+                  <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                    <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.body}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION - LFT: Method comparison */}
+            <section>
+              <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Transfer service vs email, cloud drives and FTP</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">There's more than one way to move a large file. Here's where each one breaks.</p>
+              </motion.div>
+              <motion.div {...fadeUp} className="max-w-4xl mx-auto">
+                <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border/40">
+                        <th className="py-3.5 pr-4 text-[13px] font-semibold text-foreground/60">Method</th>
+                        <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground/60">Size limit</th>
+                        <th className="py-3.5 px-4 text-[13px] font-semibold text-foreground/60">Tracking</th>
+                        <th className="py-3.5 pl-4 text-[13px] font-semibold text-foreground/60">Main drawback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["Email attachment", "~20–25MB", "None", "Bounces; no record of receipt"],
+                        ["Cloud drive link", "Large, shared access", "Limited", "Permission sprawl; links live forever"],
+                        ["FTP / SFTP", "Large", "None", "Setup, credentials, no recipient visibility"],
+                        ["Docsora transfer", "Up to 500GB", "Full — opens & downloads", "None of the above"],
+                      ].map((row, idx, arr) => (
+                        <tr key={row[0]} className={idx < arr.length - 1 ? "border-b border-border/30" : ""}>
+                          <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">{row[0]}</th>
+                          <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">{row[1]}</td>
+                          <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">{row[2]}</td>
+                          <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">{row[3]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            </section>
+
+            {/* SECTION - LFT: Lifecycle */}
+            <section>
+              <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto">
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Built around the transfer lifecycle</h2>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">Most tools treat a transfer as fire-and-forget. Docsora keeps it under your control after you send — extend an expiry date when a client is slow, reactivate an expired transfer without uploading the file again, and see your full transfer history in one searchable dashboard. You decide when a link stops working, not a fixed timer.</p>
+              </motion.div>
+            </section>
+          </>
+        )}
 
         {variant?.slug === "send-large-files" && (
           <>
@@ -379,7 +449,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
-                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{(isSLF && g.messageSLF) ? g.messageSLF : g.message}</p>
+                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{isSLF && g.messageSLF ? g.messageSLF : isLFT && g.messageLFT ? g.messageLFT : g.message}</p>
               </motion.div>
             ))}
           </div>
