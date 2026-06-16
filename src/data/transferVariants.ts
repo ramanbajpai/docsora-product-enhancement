@@ -729,7 +729,7 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "video-file-transfer",
+    slug: "video-production-file-sharing",
     title: "Video File Transfer - Send Large Video Files Online | Docsora",
     metaDescription:
       "Video file transfer for production teams. Send large video files, RAW footage and production assets online without compression and with delivery tracking.",
@@ -761,7 +761,7 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "cad-file-transfer",
+    slug: "architecture-engineering-file-sharing",
     title: "CAD File Transfer - Send DWG, DXF, STEP & Revit Files | Docsora",
     metaDescription:
       "CAD file transfer for architecture and engineering teams. Send DWG, DXF, STEP, IGES, Revit and BIM models securely with tracking and expiry controls.",
