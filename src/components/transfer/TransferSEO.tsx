@@ -248,16 +248,15 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               </motion.div>
             </section>
 
-            {/* SECTION B - Three steps */}
+            {/* SECTION B - Two steps */}
             <section>
               <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">How to send a large file in three steps</h2>
+                <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">How to send a large file in two steps</h2>
               </motion.div>
-              <ol className="grid grid-cols-1 md:grid-cols-3 gap-3 list-none">
+              <ol className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none">
                 {[
                   { n: "1", title: "Upload your file or folder", body: "Drag in anything up to 500GB. No account, nothing to install." },
-                  { n: "2", title: "Get a secure link", body: "Docsora creates an encrypted transfer link the moment upload finishes." },
-                  { n: "3", title: "Send by link or email — and track it", body: "Share it anywhere or send from Docsora, then see when it's opened and downloaded." },
+                  { n: "2", title: "Send by link or email — and track it", body: "Share it anywhere or send from Docsora, then see when it's opened and downloaded." },
                 ].map((step, i) => (
                   <motion.li key={step.n} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
                     <div className="w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center mb-4 text-[13px] font-semibold text-primary/80" aria-hidden="true">{step.n}</div>
