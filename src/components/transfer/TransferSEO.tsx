@@ -239,11 +239,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {transferVariants
               .slice(0, 12)
-              .filter(
-                (tool) =>
-                  tool.slug !== "send-large-powerpoint-files" &&
-                  tool.slug !== "send-large-design-files"
-              )
               .map((tool, i) => (
                 <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
                   <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
