@@ -73,12 +73,12 @@ const fileTypeGroups = [
 ];
 
 const whyLeaveWeTransfer = [
-  { icon: Eye, title: "Real-time transfer tracking", description: "See when recipients open links and download files. Get visibility into transfer activity from your Track dashboard." },
-  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers without re-uploading files." },
-  { icon: Mail, title: "Email notifications", description: "Receive notifications when files are viewed or downloaded so you always know what is happening." },
-  { icon: Lock, title: "Secure encrypted delivery", description: "TLS-secured transfers with optional password protection and controlled expiry settings." },
-  { icon: Layers, title: "100+ file types supported", description: "Transfer videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats." },
-  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly - neither senders nor recipients need to create an account or install software." },
+  { icon: Eye, title: "Real-time transfer tracking", description: "See each recipient's first open, every download, and the exact timestamp — your proof of delivery if anyone says a file never arrived." },
+  { icon: Zap, title: "Expiry control & reactivation", description: "Extend transfer expiry dates or reactivate expired transfers instantly, without re-uploading a single file." },
+  { icon: Mail, title: "Email notifications", description: "Get notified the moment files are viewed or downloaded, so you always know where a transfer stands." },
+  { icon: Lock, title: "Secure encrypted delivery", description: "Transfers encrypted in transit (TLS) and at rest, with optional password protection and controlled expiry." },
+  { icon: Layers, title: "100+ file types supported", description: "Send videos, presentations, PDFs, ZIP files, design files, CAD files and many other formats — no conversion, no compression." },
+  { icon: Users, title: "No account required for recipients or senders", description: "Send and receive files instantly. Neither senders nor recipients need to create an account or install software." },
 ];
 
 const operationalWorkflows = [
