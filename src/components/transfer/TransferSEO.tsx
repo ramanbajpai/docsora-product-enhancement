@@ -288,13 +288,13 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 <tbody>
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Transfer size</th>
-                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Up to 500GB [CONFIRM]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Up to 500GB</td>
                     <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">3GB free / up to 200GB paid</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">2GB free / larger on paid</td>
                   </tr>
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Monthly transfer limit</th>
-                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No monthly cap [CONFIRM]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No monthly cap</td>
                     <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">10 transfers per month free</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No fixed cap</td>
                   </tr>
@@ -307,7 +307,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Reactivate expired links</th>
                     <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Yes — no re-upload</td>
-                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">No</td>
+                    <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Yes — Paid Account</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
                   </tr>
                   <tr className="border-b border-border/30">
@@ -324,7 +324,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   </tr>
                   <tr className="border-b border-border/30">
                     <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">Files used to train AI</th>
-                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">Never [CONFIRM TOS]</td>
+                    <td className="py-3.5 px-4 text-[13px] text-foreground bg-primary/[0.04]">No</td>
                     <td className="py-3.5 px-4 text-[13px] text-muted-foreground/80">Clarified no (2025)</td>
                     <td className="py-3.5 pl-4 text-[13px] text-muted-foreground/80">No</td>
                   </tr>
