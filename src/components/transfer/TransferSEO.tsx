@@ -469,6 +469,19 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               ))}
             </nav>
           </section>
+        ) : isLFT ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-8 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Related ways to transfer files</h2>
+            </motion.div>
+            <nav aria-label="Related ways to transfer files" className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {lftRelated.map((r) => (
+                <a key={r.href} href={r.href} className="text-sm font-medium text-primary/80 hover:text-primary hover:underline">
+                  {r.label} →
+                </a>
+              ))}
+            </nav>
+          </section>
         ) : (
           <section>
             <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
@@ -520,7 +533,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Operational workflows */}
-        {!isSLF && (
+        {!isSLF && !isLFT && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
@@ -547,7 +560,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Comparison table */}
-        {!isSLF && (
+        {!isSLF && !isLFT && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
@@ -663,14 +676,14 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Comparisons */}
-        {isSLF ? (
+        {isSLF || isLFT ? (
           <section>
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
                 <BookOpen aria-hidden="true" className="w-3 h-3 text-primary/80" />
                 <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">Guides</span>
               </div>
-              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Guides for sending large files</h2>
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{isLFT ? "Guides for large file transfer" : "Guides for sending large files"}</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
               {sendLargeFilesGuides.map((g, i) => (
@@ -759,7 +772,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
-              {isSLF ? (
+              {isSLF || isLFT ? (
                 <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
                   Send Large Files Instantly.
                   <br className="hidden sm:block" />
