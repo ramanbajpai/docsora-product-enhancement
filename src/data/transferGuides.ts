@@ -474,7 +474,7 @@ export const transferGuides: TransferGuide[] = [
     relatedTools: [
       { slug: "send-large-videos", label: "Send Large Videos" },
       { slug: "large-media-transfer", label: "Large Media Transfer" },
-      { slug: "send-large-design-files", label: "Send Large Design Files" },
+      { slug: "send-design-files", label: "Send Large Design Files" },
       { slug: "secure-file-transfer", label: "Secure File Transfer" },
     ],
     relatedGuides: [
