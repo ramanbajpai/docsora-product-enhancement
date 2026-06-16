@@ -237,21 +237,28 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {transferVariants.slice(0, 12).map((tool, i) => (
-              <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
-                <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
-                    <tool.cardIcon className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
-                  </div>
-                  <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{tool.cardLabel}</h3>
-                  <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">{tool.cardDescription}</p>
-                  <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
-                    <span>Open workflow</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+            {transferVariants
+              .slice(0, 12)
+              .filter(
+                (tool) =>
+                  tool.slug !== "send-large-powerpoint-files" &&
+                  tool.slug !== "send-large-design-files"
+              )
+              .map((tool, i) => (
+                <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
+                  <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                      <tool.cardIcon aria-hidden="true" className="w-[18px] h-[18px] text-primary/70 group-hover:text-primary transition-colors" />
+                    </div>
+                    <h3 className="text-[13px] font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">{tool.cardLabel}</h3>
+                    <p className="text-xs text-muted-foreground/75 leading-relaxed mb-3">{tool.cardDescription}</p>
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-primary/60 group-hover:text-primary transition-colors">
+                      <span>Open</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
           </div>
         </section>
 
