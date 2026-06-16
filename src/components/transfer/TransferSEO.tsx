@@ -383,7 +383,9 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {transferVariants.map((tool, i) => (
+              {transferVariants
+                .slice(0, 12)
+                .map((tool, i) => (
                   <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
                     <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
                       <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
