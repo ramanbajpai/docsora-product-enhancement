@@ -43,7 +43,7 @@ export interface TransferVariantFAQ {
 export type LandingIconName =
   | "Upload" | "Mail" | "Eye" | "Zap" | "Lock" | "Users" | "Layers"
   | "ShieldCheck" | "Globe2" | "Globe" | "Briefcase" | "Palette" | "MonitorSmartphone"
-  | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
+  | "Workflow" | "History" | "Infinity" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
   | "Clock" | "KeyRound" | "FileCheck" | "HardDrive";
@@ -497,46 +497,89 @@ export const transferVariants: TransferVariantConfig[] = [
 
   {
     slug: "wetransfer-alternative",
-    title: "Best WeTransfer Alternative for Operational Teams | Docsora",
-    metaDescription:
-      "Looking for a WeTransfer alternative? Docsora delivers large files with real-time tracking, encrypted sessions and operational workflows.",
-    h1: "The Modern WeTransfer Alternative",
-    intro:
-      "WeTransfer evolved for modern operational teams - large file delivery with tracking, workflows and signing in one platform.",
+    title: "The Best WeTransfer Alternative (2026) | Docsora",
+    metaDescription: "Looking for a WeTransfer alternative? Docsora sends up to 500GB with no monthly caps, expiry you control and tracking on every transfer — files never used to train AI.",
+    h1: "A WeTransfer alternative built for people who send a lot",
+    intro: "Up to 500GB, no monthly transfer caps, expiry you control — and files never used to train AI.",
     keyword: "wetransfer alternative",
     cardIcon: Zap,
     cardLabel: "WeTransfer Alternative",
-    cardDescription:
-      "More tracking, longer expiry — and files never used to train AI.",
-    uploadHeadline: "The modern way to send files",
-    uploadSubheadline: "Delivery tracking, encrypted sessions and workflow-native handoffs.",
-    ctaLabel: "Try Docsora Transfer",
-    longCopy:
-      "Docsora Transfer is the WeTransfer alternative built for operational teams. Beyond sending files, every transfer is a workflow primitive - trackable, expirable, and connected to approvals and signing. Agencies, production teams, consultancies and finance teams use it to replace fragmented WeTransfer + Dropbox + email chains with one operational delivery layer.",
+    cardDescription: "More tracking, longer expiry — and files never used to train AI.",
+    longCopy: "Docsora is the WeTransfer alternative built for people who send a lot. No 3GB monthly cap, no 3-day expiry, no account — just up to 500GB per transfer with tracking on every send and a clear stance that your files are never used to train AI.",
     useCases: [
-      "Replace WeTransfer for client delivery",
-      "Track downloads WeTransfer can't",
-      "Control recipient access",
-      "Route delivered files into signing flows",
-      "Bundle multi-file operational packages",
+      "Send large files without a monthly quota",
+      "Control link expiry instead of losing it after 3 days",
+      "Track every open and download without paying extra",
+      "Switch from WeTransfer without asking recipients to sign up",
     ],
+    uploadHeadline: "Send your first transfer",
+    uploadSubheadline: "No 3GB monthly cap, no 3-day expiry, no account.",
+    ctaLabel: "Choose files to send",
+    seoBadgeLabel: "WETRANSFER ALTERNATIVE",
+    featureCards: [
+      { icon: "Infinity", title: "No monthly transfer cap", description: "WeTransfer's free plan stops you at 3GB or 10 transfers a month. Docsora has no monthly quota — send as often as you need." },
+      { icon: "Clock", title: "Expiry you control", description: "WeTransfer free links expire after 3 days. With Docsora you set the expiry, extend it, or reactivate an expired transfer without re-uploading." },
+      { icon: "Eye", title: "Tracking on every transfer", description: "See opens and downloads with timestamps — included on every transfer, not reserved for a paid tier." },
+      { icon: "ShieldCheck", title: "Your files train no AI", description: "Your content stays yours — never used, sold, or used to train AI models." },
+      { icon: "Lock", title: "Encrypted and compliant", description: "Encrypted in transit (TLS) and at rest, backed by ISO 27001, SOC 2 Type I and GDPR." },
+      { icon: "Users", title: "No account for anyone", description: "Send and receive without signing up — for you or your recipient." }
+    ],
+    sections: [
+      {
+        kind: "richText",
+        h2: "Why people look for a WeTransfer alternative",
+        paragraphs: [
+          "After the 2024 Bending Spoons acquisition, WeTransfer's free plan tightened sharply: a combined 3GB per month across just 10 transfers, with links expiring after 3 days instead of 7. For anyone sending regularly, one or two sends can use up the month.",
+          "Then in 2025 a Terms of Service change added wording that let WeTransfer use uploaded files to train machine-learning models. The backlash was immediate and the clause was reversed within two weeks — but for a lot of people the trust didn't come back. Docsora is built the other way: no monthly cap, expiry you control, and a firm line that your files are never used to train AI."
+        ]
+      },
+      {
+        kind: "checklist",
+        h2: "What you get with Docsora that WeTransfer free doesn't",
+        items: [
+          { h3: "Far bigger transfers", body: "Up to 500GB per transfer, against WeTransfer free's 3GB combined monthly limit." },
+          { h3: "No monthly quota", body: "Send as often as you need — there's no 10-transfer ceiling." },
+          { h3: "Tracking included", body: "Know when each file is opened and downloaded, without upgrading to unlock it." },
+          { h3: "A clear AI stance", body: "Your files are never used to train AI models — stated plainly, not buried." }
+        ]
+      },
+      {
+        kind: "comparisonTable",
+        h2: "Docsora vs WeTransfer free",
+        columns: ["Feature", "WeTransfer (free)", "Docsora"],
+        rows: [
+          { feature: "Transfer size", values: ["3GB combined per month", "Up to 500GB"] },
+          { feature: "Monthly limit", values: ["10 transfers / 3GB total", "No monthly cap"] },
+          { feature: "Link expiry", values: ["3 days", "Set, extend, reactivate"] },
+          { feature: "Download tracking", values: ["Paid plans only", "Every transfer"] },
+          { feature: "Account required", values: ["No", "No"] },
+          { feature: "Files used to train AI", values: ["ToS reversed after 2025 backlash", "Never"] },
+          { feature: "Compliance", values: ["Not publicly detailed", "ISO 27001 · SOC 2 Type I · GDPR"] }
+        ]
+      }
+    ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
+        { label: "Send large videos", href: "/send-large-videos" }
+      ]
+    },
     faq: [
-      {
-        question: "Why use Docsora instead of WeTransfer?",
-        answer:
-          "WeTransfer is a generic upload utility. Docsora is operational delivery infrastructure - same browser-native simplicity, but with real-time tracking, tracked pages, encrypted sessions and direct workflow integration into signing and approvals.",
-      },
-      {
-        question: "Is Docsora faster than WeTransfer?",
-        answer:
-          "Docsora generates a delivery link the moment your upload begins, so recipients can start downloading before the upload finishes. Most teams notice the perceived speed difference immediately.",
-      },
-      {
-        question: "Can I migrate my WeTransfer workflows to Docsora?",
-        answer:
-          "Yes. Docsora replicates WeTransfer's core flow - drop files, get a link, send to recipients - and adds the operational layer (tracking, workflows) on top.",
-      },
+      { question: "What is the best WeTransfer alternative?", answer: "It depends what you send, but Docsora covers the gaps people most often leave WeTransfer over: up to 500GB per transfer, no monthly quota, expiry you control, download tracking on every transfer, and files that are never used to train AI." },
+      { question: "Is WeTransfer still free?", answer: "Yes, but the free plan is now capped at 3GB combined across 10 transfers per 30 days, with links expiring after 3 days. Once you hit either limit you're blocked until older transfers age out of the 30-day window." },
+      { question: "Why did WeTransfer change its free plan?", answer: "Following the 2024 Bending Spoons acquisition, the free tier was restructured — monthly quotas were introduced and link availability dropped from 7 days to 3. Docsora has no monthly quota and lets you control expiry instead." },
+      { question: "Does WeTransfer train AI on my files?", answer: "A 2025 Terms of Service change added language permitting it, which WeTransfer reversed within two weeks after backlash. Docsora's position is unambiguous: your files are never used to train AI models." },
+      { question: "Can I switch from WeTransfer without making my recipients sign up?", answer: "Yes. Like WeTransfer, your recipient just opens a link and downloads — no account or app on either side. You don't need to sign up to send, either." },
+      { question: "Do I get download tracking like WeTransfer's paid plans?", answer: "Yes, and without paying to unlock it. Docsora shows when each transfer is opened and downloaded, with timestamps, on every transfer." }
     ],
+    finalCta: {
+      headline: "Make the switch from WeTransfer.",
+      body: "No monthly caps, expiry you control, and files that stay yours.",
+      buttonLabel: "Start a transfer"
+    }
   },
   {
     slug: "send-large-videos",
