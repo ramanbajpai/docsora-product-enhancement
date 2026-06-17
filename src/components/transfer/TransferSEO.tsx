@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -33,6 +34,9 @@ import {
   Film,
   Building2,
   FileSpreadsheet,
+  Clock,
+  KeyRound,
+  FileCheck,
 } from "lucide-react";
 import {
   Accordion,
@@ -41,7 +45,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { transferVariants, type TransferVariantConfig } from "@/data/transferVariants";
+import { transferVariants, type TransferVariantConfig, type LandingSection } from "@/data/transferVariants";
 import { transferCompareVariants } from "@/data/transferCompareVariants";
 import { transferGuides } from "@/data/transferGuides";
 
@@ -139,6 +143,147 @@ const aiQuestions = [
   { q: "How do I track large file downloads?", a: "Docsora records every open and download event with timestamps, surfaced on the transfer dashboard in real time." },
 ];
 
+const ICONS: Record<string, LucideIcon> = {
+  Upload, Mail, Eye, Zap, Lock, Users, Layers,
+  ShieldCheck, Globe2, Briefcase, Palette, MonitorSmartphone,
+  Workflow, History, Archive, FileText, FileVideo,
+  Presentation, Music, Box, Code, Send, Share2,
+  Film, Building2, FileSpreadsheet, Sparkles, Check,
+  Clock, KeyRound, FileCheck,
+};
+
+function SectionRenderer({ section }: { section: LandingSection }) {
+  switch (section.kind) {
+    case "richText":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-10 max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">{section.h2}</h2>
+            {section.paragraphs.map((p, i) => (
+              <p key={i} className="text-sm text-muted-foreground/80 leading-relaxed mb-4">{p}</p>
+            ))}
+            {section.cta && (
+              <p className="mt-4 text-sm text-foreground/90 leading-relaxed">
+                <Link to={section.cta.href} className="text-primary hover:underline">
+                  {section.cta.prefix ? `${section.cta.prefix} ` : ""}{section.cta.label}
+                </Link>
+              </p>
+            )}
+          </motion.div>
+        </section>
+      );
+    case "steps":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{section.h2}</h2>
+            {section.intro && <p className="text-sm text-muted-foreground/80 leading-relaxed">{section.intro}</p>}
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl mx-auto">
+            {section.steps.map((step, i) => (
+              <motion.div key={step.n} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <div className="text-[11px] uppercase tracking-[0.14em] font-semibold text-primary/80 mb-2">Step {step.n}</div>
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{step.title}</h3>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">{step.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    case "checklist":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{section.h2}</h2>
+            {section.intro && <p className="text-sm text-muted-foreground/80 leading-relaxed">{section.intro}</p>}
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {section.items.map((item, i) => (
+              <motion.div key={item.h3} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.h3}</h3>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    case "useCases":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{section.h2}</h2>
+            {section.intro && <p className="text-sm text-muted-foreground/80 leading-relaxed">{section.intro}</p>}
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {section.items.map((item, i) => (
+              <motion.div key={item.h3} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30">
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.h3}</h3>
+                <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    case "comparisonTable":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center mb-10 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{section.h2}</h2>
+            {section.intro && <p className="text-sm text-muted-foreground/80 leading-relaxed">{section.intro}</p>}
+          </motion.div>
+          <motion.div {...fadeUp} className="max-w-4xl mx-auto">
+            <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border/40">
+                    {section.columns.map((col, idx) => (
+                      <th key={idx} className={cn("py-3.5 text-[13px] font-semibold text-foreground/60", idx === 0 ? "pr-4" : "px-4", idx === section.columns.length - 1 ? "pl-4" : "")}>{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.rows.map((row, idx, arr) => (
+                    <tr key={row.feature} className={idx < arr.length - 1 ? "border-b border-border/30" : ""}>
+                      <th className="py-3.5 pr-4 text-[13px] font-medium text-foreground/80" scope="row">{row.feature}</th>
+                      {row.values.map((val, vidx) => (
+                        <td key={vidx} className={cn("py-3.5 text-[13px] text-muted-foreground/80", vidx === 0 ? "px-4" : "pl-4")}>{val}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {section.footnote && (
+              <p className="mt-6 text-center text-sm text-muted-foreground/80">
+                {section.footnote.links && section.footnote.links.length > 0 ? (
+                  section.footnote.text.split(section.footnote.links[0].label).map((part, idx, arr) => (
+                    <span key={idx}>
+                      {part}
+                      {idx < arr.length - 1 && (
+                        <Link to={section.footnote.links[0].href} className="text-primary hover:underline">{section.footnote.links[0].label}</Link>
+                      )}
+                    </span>
+                  ))
+                ) : (
+                  section.footnote.text
+                )}
+              </p>
+            )}
+          </motion.div>
+        </section>
+      );
+    case "lifecycle":
+      return (
+        <section>
+          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">{section.h2}</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{section.body}</p>
+          </motion.div>
+        </section>
+      );
+  }
+}
+
 interface TransferSEOProps {
   variant?: TransferVariantConfig;
 }
@@ -147,6 +292,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const isSLF = variant?.slug === "send-large-files";
   const isLFT = variant?.slug === "large-file-transfer";
+  const useTemplate = !!variant?.featureCards;
   const lftCards = [
     { icon: Upload, title: "Built for big files", description: "Move up to 500GB per transfer, with no splitting or compression." },
     { icon: Eye, title: "Visibility after sending", description: "See opens and downloads with timestamps, from one dashboard." },
@@ -192,7 +338,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
     { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
   ];
-  const activeFaqs = isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
+  const activeFaqs = useTemplate ? (variant?.faq ?? []) : isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
@@ -226,21 +372,36 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
               <Sparkles className="w-3 h-3 text-primary/80" />
-              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{isSLF ? "Send Large Files" : isLFT ? "Large File Transfer" : "Modern File Delivery"}</span>
+              <span className="text-[11px] uppercase tracking-[0.12em] font-medium text-primary/80">{useTemplate ? (variant?.seoBadgeLabel ?? "Secure File Transfer") : isSLF ? "Send Large Files" : isLFT ? "Large File Transfer" : "Modern File Delivery"}</span>
             </div>
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{isSLF ? "Everything you need to send large files" : isLFT ? "What a large file transfer service should do" : "Send Large Files up to 500GB"}</h2>
-            <p className="text-sm text-muted-foreground/80 leading-relaxed">{isSLF ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : isLFT ? "A real transfer service does more than move a file — it gives you control after you hit send. Here's what to expect from Docsora." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{useTemplate ? (variant?.featureCardsH2 ?? "Everything you need") : isSLF ? "Everything you need to send large files" : isLFT ? "What a large file transfer service should do" : "Send Large Files up to 500GB"}</h2>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{useTemplate ? (variant?.featureCardsIntro ?? "") : isSLF ? "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading." : isLFT ? "A real transfer service does more than move a file — it gives you control after you hit send. Here's what to expect from Docsora." : "Send large files via link or email. Track views and downloads, extend expiry dates, reactivate transfers without re-uploading, and manage every transfer from one dashboard."}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(isSLF ? sendLargeFilesCards : isLFT ? lftCards : whyLeaveWeTransfer).map((item, i) => (
-              <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
-                <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
-                  <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
-                <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
-              </motion.div>
-            ))}
+            {useTemplate && variant?.featureCards ? (
+              variant.featureCards.map((item, i) => {
+                const IconComp = ICONS[item.icon];
+                return (
+                  <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                      {IconComp && <IconComp aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />}
+                    </div>
+                    <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
+                  </motion.div>
+                );
+              })
+            ) : (
+              (isSLF ? sendLargeFilesCards : isLFT ? lftCards : whyLeaveWeTransfer).map((item, i) => (
+                <motion.div key={item.title} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.04 }} className="rounded-2xl p-6 bg-card/40 border border-border/30 hover:border-primary/20 transition-all duration-300">
+                  <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
+                    <item.icon aria-hidden="true" className="w-[18px] h-[18px] text-primary/80" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground/80 leading-relaxed">{item.description}</p>
+                </motion.div>
+              ))
+            )}
           </div>
           <motion.div {...staggerItem} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground/80">
@@ -258,7 +419,12 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </motion.div>
         </section>
 
-        {isLFT && (
+        {/* Template sections */}
+        {useTemplate && variant?.sections?.map((section, i) => (
+          <SectionRenderer key={i} section={section} />
+        ))}
+
+        {isLFT && !useTemplate && (
           <>
             {/* SECTION - LFT: What to look for */}
             <section>
@@ -328,7 +494,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
           </>
         )}
 
-        {variant?.slug === "send-large-files" && (
+        {variant?.slug === "send-large-files" && !useTemplate && (
           <>
             {/* SECTION A - Why email fails */}
             <section>
@@ -449,14 +615,27 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   </h3>
                 </div>
                 <p className="text-[12px] font-mono text-muted-foreground/70 leading-relaxed mb-2.5">{g.formats}</p>
-                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{isSLF && g.messageSLF ? g.messageSLF : isLFT && g.messageLFT ? g.messageLFT : g.message}</p>
+                <p className="text-[13px] text-muted-foreground/85 leading-relaxed">{useTemplate && variant?.fileTypes?.blurbs?.[g.category] ? variant.fileTypes.blurbs[g.category] : isSLF && g.messageSLF ? g.messageSLF : isLFT && g.messageLFT ? g.messageLFT : g.message}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
         {/* SECTION - Popular transfer workflows */}
-        {isSLF ? (
+        {useTemplate && variant?.related ? (
+          <section>
+            <motion.div {...fadeUp} className="text-center mb-8 max-w-2xl mx-auto">
+              <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">{variant.related.h2}</h2>
+            </motion.div>
+            <nav aria-label={variant.related.ariaLabel ?? variant.related.h2} className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {variant.related.links.map((r) => (
+                <a key={r.href} href={r.href} className="text-sm font-medium text-primary/80 hover:text-primary hover:underline">
+                  {r.label} →
+                </a>
+              ))}
+            </nav>
+          </section>
+        ) : isSLF ? (
           <section>
             <motion.div {...fadeUp} className="text-center mb-8 max-w-2xl mx-auto">
               <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Related ways to send files</h2>
@@ -533,7 +712,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Operational workflows */}
-        {!isSLF && !isLFT && (
+        {!isSLF && !isLFT && !useTemplate && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
@@ -560,7 +739,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         )}
 
         {/* SECTION - Comparison table */}
-        {!isSLF && !isLFT && (
+        {!isSLF && !isLFT && !useTemplate && (
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Why Teams Choose Docsora Transfer</h2>
@@ -676,7 +855,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         </section>
 
         {/* SECTION - Comparisons */}
-        {isSLF || isLFT ? (
+        {!useTemplate && (isSLF || isLFT ? (
           <section>
             <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/8 border border-primary/15 mb-5">
@@ -730,7 +909,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             ))}
           </div>
         </section>
-        )}
+        ))}
 
         {/* SECTION - Guides */}
         {!variant && (
@@ -772,7 +951,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <motion.div aria-hidden className="pointer-events-none absolute -inset-x-1/2 -top-1/2 h-[200%] w-[200%] bg-[linear-gradient(115deg,transparent_40%,hsl(var(--primary)/0.06)_50%,transparent_60%)]" animate={{ x: ["-15%", "15%", "-15%"] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
             <div className="relative">
-              {isSLF || isLFT ? (
+              {useTemplate && variant?.finalCta ? (
+                <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
+                  {variant.finalCta.headline}
+                </p>
+              ) : isSLF || isLFT ? (
                 <p className="text-2xl md:text-[1.875rem] font-semibold text-foreground tracking-tight mb-4 leading-tight">
                   Send Large Files Instantly.
                   <br className="hidden sm:block" />
@@ -785,11 +968,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                   <span className="text-foreground/70"> Professional file delivery starts here.</span>
                 </h2>
               )}
-              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">Tracked. Secure. Built for modern file sharing - for creators, agencies and teams.</p>
+              <p className="text-[14px] md:text-[15px] text-muted-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">{useTemplate && variant?.finalCta ? variant.finalCta.body : "Tracked. Secure. Built for modern file sharing - for creators, agencies and teams."}</p>
               <motion.button onClick={scrollToTop} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 28 }} className={cn("group relative inline-flex items-center justify-center gap-2", "px-7 py-3.5 rounded-xl text-sm font-semibold", "text-primary-foreground", "bg-gradient-to-b from-primary to-[hsl(var(--primary)/0.92)]", "border border-primary/40", "shadow-[0_1px_0_0_hsl(0_0%_100%/0.15)_inset,0_10px_30px_-10px_hsl(var(--primary)/0.55),0_4px_12px_-4px_hsl(var(--primary)/0.4)]", "hover:shadow-[0_1px_0_0_hsl(0_0%_100%/0.18)_inset,0_14px_36px_-10px_hsl(var(--primary)/0.65),0_6px_16px_-4px_hsl(var(--primary)/0.5)]", "transition-shadow duration-300")}>
                 <span aria-hidden className="absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 <Upload className="w-4 h-4" />
-                Start a transfer
+                {useTemplate && variant?.finalCta ? variant.finalCta.buttonLabel : "Start a transfer"}
               </motion.button>
             </div>
           </motion.div>
