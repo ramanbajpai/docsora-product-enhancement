@@ -895,69 +895,6 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "send-zip-files",
-    title: "Send ZIP Files Online - Secure Large Archive Transfer | Docsora",
-    metaDescription:
-      "Send ZIP files online with secure delivery links, tracking and expiry controls. Move large archives, project bundles and compressed folders past inbox limits.",
-    h1: "Send Large ZIP Files Online",
-    intro:
-      "Move oversized ZIP archives, project bundles and compressed folders with tracked, encrypted delivery - no inbox limits, no installs.",
-    keyword: "send zip files",
-    cardIcon: Archive,
-    cardLabel: "Send ZIP Files",
-    cardDescription:
-      "Send large ZIP files online with secure links, tracking and expiry.",
-    uploadHeadline: "Send large ZIP files securely",
-    uploadSubheadline: "Tracked delivery for archives, project bundles and compressed folders.",
-    ctaLabel: "Send a ZIP transfer",
-    longCopy:
-      "Docsora Transfer is built for sending large ZIP archives - project bundles, asset packs, code drops and compressed deliverables - with browser-native upload, secure delivery links, real-time tracking and granular expiry controls.",
-    useCases: [
-      "Deliver project archives to clients",
-      "Send asset bundles to agencies",
-      "Ship code or build drops",
-      "Move compressed media packages",
-    ],
-    faq: [
-      {
-        question: "How do I send a large ZIP file online?",
-        answer:
-          "Drop the ZIP file into Docsora Transfer, generate a secure delivery link and share with recipients. Tracking, password protection and expiry are included by default.",
-      },
-    ],
-  },
-  {
-    slug: "send-design-files",
-    title: "Send Large Design Files - Adobe, Figma & PSDs | Docsora",
-    metaDescription:
-      "Send large design files online - PSD, AI, INDD, Figma exports and creative packages. Browser-native delivery without compression for design teams.",
-    h1: "Send Large Design Files",
-    intro:
-      "Move Adobe, Figma and production design files across creative teams without compression, fragmented links or sync clients.",
-    keyword: "send large design files",
-    cardIcon: Palette,
-    cardLabel: "Send Design Files",
-    cardDescription: "PSD, AI, INDD and Figma exports, delivered intact.",
-    uploadHeadline: "Send design files at full fidelity",
-    uploadSubheadline: "PSD, AI, INDD, AEP, Figma exports - moved without compression.",
-    ctaLabel: "Send design files",
-    longCopy:
-      "Docsora Transfer is the modern design-file handoff layer for agencies, in-house teams and freelancers. Move PSDs, AIs, INDDs, AEPs and Figma exports without compression, with encrypted sessions and real-time delivery tracking.",
-    useCases: [
-      "Agency to client handoff",
-      "Design to production handoff",
-      "Cross-studio collaboration",
-      "Freelancer client delivery",
-    ],
-    faq: [
-      {
-        question: "How do designers send large project files?",
-        answer:
-          "The modern workflow is browser-native: upload to Docsora Transfer, generate a secure link and share. No sync clients, no compression, no quality loss.",
-      },
-    ],
-  },
-  {
     slug: "agency-file-sharing",
     title: "Send CAD Files Online - Secure Engineering File Transfer | Docsora",
     metaDescription:
@@ -986,68 +923,6 @@ export const transferVariants: TransferVariantConfig[] = [
         question: "How do I send large CAD files online?",
         answer:
           "Upload DWG, DXF, STEP, IGES or Revit files to Docsora Transfer and share the generated delivery link. Files are preserved byte-for-byte with tracked downloads and expiry controls.",
-      },
-    ],
-  },
-  {
-    slug: "client-file-delivery",
-    title: "Client File Delivery Platform for Modern Teams | Docsora",
-    metaDescription:
-      "Deliver files to clients professionally with tracked transfer pages and integrated approval workflows. The modern client delivery layer.",
-    h1: "Professional Client File Delivery",
-    intro:
-      "Deliver client work through tracked transfer pages with real-time updates, approvals and signing in one operational workflow.",
-    keyword: "client file delivery",
-    cardIcon: Building2,
-    cardLabel: "Client File Delivery",
-    cardDescription: "Operational delivery with tracking and workflow integration.",
-    uploadHeadline: "Deliver client work professionally",
-    uploadSubheadline: "Tracked recipient pages with approvals and signing built in.",
-    ctaLabel: "Deliver to client",
-    longCopy:
-      "Docsora Transfer is the operational delivery layer for client-facing teams. Replace fragmented WeTransfer + email + Dropbox chains with one delivery workflow - tracked, encrypted and connected to approvals and signing.",
-    useCases: [
-      "Send client deliverables",
-      "Route work for client approval",
-      "Deliver signed contracts back",
-      "Ship campaign final cuts",
-    ],
-    faq: [
-      {
-        question: "What is the best platform for client file delivery?",
-        answer:
-          "Client delivery platforms should combine real-time tracking and workflow integration. Docsora ships all three in a browser-native experience.",
-      },
-    ],
-  },
-  {
-    slug: "browser-file-transfer",
-    title: "Browser-Native File Transfer - No Installs | Docsora",
-    metaDescription:
-      "Browser-native file transfer with no installs, no sync clients and no desktop software. Pure-browser delivery for large operational files.",
-    h1: "Browser-Native File Transfer",
-    intro:
-      "100% browser-native delivery - no installs, no sync clients, no desktop software. Move large files from any device, any OS.",
-    keyword: "browser file transfer",
-    cardIcon: Globe2,
-    cardLabel: "Browser File Transfer",
-    cardDescription: "Pure browser delivery - no installs, no plugins, no sync clients.",
-    uploadHeadline: "Transfer files entirely in the browser",
-    uploadSubheadline: "No installs. No sync clients. macOS, Windows, Linux, iOS, Android.",
-    ctaLabel: "Start browser transfer",
-    longCopy:
-      "Docsora Transfer runs entirely in the browser. There are no desktop apps to install, no sync clients to maintain and no plugins to manage - the entire delivery experience is web-native and cross-platform by default.",
-    useCases: [
-      "Cross-platform team handoffs",
-      "Quick transfers from kiosks",
-      "Mobile-only delivery",
-      "Locked-down enterprise devices",
-    ],
-    faq: [
-      {
-        question: "Do I need to install anything to use Docsora Transfer?",
-        answer:
-          "No. Docsora Transfer is 100% browser-native. Open the page, drop your files, and a delivery link is generated immediately.",
       },
     ],
   },

@@ -693,10 +693,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               {[
                 { slug: "email-large-files", icon: Mail, label: "Email Large Files", description: "Send files past the 25MB email limit as a tracked link." },
                 { slug: "encrypted-file-transfer", icon: Lock, label: "Encrypted File Transfer", description: "TLS in transit, encryption at rest, password and expiry." },
-                { slug: "browser-file-transfer", icon: Globe2, label: "Browser File Transfer", description: "Transfer large files in the browser — no installs, no sync clients." },
-                { slug: "client-file-delivery", icon: Building2, label: "Client File Delivery", description: "Operational delivery with tracking and workflow integration." },
-                { slug: "send-large-powerpoint-files", icon: Presentation, label: "Send Large PowerPoint Files", description: "Send PPT and PPTX decks at full quality, with video and media intact." },
-                { slug: "send-large-spreadsheet-files", icon: FileSpreadsheet, label: "Send Large Spreadsheet Files", description: "Send large Excel and CSV files with formulas and structure intact." },
               ].map((tool, i) => (
                 <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: (12 + i) * 0.03 }}>
                   <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
