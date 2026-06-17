@@ -22,6 +22,7 @@ import {
   Archive,
   GitCompare,
   HelpCircle,
+  Infinity,
   BookOpen,
   FileText,
   FileVideo,
@@ -149,7 +150,7 @@ const aiQuestions = [
 const ICONS: Record<string, LucideIcon> = {
   Upload, Mail, Eye, Zap, Lock, Users, Layers,
   ShieldCheck, Globe2, Globe, Briefcase, Palette, MonitorSmartphone,
-  Workflow, History, Archive, FileText, FileVideo,
+  Workflow, History, Infinity, Archive, FileText, FileVideo,
   Presentation, Music, Box, Code, Send, Share2,
   Film, Building2, FileSpreadsheet, Sparkles, Check,
   Clock, KeyRound, FileCheck, HardDrive,
