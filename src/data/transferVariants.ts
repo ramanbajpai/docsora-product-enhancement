@@ -23,6 +23,102 @@ import {
 export interface TransferVariantFAQ {
   question: string;
   answer: string;
+  /** Optional inline link inside the answer. The substring `linkText` will be
+   *  rendered as an <a href={linkHref}> at render time. */
+  linkText?: string;
+  linkHref?: string;
+}
+
+/* ----------------------------------------------------------------------------
+ * Reusable landing-page template schema
+ * ----------------------------------------------------------------------------
+ * Every long-tail /transfer landing page is rendered by a single template
+ * component (TransferSEO). Per-page content is supplied through the fields
+ * below. All fields are optional — when omitted the template falls back to
+ * the legacy "hub" content used by /transfer.
+ * --------------------------------------------------------------------------*/
+
+/** Allowlisted lucide-react icon names. The template maps these to components,
+ *  so data files stay serializable and safe. Extend as needed. */
+export type LandingIconName =
+  | "Upload" | "Mail" | "Eye" | "Zap" | "Lock" | "Users" | "Layers"
+  | "ShieldCheck" | "Globe2" | "Briefcase" | "Palette" | "MonitorSmartphone"
+  | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
+  | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
+  | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check";
+
+export interface LandingFeatureCard {
+  icon: LandingIconName;
+  title: string;
+  description: string;
+}
+
+export interface LandingSectionRichText {
+  kind: "richText";
+  h2: string;
+  paragraphs: string[];
+  cta?: { prefix?: string; label: string; href: string };
+}
+export interface LandingSectionSteps {
+  kind: "steps";
+  h2: string;
+  intro?: string;
+  steps: { n: string; title: string; body: string }[];
+}
+export interface LandingSectionChecklist {
+  kind: "checklist";
+  h2: string;
+  intro?: string;
+  items: { h3: string; body: string }[];
+}
+export interface LandingSectionUseCases {
+  kind: "useCases";
+  h2: string;
+  intro?: string;
+  items: { h3: string; body: string }[];
+}
+export interface LandingSectionComparisonTable {
+  kind: "comparisonTable";
+  h2: string;
+  intro?: string;
+  columns: string[];
+  rows: { feature: string; values: string[] }[];
+  /** Optional sentence below the table; substrings matching each link.label
+   *  are rendered as <Link to={link.href}>. */
+  footnote?: { text: string; links?: { label: string; href: string }[] };
+}
+export interface LandingSectionLifecycle {
+  kind: "lifecycle";
+  h2: string;
+  body: string;
+}
+export type LandingSection =
+  | LandingSectionRichText
+  | LandingSectionSteps
+  | LandingSectionChecklist
+  | LandingSectionUseCases
+  | LandingSectionComparisonTable
+  | LandingSectionLifecycle;
+
+export interface LandingRelatedLinks {
+  h2: string;
+  ariaLabel?: string;
+  links: { label: string; href: string }[];
+}
+
+export interface LandingFileTypesOverride {
+  /** Optional override for the file-types section heading. */
+  h2?: string;
+  intro?: string;
+  /** Per-category one-liner override, keyed by the file-type category name. */
+  blurbs?: Record<string, string>;
+}
+
+export interface LandingFinalCta {
+  /** Rendered as <p> (since the page already has an <h2> for every section). */
+  headline: string;
+  body: string;
+  buttonLabel: string;
 }
 
 export interface TransferVariantConfig {
@@ -41,6 +137,27 @@ export interface TransferVariantConfig {
   longCopy: string;
   useCases: string[];
   faq: TransferVariantFAQ[];
+
+  /* ---------- Template overrides (all optional) ---------- */
+
+  /** Pill label shown above the feature-cards H2. */
+  seoBadgeLabel?: string;
+  /** Heading for the 6-card feature grid. */
+  featureCardsH2?: string;
+  /** Subheading below the feature-cards H2. */
+  featureCardsIntro?: string;
+  /** When provided, replaces the default "Why teams leave WeTransfer" grid. */
+  featureCards?: LandingFeatureCard[];
+  /** Ordered intent-layer sections rendered between the feature grid and the
+   *  file-types directory. */
+  sections?: LandingSection[];
+  /** Override copy / per-category blurbs for the file-types directory. */
+  fileTypes?: LandingFileTypesOverride;
+  /** When provided, replaces the "Popular File Transfer Scenarios" grid with
+   *  a slim related-links row. */
+  related?: LandingRelatedLinks;
+  /** Final CTA copy; when provided, headline is rendered as <p>. */
+  finalCta?: LandingFinalCta;
 }
 
 /**
@@ -93,6 +210,92 @@ export const transferVariants: TransferVariantConfig[] = [
           "Yes. Every transfer runs over TLS, with optional password protection, download limits and expiring links. Files are encrypted in transit and on storage, and link activity is fully auditable.",
       },
     ],
+    seoBadgeLabel: "Send Large Files",
+    featureCardsH2: "Everything you need to send large files",
+    featureCardsIntro:
+      "Upload, get a secure link, and send it by link or email — then track every open and download, set expiry, and resend without re-uploading.",
+    featureCards: [
+      { icon: "Upload", title: "No size limit that stops you", description: "Send up to 500GB per transfer. No splitting, no compression, no bounced emails." },
+      { icon: "Mail", title: "Send by link or email", description: "Share a secure link anywhere, or send it straight to a recipient's inbox from Docsora." },
+      { icon: "Eye", title: "Know it was received", description: "See each recipient's first open and every download, with timestamps — proof your file landed." },
+      { icon: "Zap", title: "Set expiry and resend", description: "Choose how long a transfer stays live, extend it, or resend without uploading the file again." },
+      { icon: "Lock", title: "Encrypted and protected", description: "Encrypted in transit (TLS) and at rest, with optional password protection on any transfer." },
+      { icon: "Users", title: "No sign up for anyone", description: "Neither you nor your recipient needs an account or software." },
+    ],
+    sections: [
+      {
+        kind: "richText",
+        h2: "Bigger than email allows?",
+        paragraphs: [
+          "Email providers cap attachments at around 20–25MB, so most large files bounce before they arrive. Docsora sends a secure link instead — no size limit, no compression, no bounce.",
+        ],
+        cta: { label: "Starting from email? See how to send files too large to email.", href: "/email-large-files" },
+      },
+      {
+        kind: "steps",
+        h2: "How to send a large file in two steps",
+        steps: [
+          { n: "1", title: "Upload your file or folder", body: "Drag in anything up to 500GB. No account, nothing to install." },
+          { n: "2", title: "Send by link or email — and track it", body: "Share it anywhere or send from Docsora, then see when it's opened and downloaded." },
+        ],
+      },
+      {
+        kind: "useCases",
+        h2: "When people use Docsora to send large files",
+        intro: "Whatever you're sending, it's too big for email and too important to compress. Here's where Docsora fits.",
+        items: [
+          { h3: "Sending video to a client or editor", body: "Upload a finished cut, a folder of footage, or a master file and send one link — at full resolution, no compression, with a record of when it's downloaded." },
+          { h3: "Delivering a large project folder", body: "Send an entire folder — designs, documents and assets together — as a single transfer, so nothing arrives missing or out of order." },
+          { h3: "Sharing photos at full quality", body: "Send RAW files or a full shoot without the quality loss that messaging apps and email force on your images." },
+          { h3: "Sending big files from your phone", body: "Upload straight from your phone's browser and share a link in seconds — no app to install, on iOS or Android." },
+        ],
+      },
+      {
+        kind: "comparisonTable",
+        h2: "Send large files without the usual limits",
+        intro: "Free transfer tools cap your file size, your monthly transfers, and how long links stay live. Docsora doesn't.",
+        columns: ["Feature", "Docsora", "Typical free tools"],
+        rows: [
+          { feature: "Transfer size", values: ["Up to 500GB", "2–3GB"] },
+          { feature: "Monthly transfer limit", values: ["No monthly cap", "As few as 10 per month"] },
+          { feature: "Link expiry", values: ["Set, extend, resend", "3–7 days, then gone"] },
+        ],
+        footnote: {
+          text: "Need the full breakdown? See how Docsora compares to WeTransfer and Smash.",
+          links: [
+            { label: "WeTransfer", href: "/wetransfer-alternative" },
+            { label: "Smash", href: "/smash-alternative" },
+          ],
+        },
+      },
+    ],
+    fileTypes: {
+      blurbs: {
+        "Documents & Office": "Send contracts, proposals and board packs the moment they're ready.",
+        "Images & Photography": "Send full-resolution photos and RAW exports without quality loss.",
+        "Design & Creative": "Send working design files to clients and collaborators, layers intact.",
+        "Video": "Send video exports and RAW footage at source quality, no re-encoding.",
+        "Audio": "Send masters, stems and podcast files without compression.",
+        "Archives & Packages": "Send whole zipped projects and backups as one transfer.",
+        "3D · CAD · Models": "Send CAD exports and 3D models with no conversion.",
+        "Code & Development": "Send builds, databases and project exports securely.",
+      },
+    },
+    related: {
+      h2: "Related ways to send files",
+      ariaLabel: "Related ways to send files",
+      links: [
+        { label: "Send large videos", href: "/send-large-videos" },
+        { label: "Send large PDFs", href: "/send-large-pdf-files" },
+        { label: "Email large files", href: "/email-large-files" },
+        { label: "Share large files", href: "/share-large-files" },
+      ],
+    },
+    finalCta: {
+      headline: "Send Large Files Instantly. Professional file delivery starts here.",
+      body: "Tracked. Secure. Built for modern file sharing - for creators, agencies and teams.",
+      buttonLabel: "Start a transfer",
+    },
   },
   {
     slug: "large-file-transfer",
@@ -131,6 +334,75 @@ export const transferVariants: TransferVariantConfig[] = [
           "Yes. Docsora records every open and download event with timestamps, so you always know exactly when a recipient accessed the transfer.",
       },
     ],
+    seoBadgeLabel: "Large File Transfer",
+    featureCardsH2: "What a large file transfer service should do",
+    featureCardsIntro:
+      "A real transfer service does more than move a file — it gives you control after you hit send. Here's what to expect from Docsora.",
+    featureCards: [
+      { icon: "Upload", title: "Built for big files", description: "Move up to 500GB per transfer, with no splitting or compression." },
+      { icon: "Eye", title: "Visibility after sending", description: "See opens and downloads with timestamps, from one dashboard." },
+      { icon: "Zap", title: "Lifecycle you control", description: "Set expiry, extend it, or reactivate an expired transfer without re-uploading." },
+      { icon: "Mail", title: "Link or email delivery", description: "Send a secure link anywhere, or deliver straight to an inbox." },
+      { icon: "Lock", title: "Security that holds up", description: "Encrypted in transit (TLS) and at rest, with optional password protection." },
+      { icon: "Users", title: "Nothing to install", description: "Neither sender nor recipient needs an account or software." },
+    ],
+    sections: [
+      {
+        kind: "checklist",
+        h2: "What to look for in a large file transfer service",
+        intro: "Most \"send a file\" tools stop the moment the file leaves. The differences that matter show up afterwards.",
+        items: [
+          { h3: "Transfer size", body: "Can it move the files you actually work with, not just a 2–3GB free cap?" },
+          { h3: "Delivery tracking", body: "Do you find out when a file is opened and downloaded, or are you guessing?" },
+          { h3: "Lifecycle control", body: "Can you extend or reactivate a transfer, or does it vanish after a few days?" },
+          { h3: "Security and compliance", body: "Encryption, password protection, expiry, and real compliance behind it." },
+        ],
+      },
+      {
+        kind: "comparisonTable",
+        h2: "Transfer service vs email, cloud drives and FTP",
+        intro: "There's more than one way to move a large file. Here's where each one breaks.",
+        columns: ["Method", "Size limit", "Tracking", "Main drawback"],
+        rows: [
+          { feature: "Email attachment", values: ["~20–25MB", "None", "Bounces; no record of receipt"] },
+          { feature: "Cloud drive link", values: ["Large, shared access", "Limited", "Permission sprawl; links live forever"] },
+          { feature: "FTP / SFTP", values: ["Large", "None", "Setup, credentials, no recipient visibility"] },
+          { feature: "Docsora transfer", values: ["Up to 500GB", "Full — opens & downloads", "None of the above"] },
+        ],
+      },
+      {
+        kind: "lifecycle",
+        h2: "Built around the transfer lifecycle",
+        body: "Most tools treat a transfer as fire-and-forget. Docsora keeps it under your control after you send — extend an expiry date when a client is slow, reactivate an expired transfer without uploading the file again, and see your full transfer history in one searchable dashboard. You decide when a link stops working, not a fixed timer.",
+      },
+    ],
+    fileTypes: {
+      blurbs: {
+        "Documents & Office": "Transfer contracts, proposals and board packs in one go.",
+        "Images & Photography": "Transfer full-resolution photos and RAW exports without quality loss.",
+        "Design & Creative": "Transfer working design files with layers and fonts intact.",
+        "Video": "Transfer exports and RAW footage at source quality, no re-encoding.",
+        "Audio": "Transfer masters, stems and podcast files without compression.",
+        "Archives & Packages": "Transfer whole zipped projects and backups as one item.",
+        "3D · CAD · Models": "Transfer CAD exports and 3D models with no conversion.",
+        "Code & Development": "Transfer builds, databases and project exports securely.",
+      },
+    },
+    related: {
+      h2: "Related ways to transfer files",
+      ariaLabel: "Related ways to transfer files",
+      links: [
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Share large files", href: "/share-large-files" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
+        { label: "Email large files", href: "/email-large-files" },
+      ],
+    },
+    finalCta: {
+      headline: "Send Large Files Instantly. Professional file delivery starts here.",
+      body: "Tracked. Secure. Built for modern file sharing - for creators, agencies and teams.",
+      buttonLabel: "Start a transfer",
+    },
   },
   {
     slug: "wetransfer-alternative",
