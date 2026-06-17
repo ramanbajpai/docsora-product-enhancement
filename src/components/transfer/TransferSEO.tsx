@@ -688,6 +688,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                 ))}
               {/* Additional scenario cards */}
               {[
+                { slug: "secure-file-transfer", icon: ShieldCheck, label: "Secure File Transfer", description: "Encrypted, password-protected transfers with expiry control and access logs." },
                 { slug: "email-large-files", icon: Mail, label: "Email Large Files", description: "Send files past the 25MB email limit as a tracked link." },
                 { slug: "encrypted-file-transfer", icon: Lock, label: "Encrypted File Transfer", description: "TLS in transit, encryption at rest, password and expiry." },
                 { slug: "browser-file-transfer", icon: Globe2, label: "Browser File Transfer", description: "Transfer large files in the browser — no installs, no sync clients." },
