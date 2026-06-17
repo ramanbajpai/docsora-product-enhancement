@@ -42,7 +42,7 @@ export interface TransferVariantFAQ {
  *  so data files stay serializable and safe. Extend as needed. */
 export type LandingIconName =
   | "Upload" | "Mail" | "Eye" | "Zap" | "Lock" | "Users" | "Layers"
-  | "ShieldCheck" | "Globe2" | "Briefcase" | "Palette" | "MonitorSmartphone"
+  | "ShieldCheck" | "Globe2" | "Globe" | "Briefcase" | "Palette" | "MonitorSmartphone"
   | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
@@ -639,40 +639,114 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-files-online",
-    title: "Send Large Files Online - Browser-Native Transfer | Docsora",
+    title: "Send Large Files Online – No App, Any Browser | Docsora",
     metaDescription:
-      "Send large files online from any browser. No installs, no sync clients - secure transfer links, delivery tracking and workflow integration.",
-    h1: "Send Large Files Online",
+      "Send large files online straight from your browser — no app, no install, any device. Up to 500GB with a secure tracked link.",
+    h1: "Send large files online",
     intro:
-      "Drop a file in the browser and Docsora generates a secure delivery link in seconds. Track opens and set expiry on every transfer.",
+      "Straight from your browser — no app, no install, any device. Up to 500GB.",
     keyword: "send large files online",
     cardIcon: Globe2,
     cardLabel: "Send Files Online",
     cardDescription:
-      "Straight from your browser — no installs, no accounts.",
-    uploadHeadline: "Send files online in seconds",
-    uploadSubheadline: "Pure browser delivery - no installs, no plugins, no sync clients.",
-    ctaLabel: "Send a file online",
+      "No app, no install — send from any browser on any device.",
+    uploadHeadline: "Send large files online",
+    uploadSubheadline: "No download, no account — just open your browser and send.",
+    ctaLabel: "Choose files to send",
     longCopy:
-      "Docsora Transfer is 100% browser-native. No desktop apps, no sync clients, no plugins - just open the page, drop your files and get a delivery link. Works identically across macOS, Windows, Linux, iOS and Android.",
+      "Docsora runs entirely in your browser, so there's nothing to download, install or update. Open the page on any device — laptop, phone, tablet, work computer — drag in your files, and share a secure tracked link in seconds. Your recipient downloads in their browser too, with no app or account needed.",
     useCases: [
-      "Send files from any device",
-      "Cross-platform team handoffs",
-      "Quick client-to-team uploads",
-      "Mobile-first delivery flows",
+      "Send from a locked-down work computer with no install rights",
+      "Upload from a phone or tablet without an app store download",
+      "Borrow a machine, send a file, leave nothing behind",
     ],
     faq: [
       {
-        question: "Can I transfer files directly from my browser?",
+        question: "How do I send large files online without an app?",
         answer:
-          "Yes - Docsora Transfer is fully browser-native. Drop files into the page, and a secure delivery link is generated immediately. No installs or plugins required.",
+          "Open Docsora in any browser, drag in your files, and share the secure link that's generated. There's nothing to download or install — it runs entirely in the browser on any device.",
       },
       {
-        question: "Does Docsora work on mobile?",
+        question: "Do I need to install anything to send files online?",
         answer:
-          "Yes. The transfer experience works identically on iOS and Android browsers, so you can send or receive large files from a phone or tablet.",
+          "No. Docsora is browser-based, so there's no desktop client, sync app, or extension to install — which also makes it usable on work computers where you can't install software.",
+      },
+      {
+        question: "Can I send large files online from a phone or tablet?",
+        answer:
+          "Yes. Open the page in your phone or tablet's browser, upload your files, and share the link — no app store download, on iOS or Android.",
+      },
+      {
+        question: "Does sending files online work on any operating system?",
+        answer:
+          "Yes. Because it runs in the browser, it works the same on Windows, Mac, Linux, iOS and Android — there's no OS-specific app.",
+      },
+      {
+        question: "Is it safe to send files online through a browser?",
+        answer:
+          "Yes. Transfers are encrypted in transit (TLS) and at rest, and you can add a password and an expiry to any link. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress.",
+      },
+      {
+        question: "Does my recipient need to install anything to download?",
+        answer:
+          "No. They open the link and download in their browser — no app, no account, on whatever device they're using.",
       },
     ],
+    seoBadgeLabel: "Send Files Online",
+    featureCardsH2: "Everything you need to send large files online",
+    featureCardsIntro:
+      "No app, no install, no account — just your browser and a secure link.",
+    featureCards: [
+      { icon: "Globe", title: "Runs in your browser", description: "Send large files from any browser — Chrome, Safari, Edge, Firefox. Nothing to download or install." },
+      { icon: "MonitorSmartphone", title: "Works on any device", description: "Start a transfer on a laptop, phone or tablet — Windows, Mac, iOS or Android, all the same way." },
+      { icon: "Zap", title: "Open and send in seconds", description: "No setup, no sync client, no account step — open the page, drag in your files, share the link." },
+      { icon: "Eye", title: "Track the link you send", description: "See when your file is opened and downloaded, with timestamps, from any device." },
+      { icon: "Lock", title: "Secure by default", description: "Encrypted in transit (TLS) and at rest, with optional password protection on any transfer." },
+      { icon: "Users", title: "Nothing for recipients either", description: "They download in the browser too — no app, no account, on whatever device they're on." },
+    ],
+    sections: [
+      {
+        kind: "richText",
+        h2: "No app, no install, no account",
+        paragraphs: [
+          "Most ways to move a big file want you to install something first — a desktop client, a sync app, a company-approved tool you don't have. Docsora runs entirely in the browser, so there's nothing to download and nothing to set up before you can send.",
+          "Open the page, drag in your files, and share the link. It works the same whether you're on your own machine, a borrowed laptop, or a locked-down work computer where you can't install software.",
+        ],
+      },
+      {
+        kind: "checklist",
+        h2: "Why people send files online instead of with an app",
+        items: [
+          { h3: "Nothing to install", body: "No desktop client or sync app — useful on work machines where you can't install software." },
+          { h3: "Any device, any OS", body: "Windows, Mac, Linux, iOS, Android — if it has a browser, it works." },
+          { h3: "No account barrier", body: "You don't sign up and neither does your recipient — no login wall between you and sending." },
+          { h3: "Always the latest version", body: "Nothing to update — the browser always loads the current version." },
+        ],
+      },
+      {
+        kind: "useCases",
+        h2: "Sending online, wherever you are",
+        items: [
+          { h3: "On a locked-down work computer", body: "Send a large file without admin rights or an IT ticket to install an app — it all runs in the browser." },
+          { h3: "From a phone or tablet", body: "Upload from your device's browser and share a link, with no app store download." },
+          { h3: "On someone else's machine", body: "Borrowed laptop or a client's computer — open the page and send, leaving nothing installed behind." },
+        ],
+      },
+    ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
+        { label: "Share large files", href: "/share-large-files" },
+        { label: "Email large files", href: "/email-large-files" },
+      ],
+    },
+    finalCta: {
+      headline: "Send large files online in seconds.",
+      body: "No app, no install, no account — just your browser.",
+      buttonLabel: "Start a transfer",
+    },
   },
   {
     slug: "share-large-files",
