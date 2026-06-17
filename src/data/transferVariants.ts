@@ -46,7 +46,7 @@ export type LandingIconName =
   | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
-  | "Clock" | "KeyRound" | "FileCheck";
+  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive";
 
 export interface LandingFeatureCard {
   icon: LandingIconName;
@@ -535,41 +535,105 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-videos",
-    title: "Send Large Videos Online Without Compression | Docsora",
+    title: "Send Large Video Files Online – No Compression | Docsora",
     metaDescription:
-      "Send large videos online without compression. Transfer RAW footage, master exports and 4K/8K video files at full resolution with delivery tracking.",
-    h1: "Send Large Videos Without Compression",
-    intro:
-      "Move RAW footage, master exports and 4K/8K video files at full resolution - no compression, no quality loss, no hard drives.",
+      "Send large video files at full resolution — RAW, ProRes, BRAW and 4K. Up to 500GB with tracked delivery and zero compression.",
+    h1: "Send large video files",
+    intro: "Full resolution. No compression. Up to 500GB per transfer.",
     keyword: "send large videos",
     cardIcon: FileVideo,
     cardLabel: "Send Large Videos",
-    cardDescription:
-      "RAW, ProRes and 4K delivered at full resolution.",
-    uploadHeadline: "Send large videos at full resolution",
-    uploadSubheadline: "RAW, MXF, BRAW, R3D, ProRes - no compression, no quality loss.",
-    ctaLabel: "Upload video files",
+    cardDescription: "RAW, ProRes and 4K delivered at full resolution.",
+    uploadHeadline: "Send large video files",
+    uploadSubheadline: "RAW, ProRes, 4K and 8K — delivered at source quality.",
+    ctaLabel: "Choose video files to send",
     longCopy:
-      "Docsora Transfer is built for video teams that move large files daily. Send RAW footage, master exports, BRAW, R3D and MXF assets without compression and without re-uploading to half a dozen platforms. Generate a delivery link the moment upload completes so editors, colorists and producers can download.",
+      "Docsora moves the original video file untouched — ProRes, BRAW, R3D, RAW and 4K/8K masters arrive at source quality, never recompressed, with tracked delivery and encrypted sessions.",
     useCases: [
-      "Deliver master video edits",
+      "Deliver master video edits to clients",
       "Move RAW footage between editors",
       "Send 4K/8K final exports",
       "Ship trailer cuts to agencies",
-      "Transfer documentary archives",
     ],
+    featureCards: [
+      { icon: "Film", title: "No re-encoding, ever", description: "Your video arrives exactly as it left — ProRes, BRAW, R3D and RAW delivered at source quality, never recompressed." },
+      { icon: "HardDrive", title: "Up to 500GB per transfer", description: "Send a full shoot, a master file or a folder of footage as one transfer — no splitting across uploads." },
+      { icon: "Eye", title: "Know when it's downloaded", description: "See when your editor or client opens and downloads the file, with timestamps — no more 'did you get it?'." },
+      { icon: "Mail", title: "Link or email delivery", description: "Share a secure link anywhere, or send the video straight to a recipient's inbox from Docsora." },
+      { icon: "Lock", title: "Encrypted and protected", description: "Encrypted in transit (TLS) and at rest, with optional password protection on any transfer." },
+      { icon: "Users", title: "No sign up for anyone", description: "Neither you nor your recipient needs an account or software to send or download." },
+    ],
+    sections: [
+      {
+        kind: "richText",
+        h2: "Why your video won't send (and arrives ruined when it does)",
+        paragraphs: [
+          "Email bounces video almost immediately, and the apps that do accept it — messaging tools, social uploads, consumer cloud drives — quietly recompress your footage to save their own bandwidth. A 4K master that left your machine pristine arrives soft, blocky and a fraction of the bitrate.",
+          "Docsora moves the original file untouched. Upload the export, send a secure link, and your recipient downloads the exact file you uploaded — no transcode, no bitrate cap, no quality loss.",
+        ],
+      },
+      {
+        kind: "richText",
+        h2: "Built for the file sizes video actually produces",
+        paragraphs: [
+          "Professional video is big by nature: ProRes 422 HQ runs hundreds of megabits per second, BRAW and R3D camera files fill cards by the hour, and a few minutes of 8K can outweigh an entire photo shoot. These are the files that break every consumer tool.",
+          "With a 500GB ceiling per transfer, a full day of footage or a finished master moves as a single link — no zipping into parts, no splitting across multiple sends.",
+        ],
+      },
+      {
+        kind: "useCases",
+        h2: "Who sends large video with Docsora",
+        items: [
+          { h3: "Videographers delivering to clients", body: "Send the finished cut or the full-resolution master as one link, and see the moment the client downloads it." },
+          { h3: "Editors and post houses", body: "Move RAW footage and project files between set, edit and grade without shipping drives or re-encoding." },
+          { h3: "Creators sending to collaborators", body: "Get source-quality footage to your editor or motion designer without YouTube-grade compression in between." },
+          { h3: "Anyone with phone footage", body: "Send long 4K clips straight from your phone's browser — no app, no AirDrop range limit, no quality drop." },
+        ],
+      },
+      {
+        kind: "comparisonTable",
+        h2: "Docsora vs the usual ways to send video",
+        columns: ["Feature", "Messaging apps", "Email", "Docsora"],
+        rows: [
+          { feature: "Max size", values: ["Small", "~20–25MB", "Up to 500GB"] },
+          { feature: "Keeps original quality", values: ["No — recompressed", "n/a — won't send", "Yes — untouched"] },
+          { feature: "Download tracking", values: ["No", "No", "Yes — opens & downloads"] },
+          { feature: "Recipient needs an app/account", values: ["Yes", "No", "No"] },
+        ],
+      },
+    ],
+    fileTypes: {
+      h2: "Every video format, delivered untouched",
+      intro:
+        "Docsora sends every common and professional video format at source quality — plus the project and audio files that travel with them.",
+      blurbs: {
+        "Video": "Send MP4, MOV, AVI, MKV, ProRes, BRAW and R3D at source quality, with no re-encoding.",
+        "Audio": "Send synced audio, stems and masters alongside your footage, uncompressed.",
+        "Archives & Packages": "Send entire project folders — footage, audio and assets — as one transfer.",
+      },
+    },
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Large media transfer", href: "/large-media-transfer" },
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Share large files", href: "/share-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
+      ],
+    },
     faq: [
-      {
-        question: "What is the fastest way to transfer large videos?",
-        answer:
-          "Browser-native transfer platforms like Docsora are the fastest practical option for most teams - no software to install, encrypted sessions, and delivery links generated the moment upload completes so recipients can download.",
-      },
-      {
-        question: "Can I send large videos without compression?",
-        answer:
-          "Yes. Docsora preserves source video files byte-for-byte. Your RAW, ProRes, BRAW or master exports are delivered exactly as uploaded.",
-      },
+      { question: "How do I send a large video file without losing quality?", answer: "Upload the video to Docsora and send a secure link instead of attaching or uploading it through an app that recompresses. Your recipient downloads the exact original file — same resolution, same bitrate, no re-encoding." },
+      { question: "What is the largest video file I can send?", answer: "Up to 500GB in a single transfer, which covers full-resolution masters, RAW camera files and entire folders of footage — no need to split or compress." },
+      { question: "Can I send 4K or 8K video?", answer: "Yes. Docsora delivers the original file untouched, so 4K and 8K footage arrives at full resolution and bitrate, not a downscaled or recompressed copy." },
+      { question: "Does Docsora compress my video?", answer: "No. Docsora never transcodes or recompresses your file. What you upload is exactly what your recipient downloads." },
+      { question: "Can I send a large video from my phone?", answer: "Yes. Upload straight from your phone's browser and share a link in seconds — no app to install, on iOS or Android. The recipient can download on any device." },
+      { question: "Can my client download the video without an account?", answer: "Yes. Recipients open the link and download the original file with no account, sign-up or software. You still see when they've downloaded it." },
     ],
+    finalCta: {
+      headline: "Send your next video at full quality.",
+      body: "Tracked, encrypted delivery for footage, masters and exports — no compression.",
+      buttonLabel: "Start a transfer",
+    },
   },
   {
     slug: "send-large-files-online",
