@@ -677,9 +677,9 @@ export const transferVariants: TransferVariantConfig[] = [
           "Yes. Open the page in your phone or tablet's browser, upload your files, and share the link — no app store download, on iOS or Android.",
       },
       {
-        question: "Does sending files online work on any operating system?",
+        question: "What happens to my file after I send it online?",
         answer:
-          "Yes. Because it runs in the browser, it works the same on Windows, Mac, Linux, iOS and Android — there's no OS-specific app.",
+          "You get a secure link to share, and you can set how long it stays live, extend it, or reactivate it later — all from the browser. You also see when it's opened and downloaded.",
       },
       {
         question: "Is it safe to send files online through a browser?",
