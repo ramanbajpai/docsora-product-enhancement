@@ -6,6 +6,7 @@ import {
   Share2,
   ShieldCheck,
   Globe2,
+  Globe,
   Briefcase,
   Sparkles,
   ArrowRight,
