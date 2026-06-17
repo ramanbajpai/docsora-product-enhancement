@@ -264,6 +264,7 @@ const App = () => (
             <Route path="/legal-file-sharing" element={<TransferVariant />} />
             <Route path="/consulting-file-sharing" element={<TransferVariant />} />
             <Route path="/freelancer-file-transfer" element={<TransferVariant />} />
+            <Route path="/wetransfer-alternative" element={<TransferVariant />} />
             {/* Transfer knowledge / guide pages */}
             <Route path="/transfer-guides/:slug" element={<TransferGuide />} />
             <Route path="/tools" element={<Tools />} />
