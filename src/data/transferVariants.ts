@@ -504,7 +504,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadHeadline: "Send your first transfer",
     uploadSubheadline: "No 3GB monthly cap, no 3-day expiry, no account.",
     ctaLabel: "Choose files to send",
-    eyebrow: "WETRANSFER ALTERNATIVE",
+    seoBadgeLabel: "WETRANSFER ALTERNATIVE",
     featureCards: [
       { icon: "Infinity", title: "No monthly transfer cap", description: "WeTransfer's free plan stops you at 3GB or 10 transfers a month. Docsora has no monthly quota — send as often as you need." },
       { icon: "Clock", title: "Expiry you control", description: "WeTransfer free links expire after 3 days. With Docsora you set the expiry, extend it, or reactivate an expired transfer without re-uploading." },
