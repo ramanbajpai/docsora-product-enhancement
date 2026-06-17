@@ -549,6 +549,8 @@ export const transferVariants: TransferVariantConfig[] = [
     ctaLabel: "Choose video files to send",
     longCopy:
       "Docsora moves the original video file untouched — ProRes, BRAW, R3D, RAW and 4K/8K masters arrive at source quality, never recompressed, with tracked delivery and encrypted sessions.",
+    seoBadgeLabel: "Send Large Videos",
+    featureCardsH2: "Everything you need to send large video files",
     useCases: [
       "Deliver master video edits to clients",
       "Move RAW footage between editors",
