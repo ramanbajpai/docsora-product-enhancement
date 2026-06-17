@@ -34,9 +34,9 @@ const benefitsByVariant = {
     { icon: Shield, text: "Audit trail included" },
   ],
   "transfer": [
-    { icon: Shield, text: "End-to-end encrypted" },
+    { icon: Shield, text: "Encrypted in transit & at rest" },
     { icon: Lock, text: "Password protection" },
-    { icon: Globe, text: "Up to 100GB" },
+    { icon: Globe, text: "Up to 500GB" },
   ],
 };
 
