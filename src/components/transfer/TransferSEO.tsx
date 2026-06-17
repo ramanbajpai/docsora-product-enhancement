@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Send,
+  Share2,
   ShieldCheck,
   Globe2,
   Briefcase,
@@ -45,7 +46,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { transferVariants, type TransferVariantConfig, type LandingSection } from "@/data/transferVariants";
+import { transferVariants, type TransferVariantConfig, type LandingSection, type TransferVariantFAQ } from "@/data/transferVariants";
 import { transferCompareVariants } from "@/data/transferCompareVariants";
 import { transferGuides } from "@/data/transferGuides";
 
@@ -338,7 +339,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
     { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
   ];
-  const activeFaqs = useTemplate ? (variant?.faq ?? []) : isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
+  const activeFaqs: TransferVariantFAQ[] = useTemplate ? (variant?.faq ?? []) : isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
     { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
     { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
     { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
