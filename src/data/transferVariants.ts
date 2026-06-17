@@ -500,7 +500,7 @@ export const transferVariants: TransferVariantConfig[] = [
     title: "The Best WeTransfer Alternative (2026) | Docsora",
     metaDescription: "Looking for a WeTransfer alternative? Docsora sends up to 500GB with no monthly caps, expiry you control and tracking on every transfer — files never used to train AI.",
     h1: "A WeTransfer alternative built for people who send a lot",
-    subhead: "Up to 500GB, no monthly transfer caps, expiry you control — and files never used to train AI.",
+    intro: "Up to 500GB, no monthly transfer caps, expiry you control — and files never used to train AI.",
     uploadHeadline: "Send your first transfer",
     uploadSubheadline: "No 3GB monthly cap, no 3-day expiry, no account.",
     ctaLabel: "Choose files to send",
