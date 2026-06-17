@@ -41,6 +41,7 @@ import {
   KeyRound,
   FileCheck,
   HardDrive,
+  FolderArchive,
 } from "lucide-react";
 import {
   Accordion,
@@ -153,7 +154,7 @@ const ICONS: Record<string, LucideIcon> = {
   Workflow, History, Infinity, Archive, FileText, FileVideo,
   Presentation, Music, Box, Code, Send, Share2,
   Film, Building2, FileSpreadsheet, Sparkles, Check,
-  Clock, KeyRound, FileCheck, HardDrive,
+  Clock, KeyRound, FileCheck, HardDrive, FolderArchive,
 };
 
 function SectionRenderer({ section }: { section: LandingSection }) {
@@ -342,18 +343,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { title: "How To Send Large Video Files Without Losing Quality", href: "/transfer-guides/how-to-send-large-video-files-without-losing-quality", teaser: "Why most apps compress your video, and the methods that deliver RAW, ProRes and 4K untouched." },
     { title: "Secure File Transfer For Business: Complete Guide", href: "/transfer-guides/secure-file-transfer-for-business", teaser: "Encryption, access controls, audit logs and what GDPR, ISO 27001 and SOC 2 mean in practice." },
   ];
-  const activeFaqs: TransferVariantFAQ[] = useTemplate ? (variant?.faq ?? []) : isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : (variant?.faq ?? [
-    { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
-    { question: "How do I send files that are too large to email?", answer: "Email providers cap attachments at around 20–25MB (Gmail 25MB, Outlook 20MB), and encoding overhead makes the real limit lower. With Docsora you upload files that are too large to email and send a secure link instead of an attachment — no size limit, no compression and no splitting. The recipient downloads the original file.", linkText: "too large to email", linkHref: "/email-large-files" },
-    { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
-    { question: "Can I extend or reactivate expired file transfers?", answer: "Yes. Docsora allows users to extend transfer expiry dates and reactivate expired transfers without needing to upload files again. This helps reduce duplicate work and improves file management." },
-    { question: "Do recipients need a Docsora account?", answer: "No. Recipients can access files directly through a secure transfer link without creating an account or installing software." },
-    { question: "What file types can I send with Docsora?", answer: "Docsora supports over 100 file types including PDF, Word, Excel, PowerPoint, ZIP, MP4, MOV, PSD, AI, DWG, STL, RAW photography formats and many other business, creative and technical file formats." },
-    { question: "Can I send large video files online?", answer: "Yes. Docsora supports large video files including MP4, MOV, ProRes and RAW production formats, making it suitable for creators, production teams and agencies sharing high-resolution content." },
-    { question: "Can I send ZIP files online?", answer: "Yes. Users can securely transfer ZIP files, project archives and packaged deliverables through a single transfer link while maintaining visibility over downloads and transfer activity." },
-    { question: "Is Docsora secure for business file sharing?", answer: "Yes. Docsora is built for secure business file sharing and compliance-focused environments. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress." },
-    { question: "What makes Docsora different from traditional file transfer services?", answer: "Traditional services focus on sending files. Docsora focuses on what happens after — track downloads, see recipient activity, extend or reactivate expiry, and manage every transfer from one dashboard." },
-  ]);
+  const normalizeFaqs = (faq: TransferVariantConfig['faq']): TransferVariantFAQ[] => {
+    if (!faq) return [];
+    return Array.isArray(faq) ? faq : faq.items ?? [];
+  };
+  const activeFaqs: TransferVariantFAQ[] = useTemplate ? normalizeFaqs(variant?.faq) : isSLF ? sendLargeFilesFaqs : isLFT ? lftFaqs : normalizeFaqs(variant?.faq);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -807,7 +801,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
           />
           <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight">{useTemplate && variant?.faq && !Array.isArray(variant.faq) && variant.faq.h2 ? variant.faq.h2 : "Frequently Asked Questions"}</h2>
           </motion.div>
           <motion.div {...fadeUp} className="max-w-2xl mx-auto">
             <Accordion type="single" collapsible className="w-full">
