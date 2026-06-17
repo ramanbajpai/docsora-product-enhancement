@@ -599,7 +599,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
         {/* SECTION - Supported file types */}
         <section>
           <motion.div {...fadeUp} className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">Every format you need, delivered at original quality</h2>
+            <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">{useTemplate && variant?.fileTypes?.h2 ? variant.fileTypes.h2 : "Every format you need, delivered at original quality"}</h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">Docsora supports over 100 file formats — from everyday documents to RAW video and CAD assemblies — and delivers every one at original quality, with no conversion or compression. Here's what you can send:</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
