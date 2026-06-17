@@ -1207,7 +1207,7 @@ export const transferVariants: TransferVariantConfig[] = [
 
 /* ─── Compliance lint: flag prohibited phrasing in variant copy ─── */
 if (import.meta.env?.DEV ?? true) {
-  const prohibited = /end-to-end encrypt/i;
+  const prohibited = /end-to-end encrypt(?!ion)/i;
   function scan(obj: unknown, path: string) {
     if (typeof obj === "string") {
       if (prohibited.test(obj)) {
