@@ -1137,6 +1137,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Encryption, password protection and expiry on every transfer.",
     ctaLabel: "Choose files to send securely",
     longCopy: "Docsora Transfer protects sensitive files with encryption in transit and at rest, optional password protection, expiring links and full download tracking — so files reach the right person and no one else.",
+    featureCardsH2: "Everything you need for secure file transfer",
     useCases: [
       "Send contracts and case files securely",
       "Transfer financial and HR documents",
@@ -1203,6 +1204,25 @@ export const transferVariants: TransferVariantConfig[] = [
     },
   },
 ];
+
+/* ─── Compliance lint: flag prohibited phrasing in variant copy ─── */
+if (import.meta.env?.DEV ?? true) {
+  const prohibited = /end-to-end encrypt(?!ion)/i;
+  function scan(obj: unknown, path: string) {
+    if (typeof obj === "string") {
+      if (prohibited.test(obj)) {
+        console.error(
+          `[transferVariants compliance lint] Prohibited phrase "end-to-end encrypt" found at ${path}: "${obj}"`
+        );
+      }
+    } else if (Array.isArray(obj)) {
+      obj.forEach((item, i) => scan(item, `${path}[${i}]`));
+    } else if (obj && typeof obj === "object") {
+      Object.entries(obj).forEach(([k, v]) => scan(v, `${path}.${k}`));
+    }
+  }
+  transferVariants.forEach((v, i) => scan(v, `transferVariants[${i}]`));
+}
 
 export const transferVariantBySlug: Record<string, TransferVariantConfig> =
   Object.fromEntries(transferVariants.map((v) => [v.slug, v]));
