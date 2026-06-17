@@ -271,6 +271,7 @@ export const transferVariants: TransferVariantConfig[] = [
       },
     ],
     fileTypes: {
+      h2: "Every file type, sent at original quality",
       blurbs: {
         "Documents & Office": "Send contracts, proposals and board packs the moment they're ready.",
         "Images & Photography": "Send full-resolution photos and RAW exports without quality loss.",
@@ -378,6 +379,7 @@ export const transferVariants: TransferVariantConfig[] = [
       },
     ],
     fileTypes: {
+      h2: "Transfer any file format at original quality",
       blurbs: {
         "Documents & Office": "Transfer contracts, proposals and board packs in one go.",
         "Images & Photography": "Transfer full-resolution photos and RAW exports without quality loss.",
@@ -473,6 +475,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ],
       },
     ],
+    fileTypes: {
+      h2: "Send any file type securely",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
@@ -733,6 +738,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ],
       },
     ],
+    fileTypes: {
+      h2: "Every file type, straight from your browser",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
