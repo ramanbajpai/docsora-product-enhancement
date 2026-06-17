@@ -73,7 +73,7 @@ const fileTypeGroups = [
   { category: "Design & Creative", href: "/creative-agency-file-sharing", icon: Palette, formats: "PSD · PSB · AI · EPS · INDD · IDML · XD · FIG · SKETCH · PRPROJ · AEP", message: "Move Adobe, Figma and creative-production files between agencies and freelancers.", messageSLF: "Send working design files to clients and collaborators, layers intact.", messageLFT: "Transfer working design files with layers and fonts intact." },
   { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding.", messageLFT: "Transfer exports and RAW footage at source quality, no re-encoding." },
   { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression.", messageLFT: "Transfer masters, stems and podcast files without compression." },
-  { category: "Archives & Packages", href: "/share-large-files", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer.", messageLFT: "Transfer whole zipped projects and backups as one item." },
+  { category: "Archives & Packages", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer.", messageLFT: "Transfer whole zipped projects and backups as one item." },
   { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion.", messageLFT: "Transfer CAD exports and 3D models with no conversion." },
   { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely.", messageLFT: "Transfer builds, databases and project exports securely." },
 ];
@@ -315,7 +315,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   ];
   const lftRelated = [
     { label: "Send large files", href: "/send-large-files" },
-    { label: "Share large files", href: "/share-large-files" },
+    { label: "Send large videos", href: "/send-large-videos" },
     { label: "Secure file transfer", href: "/secure-file-transfer" },
     { label: "Email large files", href: "/email-large-files" },
   ];
@@ -335,7 +335,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { label: "Send large videos", href: "/send-large-videos" },
     { label: "Send large PDFs", href: "/send-large-pdf-files" },
     { label: "Email large files", href: "/email-large-files" },
-    { label: "Share large files", href: "/share-large-files" },
+    { label: "Large file transfer", href: "/large-file-transfer" },
   ];
   const sendLargeFilesGuides = [
     { title: "How To Send Large Files Online (2026 Complete Guide)", href: "/transfer-guides/how-to-send-large-files-online", teaser: "Every method for sending large files online, compared — limits, trade-offs and what holds up for real work." },
