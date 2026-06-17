@@ -38,6 +38,7 @@ import {
   Clock,
   KeyRound,
   FileCheck,
+  HardDrive,
 } from "lucide-react";
 import {
   Accordion,
@@ -150,7 +151,7 @@ const ICONS: Record<string, LucideIcon> = {
   Workflow, History, Archive, FileText, FileVideo,
   Presentation, Music, Box, Code, Send, Share2,
   Film, Building2, FileSpreadsheet, Sparkles, Check,
-  Clock, KeyRound, FileCheck,
+  Clock, KeyRound, FileCheck, HardDrive,
 };
 
 function SectionRenderer({ section }: { section: LandingSection }) {
