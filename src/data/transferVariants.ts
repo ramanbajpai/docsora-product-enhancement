@@ -290,7 +290,7 @@ export const transferVariants: TransferVariantConfig[] = [
         { label: "Send large videos", href: "/send-large-videos" },
         { label: "Send large PDFs", href: "/send-large-pdf-files" },
         { label: "Email large files", href: "/email-large-files" },
-        { label: "Share large files", href: "/share-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
       ],
     },
     finalCta: {
@@ -396,7 +396,7 @@ export const transferVariants: TransferVariantConfig[] = [
       ariaLabel: "Related ways to transfer files",
       links: [
         { label: "Send large files", href: "/send-large-files" },
-        { label: "Share large files", href: "/share-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
         { label: "Secure file transfer", href: "/secure-file-transfer" },
         { label: "Email large files", href: "/email-large-files" },
       ],
@@ -667,7 +667,7 @@ export const transferVariants: TransferVariantConfig[] = [
       links: [
         { label: "Large media transfer", href: "/large-media-transfer" },
         { label: "Send large files", href: "/send-large-files" },
-        { label: "Share large files", href: "/share-large-files" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
         { label: "Large file transfer", href: "/large-file-transfer" },
       ],
     },
@@ -789,7 +789,7 @@ export const transferVariants: TransferVariantConfig[] = [
       links: [
         { label: "Send large files", href: "/send-large-files" },
         { label: "Large file transfer", href: "/large-file-transfer" },
-        { label: "Share large files", href: "/share-large-files" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
         { label: "Email large files", href: "/email-large-files" },
       ],
     },
@@ -798,38 +798,6 @@ export const transferVariants: TransferVariantConfig[] = [
       body: "No app, no install, no account — just your browser.",
       buttonLabel: "Start a transfer",
     },
-  },
-  {
-    slug: "share-large-files",
-    title: "Share Large Files Securely Online | Docsora Transfer",
-    metaDescription:
-      "Share large files online with secure delivery links, tracking, password protection and encrypted recipient sessions. Built for operational teams.",
-    h1: "Share Large Files With Anyone",
-    intro:
-      "Generate a secure shareable link in seconds, control who downloads, and track every recipient action in real time.",
-    keyword: "share large files",
-    cardIcon: Share2,
-    cardLabel: "Share Large Files",
-    cardDescription:
-      "One link, many recipients, full download visibility.",
-    uploadHeadline: "Share large files securely",
-    uploadSubheadline: "Generate a delivery link in seconds - track and control every download.",
-    ctaLabel: "Generate share link",
-    longCopy:
-      "Docsora Transfer turns file sharing into operational infrastructure. Every share is a tracked, controllable delivery - not a fire-and-forget download URL. Set passwords, expiry windows, recipient lists and download caps in seconds.",
-    useCases: [
-      "Share assets with external partners",
-      "Send reports to clients",
-      "Distribute internal team files",
-      "Share confidential documents securely",
-    ],
-    faq: [
-      {
-        question: "How do I share large files professionally?",
-        answer:
-          "Use a tracked delivery platform like Docsora Transfer. Upload files, generate a secure link, and share with clients - you'll see exactly when they open and download.",
-      },
-    ],
   },
   {
     slug: "large-media-transfer",
