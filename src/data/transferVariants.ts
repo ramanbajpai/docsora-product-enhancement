@@ -42,7 +42,7 @@ export interface TransferVariantFAQ {
  *  so data files stay serializable and safe. Extend as needed. */
 export type LandingIconName =
   | "Upload" | "Mail" | "Eye" | "Zap" | "Lock" | "Users" | "Layers"
-  | "ShieldCheck" | "Globe2" | "Briefcase" | "Palette" | "MonitorSmartphone"
+  | "ShieldCheck" | "Globe2" | "Globe" | "Briefcase" | "Palette" | "MonitorSmartphone"
   | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
