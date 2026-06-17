@@ -449,44 +449,6 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "secure-file-transfer",
-    title: "Secure File Transfer Online - Encrypted Delivery | Docsora",
-    metaDescription:
-      "Secure file transfer with TLS encryption, password protection, download limits and expiring links. Built for finance, legal and operational teams.",
-    h1: "Secure File Transfer for Sensitive Work",
-    intro:
-      "TLS-encrypted delivery sessions, password-protected links, download caps and expiring access - file transfer designed for sensitive operational data.",
-    keyword: "secure file transfer",
-    cardIcon: ShieldCheck,
-    cardLabel: "Secure File Transfer",
-    cardDescription:
-      "Encryption, password protection and expiring links.",
-    uploadHeadline: "Transfer files securely online",
-    uploadSubheadline: "Encrypted sessions, expiring links and granular access controls.",
-    ctaLabel: "Start secure transfer",
-    longCopy:
-      "Docsora Transfer encrypts every delivery session end-to-end, supports per-link passwords, enforces download caps and expires links automatically. Built for finance, legal and operational teams that need real security controls - not just a public download URL.",
-    useCases: [
-      "Deliver audit-ready financial exports",
-      "Share confidential legal documents",
-      "Route HR and compensation files",
-      "Send signed contracts and NDAs",
-      "Move sensitive board materials",
-    ],
-    faq: [
-      {
-        question: "How do I securely transfer sensitive files?",
-        answer:
-          "Upload to Docsora, enable password protection, set a download cap and configure link expiry. All data is encrypted in transit (TLS) and at rest, with auditable access logs available for every transfer.",
-      },
-      {
-        question: "Is Docsora Transfer compliant with enterprise standards?",
-        answer:
-          "Docsora aligns with SOC 2 and ISO 27001 principles, supports encrypted sessions, role-based access and audit trails - suitable for finance, legal and regulated operational teams.",
-      },
-    ],
-  },
-  {
     slug: "send-large-videos",
     title: "Send Large Videos Online Without Compression | Docsora",
     metaDescription:
