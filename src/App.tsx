@@ -246,11 +246,7 @@ const App = () => (
             <Route path="/share-large-files" element={<TransferVariant />} />
             <Route path="/large-media-transfer" element={<TransferVariant />} />
             <Route path="/send-large-pdf-files" element={<TransferVariant />} />
-            <Route path="/send-zip-files" element={<TransferVariant />} />
-            <Route path="/send-design-files" element={<TransferVariant />} />
             <Route path="/agency-file-sharing" element={<TransferVariant />} />
-            <Route path="/client-file-delivery" element={<TransferVariant />} />
-            <Route path="/browser-file-transfer" element={<TransferVariant />} />
             <Route path="/email-large-files" element={<TransferVariant />} />
             <Route path="/encrypted-file-transfer" element={<TransferVariant />} />
             <Route path="/send-files-online" element={<TransferVariant />} />
