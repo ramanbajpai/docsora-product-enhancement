@@ -1137,6 +1137,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Encryption, password protection and expiry on every transfer.",
     ctaLabel: "Choose files to send securely",
     longCopy: "Docsora Transfer protects sensitive files with encryption in transit and at rest, optional password protection, expiring links and full download tracking — so files reach the right person and no one else.",
+    featureCardsH2: "Everything you need for secure file transfer",
     useCases: [
       "Send contracts and case files securely",
       "Transfer financial and HR documents",
