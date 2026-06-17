@@ -92,10 +92,11 @@ export default function Transfer({ variant }: TransferProps = {}) {
   const canonicalPath = variant ? `/${variant.slug}` : "/transfer";
   const h1 = variant?.h1 ?? "Send Large Files Instantly";
 
+  const faqItems = Array.isArray(variant?.faq) ? variant?.faq : variant?.faq?.items;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: (variant?.faq ?? [
+    mainEntity: (faqItems ?? [
       { question: "How can I send large files online securely?", answer: "Docsora allows users to upload files, generate secure transfer links and share them instantly with recipients. File transfers are encrypted and can be protected with expiry controls, providing a secure way to send large files online." },
       { question: "Can I track who downloaded my files?", answer: "Yes. Docsora provides transfer tracking so users can monitor views, downloads and recipient activity. This helps teams understand whether files have been received and accessed." },
       { question: "Can I extend or reactivate expired file transfers?", answer: "Yes. Docsora allows users to extend transfer expiry dates and reactivate expired transfers without needing to upload files again. This helps reduce duplicate work and improves file management." },

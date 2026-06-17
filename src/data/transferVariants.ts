@@ -46,7 +46,7 @@ export type LandingIconName =
   | "Workflow" | "History" | "Infinity" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
-  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive";
+  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive" | "FolderArchive";
 
 export interface LandingFeatureCard {
   icon: LandingIconName;
@@ -127,17 +127,17 @@ export interface TransferVariantConfig {
   title: string;
   metaDescription: string;
   h1: string;
-  intro: string;
-  keyword: string;
-  cardIcon: LucideIcon;
-  cardLabel: string;
-  cardDescription: string;
+  intro?: string;
+  keyword?: string;
+  cardIcon?: LucideIcon;
+  cardLabel?: string;
+  cardDescription?: string;
   uploadHeadline: string;
   uploadSubheadline: string;
   ctaLabel: string;
-  longCopy: string;
-  useCases: string[];
-  faq: TransferVariantFAQ[];
+  longCopy?: string;
+  useCases?: string[];
+  faq: TransferVariantFAQ[] | { h2: string; items: TransferVariantFAQ[] };
 
   /* ---------- Template overrides (all optional) ---------- */
 
@@ -801,34 +801,90 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "large-media-transfer",
-    title: "Large Media Transfer - Video, RAW & Design Files | Docsora",
+    title: "Large Media Transfer \u2013 Video, Photo & Audio | Docsora",
     metaDescription:
-      "Large media transfer for video, RAW imagery, design files and production assets. Browser-native delivery without compression.",
-    h1: "Large Media Transfer for Production Teams",
+      "Transfer large media files \u2014 video, RAW photos, audio and design assets \u2014 together in one transfer. Up to 500GB, full quality, tracked delivery.",
+    h1: "Large media transfer",
     intro:
-      "Move video, RAW imagery, design exports and production-grade assets across creative, post-production and agency teams instantly.",
+      "Move whole media projects \u2014 video, RAW photos, audio and design assets \u2014 in a single transfer of up to 500GB.",
     keyword: "large media transfer",
     cardIcon: Film,
     cardLabel: "Large Media Transfer",
     cardDescription: "Mixed video, RAW and design assets in one transfer.",
-    uploadHeadline: "Move production media instantly",
-    uploadSubheadline: "Video, RAW imagery, design exports - delivered without compression.",
-    ctaLabel: "Transfer media",
+    uploadHeadline: "Transfer large media",
+    uploadSubheadline: "Mixed video, photo, audio and design \u2014 all in one transfer.",
+    ctaLabel: "Choose media to transfer",
     longCopy:
-      "Docsora Transfer is operational delivery infrastructure for production media. Move masters, RAW imagery, PSDs, INDDs, AEPs and design exports without quality loss, with tracked delivery and encrypted sessions.",
+      "Docsora Transfer moves whole media projects \u2014 video, RAW photos, audio and design assets \u2014 in a single transfer of up to 500GB, with tracked delivery and encrypted sessions.",
     useCases: [
-      "Deliver final video masters",
+      "Deliver campaign assets to clients",
       "Move RAW photography sets",
       "Ship Adobe / Figma design packages",
-      "Transfer 3D & rendering assets",
+      "Transfer audio and video masters",
     ],
-    faq: [
+    seoBadgeLabel: "LARGE MEDIA TRANSFER",
+    featureCards: [
+      { icon: "Layers", title: "Mixed media in one transfer", description: "Video, RAW stills, audio and design files together in a single link \u2014 no separate sends per file type." },
+      { icon: "HardDrive", title: "Up to 500GB at once", description: "Move an entire shoot, campaign or production package as one transfer \u2014 no splitting it across uploads." },
+      { icon: "FolderArchive", title: "Whole folders, structure intact", description: "Send a full project folder so assets arrive organised, not as a loose pile of files." },
+      { icon: "Eye", title: "Know when it lands", description: "See when the recipient opens and downloads the package, with timestamps." },
+      { icon: "Lock", title: "Full quality, encrypted", description: "Every asset delivered at original quality, with no compression. Encrypted in transit (TLS) and at rest." },
+      { icon: "Users", title: "No account for anyone", description: "You and your recipient send and receive without signing up or installing software." }
+    ],
+    sections: [
       {
-        question: "What is the best platform for sending large videos and media?",
-        answer:
-          "For production teams, the best platforms preserve source quality, offer real-time tracking and run in the browser. Docsora Transfer ships all three with operational workflow integration on top.",
+        kind: "richText",
+        h2: "When one delivery is many kinds of file at once",
+        paragraphs: [
+          "Creative work rarely travels as a single file. A campaign delivery is video cuts, RAW stills, audio beds, fonts and layered design files \u2014 all needed together, all large. Sending them piecemeal across email, chat and drive links means missing assets, version confusion and compressed copies.",
+          "Docsora moves the whole set as one transfer. Drag in the entire folder \u2014 every media type, at original quality \u2014 and share one link, so the recipient gets the complete package in the structure you sent it."
+        ]
       },
+      {
+        kind: "checklist",
+        h2: "What a media transfer needs to handle",
+        items: [
+          { h3: "Every media type together", body: "Video, photo, audio and design files in one transfer \u2014 not one tool per format." },
+          { h3: "Original quality across all of it", body: "No compression on the video, no downscaling on the stills, no re-encoding on the audio." },
+          { h3: "Folder structure preserved", body: "Assets arrive organised the way you sent them, not flattened into one list." },
+          { h3: "Size to fit a whole project", body: "Up to 500GB, enough for a full shoot or campaign package as a single transfer." }
+        ]
+      },
+      {
+        kind: "useCases",
+        h2: "Who moves large media with Docsora",
+        items: [
+          { h3: "Agencies delivering a campaign", body: "Send the full set \u2014 video, stills, audio and design files \u2014 to a client as one organised package." },
+          { h3: "Production teams handing off a project", body: "Move an entire project folder between shoot, edit and post without splitting it by file type." },
+          { h3: "Anyone packaging mixed assets", body: "Bundle everything a recipient needs into one transfer instead of chasing files across several tools." }
+        ]
+      }
     ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Send large videos", href: "/send-large-videos" },
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" }
+      ]
+    },
+    faq: {
+      h2: "Frequently asked questions",
+      items: [
+        { question: "How do I transfer a mix of large media files at once?", answer: "Upload everything \u2014 video, photos, audio and design files \u2014 to Docsora as a single transfer or folder, and share one link. The recipient downloads the whole set at original quality, in the structure you sent it." },
+        { question: "Can I send a whole project folder of mixed media?", answer: "Yes. Upload the entire folder and Docsora keeps its structure, so a recipient receives an organised package rather than a loose pile of files \u2014 up to 500GB in one transfer." },
+        { question: "Will all the different file types keep their quality?", answer: "Yes. Docsora delivers every asset as the original file \u2014 no compression on video, no downscaling on stills, no re-encoding on audio. What you upload is what arrives." },
+        { question: "How large can a media transfer be?", answer: "Up to 500GB in a single transfer, which is enough to move an entire shoot or campaign package \u2014 video, RAW stills, audio and design files together \u2014 without splitting it up." },
+        { question: "Can I track when the recipient downloads the package?", answer: "Yes. Docsora shows when the transfer is opened and downloaded, with timestamps, so you know the full package has been received." },
+        { question: "Do recipients need an account to download media files?", answer: "No. They open the link and download the package in the browser \u2014 no account, no app \u2014 on any device." }
+      ]
+    },
+    finalCta: {
+      headline: "Move your whole media project in one transfer.",
+      body: "Video, photo, audio and design \u2014 full quality, one link.",
+      buttonLabel: "Start a transfer"
+    }
   },
   {
     slug: "send-large-pdf-files",
