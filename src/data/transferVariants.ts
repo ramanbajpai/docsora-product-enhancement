@@ -405,7 +405,6 @@ export const transferVariants: TransferVariantConfig[] = [
       buttonLabel: "Start a transfer",
     },
   },
-
   {
     slug: "secure-file-transfer",
     title: "Secure File Transfer – Encrypted & Tracked | Docsora",
@@ -428,6 +427,69 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
     faq: [
       { question: "Is it safe to send files online?", answer: "It can be, with the right controls. Docsora encrypts files in transit and at rest, lets you add a password and an expiry to any transfer, and records who opened and downloaded each one — so a file reaches the intended person and leaves an access trail." },
+      { question: "What is the most secure way to send a document?", answer: "Send it as a password-protected, expiring link rather than an email attachment. The recipient downloads it directly, the password keeps a forwarded link from being opened, and the expiry means it can't be accessed indefinitely." },
+      { question: "Can I password-protect a transfer?", answer: "Yes. You can add a password to any transfer, so only someone with both the link and the password can open the file — useful when a link might be forwarded or seen by others." },
+      { question: "What happens when a secure link expires?", answer: "Once a transfer reaches its expiry date the link stops working and the file can no longer be downloaded. You set the expiry when you send, and you can extend it or reactivate the transfer later without re-uploading." },
+      { question: "Is Docsora compliant for handling sensitive files?", answer: "Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress — the standards legal, finance and HR teams typically require." },
+      { question: "Can I see who accessed a file I sent?", answer: "Yes. Docsora shows when each transfer is opened and downloaded, with timestamps, giving you a clear record of who accessed a file and when." },
+      { question: "Is encrypted file transfer the same as secure file transfer?", answer: "They overlap but aren't identical. Encryption is one part of secure transfer — it protects the file itself. Secure file transfer is the full picture: encryption plus password protection, expiring links, and a record of who accessed the file." },
+      { question: "How do I send confidential documents safely instead of by email?", answer: "Send a password-protected, expiring link rather than an email attachment. The document is encrypted in transit and at rest, only someone with the password can open it, and you get a record of when it was downloaded — none of which email attachments offer." },
+      { question: "Can I stop someone from accessing a file after I've sent it?", answer: "Yes. You can set a transfer to expire, and once it does the link stops working and the file can no longer be downloaded. You stay in control of how long a sensitive file remains accessible." },
+    ],
+    featureCards: [
+      { icon: "Lock", title: "Encrypted in transit and at rest", description: "Files are protected on the way to Docsora and while they're stored — not just during upload." },
+      { icon: "KeyRound", title: "Password-protect any transfer", description: "Add a password so only the person you intend can open the file, even if the link is forwarded." },
+      { icon: "Clock", title: "Links that expire on your terms", description: "Set an expiry so a transfer can't be opened forever — and extend or reactivate it when you choose." },
+      { icon: "Eye", title: "An audit trail of access", description: "See who opened and downloaded each transfer, with timestamps — a record of exactly where a file went." },
+      { icon: "FileCheck", title: "Compliance behind it", description: "ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
+      { icon: "ShieldCheck", title: "Your files train no AI", description: "Your content stays yours — never used, sold, or used to train AI models." },
+    ],
+    sections: [
+      {
+        kind: "richText",
+        h2: "Email and shared drives are the weak link",
+        paragraphs: [
+          "Most sensitive files leak through the tools people reach for by default. Email attachments get forwarded, sit in inboxes indefinitely, and leave no record of who opened them. Consumer cloud-drive links are worse: they often stay live forever, get shared beyond the intended person, and accumulate access no one ever revokes.",
+          "Secure file transfer closes those gaps. A Docsora link can be password-protected, set to expire, and tracked — so a sensitive file reaches one person, can't be opened indefinitely, and leaves a clear record of access.",
+        ],
+      },
+      {
+        kind: "checklist",
+        h2: "What makes a file transfer actually secure",
+        items: [
+          { h3: "Protection in transit and at rest", body: "The file should be encrypted both while it moves and while it's stored — not only during upload." },
+          { h3: "Access control", body: "A password and an expiry date so a forwarded link doesn't become an open door." },
+          { h3: "An audit trail", body: "A record of who opened and downloaded the file, so access is provable, not assumed." },
+          { h3: "Real compliance", body: "Independent attestation — ISO 27001, SOC 2, GDPR — not just the word 'secure' on a page." },
+        ],
+      },
+      {
+        kind: "useCases",
+        h2: "Who relies on secure transfer",
+        items: [
+          { h3: "Legal teams", body: "Send contracts and case files with a password, an expiry and a record of who accessed them." },
+          { h3: "Finance and HR", body: "Move payroll, financial statements and personal data without leaving copies in inboxes." },
+          { h3: "Any regulated business", body: "Share sensitive material with the access controls and audit trail compliance expects." },
+        ],
+      },
+    ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Encrypted file transfer", href: "/encrypted-file-transfer" },
+        { label: "Legal file sharing", href: "/legal-file-sharing" },
+        { label: "Large file transfer", href: "/large-file-transfer" },
+        { label: "Send large files", href: "/send-large-files" },
+      ],
+    },
+    finalCta: {
+      headline: "Send sensitive files with confidence.",
+      body: "Encrypted, password-protected and tracked — every transfer.",
+      buttonLabel: "Start a transfer",
+    },
+  },
+
+
   {
     slug: "wetransfer-alternative",
     title: "Best WeTransfer Alternative for Operational Teams | Docsora",
@@ -1145,67 +1207,6 @@ export const transferVariants: TransferVariantConfig[] = [
           "Freelancers need fast, secure delivery with tracking - without paying for enterprise software. Docsora Transfer combines browser-native upload with real-time download tracking and expiry controls.",
       },
     ],
-  },
-      { question: "What is the most secure way to send a document?", answer: "Send it as a password-protected, expiring link rather than an email attachment. The recipient downloads it directly, the password keeps a forwarded link from being opened, and the expiry means it can't be accessed indefinitely." },
-      { question: "Can I password-protect a transfer?", answer: "Yes. You can add a password to any transfer, so only someone with both the link and the password can open the file — useful when a link might be forwarded or seen by others." },
-      { question: "What happens when a secure link expires?", answer: "Once a transfer reaches its expiry date the link stops working and the file can no longer be downloaded. You set the expiry when you send, and you can extend it or reactivate the transfer later without re-uploading." },
-      { question: "Is Docsora compliant for handling sensitive files?", answer: "Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit currently in progress — the standards legal, finance and HR teams typically require." },
-      { question: "Can I see who accessed a file I sent?", answer: "Yes. Docsora shows when each transfer is opened and downloaded, with timestamps, giving you a clear record of who accessed a file and when." },
-      { question: "Is encrypted file transfer the same as secure file transfer?", answer: "They overlap but aren't identical. Encryption is one part of secure transfer — it protects the file itself. Secure file transfer is the full picture: encryption plus password protection, expiring links, and a record of who accessed the file." },
-      { question: "How do I send confidential documents safely instead of by email?", answer: "Send a password-protected, expiring link rather than an email attachment. The document is encrypted in transit and at rest, only someone with the password can open it, and you get a record of when it was downloaded — none of which email attachments offer." },
-      { question: "Can I stop someone from accessing a file after I've sent it?", answer: "Yes. You can set a transfer to expire, and once it does the link stops working and the file can no longer be downloaded. You stay in control of how long a sensitive file remains accessible." },
-    ],
-    featureCards: [
-      { icon: "Lock", title: "Encrypted in transit and at rest", description: "Files are protected on the way to Docsora and while they're stored — not just during upload." },
-      { icon: "KeyRound", title: "Password-protect any transfer", description: "Add a password so only the person you intend can open the file, even if the link is forwarded." },
-      { icon: "Clock", title: "Links that expire on your terms", description: "Set an expiry so a transfer can't be opened forever — and extend or reactivate it when you choose." },
-      { icon: "Eye", title: "An audit trail of access", description: "See who opened and downloaded each transfer, with timestamps — a record of exactly where a file went." },
-      { icon: "FileCheck", title: "Compliance behind it", description: "ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
-      { icon: "ShieldCheck", title: "Your files train no AI", description: "Your content stays yours — never used, sold, or used to train AI models." },
-    ],
-    sections: [
-      {
-        kind: "richText",
-        h2: "Email and shared drives are the weak link",
-        paragraphs: [
-          "Most sensitive files leak through the tools people reach for by default. Email attachments get forwarded, sit in inboxes indefinitely, and leave no record of who opened them. Consumer cloud-drive links are worse: they often stay live forever, get shared beyond the intended person, and accumulate access no one ever revokes.",
-          "Secure file transfer closes those gaps. A Docsora link can be password-protected, set to expire, and tracked — so a sensitive file reaches one person, can't be opened indefinitely, and leaves a clear record of access.",
-        ],
-      },
-      {
-        kind: "checklist",
-        h2: "What makes a file transfer actually secure",
-        items: [
-          { h3: "Protection in transit and at rest", body: "The file should be encrypted both while it moves and while it's stored — not only during upload." },
-          { h3: "Access control", body: "A password and an expiry date so a forwarded link doesn't become an open door." },
-          { h3: "An audit trail", body: "A record of who opened and downloaded the file, so access is provable, not assumed." },
-          { h3: "Real compliance", body: "Independent attestation — ISO 27001, SOC 2, GDPR — not just the word 'secure' on a page." },
-        ],
-      },
-      {
-        kind: "useCases",
-        h2: "Who relies on secure transfer",
-        items: [
-          { h3: "Legal teams", body: "Send contracts and case files with a password, an expiry and a record of who accessed them." },
-          { h3: "Finance and HR", body: "Move payroll, financial statements and personal data without leaving copies in inboxes." },
-          { h3: "Any regulated business", body: "Share sensitive material with the access controls and audit trail compliance expects." },
-        ],
-      },
-    ],
-    related: {
-      h2: "Related ways to send files",
-      links: [
-        { label: "Encrypted file transfer", href: "/encrypted-file-transfer" },
-        { label: "Legal file sharing", href: "/legal-file-sharing" },
-        { label: "Large file transfer", href: "/large-file-transfer" },
-        { label: "Send large files", href: "/send-large-files" },
-      ],
-    },
-    finalCta: {
-      headline: "Send sensitive files with confidence.",
-      body: "Encrypted, password-protected and tracked — every transfer.",
-      buttonLabel: "Start a transfer",
-    },
   },
 ];
 
