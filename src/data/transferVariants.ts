@@ -667,9 +667,9 @@ export const transferVariants: TransferVariantConfig[] = [
           "Open Docsora in any browser, drag in your files, and share the secure link that's generated. There's nothing to download or install — it runs entirely in the browser on any device.",
       },
       {
-        question: "Do I need to install anything to send files online?",
+        question: "How large a file can I send online?",
         answer:
-          "No. Docsora is browser-based, so there's no desktop client, sync app, or extension to install — which also makes it usable on work computers where you can't install software.",
+          "Up to 500GB in a single transfer, straight from the browser — no desktop app needed to handle big files. There's no splitting or compression; your recipient downloads the original.",
       },
       {
         question: "Can I send large files online from a phone or tablet?",
@@ -677,9 +677,9 @@ export const transferVariants: TransferVariantConfig[] = [
           "Yes. Open the page in your phone or tablet's browser, upload your files, and share the link — no app store download, on iOS or Android.",
       },
       {
-        question: "Does sending files online work on any operating system?",
+        question: "What happens to my file after I send it online?",
         answer:
-          "Yes. Because it runs in the browser, it works the same on Windows, Mac, Linux, iOS and Android — there's no OS-specific app.",
+          "You get a secure link to share, and you can set how long it stays live, extend it, or reactivate it later — all from the browser. You also see when it's opened and downloaded.",
       },
       {
         question: "Is it safe to send files online through a browser?",
