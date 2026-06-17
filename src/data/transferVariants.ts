@@ -46,7 +46,7 @@ export type LandingIconName =
   | "Workflow" | "History" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
-  | "Clock" | "KeyRound" | "FileCheck";
+  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive";
 
 export interface LandingFeatureCard {
   icon: LandingIconName;
