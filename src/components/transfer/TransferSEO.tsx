@@ -42,6 +42,7 @@ import {
   FileCheck,
   HardDrive,
   FolderArchive,
+  Maximize2,
 } from "lucide-react";
 import {
   Accordion,
