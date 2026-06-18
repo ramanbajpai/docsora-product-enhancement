@@ -479,7 +479,6 @@ export const transferVariants: TransferVariantConfig[] = [
     related: {
       h2: "Related ways to send files",
       links: [
-        { label: "Legal file sharing", href: "/legal-file-sharing" },
         { label: "Large file transfer", href: "/large-file-transfer" },
         { label: "Send large files", href: "/send-large-files" },
       ],
