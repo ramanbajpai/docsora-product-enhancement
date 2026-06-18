@@ -1014,37 +1014,6 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
   },
   {
-    slug: "send-files-online",
-    title: "Send Files Online - Fast Browser-Native Delivery | Docsora",
-    metaDescription:
-      "Send files online instantly with secure delivery links and tracking. The modern way to move work between teams.",
-    h1: "Send Files Online Instantly",
-    intro:
-      "Drop a file, get a secure delivery link, track every recipient action - file sharing built for the way modern teams actually ship work.",
-    keyword: "send files online",
-    cardIcon: Send,
-    cardLabel: "Send Files Online",
-    cardDescription: "Instant secure delivery links with real-time download tracking.",
-    uploadHeadline: "Send files online - instantly",
-    uploadSubheadline: "Browser-native delivery with real-time tracking.",
-    ctaLabel: "Send files online",
-    longCopy:
-      "Docsora Transfer is the operational delivery layer for sending files online. Drop a file, generate a link in seconds, and track every open and download in real time - no installs and no sync clients required.",
-    useCases: [
-      "Quick cross-team transfers",
-      "Send files to clients",
-      "Move work between offices",
-      "Send files from any device",
-    ],
-    faq: [
-      {
-        question: "What is the easiest way to send files online?",
-        answer:
-          "Browser-native transfer platforms like Docsora make it as simple as drag-and-drop. Drop your files, share the generated link, and recipients download without creating an account.",
-      },
-    ],
-  },
-  {
     slug: "large-file-sharing",
     title: "Large File Sharing for Modern Teams | Docsora",
     metaDescription:
