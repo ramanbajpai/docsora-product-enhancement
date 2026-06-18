@@ -46,7 +46,8 @@ export type LandingIconName =
   | "Workflow" | "History" | "Infinity" | "Archive" | "FileText" | "FileVideo"
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
-  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive" | "FolderArchive";
+  | "Clock" | "KeyRound" | "FileCheck" | "HardDrive" | "FolderArchive"
+  | "Maximize2";
 
 export interface LandingFeatureCard {
   icon: LandingIconName;
@@ -892,35 +893,77 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "send-large-pdf-files",
-    title: "Send Large PDF Files Online - Secure Delivery | Docsora",
-    metaDescription:
-      "Send large PDF files online with delivery tracking and encrypted sessions. Built for legal, finance and operational teams.",
-    h1: "Send Large PDF Files Online",
+    title: "Send Large PDF Files \u2013 No Compression | Docsora",
+    metaDescription: "Send large PDF files without compressing them \u2014 high-res scans, portfolios and reports delivered at full quality. Up to 500GB, tracked, no account.",
+    h1: "Send large PDF files",
     intro:
-      "Move oversized contracts, reports and PDF bundles past email size limits - with tracking, passwords and expiry baked in.",
-    keyword: "send large pdf files",
-    cardIcon: FileText,
-    cardLabel: "Send Large PDFs",
-    cardDescription:
-      "Past the email size limit, with no compression.",
-    uploadHeadline: "Send large PDF files securely",
-    uploadSubheadline: "Past inbox limits - with tracking, expiry and password protection.",
-    ctaLabel: "Send a PDF transfer",
-    longCopy:
-      "Docsora Transfer is the operational delivery layer for large PDFs. Send oversized contracts, audit reports, board packs and operational document bundles with real-time delivery tracking and granular access controls.",
-    useCases: [
-      "Deliver large contract bundles",
-      "Send board pack PDFs",
-      "Ship audit reports to clients",
-      "Move legal evidence files",
+      "Deliver high-resolution PDFs at full quality \u2014 no compression, no email bounce. Up to 500GB.",
+    uploadHeadline: "Send large PDF files",
+    uploadSubheadline: "Full-quality PDFs, however big \u2014 no compression.",
+    ctaLabel: "Choose PDFs to send",
+    seoBadgeLabel: "SEND LARGE PDFS",
+    featureCards: [
+      { icon: "FileText", title: "PDFs at full quality", description: "Send the original PDF exactly as exported \u2014 no compression that softens scans, images or print resolution." },
+      { icon: "Maximize2", title: "No size ceiling", description: "Scanned documents and image-heavy PDFs get big fast. Send up to 500GB without splitting or shrinking the file." },
+      { icon: "Eye", title: "See when it's opened", description: "Know when your recipient opens and downloads the PDF, with timestamps \u2014 useful for contracts and proposals." },
+      { icon: "Lock", title: "Password and expiry", description: "Add a password and an expiry to a sensitive document. Encrypted in transit (TLS) and at rest." },
+      { icon: "Layers", title: "Send a set in one link", description: "Bundle a multi-document pack \u2014 report, appendices, exhibits \u2014 into a single transfer instead of many attachments." },
+      { icon: "Users", title: "No account for anyone", description: "Your recipient opens the link and downloads the PDF \u2014 no account, no software, on any device." }
     ],
-    faq: [
+    sections: [
       {
-        question: "How do I send large PDF files over email?",
-        answer:
-          "Don't attach them - generate a Docsora delivery link instead. Recipients click through to a tracked download page with tracking, password protection and expiry controls.",
+        kind: "richText",
+        h2: "Why PDFs get too big to send",
+        paragraphs: [
+          "PDFs balloon for predictable reasons: scanned pages stored as full-resolution images, embedded photos and diagrams, print-ready files at 300dpi, or a long report with hundreds of pages. A single scanned contract or a design portfolio can run to hundreds of megabytes \u2014 far past what email allows.",
+          "The usual fix is to compress the PDF, but that softens text on scans, degrades images and ruins print quality. Docsora sends the original instead \u2014 the recipient downloads the exact file you exported, at full resolution, however large it is."
+        ]
       },
+      {
+        kind: "checklist",
+        h2: "Sending PDFs the right way",
+        items: [
+          { h3: "Don't compress to fit", body: "Compression to beat an email limit costs you image and print quality \u2014 send the original instead." },
+          { h3: "Keep print resolution", body: "Print-ready PDFs need their full 300dpi detail intact; Docsora delivers it unchanged." },
+          { h3: "Bundle related documents", body: "Send a report with its appendices and exhibits as one link, not a string of attachments." },
+          { h3: "Know it was received", body: "See when a contract or proposal PDF is opened and downloaded." }
+        ]
+      },
+      {
+        kind: "useCases",
+        h2: "Who sends large PDFs with Docsora",
+        items: [
+          { h3: "Scanned contracts and legal documents", body: "Send high-resolution scanned PDFs without compressing the pages into illegibility." },
+          { h3: "Designers and print houses", body: "Deliver print-ready, 300dpi PDFs at full quality, ready to go to press." },
+          { h3: "Reports, decks and portfolios", body: "Send image-heavy reports and PDF portfolios that are far too big to email." }
+        ]
+      }
     ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Email large files", href: "/email-large-files" },
+        { label: "Send large files", href: "/send-large-files" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
+        { label: "Large file transfer", href: "/large-file-transfer" }
+      ]
+    },
+    faq: {
+      h2: "Frequently asked questions",
+      items: [
+        { question: "How do I send a large PDF file?", answer: "Upload the PDF to Docsora and share the secure link \u2014 the recipient downloads the original file at full quality, with no compression or size limit getting in the way. PDFs up to 500GB are supported." },
+        { question: "How do I send a PDF that's too big to email?", answer: "Instead of compressing it to fit an email limit, upload it to Docsora and send a link. The PDF keeps its full resolution, the email doesn't bounce, and you can see when it's downloaded." },
+        { question: "Can I send a large PDF without compressing it?", answer: "Yes \u2014 that's the point. Docsora delivers the original PDF unchanged, so scanned pages, embedded images and print resolution stay intact rather than being degraded to shrink the file." },
+        { question: "Why is my PDF so large?", answer: "Usually because of scanned pages stored as images, embedded high-resolution photos, print-ready 300dpi content, or a high page count. These files exceed email limits quickly, which is where a transfer link helps." },
+        { question: "Can I send several PDFs at once?", answer: "Yes. Bundle a report with its appendices, or a set of documents, into a single transfer and share one link \u2014 no need to attach them one by one." },
+        { question: "Can I password-protect a PDF I send?", answer: "Yes. You can add a password and an expiry to the transfer, and it's encrypted in transit (TLS) and at rest \u2014 useful for contracts and confidential documents." }
+      ]
+    },
+    finalCta: {
+      headline: "Send your PDF at full quality.",
+      body: "No compression, no email bounce \u2014 just the original file.",
+      buttonLabel: "Start a transfer"
+    }
   },
   {
     slug: "agency-file-sharing",
