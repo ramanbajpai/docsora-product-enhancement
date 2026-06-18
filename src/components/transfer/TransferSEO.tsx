@@ -105,36 +105,6 @@ const operationalWorkflows = [
     href: "/creative-agency-file-sharing",
     icon: Palette,
   },
-  {
-    title: "Video Production",
-    description: "Move RAW footage and masters between set, edit and client.",
-    href: "/video-production-file-sharing",
-    icon: Film,
-  },
-  {
-    title: "Architecture & Engineering",
-    description: "Send DWG and BIM models with assemblies and references intact.",
-    href: "/architecture-engineering-file-sharing",
-    icon: Building2,
-  },
-  {
-    title: "Legal Teams",
-    description: "Share case files and contracts with audit-ready download records.",
-    href: "/legal-file-sharing",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Consulting Teams",
-    description: "Send proposals and board packs — and see when they're opened.",
-    href: "/consulting-file-sharing",
-    icon: Briefcase,
-  },
-  {
-    title: "Freelancers",
-    description: "Deliver client work professionally and prove it landed.",
-    href: "/freelancer-file-transfer",
-    icon: Send,
-  },
 ];
 
 const aiQuestions = [
@@ -700,7 +670,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
             <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-3">File Transfer for Individuals, Creatives and Teams</h2>
             <p className="text-sm text-muted-foreground/80 leading-relaxed">Built for the people who send files for a living — agencies, studios, engineering, legal, consulting and freelance.</p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="max-w-sm mx-auto">
             {operationalWorkflows.map((w, i) => {
               const Icon = w.icon;
               return (
