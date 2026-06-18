@@ -823,6 +823,7 @@ export const transferVariants: TransferVariantConfig[] = [
       "Transfer audio and video masters",
     ],
     seoBadgeLabel: "LARGE MEDIA TRANSFER",
+    featureCardsH2: "Everything you need to move large media",
     featureCards: [
       { icon: "Layers", title: "Mixed media in one transfer", description: "Video, RAW stills, audio and design files together in a single link \u2014 no separate sends per file type." },
       { icon: "HardDrive", title: "Up to 500GB at once", description: "Move an entire shoot, campaign or production package as one transfer \u2014 no splitting it across uploads." },
@@ -860,6 +861,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ]
       }
     ],
+    fileTypes: {
+      h2: "Every media format, delivered at full quality",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
