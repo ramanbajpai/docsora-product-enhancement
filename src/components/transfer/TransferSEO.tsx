@@ -319,12 +319,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { label: "Send large files", href: "/send-large-files" },
     { label: "Send large videos", href: "/send-large-videos" },
     { label: "Secure file transfer", href: "/secure-file-transfer" },
-    { label: "Email large files", href: "/email-large-files" },
   ];
   const sendLargeFilesFaqs = [
     { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
     { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
-    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression. See how to send files too large to email for the full method.", linkText: "send files too large to email", linkHref: "/email-large-files" },
+    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression." },
     { question: "Can I send large files without creating an account?", answer: "Yes. You can send large files with Docsora without signing up, and your recipient never needs an account either. There's nothing to install — everything runs in the browser, so you can upload and share a link in seconds." },
     { question: "How long do my transfer links stay active?", answer: "You control how long each transfer stays live. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. You decide when a link stops working." },
     { question: "Are my file transfers secure?", answer: "Yes. Files are encrypted in transit (TLS) and at rest, and you can add password protection and expiry to any transfer. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
@@ -336,7 +335,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const sendLargeFilesRelated = [
     { label: "Send large videos", href: "/send-large-videos" },
     { label: "Send large PDFs", href: "/send-large-pdf-files" },
-    { label: "Email large files", href: "/email-large-files" },
     { label: "Large file transfer", href: "/large-file-transfer" },
   ];
   const sendLargeFilesGuides = [
