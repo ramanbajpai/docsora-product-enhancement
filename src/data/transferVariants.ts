@@ -861,6 +861,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ]
       }
     ],
+    fileTypes: {
+      h2: "Every media format, delivered at full quality",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
