@@ -902,6 +902,9 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Full-quality PDFs, however big \u2014 no compression.",
     ctaLabel: "Choose PDFs to send",
     seoBadgeLabel: "SEND LARGE PDFS",
+    cardIcon: FileText,
+    cardLabel: "Send large PDF files",
+    cardDescription: "Deliver high-resolution PDFs at full quality — no compression, no email bounce.",
     featureCards: [
       { icon: "FileText", title: "PDFs at full quality", description: "Send the original PDF exactly as exported \u2014 no compression that softens scans, images or print resolution." },
       { icon: "Maximize2", title: "No size ceiling", description: "Scanned documents and image-heavy PDFs get big fast. Send up to 500GB without splitting or shrinking the file." },
