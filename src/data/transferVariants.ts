@@ -897,6 +897,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Full-quality PDFs, however big \u2014 no compression.",
     ctaLabel: "Choose PDFs to send",
     seoBadgeLabel: "SEND LARGE PDFS",
+    featureCardsH2: "Everything you need to send large PDFs",
     cardIcon: FileText,
     cardLabel: "Send large PDF files",
     cardDescription: "Deliver high-resolution PDFs at full quality — no compression, no email bounce.",
@@ -937,6 +938,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ]
       }
     ],
+    fileTypes: {
+      h2: "Every document format, delivered at full quality",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
