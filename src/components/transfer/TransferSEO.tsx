@@ -155,7 +155,7 @@ const ICONS: Record<string, LucideIcon> = {
   Workflow, History, Infinity, Archive, FileText, FileVideo,
   Presentation, Music, Box, Code, Send, Share2,
   Film, Building2, FileSpreadsheet, Sparkles, Check,
-  Clock, KeyRound, FileCheck, HardDrive, FolderArchive,
+  Clock, KeyRound, FileCheck, HardDrive, FolderArchive, Maximize2,
 };
 
 function SectionRenderer({ section }: { section: LandingSection }) {
