@@ -231,7 +231,6 @@ export const transferVariants: TransferVariantConfig[] = [
         paragraphs: [
           "Email providers cap attachments at around 20–25MB, so most large files bounce before they arrive. Docsora sends a secure link instead — no size limit, no compression, no bounce.",
         ],
-        cta: { label: "Starting from email? See how to send files too large to email.", href: "/email-large-files" },
       },
       {
         kind: "steps",
@@ -290,7 +289,6 @@ export const transferVariants: TransferVariantConfig[] = [
       links: [
         { label: "Send large videos", href: "/send-large-videos" },
         { label: "Send large PDFs", href: "/send-large-pdf-files" },
-        { label: "Email large files", href: "/email-large-files" },
         { label: "Large file transfer", href: "/large-file-transfer" },
       ],
     },
@@ -399,7 +397,6 @@ export const transferVariants: TransferVariantConfig[] = [
         { label: "Send large files", href: "/send-large-files" },
         { label: "Large file transfer", href: "/large-file-transfer" },
         { label: "Secure file transfer", href: "/secure-file-transfer" },
-        { label: "Email large files", href: "/email-large-files" },
       ],
     },
     finalCta: {
@@ -482,7 +479,6 @@ export const transferVariants: TransferVariantConfig[] = [
     related: {
       h2: "Related ways to send files",
       links: [
-        { label: "Encrypted file transfer", href: "/encrypted-file-transfer" },
         { label: "Legal file sharing", href: "/legal-file-sharing" },
         { label: "Large file transfer", href: "/large-file-transfer" },
         { label: "Send large files", href: "/send-large-files" },
@@ -791,7 +787,6 @@ export const transferVariants: TransferVariantConfig[] = [
         { label: "Send large files", href: "/send-large-files" },
         { label: "Large file transfer", href: "/large-file-transfer" },
         { label: "Secure file transfer", href: "/secure-file-transfer" },
-        { label: "Email large files", href: "/email-large-files" },
       ],
     },
     finalCta: {
@@ -945,7 +940,6 @@ export const transferVariants: TransferVariantConfig[] = [
     related: {
       h2: "Related ways to send files",
       links: [
-        { label: "Email large files", href: "/email-large-files" },
         { label: "Send large files", href: "/send-large-files" },
         { label: "Secure file transfer", href: "/secure-file-transfer" },
         { label: "Large file transfer", href: "/large-file-transfer" }
