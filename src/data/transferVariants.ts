@@ -47,7 +47,7 @@ export type LandingIconName =
   | "Presentation" | "Music" | "Box" | "Code" | "Send" | "Share2"
   | "Film" | "Building2" | "FileSpreadsheet" | "Sparkles" | "Check"
   | "Clock" | "KeyRound" | "FileCheck" | "HardDrive" | "FolderArchive"
-  | "Maximize2";
+  | "Maximize2" | "RefreshCw";
 
 export interface LandingFeatureCard {
   icon: LandingIconName;
@@ -1130,35 +1130,76 @@ export const transferVariants: TransferVariantConfig[] = [
   },
   {
     slug: "creative-agency-file-sharing",
-    title: "Creative Agency File Sharing - Send Large Files to Clients | Docsora",
-    metaDescription:
-      "File sharing for creative agencies. Send videos, design files and client deliverables with secure links, real-time tracking and download notifications.",
-    h1: "File Sharing for Creative Agencies",
-    intro:
-      "Share videos, design files and client deliverables with secure links, real-time tracking and download notifications built for agency workflows.",
-    keyword: "creative agency file sharing",
-    cardIcon: Palette,
-    cardLabel: "Creative Agencies",
-    cardDescription:
-      "Share videos, design files and client deliverables with tracking and download notifications.",
-    uploadHeadline: "File sharing for creative agencies",
-    uploadSubheadline: "Secure links, real-time tracking and download notifications for client work.",
-    ctaLabel: "Send agency files",
-    longCopy:
-      "Docsora Transfer is the file sharing layer for creative agencies. Move videos, PSDs, AIs, INDDs, Figma exports and full campaign packages with secure delivery links, real-time tracking and download notifications - without sync clients or fragmented cloud drives.",
-    useCases: [
-      "Send campaign assets to clients",
-      "Share video cuts for review",
-      "Deliver design system handoffs",
-      "Move full creative project bundles",
+    title: "File Sharing for Creative Agencies | Docsora",
+    metaDescription: "File sharing built for creative agencies — deliver campaign assets and review rounds to clients, track every download, and control access. Up to 500GB.",
+    h1: "File sharing for creative agencies",
+    intro: "Deliver work to clients, run review rounds, and see exactly when each file is opened — without drives, logins or bounced emails.",
+    uploadHeadline: "Share work with your client",
+    uploadSubheadline: "Deliverables and review files, tracked from send to download.",
+    ctaLabel: "Choose files to share",
+    seoBadgeLabel: "CREATIVE AGENCY FILE SHARING",
+    featureCards: [
+      { icon: "Palette", title: "Built for client delivery", description: "Send finished work, campaign assets and review files to clients as one clean link — no shared drive to manage." },
+      { icon: "RefreshCw", title: "Made for review rounds", description: "Send each new version as its own tracked transfer, so there's no confusion over which cut the client is looking at." },
+      { icon: "Eye", title: "See when the client opens it", description: "Know the moment a client opens and downloads a deliverable — so 'I never received it' stops being a thing." },
+      { icon: "Clock", title: "Control access after sending", description: "Set an expiry on a delivery, extend it, or reactivate it — useful when a project drags or a client comes back late." },
+      { icon: "Lock", title: "Keep unreleased work private", description: "Password-protect campaign assets before launch. Encrypted in transit (TLS) and at rest." },
+      { icon: "Users", title: "Nothing for clients to install", description: "Clients open the link and download in the browser — no account, no app — however non-technical they are." }
     ],
-    faq: [
+    sections: [
       {
-        question: "What is the best file sharing platform for creative agencies?",
-        answer:
-          "Agencies need secure delivery links, real-time tracking and download notifications. Docsora Transfer ships all three with browser-native upload and direct workflow integration into approvals and signing.",
+        kind: "richText",
+        h2: "Client delivery, without the usual friction",
+        paragraphs: [
+          "Agency work moves between a lot of hands — creatives, account managers, the client and their colleagues — and the files are big: layered design files, video cuts, full campaign packages. Email bounces them, drive links turn into permission headaches, and 'can you re-send that?' eats hours.",
+          "Docsora gives you one secure link per delivery. The client downloads the original at full quality, you see when they've opened it, and you control how long the link stays live — no drive access to grant and revoke, no compressed files, no chasing confirmation."
+        ]
       },
+      {
+        kind: "checklist",
+        h2: "What agencies need from file sharing",
+        items: [
+          { h3: "Clean client delivery", body: "A professional link the client can open without an account, not a messy drive folder." },
+          { h3: "Version clarity", body: "Each round sent as its own transfer, so everyone knows which version is current." },
+          { h3: "Proof of delivery", body: "See when the client actually opened and downloaded the work." },
+          { h3: "Control before launch", body: "Password protection and expiry for assets that aren't public yet." }
+        ]
+      },
+      {
+        kind: "useCases",
+        h2: "How agencies use Docsora",
+        items: [
+          { h3: "Delivering final campaign assets", body: "Send the full set of deliverables to a client as one organised link at the end of a project." },
+          { h3: "Running creative review rounds", body: "Send each revision as a tracked transfer and know when the client has viewed it." },
+          { h3: "Sharing with the client's wider team", body: "One link the client can pass to colleagues, with a password and expiry keeping it controlled." }
+        ]
+      }
     ],
+    related: {
+      h2: "Related ways to send files",
+      links: [
+        { label: "Large media transfer", href: "/large-media-transfer" },
+        { label: "Send large videos", href: "/send-large-videos" },
+        { label: "Secure file transfer", href: "/secure-file-transfer" },
+        { label: "Send large files", href: "/send-large-files" }
+      ]
+    },
+    faq: {
+      h2: "Frequently asked questions",
+      items: [
+        { question: "What's the best way for an agency to share files with clients?", answer: "Send each delivery as a secure Docsora link rather than an email attachment or a shared drive folder. The client downloads the original at full quality with no account, and you see when they've opened and downloaded it." },
+        { question: "How do I manage review rounds without version confusion?", answer: "Send each revision as its own tracked transfer with a clear name. Because every round is a separate link with its own download record, there's no ambiguity about which version the client is reviewing." },
+        { question: "Can I tell whether a client has seen a deliverable?", answer: "Yes. Docsora shows when each transfer is opened and downloaded, with timestamps — so you have a record of delivery instead of asking the client to confirm." },
+        { question: "Can I keep campaign assets private before launch?", answer: "Yes. Add a password and an expiry to any transfer, and it's encrypted in transit (TLS) and at rest — so unreleased work stays controlled until you're ready." },
+        { question: "Do clients need an account to download our work?", answer: "No. Clients open the link and download in the browser — no account, no app, on any device — which matters when they're non-technical or short on time." },
+        { question: "Can we send large video and design files to clients?", answer: "Yes. Docsora handles large media — video cuts, layered design files, full campaign packages — at original quality, with plans scaling to 500GB a month." }
+      ]
+    },
+    finalCta: {
+      headline: "Deliver agency work the professional way.",
+      body: "Tracked, controlled client delivery — one link, full quality.",
+      buttonLabel: "Start a transfer"
+    }
   },
   {
     slug: "video-production-file-sharing",
