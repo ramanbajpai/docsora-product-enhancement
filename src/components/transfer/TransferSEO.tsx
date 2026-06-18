@@ -688,7 +688,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                       </div>
                     </Link>
                   </motion.div>
-                ))}
+                )))}
             </div>
           </section>
         )}
