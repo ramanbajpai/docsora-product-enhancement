@@ -1138,6 +1138,7 @@ export const transferVariants: TransferVariantConfig[] = [
     uploadSubheadline: "Deliverables and review files, tracked from send to download.",
     ctaLabel: "Choose files to share",
     seoBadgeLabel: "CREATIVE AGENCY FILE SHARING",
+    featureCardsH2: "Everything you need to deliver work to clients",
     featureCards: [
       { icon: "Palette", title: "Built for client delivery", description: "Send finished work, campaign assets and review files to clients as one clean link — no shared drive to manage." },
       { icon: "RefreshCw", title: "Made for review rounds", description: "Send each new version as its own tracked transfer, so there's no confusion over which cut the client is looking at." },
@@ -1175,6 +1176,9 @@ export const transferVariants: TransferVariantConfig[] = [
         ]
       }
     ],
+    fileTypes: {
+      h2: "Every creative format, delivered at full quality",
+    },
     related: {
       h2: "Related ways to send files",
       links: [
