@@ -76,7 +76,7 @@ const fileTypeGroups = [
   { category: "Video", href: "/send-large-videos", icon: FileVideo, formats: "MP4 · MOV · AVI · MKV · WMV · MXF · WEBM · BRAW · R3D · ProRes", message: "Move large video exports and RAW footage with no re-encoding.", messageSLF: "Send video exports and RAW footage at source quality, no re-encoding.", messageLFT: "Transfer exports and RAW footage at source quality, no re-encoding." },
   { category: "Audio", icon: Music, formats: "MP3 · WAV · AAC · FLAC · AIFF · OGG · OPUS", message: "Transfer podcasts, masters, stems and production audio securely.", messageSLF: "Send masters, stems and podcast files without compression.", messageLFT: "Transfer masters, stems and podcast files without compression." },
   { category: "Archives & Packages", icon: Archive, formats: "ZIP · RAR · 7Z · TAR · TAR.GZ · GZ · ZIPX · PKG", message: "Bundle and deliver large project archives and backups in one transfer.", messageSLF: "Send whole zipped projects and backups as one transfer.", messageLFT: "Transfer whole zipped projects and backups as one item." },
-  { category: "3D · CAD · Models", href: "/send-cad-files", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion.", messageLFT: "Transfer CAD exports and 3D models with no conversion." },
+  { category: "3D · CAD · Models", icon: Box, formats: "DWG · OBJ · FBX · STL · BLEND · C4D · MA · MB", message: "Send CAD exports, 3D models and rendering assets between engineering teams.", messageSLF: "Send CAD exports and 3D models with no conversion.", messageLFT: "Transfer CAD exports and 3D models with no conversion." },
   { category: "Code & Development", icon: Code, formats: "HTML · CSS · JS · JSON · SQL · PY · JAVA · C · CPP", message: "Move development exports, databases, scripts and project builds securely.", messageSLF: "Send builds, databases and project exports securely.", messageLFT: "Transfer builds, databases and project exports securely." },
 ];
 
@@ -319,12 +319,11 @@ export function TransferSEO({ variant }: TransferSEOProps) {
     { label: "Send large files", href: "/send-large-files" },
     { label: "Send large videos", href: "/send-large-videos" },
     { label: "Secure file transfer", href: "/secure-file-transfer" },
-    { label: "Email large files", href: "/email-large-files" },
   ];
   const sendLargeFilesFaqs = [
     { question: "How do I send large files online?", answer: "Upload your file or folder to Docsora, and a secure transfer link is generated as soon as the upload finishes. Share that link anywhere or send it by email from Docsora. Your recipient downloads the original file — no account or software needed on either side." },
     { question: "What is the largest file I can send?", answer: "You can send up to 500GB in a single transfer — far beyond email limits and most free transfer tools. There's no need to split, zip, or compress your file; upload the original and send it as one secure link." },
-    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression. See how to send files too large to email for the full method.", linkText: "send files too large to email", linkHref: "/email-large-files" },
+    { question: "How do I send a file that's too large to email?", answer: "Email providers cap attachments at around 20–25MB, so larger files bounce. Instead of attaching the file, Docsora sends a secure download link — no size limit, no compression." },
     { question: "Can I send large files without creating an account?", answer: "Yes. You can send large files with Docsora without signing up, and your recipient never needs an account either. There's nothing to install — everything runs in the browser, so you can upload and share a link in seconds." },
     { question: "How long do my transfer links stay active?", answer: "You control how long each transfer stays live. Set an expiry date when you send, extend it later, or reactivate an expired transfer without re-uploading the file. You decide when a link stops working." },
     { question: "Are my file transfers secure?", answer: "Yes. Files are encrypted in transit (TLS) and at rest, and you can add password protection and expiry to any transfer. Docsora is ISO 27001 certified, GDPR compliant and SOC 2 Type I, with a SOC 2 Type II audit in progress." },
@@ -336,7 +335,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
   const sendLargeFilesRelated = [
     { label: "Send large videos", href: "/send-large-videos" },
     { label: "Send large PDFs", href: "/send-large-pdf-files" },
-    { label: "Email large files", href: "/email-large-files" },
     { label: "Large file transfer", href: "/large-file-transfer" },
   ];
   const sendLargeFilesGuides = [
@@ -500,9 +498,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <motion.div {...fadeUp} className="text-center mb-6 max-w-3xl mx-auto">
                 <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Bigger than email allows?</h2>
                 <p className="text-sm text-muted-foreground/80 leading-relaxed">Email providers cap attachments at around 20–25MB, so most large files bounce before they arrive. Docsora sends a secure link instead — no size limit, no compression, no bounce.</p>
-                <p className="mt-4 text-sm text-foreground/90 leading-relaxed">
-                  <Link to="/email-large-files" className="text-primary hover:underline">Starting from email? See how to send files too large to email.</Link>
-                </p>
               </motion.div>
             </section>
 
@@ -667,8 +662,18 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <p className="text-sm text-muted-foreground/80 leading-relaxed">From client deliverables and video exports to contracts and project archives, discover how Docsora Transfer helps users send large files securely and efficiently.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {transferVariants
-                .slice(0, 12)
+              {([
+                "send-large-files",
+                "large-file-transfer",
+                "secure-file-transfer",
+                "wetransfer-alternative",
+                "send-large-videos",
+                "send-large-files-online",
+                "large-media-transfer",
+                "send-large-pdf-files",
+              ]
+                .map((s) => transferVariants.find((v) => v.slug === s))
+                .filter((v): v is NonNullable<typeof v> => Boolean(v))
                 .map((tool, i) => (
                   <motion.div key={tool.slug} {...staggerItem} transition={{ ...staggerItem.transition, delay: i * 0.03 }}>
                     <Link to={`/${tool.slug}`} className="group block rounded-2xl p-5 h-full bg-card/40 border border-border/30 hover:border-primary/25 hover:bg-card/70 transition-all duration-300">
@@ -683,7 +688,7 @@ export function TransferSEO({ variant }: TransferSEOProps) {
                       </div>
                     </Link>
                   </motion.div>
-                ))}
+                )))}
             </div>
           </section>
         )}
