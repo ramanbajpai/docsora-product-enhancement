@@ -824,6 +824,7 @@ export const transferVariants: TransferVariantConfig[] = [
     ],
     seoBadgeLabel: "LARGE MEDIA TRANSFER",
     featureCardsH2: "Everything you need to move large media",
+    featureCards: [
       { icon: "Layers", title: "Mixed media in one transfer", description: "Video, RAW stills, audio and design files together in a single link \u2014 no separate sends per file type." },
       { icon: "HardDrive", title: "Up to 500GB at once", description: "Move an entire shoot, campaign or production package as one transfer \u2014 no splitting it across uploads." },
       { icon: "FolderArchive", title: "Whole folders, structure intact", description: "Send a full project folder so assets arrive organised, not as a loose pile of files." },
