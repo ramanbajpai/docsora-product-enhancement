@@ -498,9 +498,6 @@ export function TransferSEO({ variant }: TransferSEOProps) {
               <motion.div {...fadeUp} className="text-center mb-6 max-w-3xl mx-auto">
                 <h2 className="text-2xl md:text-[1.75rem] font-semibold text-foreground tracking-tight mb-4">Bigger than email allows?</h2>
                 <p className="text-sm text-muted-foreground/80 leading-relaxed">Email providers cap attachments at around 20–25MB, so most large files bounce before they arrive. Docsora sends a secure link instead — no size limit, no compression, no bounce.</p>
-                <p className="mt-4 text-sm text-foreground/90 leading-relaxed">
-                  <Link to="/email-large-files" className="text-primary hover:underline">Starting from email? See how to send files too large to email.</Link>
-                </p>
               </motion.div>
             </section>
 
